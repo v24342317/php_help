@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>浏览器类型鉴别那些事 - 随啵不逐流 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="check_browser/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="check_browser/bundle-SimpleClear.css">
+
+
+</head>
+<body>
+<div id="main">
+  <div id="post_detail">
+  <div class="post">
+    <h2 class="postTitle"><a id="cb_post_title_url" href="http://www.cnblogs.com/kaixinbocai/p/4734906.html">浏览器类型鉴别那些事</a></h2>
+    <div class="postText"><div id="cnblogs_post_body" class="cnblogs-markdown"><p><img src="check_browser/web_browsers.jpg" alt="image"></p>
+<h4>方法有两种：</h4>
+<ol>
+<li>根据浏览器特性来判断<br></li>
+<li>根据UA来检测</li>
+</ol>
+<h5>具体使用哪种方法要看具体需求的场景</h5>
+<p><strong>场景一：</strong>为了让用户有较流畅完整的体验，在站点提示用户使用chrome或者IE，这种场景对浏览器类型的判断并非特别严格，可以使用检测UA的方法。（因为很多浏览器厂商会篡改UA标识）。<br>针对此场景举个栗子：<br>*根据不同浏览器对API或标准实现的不同来判断浏览器，接着做相应兼容性操作。</p>
+<pre class="javascript"><code class="hljs"><span class="hljs-keyword">var</span> button = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"button"</span>);
+<span class="hljs-keyword">if</span>(button.addEventListener){
+  	button.addEventListener(<span class="hljs-string">"click"</span>, handler, <span class="hljs-literal">false</span>);
+}<span class="hljs-keyword">else</span>{
+  	button.attachEvent(<span class="hljs-string">"onclick"</span>, handler);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handler</span><span class="hljs-params">(event)</span></span>{
+  <span class="hljs-keyword">var</span> src = event.target ? event.target : event.srcElement;
+  <span class="hljs-built_in">console</span>.log(src.value);
+}</code></pre>
+<p><strong>场景二：</strong>如果是要调用的某个API不同内核的浏览器实现不同，这种情况要做精准的判断，直接检测其某个独有的特性。下面着重说下这种方法。<br>比如我的需求是检测提示使用非chrome浏览器的用户使用chrome浏览器（或webkit内核浏览器），适合使用通过检测UA，判断浏览器类型的方法。</p>
+<pre class="javascript"><code class="hljs"><span class="hljs-built_in">console</span>.log(navigator.userAgent);</code></pre>
+<h4>先看一下国内桌面浏览器市场份额</h4>
+<p><img src="check_browser/4bf044aa-444f-11e5-8aa6-e0ddbc63c071.png" alt="image"><br>来自：<a href="http://brow.data.cnzz.com/main.php?s=brow&amp;uv=0&amp;type=3">CNZZ</a></p>
+<p><img src="check_browser/55600eee-444f-11e5-880a-0df860079712.png" alt="image"><br>来自：<a href="http://tongji.baidu.com/data/browser/">百度统计</a><br><strong>结论</strong>：国内市场，IE + chrome + Safari + 360 + sogou + QQ 占据90%以上份额<br>另外Firefox、猎豹、UC等几个份额超过1%</p>
+<h5 id="ie">IE</h5>
+<h6 id="iemsie">IE可以通过检测<strong>“MSIE”</strong>字段来识别</h6>
+<p>IE10的ua<br><img src="check_browser/718521e0-444f-11e5-83e9-64467616d9e9.png" alt="image"><br>IE11的ua<br><img src="check_browser/b262d75e-4452-11e5-92e7-c3e4f34add54.png" alt="image"></p>
+<h5 id="chrome">chrome</h5>
+<h6 id="uaapplewebkitchromesafari">UA检验较难，很多国内浏览器厂商都有相同字段。三个字段，<strong>APPLEWEBKIT/CHROME/SAFARI</strong></h6>
+<p><img src="check_browser/d8c4bef8-4452-11e5-8405-0dd3c2c843a1.png" alt="image"></p>
+<h5 id="safari">Safari</h5>
+<h6 id="safariversionversion">检测<strong>“SAFARI”和“VERSION”</strong>，version后面是版本号</h6>
+<p><img src="check_browser/dde8ccc6-4452-11e5-8841-e6c0772f6acb.png" alt="image"></p>
+<h5 id="firefox">Firefox</h5>
+<h6 id="firefox">通过检测“Firefox”字段即可</h6>
+<p><img src="check_browser/f658fa1a-4452-11e5-81eb-c94d596fd610.png" alt="image"></p>
+<h4>国产浏览器们</h4>
+<h5 id="tridentwebkit">国产浏览器很多是双核模式，Trident和Webkit。一般会把自己的标识带在最后面。</h5>
+<p>拿它们没办法，只能退而求其次，判断是否使用webkit内核，检测“Webkit”字符串</p>
+<h5 id="sogou">sogou搜狗</h5>
+<h6 id="se-2.x-mesr-1.0">检测<strong>“SE 2.X MeSr 1.0”</strong>字段</h6>
+<p><img src="check_browser/fd3ce1b6-4452-11e5-9e39-0dc5f921de9f.png" alt="image"></p>
+<h5 id="qq">QQ浏览器</h5>
+<h6 id="chromeqqbrowser">极速模式（使用chrome内核），检测<strong>"QQBrowser"</strong>字段</h6>
+<p><img src="check_browser/0398f5c2-4453-11e5-8a89-dae4fcbac955.png" alt="image"></p>
+<h6 id="ieiemsie">兼容模式（使用IE内核），和IE一样检测<strong>MSIE</strong>字段</h6>
+<p><img src="check_browser/0e3adbb2-4453-11e5-9ca8-ad948cf775c2.png" alt="image"></p>
+<h5 id="uc">UC</h5>
+<h6 id="ubrowser">检测<strong>“UBrowser”</strong>字段</h6>
+<p><img src="check_browser/259a2a92-4453-11e5-94ba-47b756239099.png" alt="image"></p>
+<h5>360安全浏览器</h5>
+<h6 id="uauaqihu-360se">比较无语，在自己导航页会显示UA，其他域名下会隐藏UA，有的话就是<strong>QIHU 360SE</strong></h6>
+<p><img style="width: 1472px;" src="check_browser/a881e232-444f-11e5-97c8-79f0a72bfc8c.png" alt="image"></p>
+<h4 id="chrome">判断非chrome浏览器的实现代码</h4>
+<pre class="javascript"><code class="hljs">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+        <span class="hljs-keyword">var</span> ua = navigator.userAgent.toUpperCase();
+        <span class="hljs-keyword">if</span>(<span class="hljs-regexp">/QQBROWSER/</span>.test(ua) ||<span class="hljs-regexp">/UBROWSER/</span>.test(ua) || <span class="hljs-regexp">/SE[\s\.a-zA-Z\d]+MESR/</span>.test(ua)){
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"国产浏览器"</span>);
+            handler()
+        }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-regexp">/VSERSION\/[\d\.]+SAFARI]/</span>.test(ua)){<span class="hljs-comment">//safari浏览器</span>
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"safari"</span>);
+            handler()
+        }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-regexp">/FIREFOX/</span>.test(ua)){
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Firefox"</span>);
+            handler()
+        }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-regexp">/MSIE/</span>.test(ua)){<span class="hljs-comment">//IE浏览器或国产IE内核浏览器</span>
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"IE"</span>);
+            handler();
+        }
+    })();
+</code></pre>
+<h4>参考</h4>
+<p><strong>数据统计</strong></p>
+<p><a href="http://brow.data.cnzz.com/main.php?s=brow&amp;uv=0&amp;type=3">http://brow.data.cnzz.com/main.php?s=brow&amp;uv=0&amp;type=3</a></p>
+<p><a href="http://tongji.baidu.com/data/browser/">http://tongji.baidu.com/data/browser/</a></p>
+<p><strong>检测方法</strong></p>
+<p><a href="http://www.cnblogs.com/hykun/p/Ua.html#cnBrowser">http://www.cnblogs.com/hykun/p/Ua.html#cnBrowser</a></p>
+<p><a href="http://www.cnblogs.com/leadzen/archive/2008/09/06/1285764.html">http://www.cnblogs.com/leadzen/archive/2008/09/06/1285764.html</a></p>
+<p><a href="http://qbaty.iteye.com/blog/977601">http://qbaty.iteye.com/blog/977601</a></p>
+<p>题图来自：<a href="http://www.theregister.co.uk/2014/12/12/yahoo_suggests_firefox_upgrade/">http://www.theregister.co.uk/2014/12/12/yahoo_suggests_firefox_upgrade/</a><br>_________</p>
+<p>github博客，求star：<a href="https://github.com/suibobuzhuliu/blog/issues">https://github.com/suibobuzhuliu/blog/issues</a></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+    </div>
+
+</div>
+
+
+</div>
+</div>
+</body></html>

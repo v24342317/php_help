@@ -1,0 +1,46 @@
+    <!DOCTYPE HTML>
+    <html lang="en-US">
+    <head>
+        <meta charset="gbk">
+        <title></title>
+        <style type="text/css">
+            .label{float:left;display:block;width:60px;color:#909090;font:12px/20px arial,sans-serif;}
+            input{height:20px;line-height:20px;padding:1px 8px;font-size:12px;width:200px;color:#909090;margin-right:5px;border:1px solid #999;box-shadow:inset 1px 1px 3px #c3c3c3;float:left;}
+            .btn{background:#eff3f7;color:#999;height:22px;line-height:22px;border:1px solid #2674d4;border-radius:2px;text-align:center;display:inline-block;float:left;cursor:pointer;}
+            .btn span{padding:0 10px;height:22px;font-size:12px;color:#333;}
+        </style>
+    </head>
+    <body>
+        <div class="zp_wrap">
+            <span class="label">视频地址：</span><input type="text" value="http://v.youku.com/v_show/id_XMzQ0NTg0MDcy.html" id="data"/><div class="btn" id="btn"><span>复制</span></div>
+        </div>
+        <script type="text/javascript">
+            (function(){
+                var $=function(id){return "string" == typeof id ? document.getElementById(id) : id;};
+                var start, end, obj, data;
+                obj = $("data");
+                data = obj.value;
+                end = data.length;
+                $("btn").onclick = function(){
+                    if(-[1,]){             //处理费IE浏览器
+                        alert("您使用的浏览器不支持此复制功能，请使用Ctrl+C或鼠标右键。");
+                        obj.setSelectionRange(0,end);
+                        obj.focus();
+                    }else{
+                        var flag = window.clipboardData.setData("text",data);
+                        if(flag == true){
+                            alert("复制成功。现在您可以粘贴（Ctrl+v）到Blog或BBS中了。");
+                        }else{
+                            alert("复制失败。");
+                        }
+                        var range = obj.createTextRange();
+                        range.moveEnd("character",end);
+                        range.moveStart("character",0);
+                        range.select();
+                    }
+
+                }
+            })()
+        </script>
+    </body>
+    </html>

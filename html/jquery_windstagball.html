@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标签云 - 标签球 - windstagball v1.0</title>
+<style type="text/css">
+body {background: #FFF }
+#div1 {position:relative; width:350px; height:350px; border:1px solid #000; margin: 20px auto 0; }
+#div1 a {position:absolute; top:0px; left:0px; font-family: Microsoft YaHei; color:#000; font-weight:bold; text-decoration:none; padding: 3px 6px; }
+#div1 a:hover {border: 1px solid #eee; background: #FFF; }
+#div1 .blue {color:blue;}
+#div1 .red {color:red;}
+#div1 .green {color:green;}
+
+p { font: 16px Microsoft YaHei; text-align: center; color: #ba0c0c; }
+p a { font-size: 14px; color: #ba0c0c; }
+p a:hover { color: red; }
+</style>
+<script type="text/javascript" src="jquery_windstagball/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="jquery_windstagball/jquery.windstagball.js"></script>
+</head>
+
+<body>
+<div id="div1">
+	<a style="left: 51.118px; top: 198.953px; font-size: 14px; opacity: 0.46247; z-index: 1;" href="#">标签云</a>
+	<a style="left: 78.3361px; top: 230.801px; font-size: 13px; opacity: 0.357785; z-index: 0;" href="#" class="red">PHP</a>
+	<a style="left: 95.0223px; top: 167.169px; font-size: 13px; opacity: 0.231235; z-index: 2;" href="#">瀑布流</a>
+	<a style="left: 174.673px; top: 225.313px; font-size: 13px; opacity: 0.243029; z-index: 3;" href="#">Tab</a>
+	<a style="left: 157.023px; top: 279.797px; font-size: 14px; opacity: 0.523521; z-index: 4;" href="#" class="blue">流体布局</a>
+	<a style="left: 114.744px; top: 267.108px; font-size: 15px; opacity: 0.942084; z-index: 5;" href="#">SEO</a>
+	<a style="left: 91.8206px; top: 79.7796px; font-size: 13px; opacity: 0.380612; z-index: 8;" href="#" class="red">彩蛋</a>
+	<a style="left: 24.1713px; top: 116.128px; font-size: 15px; opacity: 0.705205; z-index: 7;" href="#" class="green">JavaScript</a>
+	<a style="left: 240.222px; top: 232.682px; font-size: 14px; opacity: 0.586355; z-index: 11;" href="#">miaov</a>
+	<a style="left: 57.0309px; top: 195.411px; font-size: 16px; opacity: 1.04011; z-index: 6;" href="#" class="red">CSS</a>
+	<a style="left: 230.814px; top: 170.872px; font-size: 13px; opacity: 0.301714; z-index: 10;" href="#">asp.net</a>
+	<a style="left: 181.789px; top: 104.905px; font-size: 13px; opacity: 0.243342; z-index: 9;" href="#" class="blue">蓝色经典</a>
+	<a style="left: 269.04px; top: 112.411px; font-size: 14px; opacity: 0.57846; z-index: 17;" href="#">OOP</a>
+	<a style="left: 130.148px; top: 202.07px; font-size: 18px; opacity: 1.6764; z-index: 13;" href="#" class="red">Android</a>
+	<a style="left: 210.95px; top: 247.88px; font-size: 16px; opacity: 1.13975; z-index: 12;" href="#" class="blue">妙味茶馆</a>
+	<a style="left: 196.674px; top: 52.3679px; font-size: 14px; opacity: 0.549043; z-index: 16;" href="#">dialog</a>
+	<a style="left: 115.013px; top: 54.5485px; font-size: 15px; opacity: 0.887405; z-index: 15;" href="#" class="blue">淘客</a>
+	<a style="left: 89.7174px; top: 120.083px; font-size: 17px; opacity: 1.47701; z-index: 14;" href="#">Pin</a>
+	<a style="left: 264.386px; top: 164.811px; font-size: 16px; opacity: 1.06089; z-index: 18;" href="#">微博</a>
+	<a style="left: 190.427px; top: 123.936px; font-size: 18px; opacity: 1.55684; z-index: 19;" href="#" class="green">IPhone</a>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $("#div1").windstagball({
+            radius:120,
+            speed:10
+        });
+    });
+</script></body></html>

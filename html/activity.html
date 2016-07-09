@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head><script src="activity/analytics.js" async=""></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>UML 活动图 - RuitaoFeng - 博客园</title>
+<link type="text/css" rel="stylesheet" href="activity/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="activity/bundle-nature.css">
+</head>
+<body>
+
+<!--done-->
+<div id="main">
+	<!-- left starts -->
+	<div id="left">
+		<div id="mystats">
+			<br>
+				
+			
+		</div>
+		<div id="topics">
+		  
+  <div id="post_detail">
+<div class="post">
+	<div class="postTitle">
+		<h1><a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/finehappy/archive/2009/11/22/1608026.html">UML 活动图</a></h1>
+	</div>
+	<div id="cnblogs_post_body"><p>内容路线</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_2.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb.png" border="0" height="392" width="597"></a> </p>  <p><strong></strong></p>  <h2><strong>•活动图概述</strong></h2>  <p>活动图概述</p>  <p>•活动图和交互图是UML中对<strong>系统动态</strong>方面建模的两种主要形式</p>  <p>•交互图强调的是<strong>对象到对象</strong>的控制流，而活动图则强调的是<strong>从活动到活动</strong>的控制流 </p>  <p>•活动图是一种表述过程基理、业务过程以及工作流的技术。它可以用来对业务过程、工作流建模，也可以对用例实现甚至是程序实现来建模 </p>  <p>•UML 2.0而言，去除了“活动图是状态图的一种特例”这一规定 </p>  <p>&nbsp;</p>  <p>&nbsp;</p>  <p>&nbsp;</p>  <h2><strong>•如何阅读活动图</strong></h2>  <p>阅读简单活动图</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_4.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_1.png" border="0" height="418" width="553"></a> </p>  <p>活动图的主要元素</p>  <p>•初始节点和活动终点：用一个<strong>实心圆</strong>表示初始节点，用一个<strong>圆圈内加一个实心圆</strong>来表示活动终点</p>  <p>•活动节点：是活动图中最主要的元素之一，它用来表示一个活动 </p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_6.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_2.png" border="0" height="94" width="607"></a> </p>  <p>&nbsp;</p>  <p>•转换：当一个活动结束时，控制流就会马上传递给下一个活动节点，在活动图中称之为“转换”，用一条<strong>带箭头的直线</strong>来表示 </p>  <p><strong>活动图的主要元素</strong></p>  <p>•分支与监护条件：<strong>分支是用菱形表示的</strong>，它有一个进入转换（箭头从外指向分支符号），一个或多个离开转换（箭头从分支符号指向外）。而<strong>每个离开转换上都会有一个监护条件</strong>，用来表示满足什么条件的时候执行该转换。</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_8.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_3.png" border="0" height="96" width="97"></a></p>  <p>•分岔与汇合：</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_10.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_4.png" border="0" height="109" width="360"></a> </p>  <p>修改后的简单活动图</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_12.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_5.png" border="0" height="453" width="600"></a> </p>  <p>带泳道的活动图</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_14.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_6.png" border="0" height="488" width="618"></a> </p>  <p>带对象流的活动图</p>
+	  <p><strong>9</strong><strong>、对象流（Object Flows）</strong></p>
+      <p>对象流是动作状态或者活动状态与对象之间的依赖关系，表示动作使用对象或动作对对象的影响。用活动图描述某个对象时，可以把涉及到的对象放置在活动图中并用一个依赖将其连接到进行创建、修改和撤销的动作状态或者活动状态上，对象的这种使用方法就构成了对象流。</p>
+      <p>对象流中的对象有以下特点：</p>
+      <p>(1)、一个对象可以由多个动作操作。</p>
+      <p>(2)、一个动作输出的对象可以作为另一个动作输入的对象。</p>
+      <p>(3)、在活动图中，同一个对象可以多次出现，它的每一次出现表面该对象正处于对象生存期的不同时间点。</p>
+      <p>对象流用带有箭头的虚线表示。如果箭头是从动作状态出发指向对象，则表示动作对对象施加了一定的影响。施加的影响包括创建、修改和撤销等。如果箭头从对象指向动作状态，则表示该动作使用对象流所指向的对象。</p>  
+	  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_16.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_7.png" border="0" height="472" width="842"></a> </p>  <p>复杂活动图</p>  <p>•辅助活动图：</p>
+	  <h3>1、活动状态图（Activity）</h3>
+      <p>活动状态用于表达状态机中的非原子的运行，其特点如下：</p>
+      <p>(1)、活动状态可以分解成其他子活动或者动作状态。</p>
+      <p>(2)、活动状态的内部活动可以用另一个活动图来表示。</p>
+      <p>(3)、和动作状态不同，活动状态可以有入口动作和出口动作，也可以有内部转移。</p>
+      <p>(4)、动作状态是活动状态的一个特例，如果某个活动状态只包括一个动作，那么它就是一个动作状态。</p>
+      <p>UML中活动状态和动作状态的图标相同，但是活动状态可以在图标中给出入口动作和出口动作等信息。</p>
+      <p> </p>
+      <p align="center"><img alt="" src="activity/NActivities.gif" border="0" height="177" width="359" /></p>
+      <p> </p>
+
+     <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_18.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_8.png" border="0" height="283" width="576"></a> </p>  <p>•汇合描述：当汇合的所有入流均到点汇合点时，就将执行汇合点指向的活动节点。但是有些时候，你希望对其做一些约束，这时就可以借助<strong>汇合描述</strong>来完成。汇合描述实际上是一个约束，其格式就是“{<strong>约束条件</strong>}”。 </p>  <p>•发送信号与接收信号：</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_20.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_9.png" border="0" height="355" width="677"></a>&nbsp;</p>  <p><a href="http://images.cnblogs.com/cnblogs_com/TerryFeng/WindowsLiveWriter/UML_AFD4/image_22.png"><img style="border-bottom: 0px; border-left: 0px; display: inline; border-top: 0px; border-right: 0px" title="image" alt="image" src="activity/image_thumb_10.png" border="0" height="528" width="830"></a> </p>  <p><strong>8</strong><strong>、数据存储对象（DataStore）</strong></p>
+     <p align="center"><img alt="" src="activity/Ndata-store.gif" border="0" height="116" width="146" /></p>  
+     <p><strong>12</strong><strong>、异常处理（Exception Handler）</strong></p>
+     <p>当受保护的活动发生异常时，触发异常处理节点。</p>
+     <p> </p>
+     <p align="center"><strong><img alt="" src="activity/NException-Handlers.gif" border="0" height="141" width="467" /></strong></p>
+     <p> </p>
+     <p><strong>13</strong><strong>、活动中断区域（Interruptible Activity Region）</strong></p>
+     <p>活动中断区域围绕一些可被中断的动作状态图。比如下图，正常情况下【Process Order】顺序流转到【Close Order】，订单处理流程完毕；但在【Process Order】过称中，会发送【Cancel Order】请求，这时会流转到【Cancel Order】，从而订单处理流程结束</p>
+     <p align="center"><img alt="" src="activity/NInterruptible-Activity-Region.gif" border="0" height="223" width="442" /></p>  
+     <p>&nbsp;</p>  <h2><strong>•如何绘制活动图</strong></h2>  <p>绘制活动图</p>  <p>•“活动图” 比较直观易懂；与传统的流程图十分的相近，只要能够读懂活动图，就不难画出活动图</p>  <p>•绘制时首先<strong>决定是否采用泳道</strong>：主要根据活动图中是否要<strong>体现出活动的不同实施者</strong></p>  <p>•然后<strong>尽量使用</strong>分支、分岔和汇合等基本的建模元素来描述活动控制流程</p>  <p>•如果需要，加入对象流以及对象的状态变化，利用一些高级的建模元素（如辅助活动图、汇合描述、发送信号与接收信号、引脚、扩展区）来表示更多的信息</p>  <p>•活动图的建模<strong>关键是表示出控制流</strong>，其它的建模元素都是围绕这一宗旨所进行的补充</p>  <p><strong>工作流程，控制流程，业务流程中使用。</strong></p>  <h2><strong>•活动图应用说明</strong></h2>  <p>活动图应用说明</p>  <p>•对工作流建模：用于业务建模的时候，每一条泳道表示一个职责单位，该图能够有效地体现出所有职责单位之间的<strong>工作职责</strong>，<strong>业务范围及之间的交互关系</strong>、信息流程 </p>  <p>建模时应遵循以下策略：</p>  <p>•为工作流建立<strong>一个焦点</strong>，除非你所涉及的系统很小，否则不可能在一张图中显示出系统中所有的控制流</p>  <p>•选择对全部工作流中的一部分<strong>有高层职责的业务对象</strong>，并为每个重要的业务对象创建一条泳道</p>  <p>•识别工作流初始节点的<strong>前置条件</strong>和活动终点的<strong>后置条件</strong>，这可有效地实现对工作流的边界进行建模。</p>  <p>•从该工作流的初始节点开始，说明随时间发生的动作和活动，并在活动图中把它们表示成活动节点</p>  <p>•将<strong>复杂的活动或多次出现的活动集合归到一个活动节点</strong>，并通过辅助活动图或子活动图来表示它们</p>  <p>•找出连接这些活动节点的<strong>转换</strong>，<strong>首先从工作流的顺序开始</strong>，<strong>然后考虑分支</strong>，<strong>接着再考虑分岔和汇合</strong></p>  <p>•如果工作流中<strong>涉及重要的对象</strong>，则也可以将它们加入到活动图中</p>  <p>•若工作流中有多次启用的，则可采用展开区表示</p>  <p>•<strong>对操作建模：每一个对象占据一个泳道，而活动则是该对象的成员方法 </strong></p>  <p>•建模时应遵循以下策略：   <br>-- 收集操作所涉及的抽象概念，包括操作的参数、返回类型、所属类的属性以及某些邻近的类    <br>-- 识别该操作的初始节点的前置条件和活动终点的后置条件。也要识别在操作执行过程中必须保持的信息    <br>-- 从该操作的初始节点开始，<strong>说明随着时间发生的活动</strong>，并在活动图中将它们表示为活动节点    <br>-- 如果需要，使用分支来说明条件语句及循环语句    <br>-- 仅当这个操作属于一个主动类时，才在必要时用分岔和汇合来说明并行的控制流程</p>  <h2><strong>•本章小结</strong></h2>  <p>•首先介绍了“活动图”的历史变迁；逐一介绍简单活动图、带泳道的活动图、带对象流的活动图的阅读方法</p>  <p>•讲解了活动节点、初始节点和活动终点、转换、 分支与监护条件、分岔与汇合等基本建模元素；逐步引出了泳道、对象流等控制流逻辑 </p>  <p>•介绍了辅助活动图、汇合描述、发送信号与接收信号、引脚和扩展区的概念 </p>  <p>•最后，概括地说明了活动图的绘制要点，并结合对工作流建模和对操作建模之间的异同 </p>  <p>&nbsp;</p>  <p>内容出自：面向对象设计PPT</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+</div>
+
+
+</div>
+		</div>
+	</div>
+	<!-- left ends -->
+	<!-- right starts --><!-- right ends -->
+  <div class="clear"></div>
+	
+</div>
+
+<!--PageEndHtml Block Begin-->
+<center>
+
+</center>
+
+<!--PageEndHtml Block End-->
+
+</body></html>

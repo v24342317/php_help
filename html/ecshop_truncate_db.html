@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>判断请求类型</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>ecshop对测试数据进行数据库清除操作</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        
+            <h2>清空会员有关数据</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `ecs_users` ;
+TRUNCATE TABLE `ecs_user_account` ;
+TRUNCATE TABLE `ecs_user_bonus` ;
+TRUNCATE TABLE `ecs_user_address` ;
+TRUNCATE TABLE `ecs_return` ;
+TRUNCATE TABLE `ecs_return_note` ;
+TRUNCATE TABLE `ecs_pay_log` ;
+TRUNCATE TABLE `ecs_order_info` ;
+TRUNCATE TABLE `ecs_order_goods` ;
+TRUNCATE TABLE `ecs_order_action` ;
+TRUNCATE TABLE `ecs_feedback` ;
+TRUNCATE TABLE `ecs_delivery_goods`;
+TRUNCATE TABLE `ecs_delivery_order` ;
+TRUNCATE TABLE `ecs_comment` ;
+TRUNCATE TABLE `ecs_collect_goods` ;
+TRUNCATE TABLE `ecs_back_goods` ;
+TRUNCATE TABLE `ecs_back_order` ;
+TRUNCATE TABLE `ecs_admin_log` ;
+TRUNCATE TABLE `ecs_account_log` ;
+TRUNCATE TABLE `ecs_cart` ;
+TRUNCATE TABLE `reg_extend_info` ;</span></code></li></ol></pre>
+
+<h2>清空商品有关数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `ecs_goods` ;
+TRUNCATE TABLE `ecs_goods_activity` ;
+TRUNCATE TABLE `ecs_goods_activity` ;
+TRUNCATE TABLE `ecs_goods_article` ;
+TRUNCATE TABLE `ecs_goods_attr` ;
+TRUNCATE TABLE `ecs_goods_cat` ;
+TRUNCATE TABLE `ecs_goods_gallery` ;
+TRUNCATE TABLE `ecs_goods_type` ;
+TRUNCATE TABLE `ecs_group_goods` ;
+TRUNCATE TABLE `ecs_keywords` ;
+TRUNCATE TABLE `ecs_products` ;
+TRUNCATE TABLE `ecs_brand` ;
+TRUNCATE TABLE `ecs_card` ;
+TRUNCATE TABLE `ecs_exchange_goods` ;
+TRUNCATE TABLE `ecs_link_goods` ;
+TRUNCATE TABLE `ecs_package_goods` ;</span></code></li></ol></pre>
+
+<h2>清空分类有关数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `ecs_category` ;
+TRUNCATE TABLE `ecs_cat_recommend` ;</span></code></li></ol></pre>
+
+<h2>清空商品类型有关数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `ecs_attribute` ;</span></code></li></ol></pre>
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

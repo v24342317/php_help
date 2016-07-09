@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+
+
+</head>
+
+<body>
+
+<div id="container">
+
+  <div id="wrapper">
+        <div id="content">
+<div id="post_detail">
+<div id="post" class="post">
+    <a name="top"></a>
+    <h2><a href="http://www.cnblogs.com/kenshincui/p/3950646.html" id="cb_post_title_url">iOS开发系列--触摸事件、手势识别、摇晃事件、耳机线控</a></h2>
+    <small>2014-09-02 06:33 by KenshinCui, <span id="post_view_count">43096</span> 阅读, <span id="post_comment_count">42</span> 评论, <a onclick="AddToWz(3950646);return false;" href="#">收藏</a>,  <a rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?postid=3950646">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><p align="right"><strong>-- iOS事件全面解析</strong></p> <h1 id="overview">概览</h1> <p>iPhone的成功很大一部分得益于它多点触摸的强大功能，乔布斯让人们认识到手机其实是可以不用按键和手写笔直接操作的，这不愧为一项伟大的设计。今天我们就针对iOS的触摸事件（手势操作）、运动事件、远程控制事件等展开学习：</p> <ol> <li><a href="#event">iOS事件简介</a>  </li><li><a href="#touch">触摸事件</a>  </li><li><a href="#gesture">手势识别</a>  </li><li><a href="#motion">运动事件</a>  </li><li><a href="#remoteControl">远程控制事件</a></li></ol> <h1 id="event">iOS事件</h1> <p>在iOS中事件分为三类：</p> <ol> <li>触摸事件：通过触摸、手势进行触发（例如手指点击、缩放）  </li><li>运动事件：通过加速器进行触发（例如手机晃动）  </li><li>远程控制事件：通过其他远程设备触发（例如耳机控制按钮）</li></ol> <p>下图是苹果官方对于这三种事件的形象描述：</p> <p><a href="ios_helloworld/020632286728568.png"><img width="800" border="0" src="ios_helloworld/020632292508224.png" alt="events_to_app_2x" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="events_to_app_2x"></a> </p> <p>在iOS中并不是所有的类都能处理接收并事件，只有继承自UIResponder类的对象才能处理事件（如我们常用的UIView、UIViewController、UIApplication都继承自UIResponder，它们都能接收并处理事件）。在UIResponder中定义了上面三类事件相关的处理方法：</p> <table width="800" cellspacing="0" cellpadding="0" border="0" class="kc-table"> <thead> <tr> <th>事件</th> <th>说明 </th></tr> </thead><tbody> <tr class="subhead"> <td width="400" valign="top">触摸事件</td> <td width="400" valign="top">&nbsp;</td></tr> <tr> <td width="400" valign="top">- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;</td> <td width="400" valign="top">一根或多根手指开始触摸屏幕时执行；</td></tr> <tr> <td width="400" valign="top">- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;</td> <td width="400" valign="top">一根或多根手指在屏幕上移动时执行，注意此方法在移动过程中会重复调用；</td></tr> <tr> <td width="400" valign="top">- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;</td> <td width="400" valign="top">一根或多根手指触摸结束离开屏幕时执行；</td></tr> <tr> <td width="400" valign="top">- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;</td> <td width="400" valign="top">触摸意外取消时执行（例如正在触摸时打入电话）；</td></tr> <tr class="subhead"> <td width="400" valign="top">运动事件 </td> <td width="400" valign="top">&nbsp;</td></tr> <tr> <td width="400" valign="top">- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event NS_AVAILABLE_IOS(3_0);</td> <td width="400" valign="top">运动开始时执行；</td></tr> <tr> <td width="400" valign="top">- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event NS_AVAILABLE_IOS(3_0);</td> <td width="400" valign="top">运动结束后执行；</td></tr> <tr> <td width="400" valign="top">- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event NS_AVAILABLE_IOS(3_0);</td> <td width="400" valign="top">运动被意外取消时执行；</td></tr> <tr class="subhead"> <td width="400" valign="top">远程控制事件</td> <td width="400" valign="top">&nbsp;</td></tr> <tr> <td width="400" valign="top">- (void)remoteControlReceivedWithEvent:(UIEvent *)event NS_AVAILABLE_IOS(4_0);</td> <td width="400" valign="top">接收到远程控制消息时执行；</td></tr></tbody></table> <h1 id="touch">触摸事件</h1> <h2 id="autoid-3-0-0">基础知识</h2> <p>三类事件中触摸事件在iOS中是最常用的事件，这里我们首先介绍触摸事件。</p> <p>在下面的例子中定义一个KCImage，它继承于UIView，在KCImage中指定一个图片作为背景。定义一个视图控制器KCTouchEventViewController，并且在其中声明一个KCImage变量，添加到视图控制器中。既然UIView和UIViewController都继承于UIResponder，那么也就就意味着所有的UIKit控件和视图控制器均能接收触摸事件。首先我们在KCTouchEventViewController中添加触摸事件，并利用触摸移动事件来移动KCImage，具体代码如下：</p><pre class="code"><span style="color: green;">//
+//  KCTouchEvenViewController.m
+//  TouchEventAndGesture
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCTouchEvenViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCImage.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCTouchEvenViewController (){
+    KCImage *_image;
+}
+
+@end
+
+@implementation KCTouchEvenViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    _image=[[KCImage alloc]initWithFrame:CGRectMake(50, 50, 150, 169
+                                                            )];
+    </span><span style="color: green;">//_image.userInteractionEnabled=NO;
+    </span><span style="color: black;">[self.view addSubview:_image];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 视图控制器的触摸事件
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"UIViewController start touch..."</span><span style="color: black;">);
+}
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    </span><span style="color: green;">//取得一个触摸对象（对于多点触摸可能有多个对象）
+    </span><span style="color: black;">UITouch *touch=[touches anyObject];
+    </span><span style="color: green;">//NSLog(@"%@",touch);
+    
+    //取得当前位置
+    </span><span style="color: black;">CGPoint current=[touch locationInView:self.view];
+    </span><span style="color: green;">//取得前一个位置
+    </span><span style="color: black;">CGPoint previous=[touch previousLocationInView:self.view];
+    
+    </span><span style="color: green;">//移动前的中点位置
+    </span><span style="color: black;">CGPoint center=_image.center;
+    </span><span style="color: green;">//移动偏移量
+    </span><span style="color: black;">CGPoint offset=CGPointMake(current.x-previous.x, current.y-previous.y);
+    
+    </span><span style="color: green;">//重新设置新位置
+    </span><span style="color: black;">_image.center=CGPointMake(center.x+offset.x, center.y+offset.y);
+    
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"UIViewController moving..."</span><span style="color: black;">);
+
+}
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"UIViewController touch end."</span><span style="color: black;">);
+}
+@end</span></pre>
+<p>现在运行程序：</p>
+<p><a href="ios_helloworld/020632301259323.gif"><img src="ios_helloworld/020632317197037.gif" alt="TouchEventEffect" style="display: inline" title="TouchEventEffect"></a> </p>
+<p>上面示例中我们用到了UITouch类，当执行触摸事件时会将这个对象传入。在这个对象中包含了触摸的所有信息：</p>
+<ul>
+<li><strong>window</strong>：触摸时所在的窗口 
+</li><li><strong>view</strong>：触摸时所在视图 
+</li><li><strong>tapCount</strong>:短时间内点击的次数 
+</li><li><strong>timestamp</strong>:触摸产生或变化的时间戳 
+</li><li><strong>phase</strong>:触摸周期内的各个状态 
+</li><li><strong>locationInView:</strong>方法：取得在指定视图的位置 
+</li><li><strong>previousLocationInView:</strong>方法：取得移动的前一个位置</li></ul>
+<p>从上面运行效果可以看到无论是选择KCImage拖动还是在界面其他任意位置拖动都能达到移动图片的效果。既然KCImage是UIView当然在KCImage中也能触发相应的触摸事件，假设在KCImage中定义三个对应的事件：</p><pre class="code"><span style="color: green;">//
+//  KCImage.m
+//  TouchEventAndGesture
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCImage.h"
+
+</span><span style="color: black;">@implementation KCImage
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    </span><span style="color: blue;">if </span><span style="color: black;">(self) {
+        UIImage *img=[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"photo.png"</span><span style="color: black;">];
+        [self setBackgroundColor:[UIColor colorWithPatternImage:img]];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - UIView的触摸事件
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"UIView start touch..."</span><span style="color: black;">);
+}
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"UIView moving..."</span><span style="color: black;">);
+}
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"UIView touch end."</span><span style="color: black;">);
+}
+@end</span></pre>
+<p>此时如果运行程序会发现如果拖动KCImage无法达到预期的效果，但是可以发现此时会调用KCImage的触摸事件而不会调用KCTouchEventViewController中的触摸事件。如果直接拖拽其他空白位置则可以正常拖拽，而且从输出信息可以发现此时调用的是视图控制器的触摸事件。这是为什么呢？要解答这个问题我们需要了解iOS中事件的处理机制。</p>
+<h2 id="autoid-3-1-0">事件处理机制</h2>
+<p>在iOS中发生触摸后，事件会加入到UIApplication事件队列（在这个系列关于iOS开发的第一篇文章中我们分析iOS程序原理的时候就说过程序运行后UIApplication会循环监听用户操作），UIApplication会从事件队列取出最前面的事件并分发处理，通常先分发给应用程序主窗口，主窗口会调用<strong>hitTest:withEvent:</strong>方法（假设称为方法A，注意这是UIView的方法），查找合适的事件触发视图（这里通常称为“hit-test view”）：</p>
+<ol>
+<li>在顶级视图（key window的视图）上调用pointInside:withEvent:方法判断触摸点是否在当前视图内；</li>
+<li>如果返回NO，那么A返回nil；</li>
+<li>如果返回YES，那么它会向当前视图的所有子视图（key window的子视图）发送hitTest:withEvent:消息，遍历所有子视图的顺序是从subviews数组的末尾向前遍历（从界面最上方开始向下遍历）。</li>
+<li>如果有subview的hitTest:withEvent:返回非空对象则A返回此对象，处理结束（注意这个过程，子视图也是根据pointInside:withEvent:的返回值来确定是返回空还是当前子视图对象的。并且这个过程中如果子视图的hidden=YES、userInteractionEnabled=NO或者alpha小于0.1都会并忽略）；</li>
+<li>如果所有subview遍历结束仍然没有返回非空对象，则A返回顶级视图；</li></ol>
+<p>上面的步骤就是点击检测的过程，其实就是查找事件触发者的过程。触摸对象并非就是事件的响应者（例如上面第一个例子中没有重写KCImage触摸事件时，KCImge作为触摸对象，但是事件响应者却是UIViewController），检测到了触摸的对象之后，事件到底是如何响应呢？这个过程就必须引入一个新的概念“响应者链”。</p>
+<p>什么是响应者链呢？我们知道在iOS程序中无论是最后面的UIWindow还是最前面的某个按钮，它们的摆放是有前后关系的，一个控件可以放到另一个控件上面或下面，那么用户点击某个控件时是触发上面的控件还是下面的控件呢，这种先后关系构成一个链条就叫“响应者链”。在iOS中响应者链的关系可以用下图表示：</p>
+<p><a href="ios_helloworld/020632334224250.png"><img width="800" border="0" src="ios_helloworld/020632340003907.png" alt="iOS_responder_chain_2x" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="iOS_responder_chain_2x"></a> </p>
+<p>当一个事件发生后首先看initial view能否处理这个事件，如果不能则会将事件传递给其上级视图（inital view的superView）；如果上级视图仍然无法处理则会继续往上传递；一直传递到视图控制器view controller，首先判断视图控制器的根视图view是否能处理此事件；如果不能则接着判断该视图控制器能否处理此事件，如果还是不能则继续向上传递；（对于第二个图视图控制器本身还在另一个视图控制器中，则继续交给父视图控制器的根视图，如果根视图不能处理则交给父视图控制器处理）；一直到window，如果window还是不能处理此事件则继续交给application（UIApplication单例对象）处理，如果最后application还是不能处理此事件则将其丢弃。</p>
+<p>这个过程大家理解起来并不难，关键问题是在这个过程中各个对象如何知道自己能不能处理该事件呢？对于继承UIResponder的对象，其不能处理事件有几个条件：</p>
+<ul>
+<li>userInteractionEnabled=NO 
+</li><li>hidden=YES 
+</li><li>alpha=0~0.01 
+</li><li>没有实现开始触摸方法（注意是touchesBegan:withEvent:而不是移动和结束触摸事件）</li></ul>
+
+<p>当然前三点都是针对UIView控件或其子控件而言的，第四点可以针对UIView也可以针对视图控制器等其他UIResponder子类。对于第四种情况这里再次强调是对象中重写了开始触摸方法，则会处理这个事件，如果仅仅写了移动、停止触摸或取消触摸事件（或者这三个事件都重写了）没有写开始触摸事件，则此事件该对象不会进行处理。</p>
+<p>相信到了这里大家对于上面点击图片为什么不能拖拽已经很明确了。事实上通过前面的解释大家应该可以猜到即使KCImage实现了开始拖拽方法，如果在KCTouchEventViewController中设置KCImage对象的userInteractionEnabled为NO也是可以拖拽的。</p>
+<blockquote>
+<p>注意：上面提到<strong>hitTest:withEvent:</strong>可以指定触发事件的视图，这里就不再举例说明，这个方法重写情况比较少，一般用于自定义手势，有兴趣的童鞋可以访问：<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW1">Event Delivery: The Responder Chain</a>。</p></blockquote>
+<p>&nbsp;</p>
+<h1 id="gesture">手势识别</h1>
+<h2 id="autoid-4-0-0">简介</h2>
+<p>通过前面的内容我们可以看到触摸事件使用起来比较容易，但是对于多个手指触摸并进行不同的变化操作就要复杂的多了。例如说如果两个手指捏合，我们虽然在触摸开始、移动等事件中可以通过UITouchs得到两个触摸对象，但是我们如何能判断用户是用两个手指捏合还是横扫或者拖动呢？在iOS3.2之后苹果引入了手势识别,对于用户常用的手势操作进行了识别并封装成具体的类供开发者使用，这样在开发过程中我们就不必再自己编写算法识别用户的触摸操作了。在iOS中有六种手势操作：</p>
+<table width="800" cellspacing="0" cellpadding="0" border="0" class="kc-table">
+<thead>
+<tr>
+<th width="213">手势</th>
+<th width="586">说明</th></tr></thead>
+<tbody>
+<tr>
+<td width="213" valign="top">UITapGestureRecognizer</td>
+<td width="586" valign="top">点按手势</td></tr>
+<tr>
+<td width="213" valign="top">UIPinchGestureRecognizer</td>
+<td width="586" valign="top">捏合手势</td></tr>
+<tr>
+<td width="213" valign="top">UIPanGestureRecognizer</td>
+<td width="586" valign="top">拖动手势</td></tr>
+<tr>
+<td width="213" valign="top">UISwipeGestureRecognizer</td>
+<td width="586" valign="top">轻扫手势，支持四个方向的轻扫，但是不同的方向要分别定义轻扫手势</td></tr>
+<tr>
+<td width="213" valign="top">UIRotationGestureRecognizer</td>
+<td width="586" valign="top">旋转手势</td></tr>
+<tr>
+<td width="213" valign="top">UILongPressGestureRecognizer</td>
+<td width="586" valign="top">长按手势</td></tr></tbody></table>
+<p>所有的手势操作都继承于UIGestureRecognizer，这个类本身不能直接使用。这个类中定义了这几种手势共有的一些属性和方法(下表仅列出常用属性和方法)：</p>
+<table width="800" cellspacing="0" cellpadding="0" border="0" class="kc-table">
+<thead>
+<tr>
+<th width="213">名称</th>
+<th width="586">说明</th></tr></thead>
+<tbody>
+<tr class="subhead">
+<td width="221" valign="top">属性</td>
+<td width="579" valign="top">&nbsp;</td></tr>
+<tr>
+<td width="221" valign="top">@property(nonatomic,readonly) UIGestureRecognizerState state;</td>
+<td width="579" valign="top">手势状态</td></tr>
+<tr>
+<td width="221" valign="top">@property(nonatomic, getter=isEnabled) BOOL enabled;</td>
+<td width="579" valign="top">手势是否可用</td></tr>
+<tr>
+<td width="221" valign="top">@property(nonatomic,readonly) UIView *view;</td>
+<td width="579" valign="top">触发手势的视图（一般在触摸执行操作中我们可以通过此属性获得触摸视图进行操作）</td></tr>
+<tr>
+<td width="221" valign="top">@property(nonatomic) BOOL delaysTouchesBegan;</td>
+<td width="579" valign="top">手势识别失败前不执行触摸开始事件，默认为NO；如果为YES，那么成功识别则不执行触摸开始事件，失败则执行触摸开始事件；如果为NO，则不管成功与否都执行触摸开始事件；</td></tr>
+<tr class="subhead">
+<td width="221" valign="top">方法</td>
+<td width="579" valign="top">&nbsp;</td></tr>
+<tr>
+<td width="221" valign="top">- (void)addTarget:(id)target action:(SEL)action;</td>
+<td width="579" valign="top">添加触摸执行事件</td></tr>
+<tr>
+<td width="221" valign="top">- (void)removeTarget:(id)target action:(SEL)action;</td>
+<td width="579" valign="top">移除触摸执行事件</td></tr>
+<tr>
+<td width="221" valign="top">- (NSUInteger)numberOfTouches;</td>
+<td width="579" valign="top">触摸点的个数（同时触摸的手指数）</td></tr>
+<tr class="">
+<td width="221" valign="top">- (CGPoint)locationInView:(UIView*)view; </td>
+<td width="579" valign="top">在指定视图中的相对位置</td></tr>
+<tr>
+<td width="221" valign="top">- (CGPoint)locationOfTouch:(NSUInteger)touchIndex inView:(UIView*)view;</td>
+<td width="579" valign="top">触摸点相对于指定视图的位置</td></tr>
+<tr>
+<td width="221" valign="top">- (void)requireGestureRecognizerToFail:(UIGestureRecognizer *)otherGestureRecognizer;</td>
+<td width="579" valign="top">指定一个手势需要另一个手势执行失败才会执行</td></tr>
+<tr class="subhead">
+<td width="221" valign="top">代理方法</td>
+<td width="579" valign="top">&nbsp;</td></tr>
+<tr>
+<td width="221" valign="top">- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer;</td>
+<td width="579" valign="top">一个控件的手势识别后是否阻断手势识别继续向下传播，默认返回NO；如果为YES，响应者链上层对象触发手势识别后，如果下层对象也添加了手势并成功识别也会继续执行，否则上层对象识别后则不再继续传播；</td></tr></tbody></table>
+<h2 id="autoid-4-1-0">手势状态</h2>
+<p>这里着重解释一下上表中手势状态这个对象。在六种手势识别中，只有一种手势是离散手势，它就是UITapGestureRecgnier。离散手势的特点就是一旦识别就无法取消，而且只会调用一次手势操作事件（初始化手势时指定的触发方法）。换句话说其他五种手势是连续手势，连续手势的特点就是会多次调用手势操作事件，而且在连续手势识别后可以取消手势。从下图可以看出两者调用操作事件的次数是不同的：</p>
+<p><a href="ios_helloworld/020632344539834.png"><img width="800" border="0" src="ios_helloworld/020632352825948.png" alt="discrete_vs_continuous_2x" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="discrete_vs_continuous_2x"></a> </p>
+<p>在iOS中将手势状态分为如下几种：</p><pre class="code"><span style="color: blue;">typedef </span><span style="color: black;">NS_ENUM(NSInteger, UIGestureRecognizerState) {
+    UIGestureRecognizerStatePossible,   </span><span style="color: green;">// 尚未识别是何种手势操作（但可能已经触发了触摸事件），默认状态
+    
+    </span><span style="color: black;">UIGestureRecognizerStateBegan,      </span><span style="color: green;">// 手势已经开始，此时已经被识别，但是这个过程中可能发生变化，手势操作尚未完成
+    </span><span style="color: black;">UIGestureRecognizerStateChanged,    </span><span style="color: green;">// 手势状态发生转变
+    </span><span style="color: black;">UIGestureRecognizerStateEnded,      </span><span style="color: green;">// 手势识别操作完成（此时已经松开手指）
+    </span><span style="color: black;">UIGestureRecognizerStateCancelled,  </span><span style="color: green;">// 手势被取消，恢复到默认状态
+    
+    </span><span style="color: black;">UIGestureRecognizerStateFailed,     </span><span style="color: green;">// 手势识别失败，恢复到默认状态
+    
+    </span><span style="color: black;">UIGestureRecognizerStateRecognized = UIGestureRecognizerStateEnded </span><span style="color: green;">// 手势识别完成，同UIGestureRecognizerStateEnded
+</span><span style="color: black;">};</span></pre>
+<ul>
+<li>对于离散型手势UITapGestureRecgnizer要么被识别，要么失败，点按（假设点按次数设置为1，并且没有添加长按手势）下去一次不松开则此时什么也不会发生，松开手指立即识别并调用操作事件，并且状态为3（已完成）。 
+</li><li>但是连续手势要复杂一些，就拿旋转手势来说，如果两个手指点下去不做任何操作，此时并不能识别手势（因为我们还没旋转）但是其实已经触发了触摸开始事件，此时处于状态0；如果此时旋转会被识别，也就会调用对应的操作事件，同时状态变成1（手势开始），但是状态1只有一瞬间；紧接着状态变为2（因为我们的旋转需要持续一会），并且重复调用操作事件（如果在事件中打印状态会重复打印2）；松开手指，此时状态变为3，并调用1次操作事件。</li></ul>
+<p>为了大家更好的理解这个状态的变化，不妨在操作事件中打印事件状态，会发现在操作事件中的状态永远不可能为0（默认状态），因为只要调用此事件说明已经被识别了。前面也说过，手势识别从根本还是调用触摸事件而完成的，连续手势之所以会发生状态转换完全是由于触摸事件中的移动事件造成的，没有移动事件也就不存在这个过程中状态变化。</p>
+<p>大家通过苹果官方的分析图再理解一下上面说的内容：</p>
+<p><a href="ios_helloworld/020632357031120.png"><img width="800" border="0" src="ios_helloworld/020632363914977.png" alt="gr_state_transitions_2x" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="gr_state_transitions_2x"></a> </p>
+<h2 id="autoid-4-2-0">使用手势</h2>
+<p>在iOS中添加手势比较简单，可以归纳为以下几个步骤：</p>
+<ol>
+<li>创建对应的手势对象； 
+</li><li>设置手势识别属性【可选】； 
+</li><li>附加手势到指定的对象； 
+</li><li>编写手势操作方法；</li></ol>
+<p>为了帮助大家理解，下面以一个图片查看程序演示一下上面几种手势，在这个程序中我们完成以下功能：</p>
+<p>如果点按图片会在导航栏显示图片名称；</p>
+<p>如果长按图片会显示删除按钮，提示用户是否删除；</p>
+<p>如果捏合会放大、缩小图片；</p>
+<p>如果轻扫会切换到下一张或上一张图片；</p>
+<p>如果旋转会旋转图片；</p>
+<p>如果拖动会移动图片；</p>
+<p>具体布局草图如下：</p>
+<p><a href="ios_helloworld/020632369531405.png"><img width="260" border="0" height="450" src="ios_helloworld/020632378445733.png" alt="PhotoViewerPrototype" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="PhotoViewerPrototype"></a> </p>
+<p>为了显示导航条，我们首先将主视图控制器KCPhotoViewController放入一个导航控制器，然后在主视图控制器中放一个UIImage用于展示图片。下面是主要代码：</p><pre class="code"><span style="color: green;">//
+//  KCGestureViewController.m
+//  TouchEventAndGesture
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCPhotoViewController.h"
+</span><span style="color: blue;">#define </span><span style="color: black;">kImageCount 3
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">KCPhotoViewController (){
+    UIImageView *_imageView;</span><span style="color: green;">//图片展示控件
+    </span><span style="color: blue;">int </span><span style="color: black;">_currentIndex;</span><span style="color: green;">//当前图片索引
+</span><span style="color: black;">}
+
+@end
+
+@implementation KCPhotoViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self initLayout];
+
+    [self addGesture];
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 布局
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initLayout{
+    </span><span style="color: green;">/*添加图片展示控件*/
+    </span><span style="color: black;">CGSize screenSize=[UIScreen mainScreen].applicationFrame.size;
+    CGFloat topPadding=20;
+    CGFloat y=22+44+topPadding,height=screenSize.height-y-topPadding;
+    
+    CGRect imageFrame=CGRectMake(0, y, screenSize.width, height);
+    _imageView=[[UIImageView alloc]initWithFrame:imageFrame];
+    _imageView.contentMode=UIViewContentModeScaleToFill;</span><span style="color: green;">//设置内容模式为缩放填充
+    </span><span style="color: black;">_imageView.userInteractionEnabled=YES;</span><span style="color: green;">//这里必须设置为YES，否则无法接收手势操作
+    </span><span style="color: black;">[self.view addSubview:_imageView];
+    
+    </span><span style="color: green;">//添加默认图片
+    </span><span style="color: black;">UIImage *image=[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"0.jpg"</span><span style="color: black;">];
+    _imageView.image=image;
+    [self showPhotoName];
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 添加手势
+-(</span><span style="color: blue;">void</span><span style="color: black;">)addGesture{
+    </span><span style="color: green;">/*添加点按手势*/
+    //创建手势对象
+    </span><span style="color: black;">UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImage:)];
+    </span><span style="color: green;">//设置手势属性
+    </span><span style="color: black;">tapGesture.numberOfTapsRequired=1;</span><span style="color: green;">//设置点按次数，默认为1，注意在iOS中很少用双击操作
+    </span><span style="color: black;">tapGesture.numberOfTouchesRequired=1;</span><span style="color: green;">//点按的手指数
+    //添加手势到对象(注意，这里添加到了控制器视图中，而不是图片上，否则点击空白无法隐藏导航栏)
+    </span><span style="color: black;">[self.view addGestureRecognizer:tapGesture];
+    
+    
+    </span><span style="color: green;">/*添加长按手势*/
+    </span><span style="color: black;">UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressImage:)];
+    longPressGesture.minimumPressDuration=0.5;</span><span style="color: green;">//设置长按时间，默认0.5秒，一般这个值不要修改
+    //注意由于我们要做长按提示删除操作，因此这个手势不再添加到控制器视图上而是添加到了图片上
+    </span><span style="color: black;">[_imageView addGestureRecognizer:longPressGesture];
+    
+    </span><span style="color: green;">/*添加捏合手势*/
+    </span><span style="color: black;">UIPinchGestureRecognizer *pinchGesture=[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImage:)];
+    [self.view addGestureRecognizer:pinchGesture];
+    
+    </span><span style="color: green;">/*添加旋转手势*/
+    </span><span style="color: black;">UIRotationGestureRecognizer *rotationGesture=[[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotateImage:)];
+    [self.view addGestureRecognizer:rotationGesture];
+    
+    </span><span style="color: green;">/*添加拖动手势*/
+    </span><span style="color: black;">UIPanGestureRecognizer *panGesture=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panImage:)];
+    [_imageView addGestureRecognizer:panGesture];
+    
+    </span><span style="color: green;">/*添加轻扫手势*/
+    //注意一个轻扫手势只能控制一个方向，默认向右，通过direction进行方向控制
+    </span><span style="color: black;">UISwipeGestureRecognizer *swipeGestureToRight=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImage:)];
+    </span><span style="color: green;">//swipeGestureToRight.direction=UISwipeGestureRecognizerDirectionRight;//默认为向右轻扫
+    </span><span style="color: black;">[self.view addGestureRecognizer:swipeGestureToRight];
+    
+    UISwipeGestureRecognizer *swipeGestureToLeft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImage:)];
+    swipeGestureToLeft.direction=UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeGestureToLeft];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 显示图片名称
+-(</span><span style="color: blue;">void</span><span style="color: black;">)showPhotoName{
+    NSString *title=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"%i.jpg"</span><span style="color: black;">,_currentIndex];
+    [self setTitle:title];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 下一张图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)nextImage{
+    </span><span style="color: blue;">int </span><span style="color: black;">index=(_currentIndex+kImageCount+1)%kImageCount;
+    NSString *imageName=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"%i.jpg"</span><span style="color: black;">,index];
+    _imageView.image=[UIImage imageNamed:imageName];
+    _currentIndex=index;
+    [self showPhotoName];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 上一张图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)lastImage{
+    </span><span style="color: blue;">int </span><span style="color: black;">index=(_currentIndex+kImageCount-1)%kImageCount;
+    NSString *imageName=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"%i.jpg"</span><span style="color: black;">,index];
+    _imageView.image=[UIImage imageNamed:imageName];
+    _currentIndex=index;
+    [self showPhotoName];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 手势操作
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 点按隐藏或显示导航栏
+-(</span><span style="color: blue;">void</span><span style="color: black;">)tapImage:(UITapGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"tap:%i",gesture.state);
+    </span><span style="color: black;">BOOL hidden=!self.navigationController.navigationBarHidden;
+    [self.navigationController setNavigationBarHidden:hidden animated:YES];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 长按提示是否删除
+-(</span><span style="color: blue;">void</span><span style="color: black;">)longPressImage:(UILongPressGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"longpress:%i",gesture.state);
+    //注意其实在手势里面有一个view属性可以获取点按的视图
+    //UIImageView *imageView=(UIImageView *)gesture.view;
+    
+    //由于连续手势此方法会调用多次，所以需要判断其手势状态
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateBegan) {
+        UIActionSheet *actionSheet=[[UIActionSheet alloc]initWithTitle:@</span><span style="color: rgb(163, 21, 21);">"System Info" </span><span style="color: blue;">delegate</span><span style="color: black;">:nil cancelButtonTitle:@</span><span style="color: rgb(163, 21, 21);">"Cancel" </span><span style="color: black;">destructiveButtonTitle:@</span><span style="color: rgb(163, 21, 21);">"Delete the photo" </span><span style="color: black;">otherButtonTitles:nil];
+        [actionSheet showInView:self.view];
+
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 捏合时缩放图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)pinchImage:(UIPinchGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"pinch:%i",gesture.state);
+    
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateChanged) {
+        </span><span style="color: green;">//捏合手势中scale属性记录的缩放比例
+        </span><span style="color: black;">_imageView.transform=CGAffineTransformMakeScale(gesture.scale, gesture.scale);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.state==UIGestureRecognizerStateEnded){</span><span style="color: green;">//结束后恢复
+        </span><span style="color: black;">[UIView animateWithDuration:.5 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;</span><span style="color: green;">//取消一切形变
+        </span><span style="color: black;">}];
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 旋转图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)rotateImage:(UIRotationGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"rotate:%i",gesture.state);
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateChanged) {
+        </span><span style="color: green;">//旋转手势中rotation属性记录了旋转弧度
+        </span><span style="color: black;">_imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.state==UIGestureRecognizerStateEnded){
+        [UIView animateWithDuration:0.8 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;</span><span style="color: green;">//取消形变
+        </span><span style="color: black;">}];
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 拖动图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)panImage:(UIPanGestureRecognizer *)gesture{
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateChanged) {
+        CGPoint translation=[gesture translationInView:self.view];</span><span style="color: green;">//利用拖动手势的translationInView:方法取得在相对指定视图（这里是控制器根视图）的移动
+        </span><span style="color: black;">_imageView.transform=CGAffineTransformMakeTranslation(translation.x, translation.y);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.state==UIGestureRecognizerStateEnded){
+        [UIView animateWithDuration:0.5 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;
+        }];
+    }
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 轻扫则查看下一张或上一张
+</span><span style="color: green;">//注意虽然轻扫手势是连续手势，但是只有在识别结束才会触发，不用判断状态
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)swipeImage:(UISwipeGestureRecognizer *)gesture{
+</span><span style="color: green;">//    NSLog(@"swip:%i",gesture.state);
+//    if (gesture.state==UIGestureRecognizerStateEnded) {
+    
+        //direction记录的轻扫的方向
+        </span><span style="color: blue;">if </span><span style="color: black;">(gesture.direction==UISwipeGestureRecognizerDirectionRight) {</span><span style="color: green;">//向右
+            </span><span style="color: black;">[self nextImage];
+</span><span style="color: green;">//            NSLog(@"right");
+        </span><span style="color: black;">}</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.direction==UISwipeGestureRecognizerDirectionLeft){</span><span style="color: green;">//向左
+//            NSLog(@"left");
+            </span><span style="color: black;">[self lastImage];
+        }
+</span><span style="color: green;">//    }
+</span><span style="color: black;">}
+
+
+</span><span style="color: green;">//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+//    //NSLog(@"touch begin...");
+//}
+</span><span style="color: black;">@end</span></pre>
+<p>运行效果：</p>
+<p><a href="ios_helloworld/020632385166361.gif"><img src="ios_helloworld/020632495475224.gif" alt="GestureRecognizerEffect" style="display: inline" title="GestureRecognizerEffect"></a> </p>
+<p>在上面示例中需要强调几点：</p>
+<ul>
+<li>UIImageView默认是不支持交互的，也就是userInteractionEnabled=NO ，因此要接收触摸事件（手势识别），必须设置userInteractionEnabled=YES(在iOS中UILabel、UIImageView的userInteractionEnabled默认都是NO，UIButton、UITextField、UIScrollView、UITableView等默认都是YES)。 
+</li><li>轻扫手势虽然是连续手势但是它的操作事件只会在识别结束时调用一次，其他连续手势都会调用多次，一般需要进行状态判断；此外轻扫手势支持四个方向，但是如果要支持多个方向需要添加多个轻扫手势。</li></ul>
+<h2 id="autoid-4-3-0">手势冲突</h2>
+<p>细心的童鞋会发现在上面的演示效果图中当切换到下一张或者上一张图片时并没有轻扫图片而是在空白地方轻扫完成，原因是如果我轻扫图片会引起拖动手势而不是轻扫手势。换句话说，两种手势发生了冲突。</p>
+<p>冲突的原因很简单，拖动手势的操作事件是在手势的开始状态（状态1）识别执行的，而轻扫手势的操作事件只有在手势结束状态（状态3）才能执行，因此轻扫手势就作为了牺牲品没有被正确识别。我们理想的情况当然是如果在图片上拖动就移动图片，如果在图片上轻扫就翻动图片。如何解决这个冲突呢？</p>
+<p>在iOS中，如果一个手势A的识别部分是另一个手势B的子部分时，默认情况下A就会先识别，B就无法识别了。要解决这个冲突可以利用<strong>- (void)requireGestureRecognizerToFail:(UIGestureRecognizer *)otherGestureRecognizer;</strong>方法来完成。正是前面表格中UIGestureRecognizer的最后一个方法，这个方法可以指定某个手势执行的前提是另一个手势失败才会识别执行。也就是说如果我们指定拖动手势的执行前提为轻扫手势失败就可以了，这样一来当我们手指轻轻滑动时系统会优先考虑轻扫手势，如果最后发现该操作不是轻扫，那么就会执行拖动。只要将下面的代码添加到添加手势之后就能解决这个问题了（注意为了更加清晰的区分拖动和轻扫[模拟器中拖动稍微快一点就识别成了轻扫]，这里将长按手势的前提设置为拖动失败，避免演示拖动时长按手势会被识别）：</p><pre class="code"><span style="color: black;">    
+    </span><span style="color: green;">//解决在图片上滑动时拖动手势和轻扫手势的冲突
+    </span><span style="color: black;">[panGesture requireGestureRecognizerToFail:swipeGestureToRight];
+    [panGesture requireGestureRecognizerToFail:swipeGestureToLeft];
+    </span><span style="color: green;">//解决拖动和长按手势之间的冲突
+    </span><span style="color: black;">[longPressGesture requireGestureRecognizerToFail:panGesture];</span></pre>
+<p>运行效果：</p>
+<p><a href="ios_helloworld/020632580169003.gif"><img src="ios_helloworld/020633016728886.gif" alt="GestureRecognizerEffect2" style="display: inline" title="GestureRecognizerEffect2"></a> </p>
+<h2 id="autoid-4-4-0">两个不同控件的手势同时执行</h2>
+<p>我们知道在iOS的触摸事件中，事件触发是根据响应者链进行的，上层触摸事件执行后就不再向下传播。默认情况下手势也是类似的，先识别的手势会阻断手势识别操作继续传播。那么如何让两个有层次关系并且都添加了手势的控件都能正确识别手势呢？答案就是利用代理的<strong>-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</strong>方法。这个代理方法默认返回NO，会阻断继续向下识别手势，如果返回YES则可以继续向下传播识别。</p>
+<p>下面的代码控制演示了当在图片上长按时同时可以识别控制器视图的长按手势（注意其中我们还控制了只有在UIImageView中操作的手势才能向下传递，如果不控制则所有控件都可以向下传递）</p><pre class="code"><span style="color: green;">//
+//  KCGestureViewController.m
+//  TouchEventAndGesture
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCPhotoViewController.h"
+</span><span style="color: blue;">#define </span><span style="color: black;">kImageCount 3
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">KCPhotoViewController ()&lt;UIGestureRecognizerDelegate&gt;{
+    UIImageView *_imageView;</span><span style="color: green;">//图片展示控件
+    </span><span style="color: blue;">int </span><span style="color: black;">_currentIndex;</span><span style="color: green;">//当前图片索引
+</span><span style="color: black;">}
+
+@end
+
+@implementation KCPhotoViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self initLayout];
+
+    [self addGesture];
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 布局
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initLayout{
+    </span><span style="color: green;">/*添加图片展示控件*/
+    </span><span style="color: black;">CGSize screenSize=[UIScreen mainScreen].applicationFrame.size;
+    CGFloat topPadding=20;
+    CGFloat y=22+44+topPadding,height=screenSize.height-y-topPadding;
+    
+    CGRect imageFrame=CGRectMake(0, y, screenSize.width, height);
+    _imageView=[[UIImageView alloc]initWithFrame:imageFrame];
+    _imageView.contentMode=UIViewContentModeScaleToFill;</span><span style="color: green;">//设置内容模式为缩放填充
+    </span><span style="color: black;">_imageView.userInteractionEnabled=YES;</span><span style="color: green;">//这里必须设置位YES，否则无法接收手势操作
+    //_imageView.multipleTouchEnabled=YES;//支持多点触摸，默认就是YES
+    </span><span style="color: black;">[self.view addSubview:_imageView];
+    
+    </span><span style="color: green;">//添加默认图片
+    </span><span style="color: black;">UIImage *image=[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"0.jpg"</span><span style="color: black;">];
+    _imageView.image=image;
+    [self showPhotoName];
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 添加手势
+-(</span><span style="color: blue;">void</span><span style="color: black;">)addGesture{
+    </span><span style="color: green;">/*添加点按手势*/
+    //创建手势对象
+    </span><span style="color: black;">UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImage:)];
+    </span><span style="color: green;">//设置手势属性
+    </span><span style="color: black;">tapGesture.numberOfTapsRequired=1;</span><span style="color: green;">//设置点按次数，默认为1，注意在iOS中很少用双击操作
+    </span><span style="color: black;">tapGesture.numberOfTouchesRequired=1;</span><span style="color: green;">//点按的手指数
+    //添加手势到对象(注意，这里添加到了控制器视图中，而不是图片上，否则点击空白无法隐藏导航栏)
+    </span><span style="color: black;">[self.view addGestureRecognizer:tapGesture];
+    
+    
+    </span><span style="color: green;">/*添加长按手势*/
+    </span><span style="color: black;">UILongPressGestureRecognizer *longPressGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressImage:)];
+    longPressGesture.minimumPressDuration=0.5;</span><span style="color: green;">//设置长按时间，默认0.5秒，一般这个值不要修改
+    //注意由于我们要做长按提示删除操作，因此这个手势不再添加到控制器视图上而是添加到了图片上
+    </span><span style="color: black;">[_imageView addGestureRecognizer:longPressGesture];
+    
+    </span><span style="color: green;">/*添加捏合手势*/
+    </span><span style="color: black;">UIPinchGestureRecognizer *pinchGesture=[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchImage:)];
+    [self.view addGestureRecognizer:pinchGesture];
+    
+    </span><span style="color: green;">/*添加旋转手势*/
+    </span><span style="color: black;">UIRotationGestureRecognizer *rotationGesture=[[UIRotationGestureRecognizer alloc]initWithTarget:self action:@selector(rotateImage:)];
+    [self.view addGestureRecognizer:rotationGesture];
+    
+    </span><span style="color: green;">/*添加拖动手势*/
+    </span><span style="color: black;">UIPanGestureRecognizer *panGesture=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panImage:)];
+    [_imageView addGestureRecognizer:panGesture];
+    
+    </span><span style="color: green;">/*添加轻扫手势*/
+    //注意一个轻扫手势只能控制一个方向，默认向右，通过direction进行方向控制
+    </span><span style="color: black;">UISwipeGestureRecognizer *swipeGestureToRight=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImage:)];
+    </span><span style="color: green;">//swipeGestureToRight.direction=UISwipeGestureRecognizerDirectionRight;//默认位向右轻扫
+    </span><span style="color: black;">[self.view addGestureRecognizer:swipeGestureToRight];
+    
+    UISwipeGestureRecognizer *swipeGestureToLeft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImage:)];
+    swipeGestureToLeft.direction=UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeGestureToLeft];
+    
+    </span><span style="color: green;">//解决在图片上滑动时拖动手势和轻扫手势的冲突
+    </span><span style="color: black;">[panGesture requireGestureRecognizerToFail:swipeGestureToRight];
+    [panGesture requireGestureRecognizerToFail:swipeGestureToLeft];
+    </span><span style="color: green;">//解决拖动和长按手势之间的冲突
+    </span><span style="color: black;">[longPressGesture requireGestureRecognizerToFail:panGesture];
+    
+    
+    </span><span style="color: green;">/*演示不同视图的手势同时执行
+     *在上面_imageView已经添加了长按手势，这里给视图控制器的视图也加上长按手势让两者都执行
+     *
+     */
+    </span><span style="color: black;">self.view.tag=100;
+    _imageView.tag=200;
+    UILongPressGestureRecognizer *viewLongPressGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressView:)];
+    viewLongPressGesture.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    [self.view addGestureRecognizer:viewLongPressGesture];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 显示图片名称
+-(</span><span style="color: blue;">void</span><span style="color: black;">)showPhotoName{
+    NSString *title=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"%i.jpg"</span><span style="color: black;">,_currentIndex];
+    [self setTitle:title];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 下一张图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)nextImage{
+    </span><span style="color: blue;">int </span><span style="color: black;">index=(_currentIndex+kImageCount+1)%kImageCount;
+    NSString *imageName=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"%i.jpg"</span><span style="color: black;">,index];
+    _imageView.image=[UIImage imageNamed:imageName];
+    _currentIndex=index;
+    [self showPhotoName];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 上一张图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)lastImage{
+    </span><span style="color: blue;">int </span><span style="color: black;">index=(_currentIndex+kImageCount-1)%kImageCount;
+    NSString *imageName=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"%i.jpg"</span><span style="color: black;">,index];
+    _imageView.image=[UIImage imageNamed:imageName];
+    _currentIndex=index;
+    [self showPhotoName];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 手势操作
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 点按隐藏或显示导航栏
+-(</span><span style="color: blue;">void</span><span style="color: black;">)tapImage:(UITapGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"tap:%i",gesture.state);
+    </span><span style="color: black;">BOOL hidden=!self.navigationController.navigationBarHidden;
+    [self.navigationController setNavigationBarHidden:hidden animated:YES];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 长按提示是否删除
+-(</span><span style="color: blue;">void</span><span style="color: black;">)longPressImage:(UILongPressGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"longpress:%i",gesture.state);
+    //注意其实在手势里面有一个view属性可以获取点按的视图
+    //UIImageView *imageView=(UIImageView *)gesture.view;
+    
+    //由于连续手势此方法会调用多次，所以需求判断其手势状态
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateBegan) {
+        UIActionSheet *actionSheet=[[UIActionSheet alloc]initWithTitle:@</span><span style="color: rgb(163, 21, 21);">"System Info" </span><span style="color: blue;">delegate</span><span style="color: black;">:nil cancelButtonTitle:@</span><span style="color: rgb(163, 21, 21);">"Cancel" </span><span style="color: black;">destructiveButtonTitle:@</span><span style="color: rgb(163, 21, 21);">"Delete the photo" </span><span style="color: black;">otherButtonTitles:nil];
+        [actionSheet showInView:self.view];
+
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 捏合时缩放图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)pinchImage:(UIPinchGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"pinch:%i",gesture.state);
+    
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateChanged) {
+        </span><span style="color: green;">//捏合手势中scale属性记录的缩放比例
+        </span><span style="color: black;">_imageView.transform=CGAffineTransformMakeScale(gesture.scale, gesture.scale);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.state==UIGestureRecognizerStateEnded){</span><span style="color: green;">//结束后恢复
+        </span><span style="color: black;">[UIView animateWithDuration:.5 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;</span><span style="color: green;">//取消一切形变
+        </span><span style="color: black;">}];
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 旋转图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)rotateImage:(UIRotationGestureRecognizer *)gesture{
+    </span><span style="color: green;">//NSLog(@"rotate:%i",gesture.state);
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateChanged) {
+        </span><span style="color: green;">//旋转手势中rotation属性记录了旋转弧度
+        </span><span style="color: black;">_imageView.transform=CGAffineTransformMakeRotation(gesture.rotation);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.state==UIGestureRecognizerStateEnded){
+        [UIView animateWithDuration:0.8 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;</span><span style="color: green;">//取消形变
+        </span><span style="color: black;">}];
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 拖动图片
+-(</span><span style="color: blue;">void</span><span style="color: black;">)panImage:(UIPanGestureRecognizer *)gesture{
+    </span><span style="color: blue;">if </span><span style="color: black;">(gesture.state==UIGestureRecognizerStateChanged) {
+        CGPoint translation=[gesture translationInView:self.view];</span><span style="color: green;">//利用拖动手势的translationInView:方法取得在相对指定视图（控制器根视图）的移动
+        </span><span style="color: black;">_imageView.transform=CGAffineTransformMakeTranslation(translation.x, translation.y);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.state==UIGestureRecognizerStateEnded){
+        [UIView animateWithDuration:0.5 animations:^{
+            _imageView.transform=CGAffineTransformIdentity;
+        }];
+    }
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 轻扫则查看下一张或上一张
+</span><span style="color: green;">//注意虽然轻扫手势是连续手势，但是只有在识别结束才会触发，不用判断状态
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)swipeImage:(UISwipeGestureRecognizer *)gesture{
+</span><span style="color: green;">//    NSLog(@"swip:%i",gesture.state);
+//    if (gesture.state==UIGestureRecognizerStateEnded) {
+    
+        //direction记录的轻扫的方向
+        </span><span style="color: blue;">if </span><span style="color: black;">(gesture.direction==UISwipeGestureRecognizerDirectionRight) {</span><span style="color: green;">//向右
+            </span><span style="color: black;">[self nextImage];
+</span><span style="color: green;">//            NSLog(@"right");
+        </span><span style="color: black;">}</span><span style="color: blue;">else if</span><span style="color: black;">(gesture.direction==UISwipeGestureRecognizerDirectionLeft){</span><span style="color: green;">//向左
+//            NSLog(@"left");
+            </span><span style="color: black;">[self lastImage];
+        }
+</span><span style="color: green;">//    }
+</span><span style="color: black;">}
+
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 控制器视图的长按手势
+-(</span><span style="color: blue;">void</span><span style="color: black;">)longPressView:(UILongPressGestureRecognizer *)gesture{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"view long press!"</span><span style="color: black;">);
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 手势代理方法
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    </span><span style="color: green;">//NSLog(@"%i,%i",gestureRecognizer.view.tag,otherGestureRecognizer.view.tag);
+    
+    //注意，这里控制只有在UIImageView中才能向下传播，其他情况不允许
+    </span><span style="color: blue;">if </span><span style="color: black;">([otherGestureRecognizer.view isKindOfClass:[UIImageView </span><span style="color: blue;">class</span><span style="color: black;">]]) {
+        </span><span style="color: blue;">return </span><span style="color: black;">YES;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">NO;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 触摸事件
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"touch begin..."</span><span style="color: black;">);
+}
+-(</span><span style="color: blue;">void</span><span style="color: black;">)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"touch end."</span><span style="color: black;">);
+}
+@end</span></pre>
+<h1 id="motion">运动事件</h1>
+<p>前面我们主要介绍了触摸事件以及由触摸事件引出的手势识别，下面我们简单介绍一下运动事件。在iOS中和运动相关的有三个事件:开始运动、结束运动、取消运动。</p>
+<p>监听运动事件对于UI控件有个前提就是监听对象必须是第一响应者（对于UIViewController视图控制器和UIAPPlication没有此要求）。这也就意味着如果监听的是一个UI控件那么<strong>-(BOOL)canBecomeFirstResponder;</strong>方法必须返回YES。同时控件显示时（在<strong>-(void)viewWillAppear:(BOOL)animated;</strong>事件中）调用视图控制器的<strong>becomeFirstResponder</strong>方法。当视图不再显示时（在<strong>-(void)viewDidDisappear:(BOOL)animated;</strong>事件中）注销第一响应者身份。</p>
+<p>由于视图控制器默认就可以调用运动开始、运动结束事件在此不再举例。现在不妨假设我们现在在开发一个摇一摇找人的功能，这里我们就自定义一个图片展示控件，在这个图片控件中我们可以通过摇晃随机切换界面图片。代码比较简单：</p>
+<p>KCImageView.m</p><pre class="code"><span style="color: green;">//
+//  KCImageView.m
+//  TouchEventAndGesture
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCImageView.h"
+</span><span style="color: blue;">#define </span><span style="color: black;">kImageCount 3
+
+@implementation KCImageView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    </span><span style="color: blue;">if </span><span style="color: black;">(self) {
+        self.image=[self getImage];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置控件可以成为第一响应者
+-(BOOL)canBecomeFirstResponder{
+    </span><span style="color: blue;">return </span><span style="color: black;">YES;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 运动开始
+-(</span><span style="color: blue;">void</span><span style="color: black;">)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    </span><span style="color: green;">//这里只处理摇晃事件
+    </span><span style="color: blue;">if </span><span style="color: black;">(motion==UIEventSubtypeMotionShake) {
+        self.image=[self getImage];
+    }
+}
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 运动结束
+-(</span><span style="color: blue;">void</span><span style="color: black;">)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 随机取得图片
+-(UIImage *)getImage{
+    </span><span style="color: blue;">int </span><span style="color: black;">index= arc4random()%kImageCount;
+    NSString *imageName=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"avatar%i.png"</span><span style="color: black;">,index];
+    UIImage *image=[UIImage imageNamed:imageName];
+    </span><span style="color: blue;">return </span><span style="color: black;">image;
+}
+@end</span></pre>
+<p>KCShakeViewController.m</p><pre class="code"><span style="color: green;">//
+//  KCShakeViewController.m
+//  TouchEventAndGesture
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCShakeViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCImageView.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCShakeViewController (){
+    KCImageView *_imageView;
+}
+
+@end
+
+@implementation KCShakeViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 视图显示时让控件变成第一响应者
+-(</span><span style="color: blue;">void</span><span style="color: black;">)viewDidAppear:(BOOL)animated{
+    _imageView=[[KCImageView alloc]initWithFrame:[UIScreen mainScreen].applicationFrame];
+    _imageView.userInteractionEnabled=</span><span style="color: blue;">true</span><span style="color: black;">;
+    [self.view addSubview:_imageView];
+    [_imageView becomeFirstResponder];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 视图不显示时注销控件第一响应者的身份
+-(</span><span style="color: blue;">void</span><span style="color: black;">)viewDidDisappear:(BOOL)animated{
+    [_imageView resignFirstResponder];
+}
+
+</span><span style="color: green;">/*视图控制器的运动事件*/
+//-(void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+//    NSLog(@"motion begin...");
+//}
+//
+//-(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+//    NSLog(@"motion end.");
+//}
+
+</span><span style="color: black;">@end</span></pre>
+<p>运行效果（下图演示时使用了模拟器摇晃操作的快捷键,没有使用鼠标操作）：</p>
+<p><a href="ios_helloworld/020633047975098.gif"><img src="ios_helloworld/020633051412527.gif" alt="MotionEffect" style="display: inline" title="MotionEffect"></a></p>
+<h1 id="remoteControl">远程控制事件</h1>
+<p>在今天的文章中还剩下最后一类事件：远程控制，远程控制事件这里主要说的就是耳机线控操作。在前面的事件列表中，大家可以看到在iOS中和远程控制事件有关的只有一个<strong>- (void)remoteControlReceivedWithEvent:(UIEvent *)event NS_AVAILABLE_IOS(4_0);</strong>事件<strong>。</strong>要监听到这个事件有三个前提（视图控制器UIViewController或应用程序UIApplication只有两个）</p>
+<ul>
+<li>启用远程事件接收（<strong>使用[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];</strong>方法）。 
+</li><li>对于UI控件同样要求必须是第一响应者（对于视图控制器UIViewController或者应用程序UIApplication对象监听无此要求）。 
+</li><li>应用程序必须是当前音频的控制者，也就是在iOS 7中通知栏中当前音频播放程序必须是我们自己开发程序。</li></ul>
+<p>基于第三点我们必须明确，如果我们的程序不想要控制音频，只是想利用远程控制事件做其他的事情，例如模仿iOS7中的按音量+键拍照是做不到的，目前iOS7给我们的远程控制权限还仅限于音频控制（当然假设我们确实想要做一个和播放音频无关的应用但是又想进行远程控制，也可以隐藏一个音频播放操作，拿到远程控制操作权后进行远程控制）。</p>
+<p>运动事件中我们也提到一个枚举类型UIEventSubtype，而且我们利用它来判断是否运动事件，在枚举中还包含了我们运程控制的子事件类型，我们先来熟悉一下这个枚举（从远程控制子事件类型也不难发现它和音频播放有密切关系）：</p><pre class="code"><span style="color: blue;">typedef </span><span style="color: black;">NS_ENUM(NSInteger, UIEventSubtype) {
+    </span><span style="color: green;">// 不包含任何子事件类型
+    </span><span style="color: black;">UIEventSubtypeNone                              = 0,
+    
+    </span><span style="color: green;">// 摇晃事件（从iOS3.0开始支持此事件）
+    </span><span style="color: black;">UIEventSubtypeMotionShake                       = 1,
+    
+    </span><span style="color: green;">//远程控制子事件类型（从iOS4.0开始支持远程控制事件）
+    //播放事件【操作：停止状态下，按耳机线控中间按钮一下】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlPlay                 = 100,
+    </span><span style="color: green;">//暂停事件
+    </span><span style="color: black;">UIEventSubtypeRemoteControlPause                = 101,
+    </span><span style="color: green;">//停止事件
+    </span><span style="color: black;">UIEventSubtypeRemoteControlStop                 = 102,
+    </span><span style="color: green;">//播放或暂停切换【操作：播放或暂停状态下，按耳机线控中间按钮一下】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlTogglePlayPause      = 103,
+    </span><span style="color: green;">//下一曲【操作：按耳机线控中间按钮两下】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlNextTrack            = 104,
+    </span><span style="color: green;">//上一曲【操作：按耳机线控中间按钮三下】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlPreviousTrack        = 105,
+    </span><span style="color: green;">//快退开始【操作：按耳机线控中间按钮三下不要松开】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlBeginSeekingBackward = 106,
+    </span><span style="color: green;">//快退停止【操作：按耳机线控中间按钮三下到了快退的位置松开】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlEndSeekingBackward   = 107,
+    </span><span style="color: green;">//快进开始【操作：按耳机线控中间按钮两下不要松开】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlBeginSeekingForward  = 108,
+    </span><span style="color: green;">//快进停止【操作：按耳机线控中间按钮两下到了快进的位置松开】
+    </span><span style="color: black;">UIEventSubtypeRemoteControlEndSeekingForward    = 109,
+};</span></pre>
+<p>这里我们将远程控制事件放到视图控制器（事实上很少直接添加到UI控件，一般就是添加到UIApplication或者UIViewController），模拟一个音乐播放器。</p>
+<p>1.首先在应用程序启动后设置接收远程控制事件，并且设置音频会话保证后台运行可以播放（注意要在应用配置中设置允许多任务）</p><pre class="code"><span style="color: green;">//
+//  AppDelegate.m
+//  TouchEventAndGesture
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"AppDelegate.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"ViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;AVFoundation/AVFoundation.h&gt;
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCApplication.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">AppDelegate ()
+
+@end
+
+@implementation AppDelegate
+            
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    _window=[[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    
+    _window.backgroundColor =[UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1];
+    
+    </span><span style="color: green;">//设置全局导航条风格和颜色
+    </span><span style="color: black;">[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:23/255.0 green:180/255.0 blue:237/255.0 alpha:1]];
+    [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
+
+    ViewController *mainController=[[ViewController alloc]init];
+    _window.rootViewController=mainController;
+    
+    </span><span style="color: green;">//设置播放会话，在后台可以继续播放（还需要设置程序允许后台运行模式）
+    </span><span style="color: black;">[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    </span><span style="color: blue;">if</span><span style="color: black;">(![[AVAudioSession sharedInstance] setActive:YES error:nil])
+    {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"Failed to set up a session."</span><span style="color: black;">);
+    }
+    
+    
+    </span><span style="color: green;">//启用远程控制事件接收
+    </span><span style="color: black;">[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+</span><span style="color: green;">//    [self becomeFirstResponder];
+ </span><span style="color: black;">    
+    [_window makeKeyAndVisible];
+
+
+    </span><span style="color: blue;">return </span><span style="color: black;">YES;
+}
+
+</span><span style="color: green;">//-(void)remoteControlReceivedWithEvent:(UIEvent *)event{
+//    NSLog(@"remote");
+//}
+
+</span><span style="color: black;">- (</span><span style="color: blue;">void</span><span style="color: black;">)applicationWillResignActive:(UIApplication *)application {
+    </span><span style="color: green;">// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+</span><span style="color: black;">}
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)applicationDidEnterBackground:(UIApplication *)application {
+    </span><span style="color: green;">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    </span><span style="color: black;">[[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+}
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)applicationWillEnterForeground:(UIApplication *)application {
+    </span><span style="color: green;">// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+</span><span style="color: black;">}
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)applicationDidBecomeActive:(UIApplication *)application {
+    </span><span style="color: green;">// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+</span><span style="color: black;">}
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)applicationWillTerminate:(UIApplication *)application {
+    </span><span style="color: green;">// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+</span><span style="color: black;">}
+
+@end</span></pre>
+<p>2.在视图控制器中添加远程控制事件并音频播放进行控制</p><pre class="code"><span style="color: green;">//
+//  ViewController.m
+//  RemoteEvent
+//
+//  Created by Kenshin Cui on 14-3-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"ViewController.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">ViewController (){
+    UIButton *_playButton;
+    BOOL _isPlaying;
+}
+
+@end
+
+@implementation ViewController
+            
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self initLayout];
+}
+
+-(BOOL)canBecomeFirstResponder{
+    </span><span style="color: blue;">return </span><span style="color: black;">NO;
+}
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    _player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:@</span><span style="color: rgb(163, 21, 21);">"http://stream.jewishmusicstream.com:8000"</span><span style="color: black;">]];
+
+    </span><span style="color: green;">//[_player play];
+    //_isPlaying=true;
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 远程控制事件
+-(</span><span style="color: blue;">void</span><span style="color: black;">)remoteControlReceivedWithEvent:(UIEvent *)</span><span style="color: blue;">event</span><span style="color: black;">{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i,%i"</span><span style="color: black;">,</span><span style="color: blue;">event</span><span style="color: black;">.type,</span><span style="color: blue;">event</span><span style="color: black;">.subtype);
+    </span><span style="color: blue;">if</span><span style="color: black;">(</span><span style="color: blue;">event</span><span style="color: black;">.type==UIEventTypeRemoteControl){
+        </span><span style="color: blue;">switch </span><span style="color: black;">(</span><span style="color: blue;">event</span><span style="color: black;">.subtype) {
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlPlay:
+                [_player play];
+                _isPlaying=</span><span style="color: blue;">true</span><span style="color: black;">;
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlTogglePlayPause:
+                </span><span style="color: blue;">if </span><span style="color: black;">(_isPlaying) {
+                    [_player pause];
+                }</span><span style="color: blue;">else</span><span style="color: black;">{
+                    [_player play];
+                }
+                _isPlaying=!_isPlaying;
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlNextTrack:
+                NSLog(@</span><span style="color: rgb(163, 21, 21);">"Next..."</span><span style="color: black;">);
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlPreviousTrack:
+                NSLog(@</span><span style="color: rgb(163, 21, 21);">"Previous..."</span><span style="color: black;">);
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlBeginSeekingForward:
+                NSLog(@</span><span style="color: rgb(163, 21, 21);">"Begin seek forward..."</span><span style="color: black;">);
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlEndSeekingForward:
+                NSLog(@</span><span style="color: rgb(163, 21, 21);">"End seek forward..."</span><span style="color: black;">);
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlBeginSeekingBackward:
+                NSLog(@</span><span style="color: rgb(163, 21, 21);">"Begin seek backward..."</span><span style="color: black;">);
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">case </span><span style="color: black;">UIEventSubtypeRemoteControlEndSeekingBackward:
+                NSLog(@</span><span style="color: rgb(163, 21, 21);">"End seek backward..."</span><span style="color: black;">);
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+            </span><span style="color: blue;">default</span><span style="color: black;">:
+                </span><span style="color: blue;">break</span><span style="color: black;">;
+        }
+        [self changeUIState];
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 界面布局
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initLayout{
+    </span><span style="color: green;">//专辑封面
+    </span><span style="color: black;">UIImage *image=[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"wxl.jpg"</span><span style="color: black;">];
+    UIImageView *imageView=[[UIImageView alloc]initWithFrame:[UIScreen mainScreen].applicationFrame];
+    imageView.image=image;
+    imageView.contentMode=UIViewContentModeScaleAspectFill;
+    [self.view addSubview:imageView];
+    </span><span style="color: green;">//播放控制面板
+    </span><span style="color: black;">UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 480, 320, 88)];
+    view.backgroundColor=[UIColor lightGrayColor];
+    view.alpha=0.9;
+    [self.view addSubview:view];
+    
+    </span><span style="color: green;">//添加播放按钮
+    </span><span style="color: black;">_playButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    _playButton.bounds=CGRectMake(0, 0, 50, 50);
+    _playButton.center=CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
+    [self changeUIState];
+    [_playButton addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:_playButton];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 界面状态
+-(</span><span style="color: blue;">void</span><span style="color: black;">)changeUIState{
+    </span><span style="color: blue;">if</span><span style="color: black;">(_isPlaying){
+        [_playButton setImage:[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"playing_btn_pause_n.png"</span><span style="color: black;">] forState:UIControlStateNormal];
+        [_playButton setImage:[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"playing_btn_pause_h.png"</span><span style="color: black;">] forState:UIControlStateHighlighted];
+    }</span><span style="color: blue;">else</span><span style="color: black;">{
+        [_playButton setImage:[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"playing_btn_play_n.png"</span><span style="color: black;">] forState:UIControlStateNormal];
+        [_playButton setImage:[UIImage imageNamed:@</span><span style="color: rgb(163, 21, 21);">"playing_btn_play_h.png"</span><span style="color: black;">] forState:UIControlStateHighlighted];
+    }
+}
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)btnClick:(UIButton *)btn{
+    </span><span style="color: blue;">if </span><span style="color: black;">(_isPlaying) {
+        [_player pause];
+    }</span><span style="color: blue;">else</span><span style="color: black;">{
+        [_player play];
+    }
+    _isPlaying=!_isPlaying;
+    [self changeUIState];
+}
+@end</span></pre>
+<p>运行效果(真机截图)：</p>
+<p><a href="ios_helloworld/020633057825697.png"><img width="320" border="0" height="568" src="ios_helloworld/020633069389711.png" alt="MusicPlayer" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="MusicPlayer"></a> </p>
+<p>注意：</p>
+<ul>
+<li>为了模拟一个真实的播放器，程序中我们启用了后台运行模式，配置方法：在info.plist中添加UIBackgroundModes并且添加一个元素值为audio。 
+</li><li>即使利用线控进行音频控制我们也无法监控到耳机增加音量、减小音量的按键操作（另外注意模拟器无法模拟远程事件，请使用真机调试）。 
+</li><li>子事件的类型跟当前音频状态有直接关系，点击一次播放/暂停按钮究竟是【播放】还是【播放/暂停】状态切换要看当前音频处于什么状态，如果处于停止状态则点击一下是播放，如果处于暂停或播放状态点击一下是暂停和播放切换。 
+</li><li>上面的程序已在真机调试通过，无论是线控还是点击应用按钮都可以控制播放或暂停。</li></ul></div><div id="MySignature" style="display: block;"></div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+        <div id="blog_post_info">
+          <div id="author_profile">
+            <div class="clear"></div>
+
+
+</div>
+        </div>
+        <div class="clear"></div>
+        
+    </div>
+</div>
+
+</div>
+
+</div>
+
+  </div>
+</div>
+</div>
+</body>
+</html>

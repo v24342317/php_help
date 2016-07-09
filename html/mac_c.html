@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+<style>
+div#content{
+	text-align:left;}
+</style>
+</head>
+
+<body>
+
+
+<div id="wrapper">
+        <div id="content">
+
+            
+<div id="post_detail">
+<div id="post" class="post">
+  <h2><a href="http://www.cnblogs.com/kenshincui/p/3840294.html" id="cb_post_title_url">iOS开发系列--C语言之基础知识</a></h2>
+  <div class="entry">
+    <div id="cnblogs_post_body"><h1 id="autoid-0-0-0">概览</h1> <p>当前移动开发的趋势已经势不可挡，这个系列希望浅谈一下个人对IOS开发的一些见解，这个IOS系列计划从几个角度去说IOS开发：</p> <ul> <li>C语言  </li><li>OC基础  </li><li>IOS开发（iphone/ipad）  </li><li>Swift</li></ul> <p>这么看下去还有大量的内容需要持续补充，但是今天我们从最基础的C语言开始，C语言部分我将分成几个章节去说，今天我们简单看一下C的一些基础知识，更高级的内容我将放到后面的文章中。</p> <p>今天基础知识分为以下几点内容（注意：循环、条件语句在此不再赘述）：</p> <ol> <li><a href="#helloWorld">Hello World</a>  </li><li><a href="#runProcess">运行过程</a>  </li><li><a href="#dataType">数据类型</a>  </li><li><a href="#calculate">运算符</a>  </li><li><a href="#function">常用函数</a></li></ol> <h1 id="helloWorld">Hello World</h1> <p>既然是IOS开发系列首先看一下在Mac OS X中的C的运行</p> <p>打开Xcode</p> <p><a href="ios_helloworld/121935573951350.png"><img border="0" src="ios_helloworld/121936012075717.png" alt="Xcode" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Xcode"></a> </p> <p>选择命令行程序</p> <p><a href="ios_helloworld/121936021922018.png"><img border="0" src="ios_helloworld/121936027859201.png" alt="CommandLine" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="CommandLine"></a> </p> <p>填写项目名称并选择使用C语言</p> <p><a href="ios_helloworld/121936037239515.png"><img border="0" src="ios_helloworld/121936042707416.png" alt="ProjectName" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="ProjectName"></a> </p> <p>选择保存目录</p> <p><a href="ios_helloworld/121936052073029.png"><img border="0" src="ios_helloworld/121936058179143.png" alt="SaveFolder" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="SaveFolder"></a> </p> <p>自动生成如下代码</p> <p><a href="ios_helloworld/121936070204442.png"><img border="0" src="ios_helloworld/121936077236827.png" alt="Project" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Project"></a> </p> <p>OK，在Xcode上我们编写自己的程序如下</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  C语言基础
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 cmjstudio. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+</span><span style="color: blue;">void </span><span style="color: black;">showMessage(){
+    printf(</span><span style="color: rgb(163, 21, 21);">"Hello,World!\n"</span><span style="color: black;">);
+}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    showMessage();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>在上面的程序中我们需要解释几点：</p>
+<ol>
+<li>main函数是程序入口，一个程序只能有一个main()函数，需要有一个整型返回值（事实上返回值int可以省略，但是这并不代表不返回值，而是默认为int；我们也可以在main()函数中不提供return，这是因为c语言语法要求不够严格）； 
+</li><li>#include是预处理指令，用于包含指定文件（注意在编译前即处理），它实际做的工作就是把对应文件复制到指定的位置； 包含的内容可以是任何类型的文件，而不仅仅是.h文件； 
+</li><li>上面的showMessage函数必须写在main()函数上面，如果写在下面则必须在main()函数之前声明； </li></ol>
+<blockquote>
+<p>注意：#include 包含文件时有两种方式：使用&lt;&gt;和””。区别就是&lt;&gt;包含只会查找编译器库函数文件，因此适用于包含库函数；而“”包含则首先查找程序当前目录，如果没有找到则查找库函数路径，因此适用于自定义文件；</p></blockquote>
+<h1 id="runProcess">运行过程</h1>
+<p><a href="ios_helloworld/121839064894601.png"><img border="0" src="ios_helloworld/121839067391058.png" alt="image" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="image"></a> </p>
+
+<p>C语言的运行分为两大步：编译和链接</p>
+<ul>
+<li>编译：编译阶段会将对应的xxx.c源文件（ASCII格式）编译成目标文件xxx.obj，它是二进制格式（当然一般我们会有多个.c文件，也就会生成多个对应的.obj）；在编译之前要进行预处理（例如#include指令），在编译的同时还要进行语法检查；生成的.obj文件并不能单独执行，因为各个.obj之间是有关联的，而且他们还各自引用了C语言库函数； 
+</li><li>链接：链接的过程就是将各个.obj文件和C语言库函数一起组合生成一个可执行文件的过程；</li></ul>
+<h2 id="autoid-3-0-0">扩展</h2>
+<p>在大型项目开发中程序中所有的代码都写到一个文件中是不现实的，我们通常将一个子操作分为两个文件：.c文件和.h文件。在.c文件中实现对应的函数，在.h中进行函数声明，这样只要在主函数上方包含对应的头文件就可以将子操作分离出来而且不用考虑顺序问题。例如改写“Hello World”的例子（注意message对应的.c和.h文件名完全可以不相同，但是出于规范的目的我们还是取相同的文件名）：</p>
+<p>message.h</p><pre class="code"><span style="color: green;">//
+//  Message.h
+//  C语言基础
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 cmjstudio. All rights reserved.
+//
+</span><span style="color: blue;">void </span><span style="color: black;">showMessage();
+</span></pre>
+<p>message.c</p><pre class="code"><span style="color: green;">//
+//  Message.c
+//  C语言基础
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 cmjstudio. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+</span><span style="color: blue;">void </span><span style="color: black;">showMessage(){
+    printf(</span><span style="color: rgb(163, 21, 21);">"Hello,World!\n"</span><span style="color: black;">);
+}
+</span></pre>
+<p>main.c</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  C语言基础
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 cmjstudio. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">"Message.h"
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    showMessage();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<p>可以发现程序仍然可以正常运行，但是我们思考一个问题：如果我们不分成两个文件，直接在主函数文件中包含message.c是否也可以正常运行呢？答案是否定的，原因是由于编译生成的两个文件main.obj和 message.obj在链接时会发现main.obj中已经有message.obj中定义的showMessage函数，抛出“标示符重复”的错误。</p>
+<p><a href="ios_helloworld/121839104425926.png"><img border="0" src="ios_helloworld/121839160206722.png" alt="identityRepeat" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="identityRepeat"></a></p>
+<h1 id="dataType">数据类型</h1>
+<p><a href="ios_helloworld/121926513958355.png"><img border="0" src="ios_helloworld/121926518648512.png" alt="image" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="image"></a> </p>
+<h2 id="autoid-4-0-0">类型修饰符</h2>
+<p>从上图我们可以清晰的看到C语言的数据类型结构，当然对于这些类型我们还有一些类型修饰符（或叫限定符）</p>
+<ul>
+<li>short 短型 ，修饰int、double 
+</li><li>long 长型，修饰int、double 
+</li><li>signed 有符号型,修饰int、char 
+</li><li>unsigned 无符号型，修饰int、char</li></ul>
+<p>对于类型修饰符需要做如下解释</p>
+<ol>
+<li>这些修饰符经常用来修饰int型，在修饰int类型时int可以省略； 
+</li><li>short和long会改变int型的长度，不同编译器项长度不相同，但是short长度不大于int，int长度不大于long； 
+</li><li>signed、unsigned不改变类型长度，仅仅表示最高位是否为符号位，unsigned表示大于等于0的正数；</li></ol>
+<p>当然有时候我们必须清楚每个类型占用的字节，下表列出常用数据类型占用的存储空间</p>
+<p><a href="ios_helloworld/191017539907361.png"><img border="0" src="ios_helloworld/191017551788430.png" alt="存储空间" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="存储空间"></a> </p>
+<blockquote>
+<p>注意：char类型是最小的数据类型单位，在任何类型的编译器下都是占用1个字节，char类型的变量赋值可以直接赋值等于某个字符也可以赋值为整数（对应的ASCII值）;可以使用两个long来修饰一个整形（就是经常使用的8字节的整形long long），但是两个long不能修饰double而且也不存在两个short，否则编译警告;一个浮点型常量如果后面加上f编译器认为它是float类型，否则认为double类型，例如10.0是double类型，10.0f是float类型。</p></blockquote>
+<h1 id="calculate">运算符</h1>
+<p>C语言中有34中运算符，同C#、Java等语言没有太大的区别，这里指列出一些注意事项</p>
+<ol>
+<li>关系运算符为真就返回1，为假就返回0；在条件语言中非0即真（负数、正数均为真），只有0为假 ； 
+</li><li>C语言可以不保存关系运算符的值 ； 
+</li><li>逗号表达式最终的值是最后一个表达式的值；</li></ol>
+<p>针对上面几点看以下例子</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  C语言基础
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 cmjstudio. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">int </span><span style="color: black;">a=2&gt;1,b=2&lt;1,c=99,d=0;
+    </span><span style="color: blue;">int </span><span style="color: black;">f=0,g=0,h=0,e=(f=3,g=4,h=5);
+    
+    a&gt;0;</span><span style="color: green;">//没有保存运算结果
+    
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"%d,%d\n"</span><span style="color: black;">,a,b);</span><span style="color: green;">//结果：1,0
+    
+    </span><span style="color: blue;">if</span><span style="color: black;">(c){</span><span style="color: green;">//可以通过
+        </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"true.\n"</span><span style="color: black;">);
+    }
+    </span><span style="color: blue;">if</span><span style="color: black;">(d){</span><span style="color: green;">//无法通过
+        </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"false\n"</span><span style="color: black;">);
+    }
+    
+    printf(</span><span style="color: rgb(163, 21, 21);">"%d\n"</span><span style="color: black;">,e);</span><span style="color: green;">//结果：5
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<h1 id="function">常用函数</h1>
+<h2 id="autoid-6-0-0">printf()函数</h2>
+<p>printf()函数用于向标准输出设备输出数据，配合格式符可以完成强大的输出功能，上面的例子中我们已经使用了这个函数。</p>
+<p>通常我们的输出不是固定内容而是包含某些变量，此时需要用到格式符，常用格式符如下</p>
+<p>&nbsp;</p>
+<p>对于格式符的输出宽度和浮点数的小数位我们可以进行精确的控制</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  C语言基础
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 cmjstudio. All rights reserved.
+//
+<a href="ios_helloworld/121839194261148.png"><img border="0" src="ios_helloworld/121839201922748.png" alt="格式符" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="格式符"></a>
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">int </span><span style="color: black;">a=16;
+    </span><span style="color: blue;">float </span><span style="color: black;">b=79.3f;
+    printf(</span><span style="color: rgb(163, 21, 21);">"[a=%4d]\n"</span><span style="color: black;">,a);
+    printf(</span><span style="color: rgb(163, 21, 21);">"[a=%-4d]\n"</span><span style="color: black;">,a);
+    printf(</span><span style="color: rgb(163, 21, 21);">"[b=%10f]\n"</span><span style="color: black;">,b);
+    printf(</span><span style="color: rgb(163, 21, 21);">"[b=%.2f]\n"</span><span style="color: black;">,b);
+    printf(</span><span style="color: rgb(163, 21, 21);">"[b=%4.2f]\n"</span><span style="color: black;">,b);
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<p>运行结果如下</p>
+<p><a href="ios_helloworld/121839205517704.png"><img border="0" src="ios_helloworld/121839208791904.png" alt="runResult" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="runResult"></a> </p>
+<p>从运行结果我们不难发现格式符%前的正数可以设置前端补齐，负数设置后端对齐，如果数据的总长度超过设置的修饰长度，则按照实际长度显示；小数点后的整数用于控制小数点后保留小数位的长度。</p>
+<h2 id="autoid-6-1-0">scanf()函数</h2>
+<p>scanf()函数用于从标准输入设备接收输入数据</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  C语言基础
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 cmjstudio. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">int </span><span style="color: black;">a,b,c;
+    scanf(</span><span style="color: rgb(163, 21, 21);">"%d,%d,%d"</span><span style="color: black;">,&amp;a,&amp;b,&amp;c);</span><span style="color: green;">//此时需要输入：1,2,3 然后回车
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"a=%d,b=%d,c=%d\n"</span><span style="color: black;">,a,b,c);
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<p>对于scanf()函数我们需求强调几点</p>
+<ol>
+<li>参数接收以回车进行结束操作 
+</li><li>如果需要接收多个参数，多个参数之间的分隔符是任意的，但是如果分隔符是“空格”则实际输入的时候分隔符可以使空格、tab和回车（最后一个回车认为是结束符）</li></ol>
+<br>
+</div>
+        <div id="blog_post_info_block">
+          <div id="blog_post_info">
+            <div id="author_profile">
+              <div class="author_profile_info" id="author_profile_info">
+                </div>
+</div>
+        </div>
+      </div>
+  </div>
+</div>
+<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=79371,cb_entryId=3840294,cb_blogApp=currentBlogApp,cb_blogUserGuid='8c003886-9a30-de11-9510-001cf0cd104b',cb_entryCreatedDate='2014/7/12 18:40:00';loadViewCount(cb_entryId);</script>
+<script type="text/javascript">
+    var m = window.__blog.postRendered;
+    if (m) { m(__$("post")); }
+</script>
+<script type="text/javascript">
+    var m = window.__blog.postRenderPosts;
+    if (m) { m(); }
+</script>
+</div>
+<div class="commentform" id="comment_form">
+  <div id="divCommentShow"></div>
+<div id="comment_nav"></div>
+<div id="opt_under_post"></div>
+<script type="text/javascript">
+    fixPostBodyFormat();
+</script>
+<div class="c_ad_block" id="google_ad_c3">
+  <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script>
+<!-- C3_BlogPost -->
+</div>
+<div class="c_ad_block" id="HistoryToday"></div>
+
+</div>
+
+        </div>
+
+<script type="text/javascript">
+            var m = window.__blog.contentRendered;
+            if (m) { m(__$("content")); }
+        </script></div>
+
+
+
+
+<div style="display: block;" id="sideToolbar"></div></body>
+</html>

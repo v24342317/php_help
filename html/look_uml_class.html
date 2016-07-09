@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>看懂UML类图和时序图 - 大CC - 博客园</title>
+<link type="text/css" rel="stylesheet" href="look_uml_class/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="look_uml_class/bundle-Custom.css">
+<link type="text/css" rel="stylesheet" href="look_uml_class/64385.css"> 
+</head>
+<body>
+<!--PageBeginHtml Block Begin-->
+<link rel="stylesheet" href="look_uml_class/prettify.css">
+<link rel="stylesheet" href="look_uml_class/github.css">
+<!--PageBeginHtml Block End-->
+
+<!--done-->
+<div id="home"><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 data-date="2014. 11 13" class="postTitle"><a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/me115/p/4092632.html">看懂UML类图和时序图</a></h1>
+		<div class="clear"></div>
+		<div id="navCategory" class="dir"><h3>内容目录：</h3><ul><li><a href="#h20">从一个示例开始</a></li><li><a href="#h21">类之间的关系</a></li><li><a href="#h22">时序图</a></li><li><a href="#h23">附录：《图说设计模式》</a></li></ul></div><div class="postBody">
+			<div id="cnblogs_post_body"><h1>看懂UML类图和时序图</h1>
+<p>这里不会将UML的各种元素都提到，我只想讲讲类图中各个类之间的关系； 能看懂类图中各个类之间的线条、箭头代表什么意思后，也就足够应对 
+日常的工作和交流； 同时，我们应该能将类图所表达的含义和最终的代码对应起来； 有了这些知识，看后面章节的设计模式结构图就没有什么问题了；</p>
+<p>本章所有图形使用Enterprise Architect 9.2来画,所有示例详见根目录下的design_patterns.EAP</p>
+<h2 id="h20">从一个示例开始</h2>
+<p>请看以下这个类图，类之间的关系是我们需要关注的：</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_class_struct" src="look_uml_class/121629109448914.jpg" alt="uml_class_struct" border="0" height="415" width="856"></p>
+<ul>
+<li>车的类图结构为&lt;&lt;abstract&gt;&gt;，表示车是一个抽象类；</li>
+<li>它有两个继承类：小汽车和自行车；它们之间的关系为实现关系，使用带空心箭头的虚线表示；</li>
+<li>小汽车为与SUV之间也是继承关系，它们之间的关系为泛化关系，使用带空心箭头的实线表示；</li>
+<li>小汽车与发动机之间是组合关系，使用带实心箭头的实线表示；</li>
+<li>学生与班级之间是聚合关系，使用带空心箭头的实线表示；</li>
+<li>学生与身份证之间为关联关系，使用一根实线表示；</li>
+<li>学生上学需要用到自行车，与自行车是一种依赖关系，使用带箭头的虚线表示；</li>
+</ul>
+<p>下面详细介绍这六种关系；</p>
+<hr>
+<h2 id="h21">类之间的关系</h2>
+<h3>泛化关系(generalization)</h3>
+<p>类的继承结构表现在UML中为：泛化(generalize)与实现(realize)：</p>
+<p>继承关系为 is-a的关系；两个对象之间如果可以用 is-a 来表示，就是继承关系：（..是..)</p>
+<p>eg：自行车是车、猫是动物</p>
+<p>泛化关系用一条带空心箭头的直接表示；如下图表示（A继承自B）；</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_generalization" src="look_uml_class/121629119919100.jpg" alt="uml_generalization" border="0" height="114" width="298"></p>
+<p>eg：汽车在现实中有实现，可用汽车定义具体的对象；汽车与SUV之间为泛化关系；</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_generalize" src="look_uml_class/121629125225430.jpg" alt="uml_generalize" border="0" height="219" width="136"></p>
+<p>注：最终代码中，泛化关系表现为继承非抽象类；</p>
+<h3>实现关系(realize)</h3>
+<p>实现关系用一条带空心箭头的虚线表示；</p>
+<p>eg：”车”为一个抽象概念，在现实中并无法直接用来定义对象；只有指明具体的子类(汽车还是自行车)，才 可以用来定义对象（”车”这个类在C++中用抽象类表示，在JAVA中有接口这个概念，更容易理解）</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_realize" src="look_uml_class/121629132727059.jpg" alt="uml_realize" border="0" height="269" width="328"></p>
+<p>注：最终代码中，实现关系表现为继承抽象类；</p>
+<h3>聚合关系(aggregation)</h3>
+<p>聚合关系用一条带空心菱形箭头的直线表示，如下图表示A聚合到B上，或者说B由A组成；</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_aggregation" src="look_uml_class/121629138355930.jpg" alt="uml_aggregation" border="0" height="103" width="276"></p>
+<p>聚合关系用于表示实体对象之间的关系，表示整体由部分构成的语义；例如一个部门由多个员工组成；</p>
+<p>与组合关系不同的是，整体和部分不是强依赖的，即使整体不存在了，部分仍然存在；例如， 部门撤销了，人员不会消失，他们依然存在；</p>
+<h3>组合关系(composition)</h3>
+<p>组合关系用一条带实心菱形箭头直线表示，如下图表示A组成B，或者B由A组成；</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_composition" src="look_uml_class/121629145226774.jpg" alt="uml_composition" border="0" height="101" width="281"></p>
+<p>与聚合关系一样，组合关系同样表示整体由部分构成的语义；比如公司由多个部门组成；</p>
+<p>但组合关系是一种强依赖的特殊聚合关系，如果整体不存在了，则部分也不存在了；例如， 公司不存在了，部门也将不存在了；</p>
+<h3>关联关系(association)</h3>
+<p>关联关系是用一条直线表示的；它描述不同类的对象之间的结构关系；它是一种静态关系， 通常与运行状态无关，一般由常识等因素决定的；它一般用来定义对象之间静态的、天然的结构； 所以，关联关系是一种“强关联”的关系；</p>
+<p>比如，乘车人和车票之间就是一种关联关系；学生和学校就是一种关联关系；</p>
+<p>关联关系默认不强调方向，表示对象间相互知道；如果特别强调方向，如下图，表示A知道B，但 B不知道A；</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_association" src="look_uml_class/121629152258687.jpg" alt="uml_association" border="0" height="118" width="297"></p>
+<p style="color:red;">注：在最终代码中，关联对象通常是以成员变量的形式实现的；</p>
+<img src="look_uml_class/Adapter.jpg"/>
+<h3>依赖关系(dependency)</h3>
+<p>依赖关系是用一套带箭头的虚线表示的；如下图表示A依赖于B；他描述一个对象在运行期间会用到另一个对象的关系；</p>
+<p><img style="display: inline; border-width: 0px;" title="uml_dependency" src="look_uml_class/121629157726490.jpg" alt="uml_dependency" border="0" height="113" width="294"></p>
+<p>与关联关系不同的是，它是一种临时性的关系，通常在运行期间产生，并且随着运行时的变化； 依赖关系也可能发生变化；</p>
+<p>显然，依赖也有方向，双向依赖是一种非常糟糕的结构，我们总是应该保持单向依赖，杜绝双向依赖的产生；</p>
+<p style="color:red;">注：在最终代码中，依赖关系体现为类构造方法及类方法的传入参数，箭头的指向为调用关系；依赖关系处理临时知道对方外，还是“使用”对方的方法和属性；</p>
+<img src="look_uml_class/SimpleFactory.jpg"/>
+<h2 id="h22">时序图</h2>
+<p>为了展示对象之间的交互细节，后续章节对设计模式中每个模式的介绍，都会用到时序图；</p>
+<p>时序图（Sequence Diagram）是显示对象之间交互的图，这些对象是按时间顺序排列的。时序图中显示的是参与交互的对象及其对象之间消息交互的顺序。</p>
+<p>时序图包括的建模元素主要有：对象（Actor）、生命线（Lifeline）、控制焦点（Focus of control）、消息（Message）等等。</p>
+<p>关于时序图，以下这篇文章将概念介绍的比较详细，更多实例应用，参加后续章节中的模式中的时序图；</p>
+<p><a href="http://smartlife.blog.51cto.com/1146871/284874">http://smartlife.blog.51cto.com/1146871/284874</a></p>
+<h2 id="h23">附录：《图说设计模式》</h2>
+<p>本文为开源书籍<strong>《图说设计模式》</strong>的第一篇，目前这本书基本完成；</p>
+<p>这本书使用图形和代码结合的方式来解析设计模式；<br>每个模式都有相应的对象结构图，同时为了展示对象间的交互细节， 我会用到时序图来介绍其如何运行；（在状态模式中， 还会用到状态图，这种图的使用对于理解状态的转换非常直观）</p>
+<p>详情请见：<a title="https://github.com/me115/design_patterns" href="https://github.com/me115/design_patterns">https://github.com/me115/design_patterns</a></p>
+<p>（github中包含书中所有源代码及各个模式的类图）</p>
+<p>&nbsp;</p>
+<p>Posted by: 大CC | 13NOV,2014 <br>博客：<a href="http://blog.me115.com/">blog.me115.com</a> [<a href="http://feed.feedsky.com/me115">订阅</a>]     <br>微博：<a href="http://weibo.com/bigcc115">新浪微博</a></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+		</div>
+	</div>
+
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<!--PageEndHtml Block Begin--></body></html>

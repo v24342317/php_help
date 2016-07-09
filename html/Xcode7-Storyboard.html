@@ -1,0 +1,238 @@
+<!--
+______                            _              _                                     _
+| ___ \                          | |            | |                                   | |
+| |_/ /___ __      __ ___  _ __  | |__   _   _  | |      __ _  _ __  __ _ __   __ ___ | |
+|  __// _ \\ \ /\ / // _ \| '__| | '_ \ | | | | | |     / _` || '__|/ _` |\ \ / // _ \| |
+| |  | (_) |\ V  V /|  __/| |    | |_) || |_| | | |____| (_| || |  | (_| | \ V /|  __/| |
+\_|   \___/  \_/\_/  \___||_|    |_.__/  \__, | \_____/ \__,_||_|   \__,_|  \_/  \___||_|
+                                          __/ |
+                                         |___/
+  ========================================================
+  swiftcn fork from phphub.org
+
+  --------------------------------------------------------
+  Laravel: v4.2.8
+-->
+<!DOCTYPE html>
+<html lang="zh"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <meta charset="UTF-8">
+
+
+          <title>利用 Xcode7 新特性解耦 Storyboard - Swift中国</title>
+        
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="其实官方给的是 Storyboard References 翻译成 Storyboard引用 更加恰当，不过说 Storyboard拆分 好像更加正中要害？过过过过··这些都不重要~ 不得不承认，以前我是抵制Storyboard的，原因是xib留下的坏印象-难以合并、看diff时难以理解、某些地方灵活欠佳、升级Xcode经常出现问题、不够Geek...
+不过随着Storyboard和Autolay...">
+
+    <meta name="google-site-verification" content="S4TKhC_1AXti9AS-dsjWli7RztoCfi8g-o7-hFzMX-4">
+
+
+    <link rel="stylesheet" href="Xcode7-Storyboard/styles-1d9272f6.css">
+
+    <link rel="shortcut icon" href="http://7xlk5t.com1.z0.glb.clouddn.com/favicon.ico">
+
+
+    
+	</head>
+	<body style="" class="" id="body">
+
+		  <div id="wrap">
+		    <div class="container">
+		      
+		      
+		      
+  <div class="col-md-9 topics-show main-col">
+
+  <!-- Topic Detial -->
+  <div class="topic panel panel-default">
+    <div class="infos panel-heading">
+
+      <div class="pull-right avatar_large">
+        <a href="http://swiftcn.io/users/iBcker">
+          <img src="Xcode7-Storyboard/1_1441647707.jpg" style="width:65px; height:65px;" class="img-thumbnail avatar">
+        </a>
+      </div>
+
+      <h1 class="panel-title topic-title">利用 Xcode7 新特性解耦 Storyboard</h1>
+
+      <div class="votes">
+
+        <a style="cursor:pointer;" data-method="post" href="javascript:void(0);" data-url="http://swiftcn.io/topics/21/upvote" title="Up Vote" id="up-vote" class="vote ">
+            <li class="fa fa-chevron-up"></li> 0
+        
+<form action="http://swiftcn.io/topics/21/upvote" method="POST" style="display:none">
+   <input name="_method" value="post" type="hidden">
+   <input name="_token" value="4F9e1J6FYzewUQ7VMHZJLkqkd9NuWoHKmYr1DJAJ" type="hidden">
+</form>
+</a>
+         &nbsp;
+        <a style="cursor:pointer;" data-method="post" href="javascript:void(0);" data-url="http://swiftcn.io/topics/21/downvote" title="Down Vote" id="down-vote" class="vote ">
+            <li class="fa fa-chevron-down"></li>
+        
+<form action="http://swiftcn.io/topics/21/downvote" method="POST" style="display:none">
+   <input name="_method" value="post" type="hidden">
+   <input name="_token" value="4F9e1J6FYzewUQ7VMHZJLkqkd9NuWoHKmYr1DJAJ" type="hidden">
+</form>
+</a>
+      </div>
+
+      <div class="meta inline-block">
+
+  <a href="http://swiftcn.io/nodes/13" class="remove-padding-left">
+    Xcode
+  </a>
+  •
+  <a href="http://swiftcn.io/users/iBcker">
+    iBcker
+  </a>
+  •
+  于 <abbr title="2015-10-03 19:56:09" class="timeago">3个月前</abbr>
+  •
+
+      最后由
+      <a href="http://swiftcn.io/users/User">
+        User
+      </a>
+     于 <abbr title="2015-10-08 01:28:32" class="timeago">3个月前</abbr>
+    •
+  
+  2019 阅读
+</div>
+<div class="clearfix"></div>
+    </div>
+
+    <div class="content-body entry-content panel-body">
+
+      <div class="markdown-body" id="emojify">
+<blockquote>
+<p>其实官方给的是 Storyboard References 翻译成 Storyboard引用 更加恰当，不过说 Storyboard拆分 好像更加正中要害？过过过过··这些都不重要~</p>
+</blockquote>
+<p>不得不承认，以前我是抵制Storyboard的，原因是xib留下的坏印象-难以合并、看diff时难以理解、某些地方灵活欠佳、升级Xcode经常出现问题、不够Geek...</p>
+<p>不过随着Storyboard和Autolayout兴起后，我也开始尝试用，不得不说，界面定制度不高时，用Storyboard开发确实很酸爽，各种拖拖拖拖让我都快忘记咋写代码了····</p>
+<h4>Storyboard的显著优势</h4>
+<blockquote>
+<ol><li>storyboard可以描述各种场景之间的过渡，这种过渡被称作"segue",你通过简单的ctrl-dragging就能搞定，减少代码量</li>
+<li>storyboard支持table view的prototype cell，这意味着你可以在storyboard中编辑cell，减少代码量</li>
+<li>独有的Static Tableview特别适合做设置界面一类的界面，何止是省事，简直就是省事！</li>
+<li>配合AutoALayout能轻松完成屏幕适配</li>
+</ol></blockquote>
+<h3>不过....</h3>
+<p><img data-type="image" alt="face" src="Xcode7-Storyboard/5.png"></p>
+<h3>理想中的Storyboard</h3>
+<p><img data-type="image" alt="file" src="Xcode7-Storyboard/C2ldbc0D13.jpg"></p>
+<h3>现实里的Storyboard</h3>
+<p><img data-type="image" alt="file" src="Xcode7-Storyboard/iioarkZ2l0.jpg"></p>
+<p>为了解决此类问题，大伙就开始拆分Storyboard，并用代码链接关系，更有甚者会用类似<a href="https://github.com/rob-brown/RBStoryboardLink" rel="nofollow">RBStoryboardLink</a>的库管理。此类解决方案问题也不少，例如比较突出的问题是拆散了Storyboard，让本来很直观的逻辑会在某一下子断掉等~</p>
+<h3>进入主题</h3>
+<p>铺垫了这么多，终于可以来说重点了，Xocde7带来了官方的解决方案-Storyboard References！可以让我们可以把原本几个Storyboard文件的逻辑依然链接起来。是不是很爽？XD</p>
+<p>来看个Demo</p>
+<p>原先的界面结构：</p>
+<p><img data-type="image" alt="file" src="Xcode7-Storyboard/iFMJR58U7I.png"></p>
+<p>利用Storyboard References 整理后，右边的设置部分被放到了一个独立的Setting.storyboard文件里
+<img data-type="image" alt="file" src="Xcode7-Storyboard/weayICRMAq.jpg"></p>
+<p>Setting.storyboard里变成了这样
+<img data-type="image" alt="file" src="Xcode7-Storyboard/pEUGUUXeLq.jpg"></p>
+<p>操作细节没多大好讲，就一个选项菜单: Editor-&gt;Refactor to StoryBorad ... 
+选中你要分离的组件（一个或者多个），选择Refactor to 
+StoryBorad并起个名字，就搞定了。不过实现提醒一下，次过程不可逆，请先确保你的环境有版本管理，便于出问题回滚，或者先找个Demo练练手。</p>
+<h3>数据迁移</h3>
+<p>对于以前已经拆分在各个StoryBorad文件里的兄弟们，可以通过添加Storyboard References来链接</p>
+<p><img data-type="image" alt="file" src="Xcode7-Storyboard/p8RRi3OHpI.png"></p>
+<p>把Storyboard References直接拖到工程中，然后Attributes Inspector中设置Storyboard明和说要引用的资源ID</p>
+<p><img data-type="image" alt="file" src="Xcode7-Storyboard/CLkpfa1Zne.png"></p>
+<p>同时，目标资源也设置Referenced ID即可完成链接操作</p>
+<p><img data-type="image" alt="file" src="Xcode7-Storyboard/HCi6hfaeq9.png"></p>
+<h3>兼容性</h3>
+<p>版本必须是iOS9以上，国内的行情，估计过两年能用上~ </p>
+<h3>总结</h3>
+<p>适当地把不同模块进行拆分，放在不同的story文件中进行管理，便于也减少开发中的冲突。并且拆分不同的模块到各个storyboard文件还能
+显著减小单个storyboard体积，加快加载速度等诸多优势。不过目前还处于新出的功能，还有一些不完善，例如引用资源ID得手动设置，不能通过两个
+SB之间拖拽动作完成，Segue超过也没法直接在两个SB文件间进行，要先创建Storyboard 
+References再操作，实在还有点Low，不过相信苹果对Xcode的更新力度，不会没想过这些问题。期待下次更新 <img src="Xcode7-Storyboard/blush.png" class="emoji" alt=":blush:" title=":blush:" align="absmiddle"></p>
+</div>
+
+      <div class="ribbon">
+          <div class="ribbon-excellent">
+          <i class="fa fa-trophy"></i> 本帖已被设为精华帖！
+      </div>
+    
+      </div>
+    </div>
+
+    
+    <div class="panel-footer operate">
+      <div class="clearfix"></div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">添加附言</h4>
+      </div>
+
+     <form method="POST" action="http://swiftcn.io/topics/21/append" accept-charset="UTF-8"><input name="_token" value="4F9e1J6FYzewUQ7VMHZJLkqkd9NuWoHKmYr1DJAJ" type="hidden">
+
+        <div class="modal-body">
+
+          <div class="alert alert-warning">
+              附加内容, 使用此功能的话, 会给所有参加过讨论的人发送提醒.
+          </div>
+
+          <div class="form-group">
+            <textarea class="form-control" style="min-height: 20px; overflow: hidden; word-wrap: break-word; resize: horizontal; height: 88px;" placeholder="请使用 Markdown 格式书写 ;-)" name="content" cols="50" rows="10"></textarea>
+
+          </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary">提交</button>
+          </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+  </div>
+
+  <!-- Reply List --><!-- Reply Box -->
+  <div class="reply-box form box-block"></div>
+
+</div>
+  <div class="clearfix"></div>
+
+
+        <!-- for weixing share-->
+        <div style="display: none">
+            <img src="Xcode7-Storyboard/logo-300.jpg">
+        </div>
+
+			</div>
+
+		</div>
+
+	  <div id="footer" class="footer">
+	    <div class="container small">
+	      <p class="pull-left">
+	      	<i class="fa fa-heart-o"></i> Thanks For PHPHub.
+            <br>
+            <i class="fa fa-cloud"></i> Powered by Linode.
+	      </p>
+
+	    </div>
+	  </div>
+
+
+      
+	
+</body></html>

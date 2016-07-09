@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>【坐在马桶上看算法】算法1：最快最简单的排序——桶排序 - 啊哈磊 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/bundle-ThinkInside.css">
+<link type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/161710.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/ahalei/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/ahalei/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/ahalei/wlwmanifest.xml">
+
+
+</head>
+<body>
+
+<!--done-->
+<div id="home">
+<!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a href="http://www.cnblogs.com/ahalei/p/3568434.html" class="postTitle2" id="cb_post_title_url">【坐在马桶上看算法】算法3：最常用的排序&mdash;&mdash;快速排序</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><div align="left"><span style="font-size: large;"><span>【啊哈！算法】系列</span></span></div>
+<div align="left">&nbsp;</div>
+<div align="left"><span style="font-size: large;"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>上一节的冒泡排序可以说是我们学习第一个真正的排序算法，并且解决了桶排序浪费空间的问题，但在算法的执行效率上却牺牲了很多，它的时间复杂度达到了O(N<sup>2</sup>)。假如我们的计算机每秒钟可以运行10亿次，那么对1亿个数进行排序，桶排序则只需要0.1秒，而冒泡排序则需要1千万秒，达到115天之久，是不是很吓人。那有没有既不浪费空间又可以快一点的排序算法呢？那就是“快速排序”啦！光听这个名字是不是就觉得很高端呢。</span></div>
+<div align="left"><span style="font-size: medium;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;假设我们现在对“6&nbsp;&nbsp;1&nbsp;&nbsp;2 7&nbsp;&nbsp;9&nbsp;&nbsp;3&nbsp;&nbsp;4&nbsp;&nbsp;5 10&nbsp;&nbsp;8”这个10个数进行排序。首先在这个序列中随便找一个数作为<span>基准数</span>（不要被这个名词吓到了，就是一个用来参照的数，待会你就知道它用来做啥的了）。为了方便，就让第一个数6作为基准数吧。接下来，需要将这个序列中所有比基准数大的数放在6的右边，比基准数小的数放在6的左边，类似下面这种排列。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp; 3&nbsp;&nbsp;1&nbsp;&nbsp;2 5&nbsp;&nbsp;4&nbsp;&nbsp;<span><span style="text-decoration: underline;">6</span></span>&nbsp;&nbsp;9 7&nbsp;&nbsp;10&nbsp;&nbsp;8</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;在初始状态下，数字6在序列的第1位。我们的目标是将6挪到序列中间的某个位置，假设这个位置是k。现在就需要寻找这个k，并且以第k位为分界点，左边的数都小于等于6，右边的数都大于等于6。想一想，你有办法可以做到这点吗？</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;给你一个提示吧。请回忆一下冒泡排序，是如何通过“交换”，一步步让每个数归位的。此时你也可以通过“交换”的方法来达到目的。具体是如何一步步交换呢？怎样交换才既方便又节省时间呢？先别急着往下看，拿出笔来，在纸上画画看。我高中时第一次学习冒泡排序算法的时候，就觉得冒泡排序很浪费时间，每次都只能对相邻的两个数进行比较，这显然太不合理了。于是我就想了一个办法，后来才知道原来这就是“快速排序”，请允许我小小的自恋一下(^o^)。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<p><span style="font-size: large;"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="font-family: 宋体;">方法其实很简单：分别从初始序列“</span><span>6&nbsp;&nbsp;1&nbsp;&nbsp;2 7&nbsp;&nbsp;9&nbsp;&nbsp;3&nbsp;&nbsp;4&nbsp;&nbsp;5 10&nbsp;&nbsp;8</span><span style="font-family: 宋体;">”两端开始“探测”。先从<span>右</span>往<span>左</span>找一个小于</span><span>6</span><span style="font-family: 宋体;">的数，再从<span>左</span>往<span>右</span>找一个大于</span><span>6</span><span style="font-family: 宋体;">的数，然后交换他们。这里可以用两个变量</span><span>i</span><span style="font-family: 宋体;">和</span><span>j</span><span style="font-family: 宋体;">，分别指向序列最左边和最右边。我们为这两个变量起个好听的名字“哨兵</span><span>i</span><span style="font-family: 宋体;">”和“哨兵</span><span>j</span><span style="font-family: 宋体;">”。刚开始的时候让哨兵</span><span>i</span><span style="font-family: 宋体;">指向序列的最左边（即</span><span>i=1</span><span style="font-family: 宋体;">），指向数字</span><span>6</span><span style="font-family: 宋体;">。让哨兵</span><span>j</span><span style="font-family: 宋体;">指向序列的最右边（即</span><span>j=10</span><span style="font-family: 宋体;">），指向数字</span><span>8</span><span style="font-family: 宋体;">。</span><span style="font-family: 宋体;"><br></span></span></span></p>
+<div align="center"><img width="400" alt="" src="aha_arithmetic_barrel/094811yilrz1tkzkvlrriz.png" class="zoom" id="aimg_1823"></div>
+<div align="center">&nbsp;</div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp; 首先哨兵j开始出动。因为此处设置的基准数是最左边的数，所以需要让哨兵j先出动，这一点非常重要（请自己想一想为什么）。哨兵j一步一步地向左挪动（即j--），直到找到一个小于6的数停下来。接下来哨兵i再一步一步向右挪动（即i++），直到找到一个数大于6的数停下来。最后哨兵j停在了数字5面前，哨兵i停在了数字7面前。</span></div>
+<p>
+<span style="font-size: large;"><br></span></p>
+<div align="center"><span style="font-size: large;"><img width="350" alt="" src="aha_arithmetic_barrel/095430axy0qkhxxkktkktk.png" class="zoom" id="aimg_1824">&nbsp;<br></span></div>
+<div align="center"><span style="font-size: large;"><img width="350" alt="" src="aha_arithmetic_barrel/095437kdandfxhbtokk2qh.png" class="zoom" id="aimg_1822">&nbsp;</span></div>
+<div align="center">&nbsp;</div>
+<p><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp; 现在交换哨兵i和哨兵j所指向的元素的值。交换之后的序列如下。</span></p>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;1&nbsp;&nbsp;2&nbsp;&nbsp;<span><span style="text-decoration: underline;">5</span></span>&nbsp;&nbsp;9 3&nbsp;&nbsp;4&nbsp;&nbsp;<span><span style="text-decoration: underline;">7</span></span>&nbsp;&nbsp;10&nbsp;&nbsp;8</span></div>
+<div align="center"><span style="font-size: large;"><img width="350" alt="" src="aha_arithmetic_barrel/095448k1kevwlz41373e7k.png" class="zoom" id="aimg_1826">&nbsp;<br></span></div>
+<div align="center"><span style="font-size: large;"><img width="350" alt="" src="aha_arithmetic_barrel/095458ejza15wscjv7iw5c.png" class="zoom" id="aimg_1825">&nbsp;</span></div>
+<div align="left">&nbsp;</div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;到此，第一次交换结束。接下来开始哨兵j继续向左挪动（再友情提醒，每次必须是哨兵j先出发）。他发现了4（比基准数6要小，满足要求）之后停了下来。哨兵i也继续向右挪动的，他发现了9（比基准数6要大，满足要求）之后停了下来。此时再次进行交换，交换之后的序列如下。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;1&nbsp;&nbsp;2 5&nbsp;&nbsp;<span><span style="text-decoration: underline;">4</span></span>&nbsp;&nbsp;3&nbsp;&nbsp;<span><span style="text-decoration: underline;">9</span></span>&nbsp;&nbsp;7 10&nbsp;&nbsp;8</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;第二次交换结束，“探测”继续。哨兵j继续向左挪动，他发现了3（比基准数6要小，满足要求）之后又停了下来。哨兵i继续向右移动，糟啦！此时哨兵i和哨兵j相遇了，哨兵i和哨兵j都走到3面前。说明此时“探测”结束。我们将基准数6和3进行交换。交换之后的序列如下。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span><span style="text-decoration: underline;">3</span></span>&nbsp;&nbsp;1 2&nbsp;&nbsp;5&nbsp;&nbsp;4&nbsp;&nbsp;<span><span style="text-decoration: underline;">6</span></span>&nbsp;&nbsp;9 7&nbsp;&nbsp;10&nbsp;&nbsp;8</span></div>
+<div align="center"><span style="font-size: large;"><img width="350" alt="" src="aha_arithmetic_barrel/095506uz7e1uuukcblhkxv.png" class="zoom" id="aimg_1828"></span></div>
+<div align="center"><span style="font-size: large;"><img width="350" alt="" src="aha_arithmetic_barrel/095514cag5fumuqqg5jnsw.png" class="zoom" id="aimg_1829"></span></div>
+<div align="center"><span style="font-size: large;"><img width="350" alt="" src="aha_arithmetic_barrel/095530e0jf6p0y6aaaw2ir.png" class="zoom" id="aimg_1827">&nbsp;</span></div>
+<div align="center">&nbsp;</div>
+<div align="center">
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;到此第一轮“探测”真正结束。此时以基准数6为分界点，6左边的数都小于等于6，6右边的数都大于等于6。回顾一下刚才的过程，其实哨兵j的使命就是要找小于基准数的数，而哨兵i的使命就是要找大于基准数的数，直到i和j碰头为止。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;OK，解释完毕。现在基准数6已经归位，它正好处在序列的第6位。此时我们已经将原来的序列，以6为分界点拆分成了两个序列，左边的序列是“3&nbsp;&nbsp;1 2&nbsp;&nbsp;5&nbsp;&nbsp;4”，右边的序列是“9&nbsp;&nbsp;7&nbsp;&nbsp;10&nbsp;&nbsp;8”。接下来还需要分别处理这两个序列。因为6左边和右边的序列目前都还是很混乱的。不过不要紧，我们已经掌握了方法，接下来只要模拟刚才的方法分别处理6左边和右边的序列即可。现在先来处理6左边的序列现吧。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;左边的序列是“3&nbsp;&nbsp;1&nbsp;&nbsp;2 5&nbsp;&nbsp;4”。请将这个序列以3为基准数进行调整，使得3左边的数都小于等于3，3右边的数都大于等于3。好了开始动笔吧。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;如果你模拟的没有错，调整完毕之后的序列的顺序应该是。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;1&nbsp;&nbsp;<span><span style="text-decoration: underline;">3</span></span>&nbsp;&nbsp;5&nbsp;&nbsp;4</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;OK，现在3已经归位。接下来需要处理3左边的序列“2 1”和右边的序列“5 4”。对序列“2 1”以2为基准数进行调整，处理完毕之后的序列为“1 2”，到此2已经归位。序列“1”只有一个数，也不需要进行任何处理。至此我们对序列“2 1”已全部处理完毕，得到序列是“1 2”。序列“5 4”的处理也仿照此方法，最后得到的序列如下。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;2&nbsp;&nbsp;3 4&nbsp;&nbsp;5&nbsp;&nbsp;6 9&nbsp;&nbsp;7&nbsp;&nbsp;10&nbsp;&nbsp;8</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;对于序列“9&nbsp;&nbsp;7&nbsp;&nbsp;10&nbsp;&nbsp;8”也模拟刚才的过程，直到不可拆分出新的子序列为止。最终将会得到这样的序列，如下。</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;2&nbsp;&nbsp;3 4&nbsp;&nbsp;5&nbsp;&nbsp;6&nbsp;&nbsp;7&nbsp;&nbsp;8 9&nbsp;&nbsp;10</span></div>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;到此，排序完全结束。细心的同学可能已经发现，快速排序的每一轮处理其实就是将这一轮的基准数归位，直到所有的数都归位为止，排序就结束了。下面上个霸气的图来描述下整个算法的处理过程。</span></div>
+
+
+
+
+
+
+
+
+
+
+
+<span><span><span style="font-size: large;"><img width="547" alt="" src="http://bbs.ahalei.com/data/attachment/forum/201402/25/232129ogop8gk0r8y7l70k.png" class="zoom" id="aimg_1813">&nbsp;<br></span></span></span>
+<div align="left"><span style="font-size: large;">&nbsp;</span></div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;快速排序之所比较快，因为相比冒泡排序，每次交换是跳跃式的。每次排序的时候设置一个基准点，将小于等于基准点的数全部放到基准点的左边，将大于等于基准点的数全部放到基准点的右边。这样在每次交换的时候就不会像冒泡排序一样每次只能在相邻的数之间进行交换，交换的距离就大的多了。因此总的比较和交换次数就少了，速度自然就提高了。当然在最坏的情况下，仍可能是相邻的两个数进行了交换。因此快速排序的最差时间复杂度和冒泡排序是一样的都是O(N<sup>2</sup>)，它的平均时间复杂度为O(NlogN)。其实快速排序是基于一种叫做“二分”的思想。我们后面还会遇到“二分”思想，到时候再聊。先上代码，如下。</span></div>
+<div align="left">
+<div align="left">
+<div class="blockcode">
+<div id="code_JQl">
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div>
+<pre>#include &lt;stdio.h&gt;
+<span style="color: #0000ff;">int</span> a[<span style="color: #800080;">101</span>],n;<span style="color: #008000;">//</span><span style="color: #008000;">定义全局变量，这两个变量需要在子函数中使用</span>
+<span style="color: #0000ff;">void</span> quicksort(<span style="color: #0000ff;">int</span> left,<span style="color: #0000ff;">int</span><span style="color: #000000;"> right)
+{
+    </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> i,j,t,temp;
+    </span><span style="color: #0000ff;">if</span>(left&gt;<span style="color: #000000;">right)
+       </span><span style="color: #0000ff;">return</span><span style="color: #000000;">;
+      
+    temp</span>=a[left]; <span style="color: #008000;">//</span><span style="color: #008000;">temp中存的就是基准数</span>
+    i=<span style="color: #000000;">left;
+    j</span>=<span style="color: #000000;">right;
+    </span><span style="color: #0000ff;">while</span>(i!=<span style="color: #000000;">j)
+    {
+                   </span><span style="color: #008000;">//</span><span style="color: #008000;">顺序很重要，要先从右边开始找</span>
+                   <span style="color: #0000ff;">while</span>(a[j]&gt;=temp &amp;&amp; i&lt;<span style="color: #000000;">j)
+                            j</span>--<span style="color: #000000;">;
+                   </span><span style="color: #008000;">//</span><span style="color: #008000;">再找右边的</span>
+                   <span style="color: #0000ff;">while</span>(a[i]&lt;=temp &amp;&amp; i&lt;<span style="color: #000000;">j)
+                            i</span>++<span style="color: #000000;">;
+                   </span><span style="color: #008000;">//</span><span style="color: #008000;">交换两个数在数组中的位置</span>
+                   <span style="color: #0000ff;">if</span>(i&lt;<span style="color: #000000;">j)
+                   {
+                            t</span>=<span style="color: #000000;">a[i];
+                            a[i]</span>=<span style="color: #000000;">a[j];
+                            a[j]</span>=<span style="color: #000000;">t;
+                   }
+    }
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">最终将基准数归位</span>
+    a[left]=<span style="color: #000000;">a[i];
+    a[i]</span>=<span style="color: #000000;">temp;
+   
+    quicksort(left,i</span>-<span style="color: #800080;">1</span>);<span style="color: #008000;">//</span><span style="color: #008000;">继续处理左边的，这里是一个递归的过程</span>
+    quicksort(i+<span style="color: #800080;">1</span>,right);<span style="color: #008000;">//</span><span style="color: #008000;">继续处理右边的 ，这里是一个递归的过程</span>
+<span style="color: #000000;">}
+</span><span style="color: #0000ff;">int</span><span style="color: #000000;"> main()
+{
+    </span><span style="color: #0000ff;">int</span><span style="color: #000000;"> i,j,t;
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">读入数据</span>
+    scanf(<span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;<span style="color: #000000;">n);
+    </span><span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span style="color: #000000;">)
+                   scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;<span style="color: #000000;">a[i]);
+    quicksort(</span><span style="color: #800080;">1</span>,n); <span style="color: #008000;">//</span><span style="color: #008000;">快速排序调用
+   
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">输出排序后的结果</span>
+    <span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=n;i++<span style="color: #000000;">)
+        printf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d </span><span style="color: #800000;">"</span><span style="color: #000000;">,a[i]);
+    getchar();getchar();
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div></div>
+</div>
+</div>
+</div>
+<div align="left"><span style="font-size: large;"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>可以输入以下数据进行验证</span></div>
+<div align="left">
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">10</span>
+<span style="color: #800080;">6</span>  <span style="color: #800080;">1</span>  <span style="color: #800080;">2</span>  <span style="color: #800080;">7</span>  <span style="color: #800080;">9</span>  <span style="color: #800080;">3</span>  <span style="color: #800080;">4</span>  <span style="color: #800080;">5</span>  <span style="color: #800080;">10</span>  <span style="color: #800080;">8</span></pre>
+</div>
+</div>
+<div align="left"><span style="font-size: large;"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>运行结果是</span></div>
+<div align="left">
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">6</span> <span style="color: #800080;">7</span> <span style="color: #800080;">8</span> <span style="color: #800080;">9</span> <span style="color: #800080;">10</span></pre>
+</div>
+</div>
+<div align="left"><span style="font-size: large;"><span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>下面是程序执行过程中数组a的变化过程，带下划线的数表示的已归位的基准数。</span></div>
+<div align="left">
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div>
+<pre><span style="color: #800080;">6</span> <span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">7</span> <span style="color: #800080;">9</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">10</span> <span style="color: #800080;">8</span>
+<span style="color: #800080;">3</span> <span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">5</span> <span style="color: #800080;">4</span> <span style="color: #800080;">6</span> <span style="color: #800080;">9</span> <span style="color: #800080;">7</span> <span style="color: #800080;">10</span> <span style="color: #800080;">8</span>
+<span style="color: #800080;">2</span> <span style="color: #800080;">1</span> <span style="color: #800080;">3</span> <span style="color: #800080;">5</span> <span style="color: #800080;">4</span> <span style="color: #800080;">6</span> <span style="color: #800080;">9</span> <span style="color: #800080;">7</span> <span style="color: #800080;">10</span> <span style="color: #800080;">8</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">5</span> <span style="color: #800080;">4</span> <span style="color: #800080;">6</span> <span style="color: #800080;">9</span> <span style="color: #800080;">7</span> <span style="color: #800080;">10</span> <span style="color: #800080;">8</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">5</span> <span style="color: #800080;">4</span> <span style="color: #800080;">6</span> <span style="color: #800080;">9</span> <span style="color: #800080;">7</span> <span style="color: #800080;">10</span> <span style="color: #800080;">8</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">6</span> <span style="color: #800080;">9</span> <span style="color: #800080;">7</span> <span style="color: #800080;">10</span> <span style="color: #800080;">8</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">6</span> <span style="color: #800080;">9</span> <span style="color: #800080;">7</span> <span style="color: #800080;">10</span> <span style="color: #800080;">8</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">6</span> <span style="color: #800080;">8</span> <span style="color: #800080;">7</span> <span style="color: #800080;">9</span> <span style="color: #800080;">10</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">6</span> <span style="color: #800080;">7</span> <span style="color: #800080;">8</span> <span style="color: #800080;">9</span> <span style="color: #800080;">10</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">6</span> <span style="color: #800080;">7</span> <span style="color: #800080;">8</span> <span style="color: #800080;">9</span> <span style="color: #800080;">10</span>
+<span style="color: #800080;">1</span> <span style="color: #800080;">2</span> <span style="color: #800080;">3</span> <span style="color: #800080;">4</span> <span style="color: #800080;">5</span> <span style="color: #800080;">6</span> <span style="color: #800080;">7</span> <span style="color: #800080;">8</span> <span style="color: #800080;">9</span> <span style="color: #800080;">10</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div></div>
+</div>
+</div>
+<div align="left">&nbsp;</div>
+<div align="left"><span style="font-size: large;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span style="font-family: 宋体;">快速排序由 C. A. R. Hoare（东尼•霍尔，Charles Antony Richard Hoare）在1960年提出，之后又有许多人做了进一步的优化。如果你对快速排序感兴趣可以去看看东尼•霍尔1962年在Computer Journal发表的论文“Quicksort”以及《算法导论》的第七章。快速排序算法仅仅是东尼•霍尔在计算机领域才能的第一次显露，后来他受到了老板的赏识和重用，公司希望他为新机器设计一个新的高级语言。你要知道当时还没有PASCAL或者C语言这些高级的东东。后来东尼•霍尔参加了由Edsger Wybe Dijkstra（1972年图灵奖得主，这个大神我们后面还会遇到的到时候再细聊）举办的“ALGOL 60”培训班，他觉得自己与其没有把握去设计一个新的语言，还不如对现有的“ALGOL 60”进行改进，使之能在公司的新机器上使用。于是他便设计了“ALGOL 60”的一个子集版本。这个版本在执行效率和可靠性上都在当时“ALGOL 60”的各种版本中首屈一指，因此东尼•霍尔受到了国际学术界的重视。后来他在“ALGOL X”的设计中还发明了大家熟知的“case”语句，后来也被各种高级语言广泛采用，比如PASCAL、C、Java语言等等。当然，东尼•霍尔在计算机领域的贡献还有很多很多，他在1980年获得了图灵奖。</span></span></div>
+<div align="left">&nbsp;</div>
+<div align="left">
+<p>码字不容易啊，转载请标明出处^_^<br>【一周一算法】算法3：最常用的排序&mdash;&mdash;快速排序<br><a href="http://bbs.ahalei.com/thread-4419-1-1.html">http://bbs.ahalei.com/thread-4419-1-1.html</a>(出处: 啊哈磊_编程从这里起步)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/ahalei/category/554795.html">啊哈！算法</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/ahalei/tag/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a>, <a href="http://www.cnblogs.com/ahalei/tag/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">快速排序算法</a>, <a href="http://www.cnblogs.com/ahalei/tag/%E5%BF%AB%E6%8E%92/">快排</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a onclick="DiggIt(3568434,cb_blogId,1);green_channel_success(this,'谢谢推荐！');" id="green_channel_digg" href="javascript:void(0);">好文要顶</a>
+<a href="javascript:void(0);" onclick="c_follow();" id="green_channel_follow">关注我</a>
+<a href="javascript:void(0);" onclick="AddToWz(cb_entryId);return false;" id="green_channel_favorite">收藏该文</a><a target="_blank" href="//msg.cnblogs.com/send/%E5%95%8A%E5%93%88%E7%A3%8A" id="green_channel_contact">联系我</a>
+<a onclick="ShareToTsina()" title="分享至新浪微博" href="javascript:void(0);" id="green_channel_weibo"><img alt="" src="//common.cnblogs.com/images/icon_weibo_24.png"></a>
+<a onclick="shareOnWechat()" title="分享至微信" href="javascript:void(0);" id="green_channel_wechat"><img alt="" src="//common.cnblogs.com/images/wechat.png"></a>
+</div>
+<div id="author_profile">
+<div class="author_profile_info" id="author_profile_info">
+<a target="_blank" href="http://home.cnblogs.com/u/ahalei/"><img alt="" class="author_avatar" src="http://pic.cnblogs.com/face/561844/20140317113828.png"></a>
+<div class="author_profile_info" id="author_profile_detail">
+<a href="http://home.cnblogs.com/u/ahalei/">啊哈磊</a><br>
+<a href="http://home.cnblogs.com/u/ahalei/followees">关注 - 0</a><br>
+<a href="http://home.cnblogs.com/u/ahalei/followers">粉丝 - 215</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a onclick="c_follow();return false;" href="javascript:void(0);">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div onclick="votePost(3568434,'Digg')" class="diggit">
+        <span id="digg_count" class="diggnum">20</span>
+    </div>
+	<div onclick="votePost(3568434,'Bury')" class="buryit"> 
+		<span id="bury_count" class="burynum">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div id="digg_tips" class="diggword">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a class="p_n_p_prefix" href="http://www.cnblogs.com/ahalei/p/3563964.html">« </a> 上一篇：<a title="发布于2014-02-24 01:25" href="http://www.cnblogs.com/ahalei/p/3563964.html">【坐在马桶上看算法】算法2：邻居好说话：冒泡排序</a><br><a class="p_n_p_prefix" href="http://www.cnblogs.com/ahalei/p/3577792.html">» </a> 下一篇：<a title="发布于2014-03-03 09:57" href="http://www.cnblogs.com/ahalei/p/3577792.html">【坐在马桶上看算法】小哼买书</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-02-26 10:04</span> <a href="http://www.cnblogs.com/ahalei/">啊哈磊</a> 阅读(<span id="post_view_count">1970</span>) 评论(<span id="post_comment_count">21</span>)  <a rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?postid=3568434">编辑</a> <a onclick="AddToWz(3568434);return false;" href="#">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=161710,cb_entryId=3568434,cb_blogApp=currentBlogApp,cb_blogUserGuid='e235218c-ca0e-e311-8d02-90b11c0b17d6',cb_entryCreatedDate='2014/2/26 10:04:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+
+	</div><!--end: main -->
+<!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

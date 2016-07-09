@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>ecshop时间函数</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>ecshop时间函数</h1>
+   
+          <div class="description"></div>
+      </header>
+        <section class="content">
+		
+<h2>获得当前格林威治时间的时间戳 /includes/lib_time.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">gmtime()</span></code></li></ol></pre>
+
+<h2>获得服务器的时区 /includes/lib_time.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">server_timezone()</span></code></li></ol></pre>
+
+<h2>生成一个用户自定义时区日期的GMT时间戳 /includes/lib_time.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">local_mktime($hour = NULL , $minute= NULL, $second = NULL, $month = NULL, $day = NULL, $year = NULL)</span></code></li></ol></pre>
+
+<h2>将GMT时间戳格式化为用户自定义时区日期 /includes/lib_time.php</h2> 
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">local_date($format, $time = NULL)</span></code></li></ol></pre>
+
+<h2>转换字符串形式的时间表达式为GMT时间戳 /includes/lib_time.php</h2> 
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">gmstr2time($str)</span></code></li></ol></pre>
+
+<h2>将一个用户自定义时区的日期转为GMT时间戳 /includes/lib_time.php</h2> 
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">local_strtotime($str)</span></code></li></ol></pre>
+
+<h2>获得用户所在时区指定的时间戳 /includes/lib_time.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">local_gettime($timestamp = NULL)</span></code></li></ol></pre>
+
+<h2>获得用户所在时区指定的日期和时间信息 /includes/lib_time.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">local_getdate($timestamp = NULL)</span></code></li></ol></pre>
+
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

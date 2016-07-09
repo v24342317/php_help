@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>timestamp类型字段的CURRENT_TIMESTAMP与ON UPDATE CURRENT_TIMESTAMP属性 </title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>apache ab介绍础篇</h1>
+   
+          <div class="description"></div>
+      </header>
+        <section class="content">
+<p>在这个例子的一开始，我执行了这样一个命令 ab -n 300 -c 300 http://chanmaott.com/ab -n 300 -c 300 http://chanmaott.com/。这个命令的意思是启动 ab ，用300（- c 300）个并发总共执行了300(-n 300)次请求——也就是说一次都发过去了。跟着下面的是 ab 输出的测试报告，红色部分是我添加的注释。</p>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[root@iZ254es7fkeZ ~]# ab -n 300 -c 300 http://chanmaott.com/
+This is ApacheBench, Version 2.3 
+        <$Revision: 1604373 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking chanmaott.com (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Finished 300 requests
+
+
+Server Software:        
+Server Hostname:        chanmaott.com
+Server Port:            80
+
+<span style ="color:red;">//请求的网站路径</span>
+Document Path:          /
+<span style ="color:red;">//请求网站的页面大小</span>
+Document Length:        37437 bytes
+
+<span style ="color:red;">//并发数</span>
+Concurrency Level:      300
+<span style ="color:red;">// 整个测试持续的时间 （总时间）</span>
+Time taken for tests:   5.030 seconds
+<span style ="color:red;">// 完成的请求数量 </span>
+Complete requests:      300
+<span style ="color:red;">// 失败的请求数量 </span>
+Failed requests:        0
+<span style ="color:red;">// 整个场景中的网络传输量 </span>
+Total transferred:      11357400 bytes
+<span style ="color:red;">// 整个场景中的HTML内容传输量 </span>
+HTML transferred:       11231100 bytes
+<span style ="color:red;">// 大家最关心的指标之一，相当于 LR 中的 每秒事务数 ，后面括号中的 mean 表示这是一个平均值 </span>
+Requests per second:    59.64 [#/sec] (mean)
+<span style ="color:red;">// 大家最关心的指标之二，相当于 LR 中的 平均事务响应时间 ，后面括号中的 mean 表示这是一个平均值</span>
+Time per request:       5029.821 [ms] (mean)
+<span style ="color:red;">// 每一个并发所消耗的时间</span>
+Time per request:       16.766 [ms] (mean, across all concurrent requests)
+<span style ="color:red;">// 平均每秒网络上的流量，可以帮助排除是否存在网络流量过大导致响应时间延长的问题</span>
+Transfer rate:          2205.09 [Kbytes/sec] received
+
+<span style ="color:red;">// 连接时间</span>
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+<span style ="color:red;">// 网络连接状态</span>
+Connect:        2   78  38.8     98      99
+<span style ="color:red;">// 网络处理状态</span>
+Processing:    97 2591 1573.4   2013    4928
+<span style ="color:red;">// 网络等待状态</span>
+Waiting:       97 2569 1575.7   2006    4926
+<span style ="color:red;">// 单个场情响应时间</span>
+Total:        101 2669 1598.7   2111    5026
+
+<span style ="color:red;">// 下面的内容为整个场景中所有请求的响应情况。在场景中每个请求都有一个响应时间，其中 50％ 的用户响应时间小于 2111 毫秒，60 ％ 的用户响应时间小于 3921 毫秒，最大的响应时间小于 5026 毫秒</span>
+Percentage of the requests served within a certain time (ms)
+  50%   2111
+  66%   3921
+  75%   4305
+  80%   4442
+  90%   4846
+  95%   4935
+  98%   5020
+  99%   5023
+ 100%   5026 (longest request)
+ </span></code></li></ol></pre>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

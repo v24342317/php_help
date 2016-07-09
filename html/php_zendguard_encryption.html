@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>Zend Guard6.0 PHP代码加密</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>Zend Guard6.0 PHP代码加密</h1>
+            <div class="description"></div>
+      </header>
+<section class="content">
+  <h2> 加密功能 </h2>
+        Zend Guard 6.0可以进行<span id="1_nwp"><a mpid="1" target="_blank" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&app_id=0&c=news&cf=1001&ch=0&di=128&fv=20&is_app=0&jk=c3ecaf2922c9d701&k=php&k0=php&kdi0=0&luki=8&mcpm=0&n=10&p=baidu&q=smileking_cpr&rb=0&rs=1&seller_id=1&sid=1d7c92229afecc3&ssp2=1&stid=9&t=tpclicked3_hc&td=1682280&tu=u1682280&u=http%3A%2F%2Fwww%2Eth7%2Ecn%2FProgram%2Fphp%2F201503%2F417527%2Eshtml&urlid=0" id="1_nwl">php</a></span>代码加密与授权（期限、IP、域名、用户数授权）<br>
+<span id="OSC_h3_11"> </span>
+<h3> 1.创建项目 </h3>
+       <strong> a. 打开Zend Guard→File→New→Zend Guard Project→填写信息→Next；</strong><br>
+          Project name（项目名）,<br>
+          Product name（需加密的产品名）, <br>
+          Product Version（产品版本）, <br>
+          OutPut Location（加密项目输出路径）<br>
+
+<br>
+      <strong>  b. 添加需加密的源文件目录（Add Folder）或源文件（Add File），点击Next；</strong><br>
+<img alt="" src="php_zendguard/5b71ebe425cc57884c11af1b53dcb473.png"> <br>
+<br>
+<strong>        c. 选择php版本，加密的文件类型与忽略的目录（默认就好）；</strong><br>
+<img alt="" src="php_zendguard/adf65afe031a690ccd568983095a8274.png"> <br>
+ <br>
+        <strong>d. 点击Finish，完成。</strong><br>
+        如果所示，左侧项目列表、右侧配置选项；其中Overview（刚刚配置的各项信息），Security（版权控制的设置，序列号、软件期限、ip限制等）。<br>
+<img alt="" src="php_zendguard/1fc9c032154ff881e725ffd46032b180.png"> <br>
+  <span id="OSC_h3_12"> </span>
+<h3> 2. Security：生成序列号，产品期限授权，加密与混淆设置 </h3>
+<img alt="" src="php_zendguard/d31b443099242fb3fe8cd3d5aa0cec9a.png"> <br>
+        a. 生成序列号，选择新生成的序列号，点击OK；<br>
+        b. 产品期限授权（永久有效、到期时间点、到期剩余时间）<br>
+        c. <span id="0_nwp"><a mpid="0" target="_blank" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&app_id=0&c=news&cf=1001&ch=0&di=128&fv=20&is_app=0&jk=c3ecaf2922c9d701&k=%BC%D3%C3%DC&k0=%BC%D3%C3%DC&kdi0=0&luki=7&mcpm=0&n=10&p=baidu&q=smileking_cpr&rb=0&rs=1&seller_id=1&sid=1d7c92229afecc3&ssp2=1&stid=9&t=tpclicked3_hc&td=1682280&tu=u1682280&u=http%3A%2F%2Fwww%2Eth7%2Ecn%2FProgram%2Fphp%2F201503%2F417527%2Eshtml&urlid=0" id="0_nwl">加密</a></span>与混淆设置（默认，也可以自定义）<br>
+  <br>
+<strong>a. 生成序列号，选择新生成的序列号，点击OK；</strong><br>
+ <img alt="" src="php_zendguard/7e9ae309151aed014233abd8a7404dcb.png"><br>
+ 
+ <br>
+<strong>b. 接着设置生成序列号文件。显示设置序列号文件使用的注册名、保存位置、Key，期限；</strong><br>
+<img alt="" src="php_zendguard/e6db9c1abccdaf7c1cd211ea851e63db.png"> <br>
+ <br>
+<strong>c. 接着设置限制的IP、主机host、用户数量；</strong><br>
+<img alt="" src="php_zendguard/8b3d3b48fa5596dadfb135e178043183.png"> <br>
+ <br>
+<strong>d. 附加信息，可以不填；点击Finish完成；</strong><br>
+ <img alt="" src="php_zendguard/0c5c464db4cc171bc013d64cfcbcbba0.png"><br>
+ <br>
+<span id="OSC_h3_13"> </span>
+<h3> 3. 右键点击项目，选择Encode Project，生成加密文件； </h3>
+<img alt="" src="php_zendguard/9b56dae5e29ecce614217cf2ba7929ab.png"> <br>
+  <span id="OSC_h3_14"> </span>
+<h3> 4. 设置php.ini的zend_loader.license_path，即序列号文件;重启Apache服务器，才能生效。 </h3>
+[Zend.loader]<br>
+zend_extension="./ext/ZendLoader.dll"<br>
+zend_loader.enable=1<br>
+zend_loader.disable_licensing=0<br>
+zend_loader.obfuscation_level_support=3<br>
+zend_loader.license_path="D:/www/test.com/zendLicense.zl"<br>
+    <br>
+<strong>注意：多个license文件</strong><br>
+uxnix用英文冒号 : 隔开，Windows用英文分号 ; 隔开多个路径；<br>
+Examples:<br>
+The following lines specify two license files (UNIX).<br>
+zend_loader.license_path=/usr/local/Zend/licenses/Lic.zl:/usr/local/Zend/licenses/Lic2.zl<br>
+ <br>
+The following line specifies one license file and a license folder (Windows).<br>
+zend_loader.license_path=C:/dir1;C:/dir2;C:/dir3/lic.zl </section>
+      <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

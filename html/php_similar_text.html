@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>PHP计算两个字符的相似程度similar_text</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1><a id="cb_post_title_url" href="http://www.cnblogs.com/ly89cn/p/4941647.html">PHP计算两个字符的相似程度similar_text</a></h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        
+            <p>在网站开发中，我们会常常要计算两个字符的相似程度，那么PHP为我们提供了一个函数similar_text;</p>
+<h2>1,similar_text的用法</h2>
+<p>如果我想计算"ly89cn"和"ly89"的相似程度，有两种表示方法</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">echo similar_text('ly89cn', 'ly89');</span></code></li></ol></pre>
+<p>这样输出4，因为他们有4个字符相等</p>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">similar_text('ly89cn', 'ly89', $percent);
+echo $percent;</span></code></li></ol></pre>
+<p>这样输出80，$percent代表百分比，说明他们有80%的相似程度</p>
+<p>当然也可以比较两个中文字符，比如“王业楼的个人博客”和“王业楼”</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">echo similar_text('王业楼的个人博客', '王业楼');</span></code></li></ol></pre>
+<p>这样输出9，表示他们的9个字节数相等</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">similar_text('王业楼的个人博客', '王业楼', $percent);
+echo $percent;</span></code></li></ol></pre>
+<p>输出54.545454545455，注意中文字符可能不大准确！</p>
+<h2>2，网站相关博文的设计</h2>
+<p>一般网站都会在一篇文章下方推荐几篇相似文章，那么我们就可以用similar_text这个函数来设计！将文章的标题与网站已有文章的标题比较，按照相似度由高到低的顺序找到一定数量的文章然后放到你相关文章的内容中！</p>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+
+</body>
+</html>

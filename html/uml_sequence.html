@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>UML序列图总结(转) - 沧海一滴 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="uml_sequence/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="uml_sequence/bundle-Minyx2_Lite.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/softidea/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/softidea/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/softidea/wlwmanifest.xml">
+
+</head>
+<body>
+<div id="container">
+  <ul id="topMnu">
+      <!-- 统计数据 -->
+      <li>
+            
+                
+- 1583, 
+Articles - 0, 
+Comments - 28
+<!---->
+            
+        </li>
+        <!-- 这边可以增加一些链接 --></ul>
+
+
+
+    <div id="wrapper">
+        <div id="content">
+
+            
+<div id="post_detail">
+<div class="post" id="post">
+  <h2><a id="cb_post_title_url" href="http://www.cnblogs.com/softidea/p/4445699.html">UML序列图总结(转)</a></h2>
+    <small>2015-04-21 22:28 by 沧海一滴, <span id="post_view_count">7</span> 阅读, <span id="post_comment_count">0</span> 评论, <a href="#" onclick="AddToWz(4445699);return false;">收藏</a>,  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=4445699" rel="nofollow">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><p>&nbsp;</p>
+<div class="contents_main">
+<div id="ArticleCnt">
+<p><strong>　序列图主要用于展示对象之间交互的顺序。</strong></p>
+<p>　　序列图将交互关系表示为一个二维图。纵向是时间轴，时间沿竖线向下延伸。横向轴代表了在协作中各独立对象的类元角色。类元角色用生命线表示。当对象存在时，角色用一条虚线表示，当对象的过程处于激活状态时，生命线是一个双道线。</p>
+<p>　　消息用从一个对象的生命线到另一个对象生命线的箭头表示。箭头以时间顺序在图中从上到下排列。&nbsp;</p>
+<p>　　序列图中涉及的元素：</p>
+<p><strong>　　1.&nbsp;</strong><strong>生命线：</strong></p>
+<p>　　生命线名称可带下划线。当使用下划线时，意味着序列图中的生命线代表一个类的特定实例。</p>
+<p><img src="uml_sequence/2012013015384562.gif" alt="">&nbsp;</p>
+<p><strong>　　2.&nbsp;</strong><strong>同步消息</strong></p>
+<p>　　发送人在它继续之前，将等待同步消息响应。</p>
+<p><img src="uml_sequence/2012013015395188.gif" alt="">　　&nbsp;</p>
+<p><strong>　　3.&nbsp;</strong><strong>异步消息</strong></p>
+<p>　　在发送方继续之前，无需等待响应的消息。</p>
+<p><img src="uml_sequence/2012013015401689.gif" alt="">&nbsp;</p>
+<p><strong>　　4.&nbsp;</strong><strong>注释</strong></p>
+<p><strong><img src="uml_sequence/2012013015404857.gif" alt=""><br></strong></p>
+<p>　　<strong>5.&nbsp;</strong><strong>约束</strong></p>
+<p>　　约束的符号很简单；格式是: [Boolean Test]</p>
+<p><img src="uml_sequence/2012013015413776.gif" alt="">&nbsp;</p>
+<p>　　<strong>6.&nbsp;</strong><strong>组合片段</strong></p>
+<p><strong>　　</strong><strong>组合片段</strong><strong>用来解决交互执行的条件及方式</strong>。它允许在序列图中直接表示逻辑组件，用于通过指定条件或子进程的应用区域，为任何生命线的任何部分定义特殊条件和子进程。</p>
+<p>　　常用的组合片段有：</p>
+<p><strong>　　抉择（Alt</strong><strong>）</strong></p>
+<p>　　抉择用来指明在两个或更多的消息序列之间的互斥的选择，相当于经典的if..else..。</p>
+<p>　　抉择在任何场合下只发生一个序列。&nbsp;可以在每个片段中设置一个临界来指示该片段可以运行的条件。<strong>else</strong>&nbsp;的临界指示其他任何临界都不为&nbsp;True&nbsp;时应运行的片段。如果所有临界都为&nbsp;False&nbsp;并且没有&nbsp;<strong>else</strong>，则不执行任何片段。</p>
+<p><img src="uml_sequence/2012013015543491.gif" alt="">&nbsp;</p>
+<p><strong>　　选项（Opt</strong><strong>）</strong></p>
+<p>　　包含一个可能发生或不发生的序列</p>
+<p><img src="uml_sequence/2012013015551193.gif" alt="">&nbsp;</p>
+<p><strong>　　循环（Loop</strong><strong>）</strong></p>
+<p>　　片段重复一定次数。&nbsp;可以在临界中指示片段重复的条件。</p>
+<p><strong><img src="uml_sequence/2012013015553457.gif" alt="">&nbsp;</strong></p>
+<p><strong>　　并行（Par</strong><strong>）</strong></p>
+<p><img src="uml_sequence/2012013015555581.gif" alt="">&nbsp;</p>
+<p><strong>　　下表列出了常用的组合片段：</strong></p>
+<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top" width="14%">
+<p align="left">片段类型</p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">名称</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">说明</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Opt</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">选项</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">包含一个可能发生或可能不发生的序列。&nbsp;可以在临界中指定序列发生的条件。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Alt</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">抉择</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">包含一个片段列表，这些片段包含备选消息序列。&nbsp;在任何场合下只发生一个序列。</p>
+<p align="left">可以在每个片段中设置一个临界来指示该片段可以运行的条件。&nbsp;<strong>else</strong>&nbsp;的临界指示其他任何临界都不为&nbsp;True&nbsp;时应运行的片段。&nbsp;如果所有临界都为&nbsp;False&nbsp;并且没有&nbsp;<strong>else</strong>，则不执行任何片段。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Loop</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">循环</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">片段重复一定次数。&nbsp;可以在临界中指示片段重复的条件。</p>
+<p align="left">Loop&nbsp;组合片段具有<strong>“Min”</strong>和<strong>“Max”</strong>属性，它们指示片段可以重复的最小和最大次数。&nbsp;默认值是无限制。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Break</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">中断</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">如果执行此片段，则放弃序列的其余部分。&nbsp;可以使用临界来指示发生中断的条件。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Par</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">并行</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">并行处理。&nbsp;片段中的事件可以交错。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Critical</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">关键</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">用在&nbsp;Par&nbsp;或&nbsp;Seq&nbsp;片段中。&nbsp;指示此片段中的消息不得与其他消息交错。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Seq</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">弱顺序</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">有两个或更多操作数片段。&nbsp;涉及同一生命线的消息必须以片段的顺序发生。&nbsp;如果消息涉及的生命线不同，来自不同片段的消息可能会并行交错。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Strict</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">强顺序</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">有两个或更多操作数片段。&nbsp;这些片段必须按给定顺序发生。</p>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+<p><strong>　　</strong><strong>有关如何解释序列的片段</strong></p>
+<p>　　默认情况下，序列图表明可能发生的一系列消息。&nbsp;在运行的系统中，可能会出现您未选择显示在关系图上的其他消息。</p>
+<p>　　以下片段类型可用于更改此释义：</p>
+<table border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td valign="top" width="14%">
+<p align="left">片段类型</p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">名称</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">说明</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Consider</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">考虑</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">指定此片段描述的消息列表。&nbsp;其他消息可发生在运行的系统中，但对此描述来说意义不大。</p>
+<p align="left">在<strong>“Messages”</strong>属性中键入该列表。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Ignore</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">忽略</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">此片段未描述的消息列表。&nbsp;这些消息可发生在运行的系统中，但对此描述来说意义不大。</p>
+<p align="left">在<strong>“Messages”</strong>属性中键入该列表。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Assert</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">断言</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">操作数片段指定唯一有效的序列。&nbsp;通常用在&nbsp;Consider&nbsp;或&nbsp;Ignore&nbsp;片段中。</p>
+
+</td>
+
+</tr>
+<tr>
+<td valign="top" width="14%">
+<p align="left"><strong>Neg</strong></p>
+
+</td>
+<td valign="top" width="11%">
+<p align="left">否定</p>
+
+</td>
+<td valign="top" width="74%">
+<p align="left">此片段中显示的序列不得发生。&nbsp;通常用在&nbsp;Consider&nbsp;或&nbsp;Ignore&nbsp;片段中。</p>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+<div id="content_bottom"></div></div>
+      
+    </div>
+
+</div>
+</div></div>
+
+
+
+      <div id="footer">
+            
+<p id="logoFoot">
+    <a href="http://www.spiga.com.mx/" title="Agencia Interactiva Spiga">www.spiga.com.mx</a>
+</p>
+<div class="footText">
+<p>
+Copyright ©2015 沧海一滴
+</p>
+<p>
+<a href="http://www.cnblogs.com/">博客园</a>
+</p>
+</div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+</body></html>

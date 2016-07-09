@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>判断请求类型</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>微信JS-SDK分享功能</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        <h2>在线调试工具</h2>
+        <p>http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign</p>
+            <h2>步骤1 生成签名</h2>
+            <p>登录你的微信平台，点击&ldquo;公众号设置&rdquo;。</p>
+            <img src="../img/wechat_jsskd_share/389aa8fd5266d016aec7bea0942bd40734fa3518.jpg"/>
+            <img src="../img/wechat_jsskd_share/38403f3fb80e7bec1d0423692c2eb9389a506b18.jpg"/>
+
+<p>点击“功能设置”，然后点击“设置”。</p>
+
+<img src="../img/wechat_jsskd_share/8474fbdde71190ef2225b257cd1b9d16fcfa6018.jpg"/>
+<p>设置JS接口安全域名。这里填写的是一级域名，不带www和http。最多可以设置三个域名。设置完后点击确定。（多说一句，相比以前的分享没有任何域名限制，这里设置安全域名，目的是为了当发现此公众平台发现诱导分享行为时，可以根据此域名追溯到所有分享出去的链接，以及通过这些链接增加的粉丝。这样，微信就可以牢牢控制了你的微信平台，一旦发现违规，让分享链接失效，删除掉诱导行为增加的粉丝，是瞬间就可以完成的。因此，微信平台的开发者，一定要合理来使用分享功能，不要因小失大。等到你的微信平台被封，估计哭都来不及）</p>
+
+<img src="../img/wechat_jsskd_share/c8ab0bce36d3d53992e42f4b3987e950342ab019.jpg"/>
+<img src="../img/wechat_jsskd_share/08b68e529822720e0515c27278cb0a46f31fab1b.jpg"/>
+<p>在开发者中心中获取你的AppID和AppSecret，接下来在获取令牌时，需要这两个信息。</p>
+<img src="../img/wechat_jsskd_share/a84052086e061d95e34914b078f40ad163d9cae8.jpg"/>
+
+
+<h3>php代码</h3>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln"><span style="color:red;">//add by carter 获得微信token;</span>
+$access_token = access_token($GLOBALS['db']);
+<span style="color:red;">//通过token获得ticket</span>
+$url2 = sprintf("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi",$access_token);
+$res = file_get_contents($url2);
+$res = json_decode($res, true);
+
+$wxticket = $res['ticket'];
+$wxnonceStr = "qlqlqlqlql";
+
+$timestamp = time();
+$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+$wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp,$url);
+$wxSha1 = sha1($wxOri);
+<span style="color:red;">//传值给页面</span>
+$smarty->assign('wxnonceStr',$wxnonceStr);
+$smarty->assign('ticket',$wxSha1);
+$smarty->assign('wxtime',$timestamp);</span></code></li></ol></pre>
+
+<h2>页面</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">&lt;script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+
+wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: 'wx4c0b5cba4ab9d642', // 必填，公众号的唯一标识
+    timestamp: {$wxtime}, // 必填，生成签名的时间戳
+    nonceStr: '{$wxnonceStr}', // 必填，生成签名的随机串
+    signature: '{$ticket}',// 必填，签名，见附录1
+    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+});
+
+var descContent = '{$page_title} - {$shop_name}';
+var shareTitle = '{$page_title} - {$shop_name}'
+var lineLink = window.location.href;
+var imgUrl =$('#goodpic').attr('src');
+
+ wx.ready(function(){
+
+    // 获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+
+    wx.onMenuShareTimeline({
+
+        title: shareTitle, // 分享标题
+
+        link:lineLink,
+
+        imgUrl: imgUrl // 分享图标
+
+    });
+
+    // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
+
+    wx.onMenuShareAppMessage({
+
+        title: shareTitle, // 分享标题
+
+        desc: descContent, // 分享描述
+
+        link:lineLink,
+
+        imgUrl: imgUrl, // 分享图标
+
+        type: 'link', // 分享类型,music、video或link，不填默认为link
+
+    });
+
+});
+
+&lt;/script&gt;</span></code></li></ol></pre>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

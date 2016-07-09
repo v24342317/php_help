@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简单实用的鼠标滑过图片遮罩层动画jQuery插件-jquery-爱编程</title>
+<meta name="keywords" content="简单实用的鼠标滑过图片遮罩层动画jQuery插件-jquery-爱编程">
+<meta name="description" content="简单实用的鼠标滑过图片遮罩层动画jQuery插件-jquery-爱编程">
+<link href="jquery_hover/jquery-confirm.css" rel="stylesheet">
+<link href="jquery_hover/bootstrap.css" rel="stylesheet">
+<link href="jquery_hover/base.css" rel="stylesheet">
+
+<link href="jquery_hover/shCore.css" rel="stylesheet">
+<link href="jquery_hover/shCoreDefault.css" rel="stylesheet">
+<link href="jquery_hover/share_style0_16.css" rel="stylesheet"></head>
+<body><div style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;" id="BAIDU_DUP_fp_wrapper"><iframe style="width: 0px; height: 0px; visibility: hidden; display: none;" src="jquery_hover/o.htm" id="BAIDU_DUP_fp_iframe"></iframe></div>
+<div class="container body-content">
+  <div class="row main">
+    <div class="article_con">
+  <p>
+nsHover是一款简单实用的鼠标滑过图片遮罩层动画<a href="http://www.w2bc.com/shili/jquery%E6%8F%92%E4%BB%B6">jQuery插件</a>。该插件可以在图片或块级元素上制作鼠标滑过时的遮罩层动画效果，它可以设置遮罩层的前景色和背景色，可以制作圆形图片等，非常实用。
+</p>
+<p style="text-align:center;">
+<img src="jquery_hover/201509140958107774.jpg" alt="">
+</p>
+<p style="text-align:center;">
+<a class="preview1" target="_blank" href="http://www.w2bc.com/demo/201509/2015-09-14-jquery-img-search-hover/index.html"> 在线预览 </a>&nbsp;&nbsp;&nbsp;<a target="_blank" class="download1" href="jquery_hover/2015-09-14-jquery-img-search-hover.rar">源码下载</a>
+</p>
+<h3>
+<span class="glyphicon glyphicon-edit"></span> 使用方法
+</h3>
+<p>
+使用该鼠标滑过插件需要引入jQuery和ns.hover.min.js文件。
+</p>
+<div><div id="highlighter_972481" class="syntaxhighlighter  html"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="html plain">&lt;</code><code class="html keyword">script</code> <code class="html color1">src</code><code class="html plain">=</code><code class="html string">"js/jquery.min.js"</code><code class="html plain">&gt;&lt;/</code><code class="html keyword">script</code><code class="html plain">&gt;</code></div><div class="line number2 index1 alt1"><code class="html plain">&lt;</code><code class="html keyword">script</code> <code class="html color1">src</code><code class="html plain">=</code><code class="html string">"js/ns.hover.min.js"</code><code class="html plain">&gt;&lt;/</code><code class="html keyword">script</code><code class="html plain">&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code></div></div></td></tr></tbody></table></div></div>
+<h5>
+<span class="glyphicon glyphicon-paperclip"></span> 初始化插件
+</h5>
+<p>
+在页面DOM元素加载完毕之后，只需要需要制作鼠标滑过效果的元素上调用<code>nsHover()</code>方法即可。你可以在父元素上使用该方法，那么它的所有子元素都会被初始化。
+</p>
+<div><div id="highlighter_307366" class="syntaxhighlighter  js"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="js plain">&lt;script&gt;</code></div><div class="line number2 index1 alt1"><code class="js spaces">&nbsp;&nbsp;</code><code class="js plain">$(container_class_or_id).nsHover({</code></div><div class="line number3 index2 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">scaling : </code><code class="js keyword">false</code><code class="js plain">,</code></div><div class="line number4 index3 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">speed: </code><code class="js string">'normal'</code><code class="js plain">,</code></div><div class="line number5 index4 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">rounded: </code><code class="js string">'normal'</code><code class="js plain">,</code></div><div class="line number6 index5 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">bgcolor: </code><code class="js string">'#ffffff'</code><code class="js plain">,</code></div><div class="line number7 index6 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">bgopacity : 0.5,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code></div><div class="line number8 index7 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">bgpic : </code><code class="js string">'imgs/lens.png'</code><code class="js plain">,</code></div><div class="line number9 index8 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">bgsize : </code><code class="js string">'50%'</code><code class="js plain">,</code></div><div class="line number10 index9 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">bganim : </code><code class="js string">'fade'</code><code class="js plain">,</code></div><div class="line number11 index10 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">shadow : </code><code class="js keyword">false</code><code class="js plain">,</code></div><div class="line number12 index11 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">content: </code><code class="js string">''</code></div><div class="line number13 index12 alt2"><code class="js spaces">&nbsp;&nbsp;</code><code class="js plain">});</code></div><div class="line number14 index13 alt1"><code class="js plain">&lt;/script&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code></div></div></td></tr></tbody></table></div></div>
+<h3>
+<span class="glyphicon glyphicon-cog"></span> 配置参数
+</h3>
+<table class="table table-striped">
+<thead>
+<tr>
+<td>
+参数
+</td>
+<td>
+默认值
+</td>
+<td>
+可用值
+</td>
+<td>
+描述
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+scaling
+</td>
+<td>
+false
+</td>
+<td>
+false / 0 / 0.0 - 1.0
+</td>
+<td>
+设置0.0 - 1.0的值使元素在鼠标滑过时收缩，或设置为0 / false来禁用缩放效果
+</td>
+</tr>
+<tr>
+<td>
+speed
+</td>
+<td>
+normal
+</td>
+<td>
+normal / fast / slow
+</td>
+<td>
+设置鼠标滑过是过渡动画的速度
+</td>
+</tr>
+<tr>
+<td>
+rounded
+</td>
+<td>
+normal
+</td>
+<td>
+none(0%) / normal(5%) / circle(50%) / xx% / xx px
+</td>
+<td>
+该参数用于控制元素的圆角，你可以将一个元素设置为正圆形
+</td>
+</tr>
+<tr>
+<td>
+bganim
+</td>
+<td>
+fade
+</td>
+<td>
+fade / scale / slide
+</td>
+<td>
+遮罩层背景动画的类型
+</td>
+</tr>
+<tr>
+<td>
+bgcolor
+</td>
+<td>
+'#ffffff'
+</td>
+<td>
+</td>
+<td>
+遮罩层的背景颜色
+</td>
+</tr>
+<tr>
+<td>
+bgopacity
+</td>
+<td>
+0.5
+</td>
+<td>
+0.0-1.0
+</td>
+<td>
+遮罩层背景的透明度
+</td>
+</tr>
+<tr>
+<td>
+bgpic
+</td>
+<td>
+imgs/lens.png
+</td>
+<td>
+有效的图片路径
+</td>
+<td>
+遮罩层背景图片的位置
+</td>
+</tr>
+<tr>
+<td>
+bgsize
+</td>
+<td>
+25%
+</td>
+<td>
+0% - 100%
+</td>
+<td>
+遮罩层背景图片的大小
+</td>
+</tr>
+<tr>
+<td>
+shadow
+</td>
+<td>
+false
+</td>
+<td>
+true / false
+</td>
+<td>
+是否设置阴影效果
+</td>
+</tr>
+<tr>
+<td>
+content
+</td>
+<td>
+''
+</td>
+<td>
+任何有效的html内容
+</td>
+<td>
+遮罩层上显示的文字内容
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+  <a class="preview1" target="_blank" href="http://www.w2bc.com/demo/201509/2015-09-14-jquery-img-search-hover/index.html">
+    在线预览
+  </a>&nbsp;&nbsp;&nbsp;<a target="_blank" class="download1" href="jquery_hover/2015-09-14-jquery-img-search-hover.rar">源码下载</a>
+</p>
+<div class="adverse hidden-sm hidden-xs hidden-lg">
+  <div class="line30">
+</div>
+<div style="width: 640px; margin: auto; overflow: hidden">
+
+
+</div>
+</div>
+<div class="adverse hidden-md hidden-sm hidden-lg">
+<div class="line10">
+</div>
+<div style="height:200px;">
+<ins data-adsbygoogle-status="done" class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4168987395515775" data-ad-slot="9456279876" data-ad-format="auto"></ins>
+
+</div>
+</div>
+</div>
+<div class="relateArticle">
+<div class="wumiRecommand">
+<div class="wumii-hook"></div>
+</div>
+
+</div>
+<div class="comment">
+  <h2>
+    <label></label>
+  </h2>
+<div class="comment_add"></div>
+<div class="comment_list"></div>
+</div>
+</div>
+</div>
+
+</div>
+
+</body></html>

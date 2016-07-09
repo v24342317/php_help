@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+
+
+</head>
+
+<body>
+
+<div id="container">
+
+  <div id="wrapper">
+        <div id="content">
+<div id="post_detail">
+<div id="post" class="post">
+    <a name="top"></a>
+    <h2><a href="http://www.cnblogs.com/kenshincui/p/3931948.html" id="cb_post_title_url">iOS开发系列--UITableView全面解析</a></h2>
+    <small>2014-08-23 23:20 by KenshinCui, <span id="post_view_count">127588</span> 阅读, <span id="post_comment_count">91</span> 评论, <a onclick="AddToWz(3931948);return false;" href="#">收藏</a>,  <a rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?postid=3931948">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><p align="right"><strong>--UIKit之UITableView</strong></p> <h1 id="overview">概述</h1> <p>在iOS开发中UITableView可以说是使用最广泛的控件，我们平时使用的软件中到处都可以看到它的影子，类似于微信、QQ、新浪微博等软件基本上随处都是UITableView。当然它的广泛使用自然离不开它强大的功能，今天这篇文章将针对UITableView重点展开讨论。今天的主要内容包括：</p> <ol> <li><a href="#introduction">基本介绍</a>  </li><li><a href="#dataSource">数据源</a>  </li><li><a href="#delegate">代理</a>  </li><li><a href="#performance">性能优化</a>  </li><li><a href="#uiTableViewCell">UITableViewCell</a>  </li><li><a href="#operate">常用操作</a>  </li><li><a href="#uiTableViewController">UITableViewController</a>  </li><li><a href="#mvc">MVC模式</a></li></ol> <h1 id="introduction">基本介绍</h1> <p>UITableView有两种风格：UITableViewStylePlain和UITableViewStyleGrouped。这两者操作起来其实并没有本质区别，只是后者按分组样式显示前者按照普通样式显示而已。大家先看一下两者的应用：</p> <p>1&gt;分组样式</p> <p><a href="ios_helloworld/232318440491185.png"><img border="0" height="480" width="270" src="ios_helloworld/232318443782284.png" alt="UITableViewStyleGrouped1" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewStyleGrouped1"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="ios_helloworld/232318447533098.png"><img border="0" height="480" width="270" src="ios_helloworld/232318450818898.png" alt="UITableViewStyleGrouped2" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewStyleGrouped2"></a> </p> <p>2&gt;不分组样式</p> <p><a href="ios_helloworld/232318453621685.png"><img border="0" height="480" width="270" src="ios_helloworld/232318457064256.png" alt="UITableViewStylePlain1" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewStylePlain1"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="ios_helloworld/232318460032813.png"><img border="0" height="480" width="270" src="ios_helloworld/232318462379585.png" alt="UITableViewStylePlain2" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewStylePlain2"></a> </p> <p>大家可以看到在UITableView中数据只有行的概念，并没有列的概念，因为在手机操作系统中显示多列是不利于操作的。UITableView中每行数据都是一个UITableViewCell，在这个控件中为了显示更多的信息，iOS已经在其内部设置好了多个子控件以供开发者使用。如果我们查看UITableViewCell的声明文件可以发现在内部有一个UIView控件（contentView，作为其他元素的父控件）、两个UILable控件（textLabel、detailTextLabel）、一个UIImage控件（imageView），分别用于容器、显示内容、详情和图片。使用效果类似于微信、QQ信息列表：</p> <p><a href="ios_helloworld/232318465964629.png"><img border="0" height="480" width="270" src="ios_helloworld/232318468933187.png" alt="UITableViewCell1" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCell1"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="ios_helloworld/232318472532529.png"><img border="0" height="480" width="270" src="ios_helloworld/232318476591587.png" alt="UITableViewCell2" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCell2"></a> </p> <p>当然，这些子控件并不一定要全部使用，具体操作时可以通过UITableViewCellStyle进行设置，具体每个枚举表示的意思已经在代码中进行了注释：</p><pre class="code"><span style="color: blue;">typedef </span><span style="color: black;">NS_ENUM(NSInteger, UITableViewCellStyle) {
+    UITableViewCellStyleDefault,    </span><span style="color: green;">// 左侧显示textLabel（不显示detailTextLabel），imageView可选（显示在最左边）
+    </span><span style="color: black;">UITableViewCellStyleValue1,        </span><span style="color: green;">// 左侧显示textLabel、右侧显示detailTextLabel（默认蓝色），imageView可选（显示在最左边）
+    </span><span style="color: black;">UITableViewCellStyleValue2,        </span><span style="color: green;">// 左侧依次显示textLabel(默认蓝色)和detailTextLabel，imageView可选（显示在最左边）
+    </span><span style="color: black;">UITableViewCellStyleSubtitle    </span><span style="color: green;">// 左上方显示textLabel，左下方显示detailTextLabel（默认灰色）,imageView可选（显示在最左边）
+</span><span style="color: black;">};</span></pre>
+<h1 id="dataSource">数据源</h1>
+<p>由于iOS是遵循MVC模式设计的，很多操作都是通过代理和外界沟通的，但对于数据源控件除了代理还有一个数据源属性，通过它和外界进行数据交互。 对于UITableView设置完dataSource后需要实现UITableViewDataSource协议，在这个协议中定义了多种 数据操作方法，下面通过创建一个简单的联系人管理进行演示：</p>
+<p>首先我们需要创建一个联系人模型KCContact</p>
+<p>KCContact.h</p><pre class="code"><span style="color: green;">//
+//  Contact.h
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCContact : NSObject
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 姓
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *firstName;
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 名
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *lastName;
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 手机号码
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *phoneNumber;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 带参数的构造函数
+-(KCContact *)initWithFirstName:(NSString *)firstName andLastName:(NSString *)lastName andPhoneNumber:(NSString *)phoneNumber;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 取得姓名
+-(NSString *)getName;
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 带参数的静态对象初始化方法
++(KCContact *)initWithFirstName:(NSString *)firstName andLastName:(NSString *)lastName andPhoneNumber:(NSString *)phoneNumber;
+@end</span></pre>
+<p>KCContact.m</p><pre class="code"><span style="color: green;">//
+//  Contact.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+
+</span><span style="color: black;">@implementation KCContact
+
+-(KCContact *)initWithFirstName:(NSString *)firstName andLastName:(NSString *)lastName andPhoneNumber:(NSString *)phoneNumber{
+    </span><span style="color: blue;">if</span><span style="color: black;">(self=[super init]){
+        self.firstName=firstName;
+        self.lastName=lastName;
+        self.phoneNumber=phoneNumber;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
+-(NSString *)getName{
+    </span><span style="color: blue;">return </span><span style="color: black;">[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"%@ %@"</span><span style="color: black;">,_lastName,_firstName];
+}
+
++(KCContact *)initWithFirstName:(NSString *)firstName andLastName:(NSString *)lastName andPhoneNumber:(NSString *)phoneNumber{
+    KCContact *contact1=[[KCContact alloc]initWithFirstName:firstName andLastName:lastName andPhoneNumber:phoneNumber];
+    </span><span style="color: blue;">return </span><span style="color: black;">contact1;
+}
+
+@end</span></pre>
+<p>为了演示分组显示我们不妨将一组数据也抽象成模型KCContactGroup</p>
+<p>KCContactGroup.h</p><pre class="code"><span style="color: green;">//
+//  KCContactGroup.h
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCContactGroup : NSObject
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 组名
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *name;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 分组描述
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *detail;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 联系人
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,strong) NSMutableArray *contacts;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 带参数个构造函数
+-(KCContactGroup *)initWithName:(NSString *)name andDetail:(NSString *)detail andContacts:(NSMutableArray *)contacts;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 静态初始化方法
++(KCContactGroup *)initWithName:(NSString *)name andDetail:(NSString *)detail andContacts:(NSMutableArray *)contacts;
+
+@end</span></pre>
+<p>KCContactGroup.m</p><pre class="code"><span style="color: green;">//
+//  KCContactGroup.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactGroup.h"
+
+</span><span style="color: black;">@implementation KCContactGroup
+
+
+-(KCContactGroup *)initWithName:(NSString *)name andDetail:(NSString *)detail andContacts:(NSMutableArray *)contacts{
+    </span><span style="color: blue;">if </span><span style="color: black;">(self=[super init]) {
+        self.name=name;
+        self.detail=detail;
+        self.contacts=contacts;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
++(KCContactGroup *)initWithName:(NSString *)name andDetail:(NSString *)detail andContacts:(NSMutableArray *)contacts{
+    KCContactGroup *group1=[[KCContactGroup alloc]initWithName:name andDetail:detail andContacts:contacts];
+    </span><span style="color: blue;">return </span><span style="color: black;">group1;
+}
+@end</span></pre>
+<p>然后在viewDidLoad方法中创建一些模拟数据同时实现数据源协议方法：</p>
+<p>KCMainViewController.m</p><pre class="code"><span style="color: green;">//
+//  KCMainViewController.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCMainViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactGroup.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCMainViewController ()&lt;UITableViewDataSource&gt;{
+    UITableView *_tableView;
+    NSMutableArray *_contacts;</span><span style="color: green;">//联系人模型
+</span><span style="color: black;">}
+
+@end
+
+@implementation KCMainViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    </span><span style="color: green;">//初始化数据
+    </span><span style="color: black;">[self initData];
+    
+    </span><span style="color: green;">//创建一个分组样式的UITableView
+    </span><span style="color: black;">_tableView=[[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    
+    </span><span style="color: green;">//设置数据源，注意必须实现对应的UITableViewDataSource协议
+    </span><span style="color: black;">_tableView.dataSource=self;
+    
+    [self.view addSubview:_tableView];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 加载数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initData{
+    _contacts=[[NSMutableArray alloc]init];
+    
+    KCContact *contact1=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131234"</span><span style="color: black;">];
+    KCContact *contact2=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Tom" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131237"</span><span style="color: black;">];
+    KCContactGroup *group1=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"C" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with C" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact1,contact2, nil]];
+    [_contacts addObject:group1];
+    
+
+    
+    KCContact *contact3=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Terry" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131238"</span><span style="color: black;">];
+    KCContact *contact4=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Jack" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131239"</span><span style="color: black;">];
+    KCContact *contact5=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rose" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131240"</span><span style="color: black;">];
+    KCContactGroup *group2=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"L" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with L" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact3,contact4,contact5, nil]];
+    [_contacts addObject:group2];
+    
+    
+    
+    KCContact *contact6=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131235"</span><span style="color: black;">];
+    KCContact *contact7=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rosa" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131236"</span><span style="color: black;">];
+
+    KCContactGroup *group3=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"S" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with S" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact6,contact7, nil]];
+    [_contacts addObject:group3];
+    
+    
+    KCContact *contact8=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Stephone" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131241"</span><span style="color: black;">];
+    KCContact *contact9=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lucy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131242"</span><span style="color: black;">];
+    KCContact *contact10=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131243"</span><span style="color: black;">];
+    KCContact *contact11=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Emily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131244"</span><span style="color: black;">];
+    KCContact *contact12=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Andy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131245"</span><span style="color: black;">];
+    KCContactGroup *group4=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"W" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with W" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact8,contact9,contact10,contact11,contact12, nil]];
+    [_contacts addObject:group4];
+    
+    
+    KCContact *contact13=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131246"</span><span style="color: black;">];
+    KCContact *contact14=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Vivan" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131247"</span><span style="color: black;">];
+    KCContact *contact15=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joyse" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131248"</span><span style="color: black;">];
+    KCContactGroup *group5=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"Z" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with Z" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact13,contact14,contact15, nil]];
+    [_contacts addObject:group5];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 数据源方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回分组数
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"计算分组数"</span><span style="color: black;">);
+    </span><span style="color: blue;">return </span><span style="color: black;">_contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组行数
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"计算每组(组%i)行数"</span><span style="color: black;">,section);
+    KCContactGroup *group1=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group1.contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark返回每行的单元格
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: green;">//NSIndexPath是一个结构体，记录了组和行信息
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成单元格(组：%i,行%i)"</span><span style="color: black;">,indexPath.section,indexPath.row);
+    KCContactGroup *group=_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    cell.textLabel.text=[contact getName];
+    cell.detailTextLabel.text=contact.phoneNumber;
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组头标题名称
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成组（组%i）名称"</span><span style="color: black;">,section);
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.name;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组尾部说明
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成尾部（组%i）详情"</span><span style="color: black;">,section);
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.detail;
+}
+@end</span></pre>
+<p>运行可以看到如下效果：</p>
+<p><a href="ios_helloworld/232318479403373.jpg"><img border="0" height="591" width="321" src="ios_helloworld/232318482215159.jpg" alt="Contact" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Contact"></a> </p>
+<p>大家在使用iPhone通讯录时会发现右侧可以按字母检索，使用起来很方便，其实这个功能使用UITableView实现很简单，只要实现数据源协议的一个方法，构建一个分组标题的数组即可实现。数组元素的内容和组标题内容未必完全一致，UITableView是按照数组元素的索引和每组数据索引顺序来定位的而不是按内容查找。</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组标题索引
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成组索引"</span><span style="color: black;">);
+    NSMutableArray *indexs=[[NSMutableArray alloc]init];
+    </span><span style="color: blue;">for</span><span style="color: black;">(KCContactGroup *group in _contacts){
+        [indexs addObject:group.name];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">indexs;
+}</span></pre>
+<p>效果如下：</p>
+<p><a href="ios_helloworld/232318487213245.png"><img border="0" height="590" width="320" src="ios_helloworld/232318490347573.png" alt="UITableViewIndex" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewIndex"></a> </p>
+<p>需要注意的是上面几个重点方法的执行顺序，请看下图：</p>
+<p><a href="ios_helloworld/232318493316130.png"><img border="0" height="587" width="360" src="ios_helloworld/232318496901174.png" alt="image" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="image"></a> </p>
+<p>值得指出的是生成单元格的方法并不是一次全部调用，而是只会生产当前显示在界面上的单元格，当用户滚动操作时再显示其他单元格。 </p>
+<blockquote>
+<p>注意：随着我们的应用越来越复杂，可能经常需要调试程序，在iOS中默认情况下不能定位到错误代码行，我们可以通过如下设置让程序定位到出错代码行：Show the Breakpoint&nbsp; navigator&mdash;Add Exception breakpoint。</p></blockquote>
+<p>&nbsp;</p>
+<h1 id="delegate">代理</h1>
+<p>上面我们已经看到通讯录的简单实现，但是我们发现单元格高度、分组标题高度以及尾部说明的高度都需要调整，此时就需要使用代理方法。UITableView代理方法有很多，例如监听单元格显示周期、监听单元格选择编辑操作、设置是否高亮显示单元格、设置行高等。</p>
+<h2 id="autoid-4-0-0">1.设置行高</h2><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark - 代理方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置分组标题内容高度
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    </span><span style="color: blue;">if</span><span style="color: black;">(section==0){
+        </span><span style="color: blue;">return </span><span style="color: black;">50;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">40;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置每行高度（每行高度可以不一样）
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: blue;">return </span><span style="color: black;">45;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置尾部说明内容高度
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    </span><span style="color: blue;">return </span><span style="color: black;">40;
+}</span></pre>
+<h2 id="autoid-4-0-0">2.监听点击</h2>
+<p>在iOS中点击某联系个人就可以呼叫这个联系人，这时就需要监听点击操作，这里就不演示呼叫联系人操作了，我们演示一下修改人员信息的操作。</p>
+<p>KCMainViewContrller.m</p><pre class="code"><span style="color: green;">//
+//  KCMainViewController.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCMainViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactGroup.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCMainViewController ()&lt;UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate&gt;{
+    UITableView *_tableView;
+    NSMutableArray *_contacts;</span><span style="color: green;">//联系人模型
+    </span><span style="color: black;">NSIndexPath *_selectedIndexPath;</span><span style="color: green;">//当前选中的组和行
+</span><span style="color: black;">}
+
+@end
+
+@implementation KCMainViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    </span><span style="color: green;">//初始化数据
+    </span><span style="color: black;">[self initData];
+    
+    </span><span style="color: green;">//创建一个分组样式的UITableView
+    </span><span style="color: black;">_tableView=[[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    
+    </span><span style="color: green;">//设置数据源，注意必须实现对应的UITableViewDataSource协议
+    </span><span style="color: black;">_tableView.dataSource=self;
+    </span><span style="color: green;">//设置代理
+    </span><span style="color: black;">_tableView.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    
+    [self.view addSubview:_tableView];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 加载数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initData{
+    _contacts=[[NSMutableArray alloc]init];
+    
+    KCContact *contact1=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131234"</span><span style="color: black;">];
+    KCContact *contact2=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Tom" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131237"</span><span style="color: black;">];
+    KCContactGroup *group1=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"C" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with C" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact1,contact2, nil]];
+    [_contacts addObject:group1];
+    
+
+    
+    KCContact *contact3=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Terry" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131238"</span><span style="color: black;">];
+    KCContact *contact4=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Jack" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131239"</span><span style="color: black;">];
+    KCContact *contact5=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rose" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131240"</span><span style="color: black;">];
+    KCContactGroup *group2=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"L" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with L" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact3,contact4,contact5, nil]];
+    [_contacts addObject:group2];
+    
+    
+    
+    KCContact *contact6=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131235"</span><span style="color: black;">];
+    KCContact *contact7=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rosa" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131236"</span><span style="color: black;">];
+
+    KCContactGroup *group3=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"S" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with S" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact6,contact7, nil]];
+    [_contacts addObject:group3];
+    
+    
+    KCContact *contact8=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Stephone" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131241"</span><span style="color: black;">];
+    KCContact *contact9=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lucy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131242"</span><span style="color: black;">];
+    KCContact *contact10=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131243"</span><span style="color: black;">];
+    KCContact *contact11=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Emily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131244"</span><span style="color: black;">];
+    KCContact *contact12=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Andy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131245"</span><span style="color: black;">];
+    KCContactGroup *group4=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"W" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with W" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact8,contact9,contact10,contact11,contact12, nil]];
+    [_contacts addObject:group4];
+    
+    
+    KCContact *contact13=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131246"</span><span style="color: black;">];
+    KCContact *contact14=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Vivan" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131247"</span><span style="color: black;">];
+    KCContact *contact15=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joyse" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131248"</span><span style="color: black;">];
+    KCContactGroup *group5=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"Z" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with Z" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact13,contact14,contact15, nil]];
+    [_contacts addObject:group5];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 数据源方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回分组数
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"计算分组数"</span><span style="color: black;">);
+    </span><span style="color: blue;">return </span><span style="color: black;">_contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组行数
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"计算每组(组%i)行数"</span><span style="color: black;">,section);
+    KCContactGroup *group1=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group1.contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark返回每行的单元格
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: green;">//NSIndexPath是一个对象，记录了组和行信息
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成单元格(组：%i,行%i)"</span><span style="color: black;">,indexPath.section,indexPath.row);
+    KCContactGroup *group=_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+    cell.textLabel.text=[contact getName];
+    cell.detailTextLabel.text=contact.phoneNumber;
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组头标题名称
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成组（组%i）名称"</span><span style="color: black;">,section);
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.name;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组尾部说明
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成尾部（组%i）详情"</span><span style="color: black;">,section);
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.detail;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组标题索引
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成组索引"</span><span style="color: black;">);
+    NSMutableArray *indexs=[[NSMutableArray alloc]init];
+    </span><span style="color: blue;">for</span><span style="color: black;">(KCContactGroup *group in _contacts){
+        [indexs addObject:group.name];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">indexs;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 代理方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置分组标题内容高度
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    </span><span style="color: blue;">if</span><span style="color: black;">(section==0){
+        </span><span style="color: blue;">return </span><span style="color: black;">50;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">40;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置每行高度（每行高度可以不一样）
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: blue;">return </span><span style="color: black;">45;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置尾部说明内容高度
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    </span><span style="color: blue;">return </span><span style="color: black;">40;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 点击行
+-(</span><span style="color: blue;">void</span><span style="color: black;">)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _selectedIndexPath=indexPath;
+    KCContactGroup *group=_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    </span><span style="color: green;">//创建弹出窗口
+    </span><span style="color: black;">UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@</span><span style="color: rgb(163, 21, 21);">"System Info" </span><span style="color: black;">message:[contact getName] </span><span style="color: blue;">delegate</span><span style="color: black;">:self cancelButtonTitle:@</span><span style="color: rgb(163, 21, 21);">"Cancel" </span><span style="color: black;">otherButtonTitles:@</span><span style="color: rgb(163, 21, 21);">"OK"</span><span style="color: black;">, nil];
+    alert.alertViewStyle=UIAlertViewStylePlainTextInput; </span><span style="color: green;">//设置窗口内容样式
+    </span><span style="color: black;">UITextField *textField= [alert textFieldAtIndex:0]; </span><span style="color: green;">//取得文本框
+    </span><span style="color: black;">textField.text=contact.phoneNumber; </span><span style="color: green;">//设置文本框内容
+    </span><span style="color: black;">[alert show]; </span><span style="color: green;">//显示窗口
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 窗口的代理方法，用户保存数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    </span><span style="color: green;">//当点击了第二个按钮（OK）
+    </span><span style="color: blue;">if </span><span style="color: black;">(buttonIndex==1) {
+        UITextField *textField= [alertView textFieldAtIndex:0];
+        </span><span style="color: green;">//修改模型数据
+        </span><span style="color: black;">KCContactGroup *group=_contacts[_selectedIndexPath.section];
+        KCContact *contact=group.contacts[_selectedIndexPath.row];
+        contact.phoneNumber=textField.text;
+        </span><span style="color: green;">//刷新表格
+        </span><span style="color: black;">[_tableView reloadData];
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写状态样式方法
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    </span><span style="color: blue;">return </span><span style="color: black;">UIStatusBarStyleLightContent;
+}
+@end</span></pre>
+<p>在上面的代码中我们通过修改模型来改变UI显示，这种方式是经典的MVC应用，在后面的代码中会经常看到。当然UI的刷新使用了UITableView的reloadData方法，该方法会重新调用数据源方法，包括计算分组、计算每个分组的行数，生成单元格等刷新整个UITableView。当然这种方式在实际开发中是不可取的，我们不可能因为修改了一个人的信息就刷新整个UITableViewView，此时我们需要采用局部刷新。局部刷新使用起来很简单，只需要调用UITableView的另外一个方法：</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark 窗口的代理方法，用户保存数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    </span><span style="color: green;">//当点击了第二个按钮（OK）
+    </span><span style="color: blue;">if </span><span style="color: black;">(buttonIndex==1) {
+        UITextField *textField= [alertView textFieldAtIndex:0];
+        </span><span style="color: green;">//修改模型数据
+        </span><span style="color: black;">KCContactGroup *group=_contacts[_selectedIndexPath.section];
+        KCContact *contact=group.contacts[_selectedIndexPath.row];
+        contact.phoneNumber=textField.text;
+        </span><span style="color: green;">//刷新表格
+        </span><span style="color: black;">NSArray *indexPaths=@[_selectedIndexPath];</span><span style="color: green;">//需要局部刷新的单元格的组、行
+        </span><span style="color: black;">[_tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];</span><span style="color: green;">//后面的参数代表更新时的动画
+    </span><span style="color: black;">}
+}</span></pre>
+<h1 id="performance">性能优化</h1>
+<p>前面已经说过UITableView中的单元格cell是在显示到用户可视区域后创建的，那么如果用户往下滚动就会继续创建显示在屏幕上的单元格，如果用户向上滚动返回到查看过的内容时同样会重新创建之前已经创建过的单元格。如此一来即使UITableView的内容不是太多，如果用户反复的上下滚动，内存也会瞬间飙升，更何况很多时候UITableView的内容是很多的（例如微博展示列表，基本向下滚动是没有底限的）。</p>
+<p>前面一节中我们曾经提到过如何优化UIScrollView，当时就是利用有限的UIImageView动态切换其内容来尽可能减少资源占用。同样的，在UITableView中也可以采用类似的方式，只是这时我们不是在滚动到指定位置后更改滚动的位置而是要将当前没有显示的Cell重新显示在将要显示的Cell的位置然后更新其内容。原因就是UITableView中的Cell结构布局可能是不同的，通过重新定位是不可取的，而是需要重用已经不再界面显示的已创建过的Cell。</p>
+<p>当然，听起来这么做比较复杂，其实实现起来很简单，因为UITableView已经为我们实现了这种机制。在UITableView内部有一个缓存池，初始化时使用<strong>initWithStyle:(UITableViewCellStyle) reuseIdentifier:(NSString *)</strong>方法指定一个可重用标识，就可以将这个cell放到缓存池。然后在使用时使用指定的标识去缓存池中取得对应的cell然后修改cell内容即可。</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark返回每行的单元格
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: green;">//NSIndexPath是一个对象，记录了组和行信息
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成单元格(组：%i,行%i)"</span><span style="color: black;">,indexPath.section,indexPath.row);
+    KCContactGroup *group=_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    
+    </span><span style="color: green;">//由于此方法调用十分频繁，cell的标示声明成静态变量有利于性能优化
+    </span><span style="color: blue;">static </span><span style="color: black;">NSString *cellIdentifier=@</span><span style="color: rgb(163, 21, 21);">"UITableViewCellIdentifierKey1"</span><span style="color: black;">;
+    </span><span style="color: green;">//首先根据标识去缓存池取
+    </span><span style="color: black;">UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    </span><span style="color: green;">//如果缓存池没有到则重新创建并放到缓存池中
+    </span><span style="color: blue;">if</span><span style="color: black;">(!cell){
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    }
+    
+    cell.textLabel.text=[contact getName];
+    cell.detailTextLabel.text=contact.phoneNumber;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"cell:%@"</span><span style="color: black;">,cell);
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}</span></pre>
+<p>上面的代码中已经打印了cell的地址，如果大家运行测试上下滚动UITableView会发现滚动时创建的cell地址是初始化时已经创建的。</p>
+<p>这里再次给大家强调两点：</p>
+<ol>
+<li><strong>-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)</strong>方法调用很频繁，无论是初始化、上下滚动、刷新都会调用此方法，所有在这里执行的操作一定要注意性能； 
+</li><li>可重用标识可以有多个，如果在UITableView中有多类结构不同的Cell，可以通过这个标识进行缓存和重新；</li></ol>
+<h1 id="uiTableViewCell">UITableViewCell</h1>
+<h2 id="autoid-6-0-0">1.自带的UITableViewCell</h2>
+<p>UITableViewCell是构建一个UITableView的基础，在UITableViewCell内部有一个UIView控件作为其他内容的容器，它上面有一个UIImageView和两个UILabel，通过UITableViewCellStyle属性可以对其样式进行控制。其结构如下：</p>
+<p><a href="ios_helloworld/232318499561488.png"><img border="0" height="165" width="489" src="ios_helloworld/232318511596189.png" alt="UITableViewCellStuct" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCellStuct"></a> </p>
+<p>有时候我们会发现很多UITableViewCell右侧可以显示不同的图标，在iOS中称之为访问器，点击可以触发不同的事件，例如设置功能：</p>
+<p><a href="ios_helloworld/232318514564746.png"><img border="0" height="480" width="270" src="ios_helloworld/232318518789574.png" alt="UITableViewCellAccesoryType" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCellAccesoryType"></a> </p>
+<p>要设置这些图标只需要设置UITableViewCell的accesoryType属性，这是一个枚举类型具体含义如下：</p><pre class="code"><span style="color: blue;">typedef </span><span style="color: black;">NS_ENUM(NSInteger, UITableViewCellAccessoryType) {
+    UITableViewCellAccessoryNone,                   </span><span style="color: green;">// 不显示任何图标
+    </span><span style="color: black;">UITableViewCellAccessoryDisclosureIndicator,    </span><span style="color: green;">// 跳转指示图标
+    </span><span style="color: black;">UITableViewCellAccessoryDetailDisclosureButton, </span><span style="color: green;">// 内容详情图标和跳转指示图标
+    </span><span style="color: black;">UITableViewCellAccessoryCheckmark,              </span><span style="color: green;">// 勾选图标
+    </span><span style="color: black;">UITableViewCellAccessoryDetailButton NS_ENUM_AVAILABLE_IOS(7_0) </span><span style="color: green;">// 内容详情图标
+</span><span style="color: black;">};</span></pre>
+<p>例如在最近通话中我们通常设置为详情图标，点击可以查看联系人详情：</p>
+<p><a href="ios_helloworld/232318522217847.png"><img border="0" height="591" width="320" src="ios_helloworld/232318525494648.png" alt="UITableViewCellAccessoryTypeDetaiButtonl" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCellAccessoryTypeDetaiButtonl"></a> </p>
+<p>很明显iOS设置中第一个accessoryType不在枚举之列，右侧的访问器类型是UISwitch控件，那么如何显示自定义的访问器呢？其实只要设置UITableViewCell的accessoryView即可，它支持任何UIView控件。假设我们在通讯录每组第一行放一个UISwitch，同时切换时可以输出对应信息：</p><pre class="code"><span style="color: green;">//
+//  KCMainViewController.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCMainViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactGroup.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCMainViewController ()&lt;UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate&gt;{
+    UITableView *_tableView;
+    NSMutableArray *_contacts;</span><span style="color: green;">//联系人模型
+    </span><span style="color: black;">NSIndexPath *_selectedIndexPath;</span><span style="color: green;">//当前选中的组和行
+</span><span style="color: black;">}
+
+@end
+
+@implementation KCMainViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    </span><span style="color: green;">//初始化数据
+    </span><span style="color: black;">[self initData];
+    
+    </span><span style="color: green;">//创建一个分组样式的UITableView
+    </span><span style="color: black;">_tableView=[[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    
+    </span><span style="color: green;">//设置数据源，注意必须实现对应的UITableViewDataSource协议
+    </span><span style="color: black;">_tableView.dataSource=self;
+    </span><span style="color: green;">//设置代理
+    </span><span style="color: black;">_tableView.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    
+    [self.view addSubview:_tableView];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 加载数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initData{
+    _contacts=[[NSMutableArray alloc]init];
+    
+    KCContact *contact1=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131234"</span><span style="color: black;">];
+    KCContact *contact2=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Tom" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131237"</span><span style="color: black;">];
+    KCContactGroup *group1=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"C" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with C" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact1,contact2, nil]];
+    [_contacts addObject:group1];
+    
+
+    
+    KCContact *contact3=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Terry" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131238"</span><span style="color: black;">];
+    KCContact *contact4=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Jack" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131239"</span><span style="color: black;">];
+    KCContact *contact5=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rose" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131240"</span><span style="color: black;">];
+    KCContactGroup *group2=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"L" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with L" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact3,contact4,contact5, nil]];
+    [_contacts addObject:group2];
+    
+    
+    
+    KCContact *contact6=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131235"</span><span style="color: black;">];
+    KCContact *contact7=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rosa" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131236"</span><span style="color: black;">];
+
+    KCContactGroup *group3=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"S" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with S" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact6,contact7, nil]];
+    [_contacts addObject:group3];
+    
+    
+    KCContact *contact8=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Stephone" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131241"</span><span style="color: black;">];
+    KCContact *contact9=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lucy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131242"</span><span style="color: black;">];
+    KCContact *contact10=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131243"</span><span style="color: black;">];
+    KCContact *contact11=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Emily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131244"</span><span style="color: black;">];
+    KCContact *contact12=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Andy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131245"</span><span style="color: black;">];
+    KCContactGroup *group4=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"W" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with W" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact8,contact9,contact10,contact11,contact12, nil]];
+    [_contacts addObject:group4];
+    
+    
+    KCContact *contact13=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131246"</span><span style="color: black;">];
+    KCContact *contact14=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Vivan" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131247"</span><span style="color: black;">];
+    KCContact *contact15=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joyse" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131248"</span><span style="color: black;">];
+    KCContactGroup *group5=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"Z" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with Z" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact13,contact14,contact15, nil]];
+    [_contacts addObject:group5];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 数据源方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回分组数
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"计算分组数"</span><span style="color: black;">);
+    </span><span style="color: blue;">return </span><span style="color: black;">_contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组行数
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"计算每组(组%i)行数"</span><span style="color: black;">,section);
+    KCContactGroup *group1=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group1.contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark返回每行的单元格
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: green;">//NSIndexPath是一个对象，记录了组和行信息
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成单元格(组：%i,行%i)"</span><span style="color: black;">,indexPath.section,indexPath.row);
+    KCContactGroup *group=_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    
+    </span><span style="color: green;">//由于此方法调用十分频繁，cell的标示声明成静态变量有利于性能优化
+    </span><span style="color: blue;">static </span><span style="color: black;">NSString *cellIdentifier=@</span><span style="color: rgb(163, 21, 21);">"UITableViewCellIdentifierKey1"</span><span style="color: black;">;
+    </span><span style="color: blue;">static </span><span style="color: black;">NSString *cellIdentifierForFirstRow=@</span><span style="color: rgb(163, 21, 21);">"UITableViewCellIdentifierKeyWithSwitch"</span><span style="color: black;">;
+    </span><span style="color: green;">//首先根据标示去缓存池取
+    </span><span style="color: black;">UITableViewCell *cell;
+    </span><span style="color: blue;">if </span><span style="color: black;">(indexPath.row==0) {
+        cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifierForFirstRow];
+    }</span><span style="color: blue;">else</span><span style="color: black;">{
+        cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    }
+    </span><span style="color: green;">//如果缓存池没有取到则重新创建并放到缓存池中
+    </span><span style="color: blue;">if</span><span style="color: black;">(!cell){
+        </span><span style="color: blue;">if </span><span style="color: black;">(indexPath.row==0) {
+            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifierForFirstRow];
+            UISwitch *sw=[[UISwitch alloc]init];
+            [sw addTarget:self action:@selector(switchValueChange:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView=sw;
+
+        }</span><span style="color: blue;">else</span><span style="color: black;">{
+            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+            cell.accessoryType=UITableViewCellAccessoryDetailButton;
+        }
+    }
+    
+    </span><span style="color: blue;">if</span><span style="color: black;">(indexPath.row==0){
+        ((UISwitch *)cell.accessoryView).tag=indexPath.section;
+    }
+    
+    cell.textLabel.text=[contact getName];
+    cell.detailTextLabel.text=contact.phoneNumber;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"cell:%@"</span><span style="color: black;">,cell);
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组头标题名称
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成组（组%i）名称"</span><span style="color: black;">,section);
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.name;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组尾部说明
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成尾部（组%i）详情"</span><span style="color: black;">,section);
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.detail;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组标题索引
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"生成组索引"</span><span style="color: black;">);
+    NSMutableArray *indexs=[[NSMutableArray alloc]init];
+    </span><span style="color: blue;">for</span><span style="color: black;">(KCContactGroup *group in _contacts){
+        [indexs addObject:group.name];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">indexs;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 代理方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置分组标题内容高度
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    </span><span style="color: blue;">if</span><span style="color: black;">(section==0){
+        </span><span style="color: blue;">return </span><span style="color: black;">50;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">40;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置每行高度（每行高度可以不一样）
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: blue;">return </span><span style="color: black;">45;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置尾部说明内容高度
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    </span><span style="color: blue;">return </span><span style="color: black;">40;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 点击行
+-(</span><span style="color: blue;">void</span><span style="color: black;">)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _selectedIndexPath=indexPath;
+    KCContactGroup *group=_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    </span><span style="color: green;">//创建弹出窗口
+    </span><span style="color: black;">UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@</span><span style="color: rgb(163, 21, 21);">"System Info" </span><span style="color: black;">message:[contact getName] </span><span style="color: blue;">delegate</span><span style="color: black;">:self cancelButtonTitle:@</span><span style="color: rgb(163, 21, 21);">"Cancel" </span><span style="color: black;">otherButtonTitles:@</span><span style="color: rgb(163, 21, 21);">"OK"</span><span style="color: black;">, nil];
+    alert.alertViewStyle=UIAlertViewStylePlainTextInput; </span><span style="color: green;">//设置窗口内容样式
+    </span><span style="color: black;">UITextField *textField= [alert textFieldAtIndex:0]; </span><span style="color: green;">//取得文本框
+    </span><span style="color: black;">textField.text=contact.phoneNumber; </span><span style="color: green;">//设置文本框内容
+    </span><span style="color: black;">[alert show]; </span><span style="color: green;">//显示窗口
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 窗口的代理方法，用户保存数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    </span><span style="color: green;">//当点击了第二个按钮（OK）
+    </span><span style="color: blue;">if </span><span style="color: black;">(buttonIndex==1) {
+        UITextField *textField= [alertView textFieldAtIndex:0];
+        </span><span style="color: green;">//修改模型数据
+        </span><span style="color: black;">KCContactGroup *group=_contacts[_selectedIndexPath.section];
+        KCContact *contact=group.contacts[_selectedIndexPath.row];
+        contact.phoneNumber=textField.text;
+        </span><span style="color: green;">//刷新表格
+        </span><span style="color: black;">NSArray *indexPaths=@[_selectedIndexPath];</span><span style="color: green;">//需要局部刷新的单元格的组、行
+        </span><span style="color: black;">[_tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];</span><span style="color: green;">//后面的参数代码更新时的动画
+    </span><span style="color: black;">}
+}
+
+</span><span style="color: green;">
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写状态样式方法
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    </span><span style="color: blue;">return </span><span style="color: black;">UIStatusBarStyleLightContent;
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 切换开关转化事件
+-(</span><span style="color: blue;">void</span><span style="color: black;">)switchValueChange:(UISwitch *)sw{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"section:%i,switch:%i"</span><span style="color: black;">,sw.tag, sw.on);
+}
+@end</span></pre>
+<p>最终运行效果：</p>
+<p><a href="ios_helloworld/232318528311733.gif"><img height="588" width="320" src="ios_helloworld/232318569404922.gif" alt="Run" style="display: inline" title="Run"></a> </p>
+<p>注意：</p>
+<ol>
+<li>由于此时我们需要两种UITableViewCell样式，考虑到性能我们需要在缓存池缓存两种Cell。 
+</li><li>UISwitch继承于UIControl而不是UIView（当然UIControl最终也是继承于UIView）,继承于UIControl的控件使用addTarget添加对应事件而不是代理，同时有“是否可用”、“是否高亮”、“是否选中”等属性； 
+</li><li>上面代码中如果有些UITableViewCell的UISwitch设置为on当其他控件重用时状态也是on，解决这个问题可以在模型中设置对应的属性记录其状态，在生成cell时设置当前状态（为了尽可能简化上面的代码这里就不再修复这个问题）；</li></ol>
+<h2 id="autoid-6-0-0">2.自定义UITableViewCell</h2>
+<p>虽然系统自带的UITableViewCell已经够强大了，但是很多时候这并不能满足我们的需求。例如新浪微博的Cell就没有那么简单：</p>
+<p><a href="ios_helloworld/232319004409524.png"><img border="0" height="480" width="270" src="ios_helloworld/232319008151340.png" alt="UITableViewCell" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCell"></a> </p>
+<p>没错，这个界面布局也是UITableView实现的，其中的内容就是UITableViewCell，只是这个UITableViewCell是用户自定义实现的。当然要实现上面的UITableViewCell三言两语我们是说不完的，这里我们实现一个简化版本，界面原型如下：</p>
+<p><a href="ios_helloworld/232319010811653.png"><img border="0" height="157" width="341" src="ios_helloworld/232319013315196.png" alt="UITableViewCellPrototypeDesign" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCellPrototypeDesign"></a> </p>
+<p>我们对具体控件进行拆分：</p>
+<p><a href="ios_helloworld/232319015818739.png"><img border="0" height="157" width="341" src="ios_helloworld/232319018156511.png" alt="UITableViewCellPrototypeDesign2" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCellPrototypeDesign2"></a> </p>
+<p>在这个界面中有2个UIImageView控件和4个UILabel，整个界面显示效果类似于新浪微博的消息内容界面，但是又在新浪微博基础上进行了精简以至于利用现有知识能够顺利开发出来。</p>
+<p>在前面的内容中我们的数据都是手动构建的，在实际开发中自然不会这么做，这里我们不妨将微博数据存储到plist文件中然后从plist文件读取数据构建模型对象（实际开发微博当然需要进行网络数据请求，这里只是进行模拟就不再演示网络请求的内容）。假设plist文件内容如下：</p>
+<p><a href="ios_helloworld/232319021599082.png"><img border="0" height="435" width="800" src="ios_helloworld/232319027213656.png" alt="StatusInfoPlist" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="StatusInfoPlist"></a> </p>
+<p>接下来就定义一个KCStatusTableViewCell实现UITableViewCell，一般实现自定义UITableViewCell需要分为两步：第一初始化控件；第二设置数据，重新设置控件frame。原因就是自定义Cell一般无法固定高度，很多时候高度需要随着内容改变。此外由于在单元格内部是无法控制单元格高度的，因此一般会定义一个高度属性用于在UITableView的代理事件中设置每个单元格高度。</p>
+<p>1.首先看一下微博模型KCStatus,这个模型主要的方法就是根据plist字典内容生成微博对象:</p>
+<p>KCStatus.h</p><pre class="code"><span style="color: green;">//
+//  KCStatus.h
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCStatus : NSObject
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 属性
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,assign) </span><span style="color: blue;">long long </span><span style="color: black;">Id;</span><span style="color: green;">//微博id
+</span><span style="color: black;">@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *profileImageUrl;</span><span style="color: green;">//头像
+</span><span style="color: black;">@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *userName;</span><span style="color: green;">//发送用户
+</span><span style="color: black;">@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *mbtype;</span><span style="color: green;">//会员类型
+</span><span style="color: black;">@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *createdAt;</span><span style="color: green;">//创建时间
+</span><span style="color: black;">@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *source;</span><span style="color: green;">//设备来源
+</span><span style="color: black;">@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *text;</span><span style="color: green;">//微博内容
+
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 根据字典初始化微博对象
+-(KCStatus *)initWithDictionary:(NSDictionary *)dic;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 初始化微博对象（静态方法）
++(KCStatus *)statusWithDictionary:(NSDictionary *)dic;
+@end</span></pre>
+<p>KCStatus.m</p><pre class="code"><span style="color: green;">//
+//  KCStatus.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCStatus.h"
+
+</span><span style="color: black;">@implementation KCStatus
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 根据字典初始化微博对象
+-(KCStatus *)initWithDictionary:(NSDictionary *)dic{
+    </span><span style="color: blue;">if</span><span style="color: black;">(self=[super init]){
+        self.Id=[dic[@</span><span style="color: rgb(163, 21, 21);">"Id"</span><span style="color: black;">] longLongValue];
+        self.profileImageUrl=dic[@</span><span style="color: rgb(163, 21, 21);">"profileImageUrl"</span><span style="color: black;">];
+        self.userName=dic[@</span><span style="color: rgb(163, 21, 21);">"userName"</span><span style="color: black;">];
+        self.mbtype=dic[@</span><span style="color: rgb(163, 21, 21);">"mbtype"</span><span style="color: black;">];
+        self.createdAt=dic[@</span><span style="color: rgb(163, 21, 21);">"createdAt"</span><span style="color: black;">];
+        self.source=dic[@</span><span style="color: rgb(163, 21, 21);">"source"</span><span style="color: black;">];
+        self.text=dic[@</span><span style="color: rgb(163, 21, 21);">"text"</span><span style="color: black;">];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 初始化微博对象（静态方法）
++(KCStatus *)statusWithDictionary:(NSDictionary *)dic{
+    KCStatus *status=[[KCStatus alloc]initWithDictionary:dic];
+    </span><span style="color: blue;">return </span><span style="color: black;">status;
+}
+
+-(NSString *)source{
+    </span><span style="color: blue;">return </span><span style="color: black;">[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"来自 <a href="mailto:%@&quot;,_source];}@end">%@"</a></span><a href="mailto:%@&quot;,_source];}@end"><span style="color: black;">,_source];
+}
+@end</span></a></pre>
+<p>2.然后看一下自定义的Cell</p>
+<p>KCStatusTableViewCell.h</p><pre class="code"><span style="color: green;">//
+//  KCStatusTableViewCell.h
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;UIKit/UIKit.h&gt;
+</span><span style="color: black;">@</span><span style="color: blue;">class </span><span style="color: black;">KCStatus;
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">KCStatusTableViewCell : UITableViewCell
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 微博对象
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,strong) KCStatus *status;
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 单元格高度
+@</span><span style="color: blue;">property </span><span style="color: black;">(assign,nonatomic) CGFloat height;
+
+@end</span></pre>
+<p>KCStatusTableViewCell.m</p><pre class="code"><span style="color: green;">//
+//  KCStatusTableViewCell.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCStatusTableViewCell.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCStatus.h"
+</span><span style="color: blue;">#define </span><span style="color: black;">KCColor(r,g,b) [UIColor colorWithHue:r/255.0 saturation:g/255.0 brightness:b/255.0 alpha:1] </span><span style="color: green;">//颜色宏定义
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellControlSpacing 10 </span><span style="color: green;">//控件间距
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellBackgroundColor KCColor(251,251,251)
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusGrayColor KCColor(50,50,50)
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusLightGrayColor KCColor(120,120,120)
+
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellAvatarWidth 40 </span><span style="color: green;">//头像宽度
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellAvatarHeight kStatusTableViewCellAvatarWidth
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellUserNameFontSize 14
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellMbTypeWidth 13 </span><span style="color: green;">//会员图标宽度
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellMbTypeHeight kStatusTableViewCellMbTypeWidth
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellCreateAtFontSize 12
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellSourceFontSize 12
+</span><span style="color: blue;">#define </span><span style="color: black;">kStatusTableViewCellTextFontSize 14
+
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">KCStatusTableViewCell(){
+    UIImageView *_avatar;</span><span style="color: green;">//头像
+    </span><span style="color: black;">UIImageView *_mbType;</span><span style="color: green;">//会员类型
+    </span><span style="color: black;">UILabel *_userName;
+    UILabel *_createAt;
+    UILabel *_source;
+    UILabel *_text;
+}
+
+@end
+
+@implementation KCStatusTableViewCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    </span><span style="color: blue;">if </span><span style="color: black;">(self) {
+        [self initSubView];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 初始化视图
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initSubView{
+    </span><span style="color: green;">//头像控件
+    </span><span style="color: black;">_avatar=[[UIImageView alloc]init];
+    [self.contentView addSubview:_avatar];
+    </span><span style="color: green;">//用户名
+    </span><span style="color: black;">_userName=[[UILabel alloc]init];
+    _userName.textColor=kStatusGrayColor;
+    _userName.font=[UIFont systemFontOfSize:kStatusTableViewCellUserNameFontSize];
+    [self.contentView addSubview:_userName];
+    </span><span style="color: green;">//会员类型
+    </span><span style="color: black;">_mbType=[[UIImageView alloc]init];
+    [self.contentView addSubview:_mbType];
+    </span><span style="color: green;">//日期
+    </span><span style="color: black;">_createAt=[[UILabel alloc]init];
+    _createAt.textColor=kStatusLightGrayColor;
+    _createAt.font=[UIFont systemFontOfSize:kStatusTableViewCellCreateAtFontSize];
+    [self.contentView addSubview:_createAt];
+    </span><span style="color: green;">//设备
+    </span><span style="color: black;">_source=[[UILabel alloc]init];
+    _source.textColor=kStatusLightGrayColor;
+    _source.font=[UIFont systemFontOfSize:kStatusTableViewCellSourceFontSize];
+    [self.contentView addSubview:_source];
+    </span><span style="color: green;">//内容
+    </span><span style="color: black;">_text=[[UILabel alloc]init];
+    _text.textColor=kStatusGrayColor;
+    _text.font=[UIFont systemFontOfSize:kStatusTableViewCellTextFontSize];
+    _text.numberOfLines=0;
+</span><span style="color: green;">//    _text.lineBreakMode=NSLineBreakByWordWrapping;
+    </span><span style="color: black;">[self.contentView addSubview:_text];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置微博
+-(</span><span style="color: blue;">void</span><span style="color: black;">)setStatus:(KCStatus *)status{
+    </span><span style="color: green;">//设置头像大小和位置
+    </span><span style="color: black;">CGFloat avatarX=10,avatarY=10;
+    CGRect avatarRect=CGRectMake(avatarX, avatarY, kStatusTableViewCellAvatarWidth, kStatusTableViewCellAvatarHeight);
+    _avatar.image=[UIImage imageNamed:status.profileImageUrl];
+    _avatar.frame=avatarRect;
+    
+    
+    </span><span style="color: green;">//设置会员图标大小和位置
+    </span><span style="color: black;">CGFloat userNameX= CGRectGetMaxX(_avatar.frame)+kStatusTableViewCellControlSpacing ;
+    CGFloat userNameY=avatarY;
+    </span><span style="color: green;">//根据文本内容取得文本占用空间大小
+    </span><span style="color: black;">CGSize userNameSize=[status.userName sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:kStatusTableViewCellUserNameFontSize]}];
+    CGRect userNameRect=CGRectMake(userNameX, userNameY, userNameSize.width,userNameSize.height);
+    _userName.text=status.userName;
+    _userName.frame=userNameRect;
+    
+    
+    </span><span style="color: green;">//设置会员图标大小和位置
+    </span><span style="color: black;">CGFloat mbTypeX=CGRectGetMaxX(_userName.frame)+kStatusTableViewCellControlSpacing;
+    CGFloat mbTypeY=avatarY;
+    CGRect mbTypeRect=CGRectMake(mbTypeX, mbTypeY, kStatusTableViewCellMbTypeWidth, kStatusTableViewCellMbTypeHeight);
+    _mbType.image=[UIImage imageNamed:status.mbtype];
+    _mbType.frame=mbTypeRect;
+    
+    
+    </span><span style="color: green;">//设置发布日期大小和位置
+    </span><span style="color: black;">CGSize createAtSize=[status.createdAt sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kStatusTableViewCellCreateAtFontSize]}];
+    CGFloat createAtX=userNameX;
+    CGFloat createAtY=CGRectGetMaxY(_avatar.frame)-createAtSize.height;
+    CGRect createAtRect=CGRectMake(createAtX, createAtY, createAtSize.width, createAtSize.height);
+    _createAt.text=status.createdAt;
+    _createAt.frame=createAtRect;
+    
+    
+    </span><span style="color: green;">//设置设备信息大小和位置
+    </span><span style="color: black;">CGSize sourceSize=[status.source sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:kStatusTableViewCellSourceFontSize]}];
+    CGFloat sourceX=CGRectGetMaxX(_createAt.frame)+kStatusTableViewCellControlSpacing;
+    CGFloat sourceY=createAtY;
+    CGRect sourceRect=CGRectMake(sourceX, sourceY, sourceSize.width,sourceSize.height);
+    _source.text=status.source;
+    _source.frame=sourceRect;
+    
+    
+    </span><span style="color: green;">//设置微博内容大小和位置
+    </span><span style="color: black;">CGFloat textX=avatarX;
+    CGFloat textY=CGRectGetMaxY(_avatar.frame)+kStatusTableViewCellControlSpacing;
+    CGFloat textWidth=self.frame.size.width-kStatusTableViewCellControlSpacing*2;
+    CGSize textSize=[status.text boundingRectWithSize:CGSizeMake(textWidth, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:kStatusTableViewCellTextFontSize]} context:nil].size;
+    CGRect textRect=CGRectMake(textX, textY, textSize.width, textSize.height);
+    _text.text=status.text;
+    _text.frame=textRect;
+    
+    _height=CGRectGetMaxY(_text.frame)+kStatusTableViewCellControlSpacing;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写选择事件，取消选中
+-(</span><span style="color: blue;">void</span><span style="color: black;">)setSelected:(BOOL)selected animated:(BOOL)animated{
+    
+}
+@end</span></pre>
+<p>这是我们自定义Cell这个例子的核心，自定义Cell分为两个步骤：首先要进行各种控件的初始化工作，这个过程中只要将控件放到Cell的View中同时设置控件显示内容的格式（字体大小、颜色等）即可；然后在数据对象设置方法中进行各个控件的布局（大小、位置）。在代码中有几点需要重点提示大家：</p>
+<ul>
+<li>对于单行文本数据的显示调用<strong>-</strong><strong> (CGSize)sizeWithAttributes:(NSDictionary *)attrs;</strong>方法来得到文本宽度和高度。 
+</li><li>对于多行文本数据的显示调用<strong>- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(NSDictionary *)attributes context:(NSStringDrawingContext *)context ;</strong>方法来得到文本宽度和高度；同时注意在此之前需要设置文本控件的<strong>numberOfLines</strong>属性为0。 
+</li><li>通常我们会在自定义Cell中设置一个高度属性，用于外界方法调用，因为Cell内部设置Cell的高度是没有用的，UITableViewCell在初始化时会重新设置高度。</li></ul>
+<p>3.最后我们看一下自定义Cell的使用过程：</p>
+<p>KCStatusViewController.m</p><pre class="code"><span style="color: green;">//
+//  KCCutomCellViewController.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCStatusCellViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCStatus.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCStatusTableViewCell.h"
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">KCStatusCellViewController ()&lt;UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate&gt;{
+    UITableView *_tableView;
+    NSMutableArray *_status;
+    NSMutableArray *_statusCells;</span><span style="color: green;">//存储cell，用于计算高度
+</span><span style="color: black;">}
+@end
+
+@implementation KCStatusCellViewController
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    </span><span style="color: green;">//初始化数据
+    </span><span style="color: black;">[self initData];
+    
+    </span><span style="color: green;">//创建一个分组样式的UITableView
+    </span><span style="color: black;">_tableView=[[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    
+    </span><span style="color: green;">//设置数据源，注意必须实现对应的UITableViewDataSource协议
+    </span><span style="color: black;">_tableView.dataSource=self;
+    </span><span style="color: green;">//设置代理
+    </span><span style="color: black;">_tableView.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    
+    [self.view addSubview:_tableView];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 加载数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initData{
+    NSString *path=[[NSBundle mainBundle] pathForResource:@</span><span style="color: rgb(163, 21, 21);">"StatusInfo" </span><span style="color: black;">ofType:@</span><span style="color: rgb(163, 21, 21);">"plist"</span><span style="color: black;">];
+    NSArray *</span><span style="color: blue;">array</span><span style="color: black;">=[NSArray arrayWithContentsOfFile:path];
+    _status=[[NSMutableArray alloc]init];
+    _statusCells=[[NSMutableArray alloc]init];
+    [</span><span style="color: blue;">array </span><span style="color: black;">enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [_status addObject:[KCStatus statusWithDictionary:obj]];
+        KCStatusTableViewCell *cell=[[KCStatusTableViewCell alloc]init];
+        [_statusCells addObject:cell];
+    }];
+}
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 数据源方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回分组数
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    </span><span style="color: blue;">return </span><span style="color: black;">1;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组行数
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+
+    </span><span style="color: blue;">return </span><span style="color: black;">_status.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark返回每行的单元格
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: blue;">static </span><span style="color: black;">NSString *cellIdentifier=@</span><span style="color: rgb(163, 21, 21);">"UITableViewCellIdentifierKey1"</span><span style="color: black;">;
+    KCStatusTableViewCell *cell;
+    cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    </span><span style="color: blue;">if</span><span style="color: black;">(!cell){
+        cell=[[KCStatusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    </span><span style="color: green;">//在此设置微博，以便重新布局
+    </span><span style="color: black;">KCStatus *status=_status[indexPath.row];
+    cell.status=status;
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 代理方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重新设置单元格高度
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: green;">//KCStatusTableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    </span><span style="color: black;">KCStatusTableViewCell *cell= _statusCells[indexPath.row];
+    cell.status=_status[indexPath.row];
+    </span><span style="color: blue;">return </span><span style="color: black;">cell.height;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写状态样式方法
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    </span><span style="color: blue;">return </span><span style="color: black;">UIStatusBarStyleLightContent;
+}
+@end</span></pre>
+<p>这个类中需要重点强调一下：Cell的高度需要重新设置（前面说过无论Cell内部设置多高都没有用，需要重新设置），这里采用的方法是首先创建对应的Cell，然后在<strong>- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;</strong>方法中设置微博数据计算高度通知UITableView。</p>
+<p>最后我们看一下运行的效果：</p>
+<p><a href="ios_helloworld/232319032842527.gif"><img height="588" width="320" src="ios_helloworld/232319139402849.gif" alt="RunEffect2" style="display: inline" title="RunEffect2"></a> </p>
+<h1 id="operate">常用操作</h1>
+<p>UITableView和UITableViewCell提供了强大的操作功能，这一节中会重点讨论删除、增加、排序等操作。为了方便演示我们还是在之前的通讯录的基础上演示，在此之前先来给视图控制器添加一个工具条,在工具条左侧放一个删除按钮，右侧放一个添加按钮：</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark 添加工具栏
+-(</span><span style="color: blue;">void</span><span style="color: black;">)addToolbar{
+    CGRect frame=self.view.frame;
+    _toolbar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, kContactToolbarHeight)];
+    </span><span style="color: green;">//    _toolbar.backgroundColor=[UIColor colorWithHue:246/255.0 saturation:246/255.0 brightness:246/255.0 alpha:1];
+    </span><span style="color: black;">[self.view addSubview:_toolbar];
+    UIBarButtonItem *removeButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(remove)];
+    UIBarButtonItem *flexibleButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *addButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add)];
+    NSArray *buttonArray=[NSArray arrayWithObjects:removeButton,flexibleButton,addButton, nil];
+    _toolbar.items=buttonArray;
+}</span></pre>
+<h2 id="autoid-7-0-0">1.删除</h2>
+<p>在UITableView中无论是删除操作还是添加操作都是通过修改UITableView的编辑状态来改变的（除非你不用UITableView自带的删除功能）。在删除按钮中我们设置UITableView的编辑状态：</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark 删除
+-(</span><span style="color: blue;">void</span><span style="color: black;">)remove{
+    </span><span style="color: green;">//直接通过下面的方法设置编辑状态没有动画
+    //_tableView.editing=!_tableView.isEditing;
+    
+    </span><span style="color: black;">[_tableView setEditing:!_tableView.isEditing animated:</span><span style="color: blue;">true</span><span style="color: black;">];
+}</span></pre>
+<p>点击删除按钮会在Cell的左侧显示删除按钮：</p>
+<p><a href="ios_helloworld/232319225653584.jpg"><img border="0" height="590" width="320" src="ios_helloworld/232319232998442.jpg" alt="UITableViewCellRemoveStatus" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCellRemoveStatus"></a> </p>
+<p>此时点击左侧删除图标右侧出现删除：</p>
+<p><a href="ios_helloworld/232319237688285.jpg"><img border="0" height="590" width="320" src="ios_helloworld/232319241747343.jpg" alt="UITableViewCellDeleteStatus2" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UITableViewCellDeleteStatus2"></a> </p>
+<p>用过iOS的朋友都知道，一般这种Cell如果向左滑动右侧就会出现删除按钮直接删除就可以了。其实实现这个功能只要实现代理<strong>-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;</strong>方法,只要实现了此方法向左滑动就会显示删除按钮。只要点击删除按钮这个方法就会调用，但是需要注意的是无论是删除还是添加都是执行这个方法，只是第二个参数类型不同。下面看一下具体的删除实现：</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark 删除操作
+</span><span style="color: green;">//实现了此方法向左滑动就会显示删除按钮
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    KCContactGroup *group =_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    </span><span style="color: blue;">if </span><span style="color: black;">(editingStyle==UITableViewCellEditingStyleDelete) {
+        [group.contacts removeObject:contact];
+        </span><span style="color: green;">//考虑到性能这里不建议使用reloadData
+        //[tableView reloadData];
+        //使用下面的方法既可以局部刷新又有动画效果
+        </span><span style="color: black;">[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+        
+        </span><span style="color: green;">//如果当前组中没有数据则移除组刷新整个表格
+        </span><span style="color: blue;">if </span><span style="color: black;">(group.contacts.count==0) {
+            [_contacts removeObject:group];
+            [tableView reloadData];
+        }
+    }
+}</span></pre>
+<p>从这段代码我们再次看到了MVC的思想，要修改UI先修改数据。而且我们看到了另一个刷新表格的方法<strong>- (void)deleteRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;,</strong>使用这个方法可以再删除之后刷新对应的单元格。效果如下：</p>
+<p><a href="ios_helloworld/232319245189914.gif"><img height="588" width="320" src="ios_helloworld/232319249713986.gif" alt="UITableViewCellDelete" style="display: inline" title="UITableViewCellDelete"></a> </p>
+<h2 id="autoid-7-0-0">2.添加</h2>
+<p>添加和删除操作都是设置UITableView的编辑状态，具体是添加还是删除需要根据代理方法<strong>-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath;</strong>的返回值来确定。因此这里我们定义一个变量来记录点击了哪个按钮，根据点击按钮的不同在这个方法中返回不同的值。</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark 取得当前操作状态，根据不同的状态左侧出现不同的操作按钮
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: blue;">if </span><span style="color: black;">(_isInsert) {
+        </span><span style="color: blue;">return </span><span style="color: black;">UITableViewCellEditingStyleInsert;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">UITableViewCellEditingStyleDelete;
+}</span><span style="color: black;"></span><br><span style="color: blue;">#pragma </span><span style="color: black;">mark 编辑操作（删除或添加）
+</span><span style="color: green;">//实现了此方法向左滑动就会显示删除（或添加）图标
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    KCContactGroup *group =_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    </span><span style="color: blue;">if </span><span style="color: black;">(editingStyle==UITableViewCellEditingStyleDelete) {
+        [group.contacts removeObject:contact];
+        </span><span style="color: green;">//考虑到性能这里不建议使用reloadData
+        //[tableView reloadData];
+        //使用下面的方法既可以局部刷新又有动画效果
+        </span><span style="color: black;">[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+        
+        </span><span style="color: green;">//如果当前组中没有数据则移除组刷新整个表格
+        </span><span style="color: blue;">if </span><span style="color: black;">(group.contacts.count==0) {
+            [_contacts removeObject:group];
+            [tableView reloadData];
+        }
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(editingStyle==UITableViewCellEditingStyleInsert){
+        KCContact *newContact=[[KCContact alloc]init];
+        newContact.firstName=@</span><span style="color: rgb(163, 21, 21);">"first"</span><span style="color: black;">;
+        newContact.lastName=@</span><span style="color: rgb(163, 21, 21);">"last"</span><span style="color: black;">;
+        newContact.phoneNumber=@</span><span style="color: rgb(163, 21, 21);">"12345678901"</span><span style="color: black;">;
+        [group.contacts insertObject:newContact atIndex:indexPath.row];
+        [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationBottom];</span><span style="color: green;">//注意这里没有使用reladData刷新
+    </span><span style="color: black;">}
+}</span></pre>
+<p>运行效果：</p>
+<p><a href="ios_helloworld/232319258154644.gif"><img height="587" width="320" src="ios_helloworld/232319262062229.gif" alt="UITableViewCellInsert" style="display: inline" title="UITableViewCellInsert"></a> </p>
+<h2 id="autoid-7-0-0">3.排序</h2>
+<p>只要实现<strong>-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;</strong>代理方法当UITableView处于编辑状态时就可以排序。</p><pre class="code"><span style="color: blue;">#pragma </span><span style="color: black;">mark 排序
+</span><span style="color: green;">//只要实现这个方法在编辑状态右侧就有排序图标
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+    KCContactGroup *sourceGroup =_contacts[sourceIndexPath.section];
+    KCContact *sourceContact=sourceGroup.contacts[sourceIndexPath.row];
+    KCContactGroup *destinationGroup =_contacts[destinationIndexPath.section];
+    
+    [sourceGroup.contacts removeObject:sourceContact];
+    </span><span style="color: blue;">if</span><span style="color: black;">(sourceGroup.contacts.count==0){
+        [_contacts removeObject:sourceGroup];
+        [tableView reloadData];
+    }
+    
+    [destinationGroup.contacts insertObject:sourceContact atIndex:destinationIndexPath.row];
+    
+}</span></pre>
+<p>运行效果：</p>
+<p><a href="ios_helloworld/232319268933073.gif"><img height="587" width="320" src="ios_helloworld/232319290655703.gif" alt="UITableViewCellMove" style="display: inline" title="UITableViewCellMove"></a> </p>
+<p>最后给大家附上上面几种操作的完整代码：</p><pre class="code"><span style="color: green;">//
+//  KCContactViewController.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactGroup.h"
+</span><span style="color: blue;">#define </span><span style="color: black;">kContactToolbarHeight 44
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">KCContactViewController ()&lt;UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate&gt;{
+    UITableView *_tableView;
+    UIToolbar *_toolbar;
+    NSMutableArray *_contacts;</span><span style="color: green;">//联系人模型
+    </span><span style="color: black;">NSIndexPath *_selectedIndexPath;</span><span style="color: green;">//当前选中的组和行
+    </span><span style="color: black;">BOOL _isInsert;</span><span style="color: green;">//记录是点击了插入还是删除按钮
+</span><span style="color: black;">}
+
+@end
+
+@implementation KCContactViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    
+    </span><span style="color: green;">//初始化数据
+    </span><span style="color: black;">[self initData];
+    
+    </span><span style="color: green;">//创建一个分组样式的UITableView
+    </span><span style="color: black;">_tableView=[[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    _tableView.contentInset=UIEdgeInsetsMake(kContactToolbarHeight, 0, 0, 0);
+    [self.view addSubview:_tableView];
+    
+    </span><span style="color: green;">//添加工具栏
+    </span><span style="color: black;">[self addToolbar];
+    
+    </span><span style="color: green;">//设置数据源，注意必须实现对应的UITableViewDataSource协议
+    </span><span style="color: black;">_tableView.dataSource=self;
+    </span><span style="color: green;">//设置代理
+    </span><span style="color: black;">_tableView.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 加载数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initData{
+    _contacts=[[NSMutableArray alloc]init];
+    
+    KCContact *contact1=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131234"</span><span style="color: black;">];
+    KCContact *contact2=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Tom" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131237"</span><span style="color: black;">];
+    KCContactGroup *group1=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"C" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with C" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact1,contact2, nil]];
+    [_contacts addObject:group1];
+    
+    
+    
+    KCContact *contact3=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Terry" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131238"</span><span style="color: black;">];
+    KCContact *contact4=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Jack" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131239"</span><span style="color: black;">];
+    KCContact *contact5=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rose" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131240"</span><span style="color: black;">];
+    KCContactGroup *group2=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"L" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with L" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact3,contact4,contact5, nil]];
+    [_contacts addObject:group2];
+    
+    
+    
+    KCContact *contact6=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131235"</span><span style="color: black;">];
+    KCContact *contact7=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rosa" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131236"</span><span style="color: black;">];
+    
+    KCContactGroup *group3=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"S" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with S" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact6,contact7, nil]];
+    [_contacts addObject:group3];
+    
+    
+    KCContact *contact8=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Stephone" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131241"</span><span style="color: black;">];
+    KCContact *contact9=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lucy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131242"</span><span style="color: black;">];
+    KCContact *contact10=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131243"</span><span style="color: black;">];
+    KCContact *contact11=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Emily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131244"</span><span style="color: black;">];
+    KCContact *contact12=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Andy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131245"</span><span style="color: black;">];
+    KCContactGroup *group4=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"W" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with W" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact8,contact9,contact10,contact11,contact12, nil]];
+    [_contacts addObject:group4];
+    
+    
+    KCContact *contact13=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131246"</span><span style="color: black;">];
+    KCContact *contact14=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Vivan" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131247"</span><span style="color: black;">];
+    KCContact *contact15=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joyse" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131248"</span><span style="color: black;">];
+    KCContactGroup *group5=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"Z" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with Z" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact13,contact14,contact15, nil]];
+    [_contacts addObject:group5];
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 添加工具栏
+-(</span><span style="color: blue;">void</span><span style="color: black;">)addToolbar{
+    CGRect frame=self.view.frame;
+    _toolbar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, kContactToolbarHeight)];
+    </span><span style="color: green;">//    _toolbar.backgroundColor=[UIColor colorWithHue:246/255.0 saturation:246/255.0 brightness:246/255.0 alpha:1];
+    </span><span style="color: black;">[self.view addSubview:_toolbar];
+    UIBarButtonItem *removeButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(remove)];
+    UIBarButtonItem *flexibleButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *addButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(add)];
+    NSArray *buttonArray=[NSArray arrayWithObjects:removeButton,flexibleButton,addButton, nil];
+    _toolbar.items=buttonArray;
+}
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 删除
+-(</span><span style="color: blue;">void</span><span style="color: black;">)remove{
+    </span><span style="color: green;">//直接通过下面的方法设置编辑状态没有动画
+    //_tableView.editing=!_tableView.isEditing;
+    </span><span style="color: black;">_isInsert=</span><span style="color: blue;">false</span><span style="color: black;">;
+    [_tableView setEditing:!_tableView.isEditing animated:</span><span style="color: blue;">true</span><span style="color: black;">];
+}
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 添加
+-(</span><span style="color: blue;">void</span><span style="color: black;">)add{
+    _isInsert=</span><span style="color: blue;">true</span><span style="color: black;">;
+    [_tableView setEditing:!_tableView.isEditing animated:</span><span style="color: blue;">true</span><span style="color: black;">];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 数据源方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回分组数
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    </span><span style="color: blue;">return </span><span style="color: black;">_contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 返回每组行数
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    KCContactGroup *group1=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group1.contacts.count;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark返回每行的单元格
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: green;">//NSIndexPath是一个对象，记录了组和行信息
+    </span><span style="color: black;">KCContactGroup *group=_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+
+    </span><span style="color: blue;">static </span><span style="color: black;">NSString *cellIdentifier=@</span><span style="color: rgb(163, 21, 21);">"UITableViewCellIdentifierKey1"</span><span style="color: black;">;
+
+    </span><span style="color: green;">//首先根据标识去缓存池取
+    </span><span style="color: black;">UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    </span><span style="color: green;">//如果缓存池没有取到则重新创建并放到缓存池中
+    </span><span style="color: blue;">if</span><span style="color: black;">(!cell){
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    }
+    
+    cell.textLabel.text=[contact getName];
+    cell.detailTextLabel.text=contact.phoneNumber;
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 代理方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置分组标题
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.name;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 编辑操作（删除或添加）
+</span><span style="color: green;">//实现了此方法向左滑动就会显示删除（或添加）图标
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    KCContactGroup *group =_contacts[indexPath.section];
+    KCContact *contact=group.contacts[indexPath.row];
+    </span><span style="color: blue;">if </span><span style="color: black;">(editingStyle==UITableViewCellEditingStyleDelete) {
+        [group.contacts removeObject:contact];
+        </span><span style="color: green;">//考虑到性能这里不建议使用reloadData
+        //[tableView reloadData];
+        //使用下面的方法既可以局部刷新又有动画效果
+        </span><span style="color: black;">[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+        
+        </span><span style="color: green;">//如果当前组中没有数据则移除组刷新整个表格
+        </span><span style="color: blue;">if </span><span style="color: black;">(group.contacts.count==0) {
+            [_contacts removeObject:group];
+            [tableView reloadData];
+        }
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(editingStyle==UITableViewCellEditingStyleInsert){
+        KCContact *newContact=[[KCContact alloc]init];
+        newContact.firstName=@</span><span style="color: rgb(163, 21, 21);">"first"</span><span style="color: black;">;
+        newContact.lastName=@</span><span style="color: rgb(163, 21, 21);">"last"</span><span style="color: black;">;
+        newContact.phoneNumber=@</span><span style="color: rgb(163, 21, 21);">"12345678901"</span><span style="color: black;">;
+        [group.contacts insertObject:newContact atIndex:indexPath.row];
+        [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationBottom];</span><span style="color: green;">//注意这里没有使用reladData刷新
+    </span><span style="color: black;">}
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 排序
+</span><span style="color: green;">//只要实现这个方法在编辑状态右侧就有排序图标
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+    KCContactGroup *sourceGroup =_contacts[sourceIndexPath.section];
+    KCContact *sourceContact=sourceGroup.contacts[sourceIndexPath.row];
+    KCContactGroup *destinationGroup =_contacts[destinationIndexPath.section];
+    
+    [sourceGroup.contacts removeObject:sourceContact];
+    [destinationGroup.contacts insertObject:sourceContact atIndex:destinationIndexPath.row];
+    </span><span style="color: blue;">if</span><span style="color: black;">(sourceGroup.contacts.count==0){
+        [_contacts removeObject:sourceGroup];
+        [tableView reloadData];
+    }
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 取得当前操作状态，根据不同的状态左侧出现不同的操作按钮
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    </span><span style="color: blue;">if </span><span style="color: black;">(_isInsert) {
+        </span><span style="color: blue;">return </span><span style="color: black;">UITableViewCellEditingStyleInsert;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">UITableViewCellEditingStyleDelete;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写状态样式方法
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    </span><span style="color: blue;">return </span><span style="color: black;">UIStatusBarStyleLightContent;
+}
+
+@end</span></pre>
+<p>通过前面的演示这里简单总结一些UITableView的刷新方法：</p>
+<p><strong>- (void)reloadData;</strong>刷新整个表格。</p>
+<p><strong>- (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation NS_AVAILABLE_IOS(3_0);</strong>刷新指定的分组和行。</p>
+<p><strong>- (void)reloadSections:(NSIndexSet *)sections withRowAnimation:(UITableViewRowAnimation)animation NS_AVAILABLE_IOS(3_0);</strong>刷新指定的分组。</p>
+<p><strong>- (void)deleteRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;</strong>删除时刷新指定的行数据。</p>
+<p><strong>- (void)insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation;</strong>添加时刷新指定的行数据。</p>
+<h1 id="uiTableViewController">UITableViewController </h1>
+<p>很多时候一个UIViewController中只有一个UITableView，因此苹果官方为了方便大家开发直接提供了一个UITableViewController,这个控制器 UITableViewController实现了UITableView数据源和代理协议，内部定义了一个tableView属性供外部访问，同时自动铺满整个屏幕、自动伸缩以方便我们的开发。当然UITableViewController也并不是简单的帮我们定义完UITableView并且设置了数据源、代理而已，它还有其他强大的功能，例如刷新控件、滚动过程中固定分组标题等。</p>
+<p>有时候一个表格中的数据特别多，检索起来就显得麻烦，这个时候可以实现一个搜索功能帮助用户查找数据，其实搜索的原理很简单：修改模型、刷新表格。下面使用UITableViewController简单演示一下这个功能：</p><pre class="code"><span style="color: green;">//
+//  KCContactTableViewController.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactTableViewController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactGroup.h"
+</span><span style="color: blue;">#define </span><span style="color: black;">kSearchbarHeight 44
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">KCContactTableViewController ()&lt;UISearchBarDelegate&gt;{
+    UITableView *_tableView;
+    UISearchBar *_searchBar;
+    </span><span style="color: green;">//UISearchDisplayController *_searchDisplayController;
+    </span><span style="color: black;">NSMutableArray *_contacts;</span><span style="color: green;">//联系人模型
+    </span><span style="color: black;">NSMutableArray *_searchContacts;</span><span style="color: green;">//符合条件的搜索联系人
+    </span><span style="color: black;">BOOL _isSearching;
+}
+@end
+
+@implementation KCContactTableViewController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    </span><span style="color: green;">//初始化数据
+    </span><span style="color: black;">[self initData];
+    
+    </span><span style="color: green;">//添加搜索框
+    </span><span style="color: black;">[self addSearchBar];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 数据源方法
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    </span><span style="color: blue;">if </span><span style="color: black;">(_isSearching) {
+        </span><span style="color: blue;">return </span><span style="color: black;">1;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">_contacts.count;;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    </span><span style="color: blue;">if </span><span style="color: black;">(_isSearching) {
+        </span><span style="color: blue;">return </span><span style="color: black;">_searchContacts.count;
+    }
+    KCContactGroup *group1=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group1.contacts.count;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    KCContact *contact=nil;
+    
+    </span><span style="color: blue;">if </span><span style="color: black;">(_isSearching) {
+        contact=_searchContacts[indexPath.row];
+    }</span><span style="color: blue;">else</span><span style="color: black;">{
+        KCContactGroup *group=_contacts[indexPath.section];
+        contact=group.contacts[indexPath.row];
+    }
+    
+    </span><span style="color: blue;">static </span><span style="color: black;">NSString *cellIdentifier=@</span><span style="color: rgb(163, 21, 21);">"UITableViewCellIdentifierKey1"</span><span style="color: black;">;
+    
+    </span><span style="color: green;">//首先根据标识去缓存池取
+    </span><span style="color: black;">UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    </span><span style="color: green;">//如果缓存池没有取到则重新创建并放到缓存池中
+    </span><span style="color: blue;">if</span><span style="color: black;">(!cell){
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    }
+    
+    cell.textLabel.text=[contact getName];
+    cell.detailTextLabel.text=contact.phoneNumber;
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 代理方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置分组标题
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.name;
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 搜索框代理
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark  取消搜索
+-(</span><span style="color: blue;">void</span><span style="color: black;">)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    _isSearching=NO;
+    _searchBar.text=@</span><span style="color: rgb(163, 21, 21);">""</span><span style="color: black;">;
+    [self.tableView reloadData];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 输入搜索关键字
+-(</span><span style="color: blue;">void</span><span style="color: black;">)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    </span><span style="color: blue;">if</span><span style="color: black;">([_searchBar.text isEqual:@</span><span style="color: rgb(163, 21, 21);">""</span><span style="color: black;">]){
+        _isSearching=NO;
+        [self.tableView reloadData];
+        </span><span style="color: blue;">return</span><span style="color: black;">;
+    }
+    [self searchDataWithKeyWord:_searchBar.text];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 点击虚拟键盘上的搜索时
+-(</span><span style="color: blue;">void</span><span style="color: black;">)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    
+    [self searchDataWithKeyWord:_searchBar.text];
+    
+    [_searchBar resignFirstResponder];</span><span style="color: green;">//放弃第一响应者对象，关闭虚拟键盘
+</span><span style="color: black;">}
+
+
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写状态样式方法
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    </span><span style="color: blue;">return </span><span style="color: black;">UIStatusBarStyleLightContent;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 加载数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initData{
+    _contacts=[[NSMutableArray alloc]init];
+    
+    KCContact *contact1=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131234"</span><span style="color: black;">];
+    KCContact *contact2=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Tom" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131237"</span><span style="color: black;">];
+    KCContactGroup *group1=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"C" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with C" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact1,contact2, nil]];
+    [_contacts addObject:group1];
+    
+    
+    
+    KCContact *contact3=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Terry" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131238"</span><span style="color: black;">];
+    KCContact *contact4=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Jack" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131239"</span><span style="color: black;">];
+    KCContact *contact5=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rose" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131240"</span><span style="color: black;">];
+    KCContactGroup *group2=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"L" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with L" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact3,contact4,contact5, nil]];
+    [_contacts addObject:group2];
+    
+    
+    
+    KCContact *contact6=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131235"</span><span style="color: black;">];
+    KCContact *contact7=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rosa" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131236"</span><span style="color: black;">];
+    
+    KCContactGroup *group3=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"S" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with S" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact6,contact7, nil]];
+    [_contacts addObject:group3];
+    
+    
+    KCContact *contact8=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Stephone" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131241"</span><span style="color: black;">];
+    KCContact *contact9=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lucy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131242"</span><span style="color: black;">];
+    KCContact *contact10=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131243"</span><span style="color: black;">];
+    KCContact *contact11=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Emily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131244"</span><span style="color: black;">];
+    KCContact *contact12=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Andy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131245"</span><span style="color: black;">];
+    KCContactGroup *group4=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"W" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with W" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact8,contact9,contact10,contact11,contact12, nil]];
+    [_contacts addObject:group4];
+    
+    
+    KCContact *contact13=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131246"</span><span style="color: black;">];
+    KCContact *contact14=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Vivan" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131247"</span><span style="color: black;">];
+    KCContact *contact15=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joyse" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131248"</span><span style="color: black;">];
+    KCContactGroup *group5=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"Z" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with Z" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact13,contact14,contact15, nil]];
+    [_contacts addObject:group5];
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 搜索形成新数据
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)searchDataWithKeyWord:(NSString *)keyWord{
+    _isSearching=YES;
+    _searchContacts=[NSMutableArray </span><span style="color: blue;">array</span><span style="color: black;">];
+    [_contacts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        KCContactGroup *group=obj;
+        [group.contacts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            KCContact *contact=obj;
+            </span><span style="color: blue;">if </span><span style="color: black;">([contact.firstName.uppercaseString containsString:keyWord.uppercaseString]||[contact.lastName.uppercaseString containsString:keyWord.uppercaseString]||[contact.phoneNumber containsString:keyWord]) {
+                [_searchContacts addObject:contact];
+            }
+        }];
+    }];
+    
+    </span><span style="color: green;">//刷新表格
+    </span><span style="color: black;">[self.tableView reloadData];
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 添加搜索栏
+-(</span><span style="color: blue;">void</span><span style="color: black;">)addSearchBar{
+    CGRect searchBarRect=CGRectMake(0, 0, self.view.frame.size.width, kSearchbarHeight);
+    _searchBar=[[UISearchBar alloc]initWithFrame:searchBarRect];
+    _searchBar.placeholder=@</span><span style="color: rgb(163, 21, 21);">"Please input key word..."</span><span style="color: black;">;
+    </span><span style="color: green;">//_searchBar.keyboardType=UIKeyboardTypeAlphabet;//键盘类型
+    //_searchBar.autocorrectionType=UITextAutocorrectionTypeNo;//自动纠错类型
+    //_searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;//哪一次shitf被自动按下
+    </span><span style="color: black;">_searchBar.showsCancelButton=YES;</span><span style="color: green;">//显示取消按钮
+    //添加搜索框到页眉位置
+    </span><span style="color: black;">_searchBar.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    self.tableView.tableHeaderView=_searchBar;
+}
+
+@end</span></pre>
+<p>运行效果：</p>
+<p><a href="ios_helloworld/232319311287832.gif"><img height="588" width="318" src="ios_helloworld/232319315181120.gif" alt="UITableViewSearch" style="display: inline" title="UITableViewSearch"></a> </p>
+<p>在上面的搜索中除了使用一个_contacts变量去保存联系人数据还专门定义了一个_searchContact变量用于保存搜索的结果。在输入搜索关键字时我们刷新了表格，此时会调用表格的数据源方法，在这个方法中我们根据定义的搜索状态去决定显示原始数据还是搜索结果。</p>
+<p>我们发现每次搜索完后都需要手动刷新表格来显示搜索结果，而且当没有搜索关键字的时候还需要将当前的tableView重新设置为初始状态。也就是这个过程中我们要用一个tableView显示两种状态的不同数据，自然会提高程序逻辑复杂度。为了简化这个过程，我们可以使用UISearchDisplayController，UISearchDisplayController内部也有一个UITableView类型的对象searchResultsTableView，如果我们设置它的数据源代理为当前控制器，那么它完全可以像UITableView一样加载数据。同时它本身也有搜索监听的方法，我们不必在监听UISearchBar输入内容，直接使用它的方法即可自动刷新其内部表格。为了和前面的方法对比在下面的代码中没有直接删除原来的方式而是注释了对应代码大家可以对照学习：</p><pre class="code"><span style="color: green;">//
+//  KCContactTableViewController.m
+//  UITableView
+//
+//  Created by Kenshin Cui on 14-3-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactTableViewControllerWithUISearchDisplayController.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContact.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"KCContactGroup.h"
+</span><span style="color: blue;">#define </span><span style="color: black;">kSearchbarHeight 44
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">KCContactTableViewControllerWithUISearchDisplayController ()&lt;UISearchBarDelegate,UISearchDisplayDelegate&gt;{
+    UITableView *_tableView;
+    UISearchBar *_searchBar;
+    UISearchDisplayController *_searchDisplayController;
+    NSMutableArray *_contacts;</span><span style="color: green;">//联系人模型
+    </span><span style="color: black;">NSMutableArray *_searchContacts;</span><span style="color: green;">//符合条件的搜索联系人
+    //BOOL _isSearching;
+</span><span style="color: black;">}
+@end
+
+@implementation KCContactTableViewControllerWithUISearchDisplayController
+
+- (</span><span style="color: blue;">void</span><span style="color: black;">)viewDidLoad {
+    [super viewDidLoad];
+    </span><span style="color: green;">//初始化数据
+    </span><span style="color: black;">[self initData];
+    
+    </span><span style="color: green;">//添加搜索框
+    </span><span style="color: black;">[self addSearchBar];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 数据源方法
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+</span><span style="color: green;">//    if (_isSearching) {
+//        return 1;
+//    }
+    //如果当前是UISearchDisplayController内部的tableView则不分组
+    </span><span style="color: blue;">if </span><span style="color: black;">(tableView==self.searchDisplayController.searchResultsTableView) {
+        </span><span style="color: blue;">return </span><span style="color: black;">1;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">_contacts.count;;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+</span><span style="color: green;">//    if (_isSearching) {
+//        return _searchContacts.count;
+//    }
+    //如果当前是UISearchDisplayController内部的tableView则使用搜索数据
+    </span><span style="color: blue;">if </span><span style="color: black;">(tableView==self.searchDisplayController.searchResultsTableView) {
+        </span><span style="color: blue;">return </span><span style="color: black;">_searchContacts.count;
+    }
+    KCContactGroup *group1=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group1.contacts.count;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    KCContact *contact=nil;
+    
+</span><span style="color: green;">//    if (_isSearching) {
+//        contact=_searchContacts[indexPath.row];
+//    }else{
+//        KCContactGroup *group=_contacts[indexPath.section];
+//        contact=group.contacts[indexPath.row];
+//    }
+    //如果当前是UISearchDisplayController内部的tableView则使用搜索数据
+    </span><span style="color: blue;">if </span><span style="color: black;">(tableView==self.searchDisplayController.searchResultsTableView) {
+        contact=_searchContacts[indexPath.row];
+    }</span><span style="color: blue;">else</span><span style="color: black;">{
+        KCContactGroup *group=_contacts[indexPath.section];
+        contact=group.contacts[indexPath.row];
+    }
+    
+    </span><span style="color: blue;">static </span><span style="color: black;">NSString *cellIdentifier=@</span><span style="color: rgb(163, 21, 21);">"UITableViewCellIdentifierKey1"</span><span style="color: black;">;
+    
+    </span><span style="color: green;">//首先根据标识去缓存池取
+    </span><span style="color: black;">UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    </span><span style="color: green;">//如果缓存池没有取到则重新创建并放到缓存池中
+    </span><span style="color: blue;">if</span><span style="color: black;">(!cell){
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    }
+    
+    cell.textLabel.text=[contact getName];
+    cell.detailTextLabel.text=contact.phoneNumber;
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">cell;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 代理方法
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 设置分组标题
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    </span><span style="color: blue;">if </span><span style="color: black;">(tableView==self.searchDisplayController.searchResultsTableView) {
+        </span><span style="color: blue;">return </span><span style="color: black;">@</span><span style="color: rgb(163, 21, 21);">"搜索结果"</span><span style="color: black;">;
+    }
+    KCContactGroup *group=_contacts[section];
+    </span><span style="color: blue;">return </span><span style="color: black;">group.name;
+}
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 选中之前
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [_searchBar resignFirstResponder];</span><span style="color: green;">//退出键盘
+    </span><span style="color: blue;">return </span><span style="color: black;">indexPath;
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - 搜索框代理
+</span><span style="color: green;">//#pragma mark  取消搜索
+//-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+//    //_isSearching=NO;
+//    _searchBar.text=@"";
+//    //[self.tableView reloadData];
+//    [_searchBar resignFirstResponder];
+//}
+//
+//#pragma mark 输入搜索关键字
+//-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+//    if([_searchBar.text isEqual:@""]){
+//        //_isSearching=NO;
+//        //[self.tableView reloadData];
+//        return;
+//    }
+//    [self searchDataWithKeyWord:_searchBar.text];
+//}
+
+//#pragma mark 点击虚拟键盘上的搜索时
+//-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+//    
+//    [self searchDataWithKeyWord:_searchBar.text];
+//    
+//    [_searchBar resignFirstResponder];//放弃第一响应者对象，关闭虚拟键盘
+//}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark - UISearchDisplayController代理方法
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
+    [self searchDataWithKeyWord:searchString];
+    </span><span style="color: blue;">return </span><span style="color: black;">YES;
+}
+
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写状态样式方法
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    </span><span style="color: blue;">return </span><span style="color: black;">UIStatusBarStyleLightContent;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 加载数据
+-(</span><span style="color: blue;">void</span><span style="color: black;">)initData{
+    _contacts=[[NSMutableArray alloc]init];
+    
+    KCContact *contact1=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131234"</span><span style="color: black;">];
+    KCContact *contact2=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Cui" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Tom" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131237"</span><span style="color: black;">];
+    KCContactGroup *group1=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"C" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with C" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact1,contact2, nil]];
+    [_contacts addObject:group1];
+    
+    
+    
+    KCContact *contact3=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Terry" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131238"</span><span style="color: black;">];
+    KCContact *contact4=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Jack" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131239"</span><span style="color: black;">];
+    KCContact *contact5=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Lee" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rose" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131240"</span><span style="color: black;">];
+    KCContactGroup *group2=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"L" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with L" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact3,contact4,contact5, nil]];
+    [_contacts addObject:group2];
+    
+    
+    
+    KCContact *contact6=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131235"</span><span style="color: black;">];
+    KCContact *contact7=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Sun" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Rosa" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131236"</span><span style="color: black;">];
+    
+    KCContactGroup *group3=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"S" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with S" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact6,contact7, nil]];
+    [_contacts addObject:group3];
+    
+    
+    KCContact *contact8=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Stephone" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131241"</span><span style="color: black;">];
+    KCContact *contact9=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lucy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131242"</span><span style="color: black;">];
+    KCContact *contact10=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Lily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131243"</span><span style="color: black;">];
+    KCContact *contact11=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Emily" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131244"</span><span style="color: black;">];
+    KCContact *contact12=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Wang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Andy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131245"</span><span style="color: black;">];
+    KCContactGroup *group4=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"W" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with W" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact8,contact9,contact10,contact11,contact12, nil]];
+    [_contacts addObject:group4];
+    
+    
+    KCContact *contact13=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joy" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131246"</span><span style="color: black;">];
+    KCContact *contact14=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Vivan" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131247"</span><span style="color: black;">];
+    KCContact *contact15=[KCContact initWithFirstName:@</span><span style="color: rgb(163, 21, 21);">"Zhang" </span><span style="color: black;">andLastName:@</span><span style="color: rgb(163, 21, 21);">"Joyse" </span><span style="color: black;">andPhoneNumber:@</span><span style="color: rgb(163, 21, 21);">"18500131248"</span><span style="color: black;">];
+    KCContactGroup *group5=[KCContactGroup initWithName:@</span><span style="color: rgb(163, 21, 21);">"Z" </span><span style="color: black;">andDetail:@</span><span style="color: rgb(163, 21, 21);">"With names beginning with Z" </span><span style="color: black;">andContacts:[NSMutableArray arrayWithObjects:contact13,contact14,contact15, nil]];
+    [_contacts addObject:group5];
+    
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 搜索形成新数据</span><span style="color: green;">
+</span><span style="color: black;">-(</span><span style="color: blue;">void</span><span style="color: black;">)searchDataWithKeyWord:(NSString *)keyWord{
+    </span><span style="color: green;">//_isSearching=YES;
+    </span><span style="color: black;">_searchContacts=[NSMutableArray </span><span style="color: blue;">array</span><span style="color: black;">];
+    [_contacts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        KCContactGroup *group=obj;
+        [group.contacts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            KCContact *contact=obj;
+            </span><span style="color: blue;">if </span><span style="color: black;">([contact.firstName.uppercaseString containsString:keyWord.uppercaseString]||[contact.lastName.uppercaseString containsString:keyWord.uppercaseString]||[contact.phoneNumber containsString:keyWord]) {
+                [_searchContacts addObject:contact];
+            }
+        }];
+    }];
+    
+    </span><span style="color: green;">//刷新表格
+    //[self.tableView reloadData];
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 添加搜索栏
+-(</span><span style="color: blue;">void</span><span style="color: black;">)addSearchBar{
+    _searchBar=[[UISearchBar alloc]init];
+    [_searchBar sizeToFit];</span><span style="color: green;">//大小自适应容器
+    </span><span style="color: black;">_searchBar.placeholder=@</span><span style="color: rgb(163, 21, 21);">"Please input key word..."</span><span style="color: black;">;
+    _searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;
+    _searchBar.showsCancelButton=YES;</span><span style="color: green;">//显示取消按钮
+    //添加搜索框到页眉位置
+    </span><span style="color: black;">_searchBar.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    self.tableView.tableHeaderView=_searchBar;
+
+    _searchDisplayController=[[UISearchDisplayController alloc]initWithSearchBar:_searchBar contentsController:self];
+    _searchDisplayController.</span><span style="color: blue;">delegate</span><span style="color: black;">=self;
+    _searchDisplayController.searchResultsDataSource=self;
+    _searchDisplayController.searchResultsDelegate=self;
+    [_searchDisplayController setActive:NO animated:YES];
+
+}
+
+@end</span></pre>
+<p>运行效果：</p>
+<p><a href="ios_helloworld/232319322066262.gif"><img height="588" width="318" src="ios_helloworld/232319326907577.gif" alt="UITableViewSearch2" style="display: inline" title="UITableViewSearch2"></a> </p>
+<blockquote>
+<p>注意如果使用Storyboard或xib方式创建上述代码则无需定义UISearchDisplayController成员变量，因为每个UIViewController中已经有一个searchDisplayController对象。</p></blockquote>
+<h1 id="mvc">MVC模式</h1>
+<p>通过UITableView的学习相信大家对于iOS的MVC已经有一个大致的了解，这里简单的分析一下iOS中MVC模式的设计方式。在iOS中多数数据源视图控件（View）都有一个dataSource属性用于和控制器（Controller）交互，而数据来源我们一般会以数据模型（Model）的形式进行定义,View不直接和模型交互，而是通过Controller间接读取数据。</p>
+<p>就拿前面的联系人应用举例，UITableView作为视图（View）并不能直接访问模型Contact，它要显示联系人信息只能通过控制器（Controller）来提供数据源方法。同样的控制器本身就拥有视图控件，可以操作视图，也就是说视图和控制器之间可以互相访问。而模型既不能访问视图也不能访问控制器。具体依赖关系如下图：</p>
+<p><a href="ios_helloworld/232319334717450.png"><img border="0" height="321" width="623" src="ios_helloworld/232319337686007.png" alt="MVC" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="MVC"></a></p>
+<div id="kc-apple-download-btn"><a target="_blank" href="http://pan.baidu.com/s/1jG5RpFS" class="kc-apple-btn"><i></i><span>源代码下载</span> </a></div></div><div id="MySignature" style="display: block;"><div style="clear: both; border: solid #E8E7D0 1px; padding: 10px 10px 10px 10px; background-color: #f8f8ee;">
+<table border="0">
+<tbody>
+<tr style="vertical-align: top;">
+<td><a rel="license" href="http://creativecommons.org/licenses/by/2.5/cn/"><img alt="知识共享许可协议" src="http://i.creativecommons.org/l/by/2.5/cn/88x31.png" style="border-width: 0;"></a></td>
+<td>本<span>作品</span>采用<a rel="license" href="http://creativecommons.org/licenses/by/2.5/cn/">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，演绎或用于商业目的。但转载请注明来自<a href="http://www.cnblogs.com/kenshincui">崔江涛（KenshinCui）</a>，并包含相关链接。</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+
+</div>
+    
+</div>
+
+</div>
+
+  </div>
+</div>
+</div>
+</body>
+</html>

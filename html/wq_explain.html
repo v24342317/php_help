@@ -1,0 +1,507 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" dir="ltr" lang="zh"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>structure:routing - 微擎指导手册</title>
+<meta name="generator" content="DokuWiki">
+<meta name="robots" content="index,follow">
+<meta name="keywords" content="structure,routing">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.we7.cc/manual/lib/exe/opensearch.php" title="微擎指导手册">
+<link rel="start" href="http://www.we7.cc/manual/">
+<link rel="contents" href="http://www.we7.cc/manual/structure:routing?do=index" title="网站地图">
+<link rel="alternate" type="application/rss+xml" title="最近更改" href="http://www.we7.cc/manual/feed.php">
+<link rel="alternate" type="application/rss+xml" title="当前命名空间" href="http://www.we7.cc/manual/feed.php?mode=list&amp;ns=structure">
+<link rel="alternate" type="text/html" title="纯HTML" href="http://www.we7.cc/manual/_export/xhtml/structure:routing">
+<link rel="canonical" href="http://www.we7.cc/manual/structure:routing">
+<link rel="stylesheet" type="text/css" href="wq_structure_routing/css.css">
+
+<style id="iris-css">.iris-picker{display:block;position:relative}.iris-picker,.iris-picker *{-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input+.iris-picker{margin-top:4px}.iris-error{background-color:#ffafaf}.iris-border{border-radius:3px;border:1px solid #aaa;width:200px;background-color:#fff}.iris-picker-inner{position:absolute;top:0;right:0;left:0;bottom:0}.iris-border .iris-picker-inner{top:10px;right:10px;left:10px;bottom:10px}.iris-picker .iris-square-inner{position:absolute;left:0;right:0;top:0;bottom:0}.iris-picker .iris-square,.iris-picker .iris-slider,.iris-picker .iris-square-inner,.iris-picker .iris-palette{border-radius:3px;box-shadow:inset 0 0 5px rgba(0,0,0,.4);height:100%;width:12.5%;float:left;margin-right:5%}.iris-picker .iris-square{width:76%;margin-right:10%;position:relative}.iris-picker .iris-square-inner{width:auto;margin:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-square-inner,.iris-ie-9 .iris-palette{box-shadow:none;border-radius:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-palette{outline:1px solid rgba(0,0,0,.1)}.iris-ie-lt9 .iris-square,.iris-ie-lt9 .iris-slider,.iris-ie-lt9 .iris-square-inner,.iris-ie-lt9 .iris-palette{outline:1px solid #aaa}.iris-ie-lt9 .iris-square .ui-slider-handle{outline:1px solid #aaa;background-color:#fff;-ms-filter:"alpha(Opacity=30)"}.iris-ie-lt9 .iris-square .iris-square-handle{background:0;border:3px solid #fff;-ms-filter:"alpha(Opacity=50)"}.iris-picker .iris-strip{margin-right:0;position:relative}.iris-picker .iris-strip .ui-slider-handle{position:absolute;background:0;margin:0;right:-3px;left:-3px;border:4px solid #aaa;border-width:4px 3px;width:auto;height:6px;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.2);opacity:.9;z-index:5;cursor:ns-resize}.iris-strip .ui-slider-handle:before{content:" ";position:absolute;left:-2px;right:-2px;top:-3px;bottom:-3px;border:2px solid #fff;border-radius:3px}.iris-picker .iris-slider-offset{position:absolute;top:11px;left:0;right:0;bottom:-3px;width:auto;height:auto;background:transparent;border:0;border-radius:0}.iris-picker .iris-square-handle{background:transparent;border:5px solid #aaa;border-radius:50%;border-color:rgba(128,128,128,.5);box-shadow:none;width:12px;height:12px;position:absolute;left:-10px;top:-10px;cursor:move;opacity:1;z-index:10}.iris-picker .ui-state-focus .iris-square-handle{opacity:.8}.iris-picker .iris-square-handle:hover{border-color:#999}.iris-picker .iris-square-value:focus .iris-square-handle{box-shadow:0 0 2px rgba(0,0,0,.75);opacity:.8}.iris-picker .iris-square-handle:hover::after{border-color:#fff}.iris-picker .iris-square-handle::after{position:absolute;bottom:-4px;right:-4px;left:-4px;top:-4px;border:3px solid #f9f9f9;border-color:rgba(255,255,255,.8);border-radius:50%;content:" "}.iris-picker .iris-square-value{width:8px;height:8px;position:absolute}.iris-ie-lt9 .iris-square-value,.iris-mozilla .iris-square-value{width:1px;height:1px}.iris-palette-container{position:absolute;bottom:0;left:0;margin:0;padding:0}.iris-border .iris-palette-container{left:10px;bottom:10px}.iris-picker .iris-palette{margin:0;cursor:pointer}.iris-square-handle,.ui-slider-handle{border:0;outline:0}</style>
+
+<link rel="shortcut icon" href="http://www.we7.cc/manual/lib/tpl/vector/static/3rd/dokuwiki/favicon.ico">
+<link rel="apple-touch-icon" href="http://www.we7.cc/manual/lib/tpl/vector/static/3rd/dokuwiki/apple-touch-icon.png">
+<!--[if lte IE 8]><link rel="stylesheet" media="all" type="text/css" href="/manual/lib/tpl/vector/static/css/screen_iehacks.css" /><![endif]-->
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/manual/lib/tpl/vector/static/3rd/vector/csshover.htc")}</style><![endif]-->
+<style class="firebugResetStyles" type="text/css" charset="utf-8">/* See license.txt for terms of usage */
+/** reset styling **/
+.firebugResetStyles {
+    z-index: 2147483646 !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    border: 0 none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    outline: 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    position: fixed !important;
+    transform: rotate(0deg) !important;
+    transform-origin: 50% 50% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent none !important;
+    pointer-events: none !important;
+    white-space: normal !important;
+}
+style.firebugResetStyles {
+    display: none !important;
+}
+
+.firebugBlockBackgroundColor {
+    background-color: transparent !important;
+}
+
+.firebugResetStyles:before, .firebugResetStyles:after {
+    content: "" !important;
+}
+/**actual styling to be modified by firebug theme**/
+.firebugCanvas {
+    display: none !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBox {
+    width: auto !important;
+    position: static !important;
+}
+
+.firebugLayoutBoxOffset {
+    opacity: 0.8 !important;
+    position: fixed !important;
+}
+
+.firebugLayoutLine {
+    opacity: 0.4 !important;
+    background-color: #000000 !important;
+}
+
+.firebugLayoutLineLeft, .firebugLayoutLineRight {
+    width: 1px !important;
+    height: 100% !important;
+}
+
+.firebugLayoutLineTop, .firebugLayoutLineBottom {
+    width: 100% !important;
+    height: 1px !important;
+}
+
+.firebugLayoutLineTop {
+    margin-top: -1px !important;
+    border-top: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineRight {
+    border-right: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineBottom {
+    border-bottom: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineLeft {
+    margin-left: -1px !important;
+    border-left: 1px solid #999999 !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBoxParent {
+    border-top: 0 none !important;
+    border-right: 1px dashed #E00 !important;
+    border-bottom: 1px dashed #E00 !important;
+    border-left: 0 none !important;
+    position: fixed !important;
+    width: auto !important;
+}
+
+.firebugRuler{
+    position: absolute !important;
+}
+
+.firebugRulerH {
+    top: -15px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 14px !important;
+    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%13%88%00%00%00%0E%08%02%00%00%00L%25a%0A%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%04%F8IDATx%DA%EC%DD%D1n%E2%3A%00E%D1%80%F8%FF%EF%E2%AF2%95%D0D4%0E%C1%14%B0%8Fa-%E9%3E%CC%9C%87n%B9%81%A6W0%1C%A6i%9A%E7y%0As8%1CT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AATE9%FE%FCw%3E%9F%AF%2B%2F%BA%97%FDT%1D~K(%5C%9D%D5%EA%1B%5C%86%B5%A9%BDU%B5y%80%ED%AB*%03%FAV9%AB%E1%CEj%E7%82%EF%FB%18%BC%AEJ8%AB%FA'%D2%BEU9%D7U%ECc0%E1%A2r%5DynwVi%CFW%7F%BB%17%7Dy%EACU%CD%0E%F0%FA%3BX%FEbV%FEM%9B%2B%AD%BE%AA%E5%95v%AB%AA%E3E5%DCu%15rV9%07%B5%7F%B5w%FCm%BA%BE%AA%FBY%3D%14%F0%EE%C7%60%0EU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5JU%88%D3%F5%1F%AE%DF%3B%1B%F2%3E%DAUCNa%F92%D02%AC%7Dm%F9%3A%D4%F2%8B6%AE*%BF%5C%C2Ym~9g5%D0Y%95%17%7C%C8c%B0%7C%18%26%9CU%CD%13i%F7%AA%90%B3Z%7D%95%B4%C7%60%E6E%B5%BC%05%B4%FBY%95U%9E%DB%FD%1C%FC%E0%9F%83%7F%BE%17%7DkjMU%E3%03%AC%7CWj%DF%83%9An%BCG%AE%F1%95%96yQ%0Dq%5Dy%00%3Et%B5'%FC6%5DS%95pV%95%01%81%FF'%07%00%00%00%00%00%00%00%00%00%F8x%C7%F0%BE%9COp%5D%C9%7C%AD%E7%E6%EBV%FB%1E%E0(%07%E5%AC%C6%3A%ABi%9C%8F%C6%0E9%AB%C0'%D2%8E%9F%F99%D0E%B5%99%14%F5%0D%CD%7F%24%C6%DEH%B8%E9rV%DFs%DB%D0%F7%00k%FE%1D%84%84%83J%B8%E3%BA%FB%EF%20%84%1C%D7%AD%B0%8E%D7U%C8Y%05%1E%D4t%EF%AD%95Q%BF8w%BF%E9%0A%BF%EB%03%00%00%00%00%00%00%00%00%00%B8vJ%8E%BB%F5%B1u%8Cx%80%E1o%5E%CA9%AB%CB%CB%8E%03%DF%1D%B7T%25%9C%D5(%EFJM8%AB%CC'%D2%B2*%A4s%E7c6%FB%3E%FA%A2%1E%80~%0E%3E%DA%10x%5D%95Uig%15u%15%ED%7C%14%B6%87%A1%3B%FCo8%A8%D8o%D3%ADO%01%EDx%83%1A~%1B%9FpP%A3%DC%C6'%9C%95gK%00%00%00%00%00%00%00%00%00%20%D9%C9%11%D0%C0%40%AF%3F%EE%EE%92%94%D6%16X%B5%BCMH%15%2F%BF%D4%A7%C87%F1%8E%F2%81%AE%AAvzr%DA2%ABV%17%7C%E63%83%E7I%DC%C6%0Bs%1B%EF6%1E%00%00%00%00%00%00%00%00%00%80cr%9CW%FF%7F%C6%01%0E%F1%CE%A5%84%B3%CA%BC%E0%CB%AA%84%CE%F9%BF)%EC%13%08WU%AE%AB%B1%AE%2BO%EC%8E%CBYe%FE%8CN%ABr%5Dy%60~%CFA%0D%F4%AE%D4%BE%C75%CA%EDVB%EA(%B7%F1%09g%E5%D9%12%00%00%00%00%00%00%00%00%00H%F6%EB%13S%E7y%5E%5E%FB%98%F0%22%D1%B2'%A7%F0%92%B1%BC%24z3%AC%7Dm%60%D5%92%B4%7CEUO%5E%F0%AA*%3BU%B9%AE%3E%A0j%94%07%A0%C7%A0%AB%FD%B5%3F%A0%F7%03T%3Dy%D7%F7%D6%D4%C0%AAU%D2%E6%DFt%3F%A8%CC%AA%F2%86%B9%D7%F5%1F%18%E6%01%F8%CC%D5%9E%F0%F3z%88%AA%90%EF%20%00%00%00%00%00%00%00%00%00%C0%A6%D3%EA%CFi%AFb%2C%7BB%0A%2B%C3%1A%D7%06V%D5%07%A8r%5D%3D%D9%A6%CAu%F5%25%CF%A2%99%97zNX%60%95%AB%5DUZ%D5%FBR%03%AB%1C%D4k%9F%3F%BB%5C%FF%81a%AE%AB'%7F%F3%EA%FE%F3z%94%AA%D8%DF%5B%01%00%00%00%00%00%00%00%00%00%8E%FB%F3%F2%B1%1B%8DWU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*UiU%C7%BBe%E7%F3%B9%CB%AAJ%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5*%AAj%FD%C6%D4%5Eo%90%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5%86%AF%1B%9F%98%DA%EBm%BBV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%AD%D6%E4%F58%01%00%00%00%00%00%00%00%00%00%00%00%00%00%40%85%7F%02%0C%008%C2%D0H%16j%8FX%00%00%00%00IEND%AEB%60%82") repeat-x !important;
+    border-top: 1px solid #BBBBBB !important;
+    border-right: 1px dashed #BBBBBB !important;
+    border-bottom: 1px solid #000000 !important;
+}
+
+.firebugRulerV {
+    top: 0 !important;
+    left: -15px !important;
+    width: 14px !important;
+    height: 100% !important;
+    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%00%0E%00%00%13%88%08%02%00%00%00%0E%F5%CB%10%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%06~IDATx%DA%EC%DD%D1v%A20%14%40Qt%F1%FF%FF%E4%97%D9%07%3BT%19%92%DC%40(%90%EEy%9A5%CB%B6%E8%F6%9Ac%A4%CC0%84%FF%DC%9E%CF%E7%E3%F1%88%DE4%F8%5D%C7%9F%2F%BA%DD%5E%7FI%7D%F18%DDn%BA%C5%FB%DF%97%BFk%F2%10%FF%FD%B4%F2M%A7%FB%FD%FD%B3%22%07p%8F%3F%AE%E3%F4S%8A%8F%40%EEq%9D%BE8D%F0%0EY%A1Uq%B7%EA%1F%81%88V%E8X%3F%B4%CEy%B7h%D1%A2E%EBohU%FC%D9%AF2fO%8BBeD%BE%F7X%0C%97%A4%D6b7%2Ck%A5%12%E3%9B%60v%B7r%C7%1AI%8C%BD%2B%23r%00c0%B2v%9B%AD%CA%26%0C%1Ek%05A%FD%93%D0%2B%A1u%8B%16-%95q%5Ce%DCSO%8E%E4M%23%8B%F7%C2%FE%40%BB%BD%8C%FC%8A%B5V%EBu%40%F9%3B%A72%FA%AE%8C%D4%01%CC%B5%DA%13%9CB%AB%E2I%18%24%B0n%A9%0CZ*Ce%9C%A22%8E%D8NJ%1E%EB%FF%8F%AE%CAP%19*%C3%BAEKe%AC%D1%AAX%8C*%DEH%8F%C5W%A1e%AD%D4%B7%5C%5B%19%C5%DB%0D%EF%9F%19%1D%7B%5E%86%BD%0C%95%A12%AC%5B*%83%96%CAP%19%F62T%86%CAP%19*%83%96%CA%B8Xe%BC%FE)T%19%A1%17xg%7F%DA%CBP%19*%C3%BA%A52T%86%CAP%19%F62T%86%CA%B0n%A9%0CZ%1DV%C6%3D%F3%FCH%DE%B4%B8~%7F%5CZc%F1%D6%1F%AF%84%F9%0F6%E6%EBVt9%0E~%BEr%AF%23%B0%97%A12T%86%CAP%19%B4T%86%CA%B8Re%D8%CBP%19*%C3%BA%A52huX%19%AE%CA%E5%BC%0C%7B%19*CeX%B7h%A9%0C%95%E1%BC%0C%7B%19*CeX%B7T%06%AD%CB%5E%95%2B%BF.%8F%C5%97%D5%E4%7B%EE%82%D6%FB%CF-%9C%FD%B9%CF%3By%7B%19%F62T%86%CA%B0n%D1R%19*%A3%D3%CA%B0%97%A12T%86uKe%D0%EA%B02*%3F1%99%5DB%2B%A4%B5%F8%3A%7C%BA%2B%8Co%7D%5C%EDe%A8%0C%95a%DDR%19%B4T%C66%82fA%B2%ED%DA%9FC%FC%17GZ%06%C9%E1%B3%E5%2C%1A%9FoiB%EB%96%CA%A0%D5qe4%7B%7D%FD%85%F7%5B%ED_%E0s%07%F0k%951%ECr%0D%B5C%D7-g%D1%A8%0C%EB%96%CA%A0%A52T%C6)*%C3%5E%86%CAP%19%D6-%95A%EB*%95q%F8%BB%E3%F9%AB%F6%E21%ACZ%B7%22%B7%9B%3F%02%85%CB%A2%5B%B7%BA%5E%B7%9C%97%E1%BC%0C%EB%16-%95%A12z%AC%0C%BFc%A22T%86uKe%D0%EA%B02V%DD%AD%8A%2B%8CWhe%5E%AF%CF%F5%3B%26%CE%CBh%5C%19%CE%CB%B0%F3%A4%095%A1%CAP%19*Ce%A8%0C%3BO*Ce%A8%0C%95%A12%3A%AD%8C%0A%82%7B%F0v%1F%2FD%A9%5B%9F%EE%EA%26%AF%03%CA%DF9%7B%19*Ce%A8%0C%95%A12T%86%CA%B8Ze%D8%CBP%19*Ce%A8%0C%95%D1ae%EC%F7%89I%E1%B4%D7M%D7P%8BjU%5C%BB%3E%F2%20%D8%CBP%19*Ce%A8%0C%95%A12T%C6%D5*%C3%5E%86%CAP%19*Ce%B4O%07%7B%F0W%7Bw%1C%7C%1A%8C%B3%3B%D1%EE%AA%5C%D6-%EBV%83%80%5E%D0%CA%10%5CU%2BD%E07YU%86%CAP%19*%E3%9A%95%91%D9%A0%C8%AD%5B%EDv%9E%82%FFKOee%E4%8FUe%A8%0C%95%A12T%C6%1F%A9%8C%C8%3D%5B%A5%15%FD%14%22r%E7B%9F%17l%F8%BF%ED%EAf%2B%7F%CF%ECe%D8%CBP%19*Ce%A8%0C%95%E1%93~%7B%19%F62T%86%CAP%19*Ce%A8%0C%E7%13%DA%CBP%19*Ce%A8%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4%AE%A4%F5%25%C0%00%DE%BF%5C'%0F%DA%B8q%00%00%00%00IEND%AEB%60%82") repeat-y !important;
+    border-left: 1px solid #BBBBBB !important;
+    border-right: 1px solid #000000 !important;
+    border-bottom: 1px dashed #BBBBBB !important;
+}
+
+.overflowRulerX > .firebugRulerV {
+    left: 0 !important;
+}
+
+.overflowRulerY > .firebugRulerH {
+    top: 0 !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.fbProxyElement {
+    position: fixed !important;
+    pointer-events: auto !important;
+}
+</style></head>
+<body class="skin-vector">
+<div id="page-container">
+  <!-- start panel/sidebar --><!-- end panel/sidebar -->
+
+<!-- start div id=content -->
+<div id="content">
+  <!-- start div id=right-navigation -->
+  
+  <!-- end div id=right-navigation -->
+
+  <!-- start main content area -->
+  
+  <!-- start div id bodyContent -->
+  <div class="dokuwiki" id="bodyContent">
+    <!-- start rendered wiki content -->
+    <!-- TOC START -->
+<div id="dw__toc">
+<span>目录 <span onclick="jQuery('#dw__toc div').toggle();">[隐藏]</span></span>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#微擎-v06-概述">微擎 v0.6 概述</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#html-css">Html&amp;Css</a></div></li>
+<li class="level2"><div class="li"><a href="#javascript">Javascript</a></div></li>
+<li class="level2"><div class="li"><a href="#load">load()</a></div></li>
+<li class="level2"><div class="li"><a href="#目录结构">目录结构</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 id="微擎-v06-概述" class="sectionedit1">微擎 v0.6 概述</h1>
+<div class="level1">
+
+<p>
+微擎系统分为三个部分，系统核心framework、app手机端、web端三部分。
+</p>
+<ul>
+<li class="level1"><div class="li"> framework : 为系统核心部分，包括公共的类库、函数以及业务模型，framework中的文件需要通过<span class="curid"><a title="dev:v0.6:summary" class="wikilink1" href="/manual/dev:v0.6:summary#load">load()</a></span>方法来引用</div>
+</li>
+<li class="level1"><div class="li"> app : 为系统的微站部分，包括微站首页、文章列表、详细、个人中心、收银台等等，是主要提供粉丝用户功能的重要的部分。除系统集成的一些功能外可以通过<a rel="nofollow" title="dev:v0.6:module:level1" class="wikilink2" href="/manual/dev:v0.6:module:level1">module开发</a>来实现扩展。</div>
+</li>
+<li class="level1"><div class="li"> web : 为系统的后台部分，主要是管理和操作一些公众号的配置、关键字回复、模块的配置</div>
+</li>
+</ul>
+
+</div>
+
+<h2 id="html-css" class="sectionedit2">Html&amp;Css</h2>
+<div class="level2">
+
+<p>
+微擎用户界面完全采用与 Bootstrap 兼容的界面结构，详细请参阅 <a title="dev:ui" class="wikilink1" href="/manual/dev:ui">html&amp;css编码规范</a>
+</p>
+
+</div>
+
+<h2 id="javascript" class="sectionedit3">Javascript</h2>
+<div class="level2">
+
+<p>
+微擎系统中，公共引用的js文件包括 Jquery、Util 在使用以上两个Js文件时不需要require引用，使用其它Js文件需要遵循 AMD 的引用方式。 详细请参阅 <a title="dev:js:require" class="wikilink1" href="/manual/dev:js:require">Javascript编码规范</a>
+</p>
+
+<p>
+它采用异步方式加载模块，所有依赖这些模块的语句，都定义在一个回调函数中，等加载完成后，这个回调函数会运行。
+</p>
+
+<p>
+(1) 实现js文件的异步加载，避免网页失去响应；
+</p>
+
+<p>
+(2) 管理模块之间的依赖性，便于代码的编写和维护。
+</p>
+
+</div>
+
+<h4 id="调用方式">调用方式</h4>
+<div class="level4">
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">"text/javascript"</span>&gt;</span>
+&nbsp;
+    require(['jquery', 'util'], function ($, util){
+&nbsp;
+        // code here 主模块代码
+&nbsp;
+    });
+&nbsp;
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span></pre>
+
+</div>
+
+<h2 id="load" class="sectionedit4">load()</h2>
+<div class="level2">
+
+<p>
+在 0.6 中， php函数库、类库、模型文件采用按需加载的机制，可以通过 class Loader 类来加载各种文件，如下：
+</p>
+
+<p>
+开发者只需要对微擎系统的 <span class="curid"><a title="dev:v0.6:summary" class="wikilink1" href="/manual/dev:v0.6:summary">framework</a></span> 稍加熟悉，需要调用哪个文件时，只需要 <strong>load</strong> 文件名称即可，同时你也不用担心文件会被重复引用。如:
+</p>
+<pre class="code php"><span class="co1">// 调用辅助函数</span>
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">func</span><span class="br0">(</span><span class="re0">$name</span><span class="br0">)</span><span class="sy0">;</span>   <span class="co1">// 引入 IA_ROOT.'/framework/function/'.$name.'.func.php';</span>
+&nbsp;
+<span class="co1">// 调用业务函数</span>
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="re0">$name</span><span class="br0">)</span><span class="sy0">;</span>  <span class="co1">// 引入 IA_ROOT.'/framework/model/'.$name.'.mod.php' 文件</span>
+&nbsp;
+<span class="co1">// 调用辅助类</span>
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">classs</span><span class="br0">(</span><span class="re0">$name</span><span class="br0">)</span><span class="sy0">;</span> <span class="co1">// 引入 IA_ROOT.'/framework/class/'.$name.'.class.php'文件;</span>
+&nbsp;
+<span class="co1">// 调用web端的公共函数</span>
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">web</span><span class="br0">(</span><span class="re0">$name</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">// 引入 IA_ROOT.'/web/common/'.$name.'.func.php' 文件;</span>
+&nbsp;
+<span class="co1">// 调用app端的公共函数</span>
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">app</span><span class="br0">(</span><span class="re0">$name</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">// 引入 IA_ROOT.'/app/common/'.$name.'.func.php' 文件;</span></pre>
+
+</div>
+
+<h4 id="示例">示例</h4>
+<div class="level4">
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">func</span><span class="br0">(</span><span class="st_h">'tpl'</span><span class="br0">)</span><span class="sy0">;</span>
+tpl_fans_fields<span class="br0">(</span><span class="st_h">'avatar'</span><span class="sy0">,</span> <span class="re0">$avatar</span><span class="br0">)</span><span class="sy0">;</span></pre>
+
+</div>
+
+<h2 id="目录结构" class="sectionedit5">目录结构</h2>
+<div class="level2">
+
+<p>
+详细目录结构请参阅 <a title="dev:v0.6:filestruct" class="wikilink1" href="/manual/dev:v0.6:filestruct">微擎（v0.6）目录结构</a>
+</p>
+<pre class="code">pro
+├─ addons  ………………………………………… 【模块安装目录】 (意为附加组件)
+│  ├─ business  …………………………………… 模块的名称  (示例)
+│  │  ├─ images                             建议 css 文件也放此目录.
+│  │  ├─ template                           模板目录
+│  │  │  ├─ mobile                         APP 端模板目录
+│  │  │  │  └─ ... *.html                 APP 端模板文件
+│  │  │  └─ ... *.html                     Web 端模板文件
+│  │  ├─ inc                                引用的 php 文件目录
+│  │  │  ├─ mobile                         Mobile端目录
+│  │  │  │  ├─ xxx.inc.php                微站入口
+│  │  │  │  └─ ...                        .
+│  │  │  └─ web                            Web端模板目录
+│  │  │      ├─ xxx.inc.php                微站管理入口
+│  │  │      └─ ...                        .
+│  │  ├─ icon.jpg                           模块图标
+│  │  ├─ preview.jpg                        模块预览
+│  │  ├─ manifest.xml                       安装清单
+│  │  ├─ module.php                         模块设置
+│  │  ├─ processor.php                      消息处理
+│  │  ├─ receiver.php                       消息订阅
+│  │  └─ site.php                           微站页面
+│  └─ ... …………………………………………… 其他扩展模块
+├─ api ………………………………………………… .
+│  └─ uc.php                                 .
+├─ attachment  ……………………………………… 附件文件夹
+│  ├─ audios  ……………………………………… 音频附件文件夹
+│  └─ images  ……………………………………… 图片附件文件夹
+│      ├─ global  ………………………………… 系统公共文件夹
+│      │  └─ 上传年份
+│      │        └─上传月份
+│      │             └─ 随机文件名
+│      └─ $uniacid ... ……………………………按公众号年月组织的图片文件
+├─ app    ……………………………………………【微站(Mobile)入口】
+│  ├─ common                                 .
+│  │  ├─ bootstrap.app.inc.php              .
+│  │  ├─ common.func.php                    .
+│  │  └─ template.func.php                  .
+│  ├─ resource                               .
+│  │  ├─ css                                .
+│  │  ├─ fonts                              .
+│  │  └─ js                                 .
+│  ├─ source                                 .
+│  │  ├─ activity                           .
+│  │  ├─ auth                               身份验证
+│  │  ├─ channel                            频道
+│  │  ├─ entry                              入口
+│  │  ├─ home                               个人
+│  │  ├─ mc                                 会员中心
+│  │  └─ utility                            .
+│  ├─ themes                                 微站皮肤
+│  │  ├─ default                            系统默认
+│  │  └─ ...                                自定义皮肤
+│  ├─ index.php                              微站入口
+│  └─ test.php                               微站测试页面
+├─ data  ……………………………………………… .
+│  ├─ config.php.default                     .
+│  ├─ config.php                             系统配置
+│  └─ db.php                                 .
+├─ framework  ………………………………………【微擎系统通用的工具类和方法】
+│  ├─ builtin  ……………………………………【微擎内建模块】
+│  │  ├─ basic                              文字回复模块
+│  │  ├─ core                               会话消息统计
+│  │  │  └─ receiver.php                   .
+│  │  ├─ cover                              通用封面回复
+│  │  ├─ default                            默认回复模块
+│  │  ├─ music                              音乐回复模块
+│  │  ├─ news                               图文回复模块
+│  │  ├─ userapi                            自定义接口回复模块
+│  │  │  ├─ api                            功能文件目录
+│  │  │  │  ├─ baike.php                  百科
+│  │  │  │  ├─ calendar.php               万年历
+│  │  │  │  ├─ express.php                快递
+│  │  │  │  ├─ news.php                   新闻
+│  │  │  │  ├─ translate.php              翻译
+│  │  │  │  ├─ weather.php                天气
+│  │  │  │  └─ ...                        可扩展
+│  │  │  ├─ images                         .
+│  │  │  │  └─ ...                        .
+│  │  │  ├─ template                       .
+│  │  │  │  └─ ...                        .
+│  │  │  ├─ icon.jpg                       .
+│  │  │  ├─ preview.jpg                    .
+│  │  │  ├─ module.php                     .
+│  │  │  ├─ processor.php                  .
+│  │  │  └─ site.php                       .
+│  │  └─ ...                                .
+│  ├─ class ………………………………………… 工具类
+│  │  ├─ loader.class.php                   文件加载器
+│  │  ├─ db.class.php                       数据库操作类
+│  │  ├─ account.class.php                  公众号业务操作基类,
+│  │  ├─ weixin.account.class.php           微信公众号业务操作
+│  │  ├─ yixin.account.class.php            易信
+│  │  └─ laiwang.account.class.php          来旺                              .
+│  ├─ function  …………………………………… 工具函数
+│  │  ├─ global.func.php                  【全局通用函数】
+│  │  ├─ cache.file.func.php                文件缓存
+│  │  ├─ cache.func.php                     缓存功能
+│  │  ├─ cache.memcache.func.php            插件缓存
+│  │  ├─ cache.mysql.func.php               mysql缓存
+│  │  ├─ communication.func.php             http 通信
+│  │  ├─ compat.biz.func.php                兼容函数(业务功能)
+│  │  ├─ compat.func.php                    兼容函数(逻辑功能)
+│  │  ├─ file.func.php                      文件操作
+│  │  ├─ logging.func.php                   日志记录
+│  │  ├─ pdo.func.php                       数据库访问操作
+│  │  ├─ db.func.php                        数据库信息相关操作
+│  │  └─ tpl.func.php                       自定义模板控件
+│  ├─ library ……………………………………… 其他函数库
+│  │  ├─ json                               .
+│  │  ├─ pdo                                .
+│  │  ├─ phpmailer                          .
+│  │  ├─ qrcode                             .
+│  │  └─ uc                                 .
+│  ├─ model ………………………………………… 业务功能模块
+│  │  ├─ account.mod.php                    公众号相关操作
+│  │  ├─ activity.mod.php                   营销活动
+│  │  ├─ app.mod.php                        APP 端相关操作
+│  │  ├─ cache.mod.php                      缓存
+│  │  ├─ cloud.mod.php                      云服务
+│  │  ├─ extension.mod.php                  扩展功能
+│  │  ├─ mc.mod.php                         会员功能
+│  │  ├─ module.mod.php                     公众号
+│  │  ├─ payment.mod.php                    支付功能
+│  │  ├─ reply.mod.php                      规则回复
+│  │  ├─ setting.mod.php                    读写系统设置缓存
+│  │  ├─ user.mod.php                       操作用户
+│  │  └─ utility.mod.php                    .
+│  ├─ bootstrap.inc.php                      .
+│  ├─ const.inc.php                          .
+│  └─ version.inc.php                        
+├─ payment …………………………………………… 支付功能
+│  ├─ alipay                                 支付宝支付
+│  │  └─ ...                                
+│  ├─ wechat                                 微擎支付
+│  │  └─ ...                                .
+│  └─ config.php                             支付配置文件
+├─ web ……………………………………………… 【后台管理(Web)入口】
+│  ├─ common  ……………………………………… 公用文件 
+│  │  ├─ bootstrap.sys.inc.php              .
+│  │  ├─ common.func.php                    .
+│  │  ├─ frames.inc.php                     .
+│  │  └─ template.func.php                  .
+│  ├─ resource  …………………………………… 资源文件
+│  │  ├─ components                         引用外部组件
+│  │  │  ├─ colorpicker                    拾色器
+│  │  │  ├─ daterangerpicker               日期范围
+│  │  │  ├─ datetimepicker                 日历
+│  │  │  ├─ emotions                       自定义表情
+│  │  │  ├─ jplayer                        音乐播放器
+│  │  │  ├─ kindeditor                     富文本编辑器
+│  │  │  ├─ switch                         开关
+│  │  │  ├─ tinymce                        ??
+│  │  │  └─ zclip                          ??
+│  │  ├─ css                                样式文件
+│  │  ├─ fonts                              字体资源
+│  │  ├─ images                             图片文件
+│  │  └─ js  ……………………………………… js函数库
+│  │      ├─ app ………………………………… 自定义模块
+│  │      │  ├─ biz.js                     业务工具类
+│  │      │  ├─ config.js                  模块化编程配置
+│  │      │  ├─ district.js                省市县
+│  │      │  ├─ domReady.js                .
+│  │      │  └─ util.js                    各种功能对话框
+│  │      ├─ lib …………………………………
+│  │      │  ├─ angular-sanitize.min.js    .
+│  │      │  ├─ angular.min.js             .
+│  │      │  ├─ bootstrap-filestyle.min.js .
+│  │      │  ├─ bootstrap.min.js           .
+│  │      │  ├─ chart.min.js               .
+│  │      │  ├─ css.min.js                 .
+│  │      │  ├─ jquery-1.11.1.min.js       .
+│  │      │  ├─ jquery-ui-1.10.3.min.js    .
+│  │      │  ├─ jquery.caret.js            .
+│  │      │  ├─ moment.js                  .
+│  │      │  └─ underscore-min.js          .
+│  │      └─ require.js  ……………………… .
+│  ├─ source  ……………………………………… 后台管理控制器
+│  │  ├─ account 【controller|c】           公众号管理
+│  │  │  ├─ __init.php                     公众号菜单管理
+│  │  │  ├─ post.ctrl.php 【action|a】     .
+│  │  │  └─ ...                            公众号业务功能
+│  │  ├─ activity                           营销活动
+│  │  ├─ cloud                              云服务(一键更新、云服务等)
+│  │  ├─ extension                          扩展功能
+│  │  ├─ home                               基础设置,(模块)快捷导航
+│  │  ├─ mc                                 会员中心
+│  │  ├─ platform                           基础设置,(模块规则,数据统计,入口设置)
+│  │  ├─ profile                            功能选项,系统配置
+│  │  ├─ site                               微站功能
+│  │  ├─ system                             系统管理
+│  │  ├─ user                               操作用户管理
+│  │  └─ utility                            系统业务逻辑
+│  ├─ themes  ……………………………………… 后台管理视图
+│  │  ├─ default ………………………………… 内建后台管理样式
+│  │  └─ ... ……………………………………… 定制界面样式
+│  ├─ index.php                              后台入口
+│  └─ test.php                               后台测试单元
+├─ api.php ………………………………………… 【公众平台与微擎系统通信的接口】
+├─ index.php ………………………………………… 微擎入口
+└─ install.php ……………………………………… 微擎安装程序</pre>
+
+</div>
+
+    <!-- end rendered wiki content -->
+    <div class="clearer"></div>
+  </div>
+  <!-- end div id bodyContent -->
+  
+</div>
+<!-- end div id=content -->
+</div>
+<!-- end page-container -->
+
+<!-- start footer --><!-- end footer -->
+<img src="wq_structure_routing/indexer.gif" alt="" height="1" width="2">
+</body></html>

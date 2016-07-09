@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0052)http://blog.csdn.net/mmoaay/article/details/42240949 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+
+ <meta http-equiv="Cache-Control" content="no-siteapp"><link rel="alternate" media="handheld" href="http://blog.csdn.net/mmoaay/article/details/42240949#">
+
+    <title>xcode6下使用autolayout+sizeclass实践 - mmoaay
+        - 博客频道 - CSDN.NET</title>
+    
+    <meta name="description" content="其实，一直都在记录自己的点滴，想法，成长，学习总结，只不过没有公开，都存在电脑里面，现在慢慢补上来，一起学习，交流，共勉！">
+
+        <!--new top-->
+       
+        <link rel="stylesheet" href="http://static.csdn.net/public/common/toolbar/css/index.css">
+        <!--new top-->
+
+    <link rel="Stylesheet" type="text/css" href="ios_autolayout_sizeclass/style.css">
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/mmoaay/rss/list">
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="ios_autolayout_sizeclass/simple.css">
+ 
+
+
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><link rel="stylesheet" type="text/css" href="ios_autolayout_sizeclass/job_reco.css"><link href="ios_autolayout_sizeclass/bdsstyle.css" rel="stylesheet" type="text/css"><link rel="stylesheet" type="text/css" href="ios_autolayout_sizeclass/style(1).css"><link type="text/css" rel="stylesheet" href="ios_autolayout_sizeclass/style(2).css"><script type="text/javascript" charset="utf-8" src="ios_autolayout_sizeclass/push-smartBar_876d7f8.js" _md_="_anymoore_http://apps.bdimg.com/cloudaapi/pkg/push-smartBar_876d7f8.js"></script><script type="text/javascript" charset="utf-8" src="ios_autolayout_sizeclass/app-socialshare_b5c9f0e.js" _md_="_anymoore_http://apps.bdimg.com/cloudaapi/pkg/app-socialshare_b5c9f0e.js"></script><link rel="stylesheet" href="http://bdimg.share.baidu.com/static/api/css/share_style0_16.css?v=6aba13f0.css"><script type="text/javascript" charset="utf-8" src="ios_autolayout_sizeclass/consult_5b07d2e.js" _md_="_anymoore_http://apps.bdimg.com/cloudaapi/s/consult_5b07d2e.js"></script><script type="text/javascript" charset="utf-8" src="ios_autolayout_sizeclass/account-pay_1686c10.js" _md_="_anymoore_http://apps.bdimg.com/cloudaapi/pkg/account-pay_1686c10.js"></script><script type="text/javascript" src="ios_autolayout_sizeclass/osd.js"></script></head>
+<body class=" hPC" style=""><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="ios_autolayout_sizeclass/o.htm" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><iframe frameborder="0" style="display: none;"></iframe><div id="MathJax_Message" style="display: none;"></div>
+    
+   
+      <!--new top-->
+<!--new top-->
+    <div id="container">
+
+        <div id="body">
+<div id="main">
+                <div class="main">
+  
+<link href="ios_autolayout_sizeclass/comment1.css" type="text/css" rel="stylesheet">
+<link href="ios_autolayout_sizeclass/style1.css" type="text/css" rel="stylesheet">
+
+<link rel="stylesheet" href="http://static.blog.csdn.net/public/res-min/markdown_views.css?v=1.0">
+<link rel="stylesheet" href="http://static.blog.csdn.net/css/category.css?v=1.0">
+
+
+
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="ios_autolayout_sizeclass/hahaha.htm">
+        xcode6下使用autolayout+sizeclass实践            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href="http://www.csdn.net/tag/iOS8" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">iOS8</a><a href="http://www.csdn.net/tag/xode6" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">xode6</a><a href="http://www.csdn.net/tag/autolayout" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">autolayout</a><a href="http://www.csdn.net/tag/sizeclass" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">sizeclass</a><a href="http://www.csdn.net/tag/%e5%b8%83%e5%b1%80" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">布局</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2015-01-07 17:46</span>
+            <span class="link_view" title="阅读次数">6628人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="http://blog.csdn.net/mmoaay/article/details/42240949#comments" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_pinglun&#39;])">评论</a>(8)</span>
+            <span class="link_collect"> <a href="javascript:void(0);" onclick="javascript:collectArticle(&#39;xcode6下使用autolayout+sizeclass实践&#39;,&#39;42240949&#39;);return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="http://blog.csdn.net/mmoaay/article/details/42240949#report" onclick="javascript:report(42240949,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+      <div class="category">
+        <div class="category_l">
+           <img src="ios_autolayout_sizeclass/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label onclick="GetCategoryArticles(&#39;2573879&#39;,&#39;mmoaay&#39;,&#39;top&#39;,&#39;42240949&#39;);">
+                        <span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_fenlei&#39;]);">iOS<em>（22）</em></span>
+                      <img class="arrow-down" src="ios_autolayout_sizeclass/arrow_triangle _down.jpg" style="display: none;">
+                     <img class="arrow-up" src="ios_autolayout_sizeclass/arrow_triangle_up.jpg" style="display: inline;">
+                        <div class="subItem">
+                            <div class="subItem_t">作者同类文章<i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_2573879">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+
+        <div class="bog_copyright">         
+            <p class="copyright_p">版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+<div id="article_content" class="article_content">
+
+<p>历史车轮滚滚向前，将autolayout配合sizeclass做布局的方式推上了主流，虽然有点晚，但最终还是进行了一次完整的实践，特此记录一下：</p>
+<p>因为网上已经有很多博客介绍了autolayout配合sizeclass布局的原理，所以我着重记录一下自己实践的过程：（可能会有错误，大家多多指正）</p>
+<p>先来看看最终效果：</p>
+<p style="text-align:center"><img src="ios_autolayout_sizeclass/20150107092133734" align="middle" width="375" height="667" alt=""><br>
+</p>
+<p style="text-align:center">iPhone竖屏</p>
+<p style="text-align:center"><img src="ios_autolayout_sizeclass/20150107092407906" width="667" height="375" alt=""></p>
+<p style="text-align:center">iPhone横屏</p>
+<p style="text-align:center"><img src="ios_autolayout_sizeclass/20150107092603335" width="768" height="1024" alt=""><br>
+</p>
+<p style="text-align:center">iPad竖屏</p>
+<p style="text-align:center"><img src="ios_autolayout_sizeclass/20150107092637687" width="1024" height="768" alt=""><br>
+</p>
+<p style="text-align:center">iPad横屏</p>
+<p style="text-align:left">首先我们对最终效果进行分析，得出如下结论：</p>
+<p style="text-align:left">1.该布局适应设备包括iPhone和iPad。</p>
+<p style="text-align:left">2.iPhone横屏，iPad横屏和竖屏的布局是一致的（方式1），iPhone竖屏的布局是单独的（方式2）。</p>
+<p style="text-align:left">3.方式1和方式2边距都是一致的（8px）；红色方块和黄色方块并排，红色方块宽高固定（100px）；黄色方块高度固定（100px），宽度自适应屏幕；绿色方块和蓝色方块高度固定（160px）。</p>
+<p style="text-align:left">4.方式1红色、黄色、绿色和蓝色方块的间距均为4px；绿色方块和蓝色方块并排，宽度相等且自适应屏幕。</p>
+<p style="text-align:left">5.方式2红色方块和黄色方块的间距为0px，其他各方块的间距均为4px；蓝色方块在绿色方块下方，宽度自适应屏幕。</p>
+<p style="text-align:left">分析完毕，我们开始一步步实现这些效果：</p>
+<p style="text-align:left">第一步：创建一个single view application项目，注意Devices选项选择Universal。</p>
+<p style="text-align:left">第二步：打开Main.stroyboard，创建相应的View并调整它们的位置如下图（调整的办法用过storyboard的人应该都知道）：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107104057329" alt=""><br>
+</p>
+<p style="text-align:left">注：红框中的部分是iOS8中新增的sizeclass特性。点击该区域会弹出如下的界面：</p>
+<p style="text-align:left"><span style="color:#ff0000"><img src="ios_autolayout_sizeclass/20150107105145884" alt=""><br>
+</span></p>
+<p style="text-align:left">中间的九宫格控制了布局适应哪些设备的横屏和竖屏。具体原理参考这个博客：<a target="_blank" href="http://blog.csdn.net/lihuiqwertyuiop/article/details/39271887">http://blog.csdn.net/lihuiqwertyuiop/article/details/39271887</a>（ps：我就是看这个看明白原理的，所以我自己就不废话了）。</p>
+<p style="text-align:left">在之前的分析中我们得到了iPhone横屏、iPhone竖屏、iPad横屏和iPad竖屏下布局的几个共性。对于这些共性的东西，我们在wAny hAny这种模式下编辑，因为wAny hAny模式下的布局对所有设备在横屏和竖屏的情况下都有效。</p>
+<p style="text-align:left">首先设置红色方块的属性，如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107163546718" alt=""><br>
+</p>
+<p style="text-align:left">宽度和高度约束为100px，居上0px，居左-8px（截图和文字不一样是因为博主傻逼了，忘了改……因为默认对齐边界是-16px，所以如果需要边距为8px则输入-8px即可，至于为什么默认对齐边界是-16px，博主也不知道）。</p>
+<p style="text-align:left">然后设置黄色方块的属性，如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107163855515" alt=""><br>
+</p>
+<p style="text-align:left">高度约束为100px，居上0px，居左-8px（博主继续傻逼）。</p>
+<p style="text-align:left"><span style="color:#ff0000">注：这里我们没有设置红色方块和黄色方块的间距，因为在iPhone竖屏的情况下它们之间的间距为0px，其他情况为4px，所以我们需要在不同情况对应的布局模式下面去设置间距。</span></p>
+<p style="text-align:left">然后设置绿色方块和蓝色方块的属性，如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107164416046" alt=""><br>
+</p>
+<p style="text-align:left">因为在iPhone竖屏情况下它们不是并排排列的，所以这两个方块在wAny hAny 模式下只约束高度为160px。</p>
+<p style="text-align:left">接下来开始编辑iPad横屏和竖屏模式下的布局，对九宫格的模式进行切换，如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107165802298" alt=""><br>
+</p>
+<p style="text-align:left">wRegular hRegular模式，下面有提示：iPad横屏和竖屏下有效，刚好是我们需要的。</p>
+<p style="text-align:left">但是你会发现布局有些问题，没关系，我们在重新调整各个View的位置和宽度来达到下面这个效果：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107170213662" alt=""><br>
+</p>
+<p style="text-align:left">然后继续为各个View添加约束，首先是红色和黄色方块的间距，如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107171146775" alt=""><br>
+</p>
+<p style="text-align:left">在红色方块内按下鼠标右键并拖动鼠标到黄色方块内，然后松开鼠标就会弹出上图所示的菜单，选择Horizontal Spacing，然后在下图所示的界面内将间距修改为4px：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107171635641" alt=""><br>
+</p>
+<p style="text-align:left"><span style="color:#ff0000">注：在上图所示界面删除约束的操作是：选中约束项，然后backspace删除（不是delete，好诡异的删除方式）</span></p>
+<p style="text-align:left">同样的方式可以设置绿色方块、蓝色方块和黄色方块互相的间距。</p>
+<p style="text-align:left">然后我们来设置蓝色方块和绿色方块宽度相等，如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107171958941" alt=""><br>
+</p>
+<p style="text-align:left">同时选中蓝色方块和绿色方块，然后点击下方的按钮，在弹出的界面选择Equal Widths即可（你会发现Equal Widths和Equal Widths只在选中两个View的情况下才可用，这是很自然的事情，一个View怎么宽度相等…）。</p>
+<p style="text-align:left">最后我们设置绿色方块居左-8px，蓝色方块居右-8px，如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107172953406" alt=""><br>
+</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107173038433" alt=""><br>
+</p>
+<p style="text-align:left">至此我们完成了iPad横屏和竖屏情况下的布局。</p>
+<p style="text-align:left">然后是iPhone横屏情况下的布局，因为布局和iPad竖屏、横屏情况下是一致的，所以具体过程不在描述，只需要将下方的九宫格切换到wAny hCompact模式然后重复上述过程即可。</p>
+<p style="text-align:left">最后是iPhone竖屏情况下的布局，首先我们把九宫格切换到wCompact hRegular模式，然后调整各个View的位置如下图：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107173858250" alt=""><br>
+</p>
+<p style="text-align:left">然后用“右键拖线”的方式我们设置红色方块和黄色方块的间距为0px，绿色方块和红色方块的间距为4px，蓝色方块和绿色方块的间距为4px</p>
+<p style="text-align:left">最后再用下方的<img src="ios_autolayout_sizeclass/20150107174250078" alt="">按钮设定绿色方块，蓝色方块的左右边距均为-8px，完成iPhone竖屏下的布局。</p>
+<p style="text-align:left"><br>
+</p>
+<p style="text-align:left">至此目标成功达成。当然实现该布局的方式还有很多，大家在理解之后可以自由发挥。争取用最少的约束来完成这个布局。</p>
+<p style="text-align:left"><br>
+</p>
+<p style="text-align:left">个人的一些理解：</p>
+<p style="text-align:left">1.一般的情况下用wAny hAny模式就可以满足业务上的需求</p>
+<p style="text-align:left">2.设置两个view间距的这种情况用“右键拖线”的方式来设置比较好（因为在view比较多的情况下直接用下方的<img src="ios_autolayout_sizeclass/20150107180336640" alt="">按钮来设置间距的话，编辑器不知道你是相对哪个view的间距）</p>
+<p style="text-align:left">3.下图所示的菜单能让你快速查看加上约束后界面的效果、更新和删除约束：</p>
+<p style="text-align:left"><img src="ios_autolayout_sizeclass/20150107180812012" alt=""><br>
+</p>
+<p style="text-align:left"><span style="color:#ff0000">注：慎用Reset to Suggested Constraints（现在系统还没这么智能，说不定就坑死你）</span></p>
+<p style="text-align:left">4.如果某个view要固定宽高，一定要设置约束，不设置的话autolayout认为其宽高为0px。</p>
+<p style="text-align:left">5.如果某个view要水平自动缩放，设定它居左和居右的像素即可。</p>
+<p style="text-align:left">6.如果界面元素很多，可以考虑分层，把一些view包含在一个父view内，这样可以隔离它们和其他view的关系，界面约束会更加清晰。</p>
+<p style="text-align:left">7.如果针对不同的设备横屏和竖屏的布局是不一样的，首先要做的就是找到它们布局约束上的共性，在包含设备范围较大模式下把这些约束加上（比如wAny hAny 模式能约束的设备类型就比wCompact wAny模式多），这样就不用在每个布局都加相同的约束，从而减少工作量。但是有时候相同的工作也难以避免（比如上面的例子，iPhone的横屏和iPad的横屏、竖屏分别在两个模式下，虽然它们的布局是一样的，但是还是不得不做两次同样的工作）</p>
+<p style="text-align:left">8.给每个view起单独的名字，不然约束一多，omg，你知道哪个是哪个么？</p>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+<!-- Baidu Button BEGIN -->
+
+
+
+<!-- Baidu Button END --></div>
+
+<div class="clear">
+</div>
+  </div>
+        
+
+
+
+
+
+
+
+            </div>
+      <!--new top-->
+    
+
+     <!--new top-->
+   
+    <link href="ios_autolayout_sizeclass/ask_float_block.css" type="text/css" rel="stylesheet">
+ <div id="tag-suggest-pop">
+  <div class="relative">
+    <div class="close"></div>
+    <div class="content"></div>
+  </div>
+</div><link rel="stylesheet" type="text/css" media="screen" href="ios_autolayout_sizeclass/ask_float_fonts_css-6b30a53970eb5c3a2a045e3df585b475.css"><div data-mod="popu_64" class="tracking-ad" chg-blk="0"></div></body></html>

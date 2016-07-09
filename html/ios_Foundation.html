@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+
+
+</head>
+
+<body>
+
+<div id="container">
+
+  <div id="wrapper">
+        <div id="content">
+
+<div id="post_detail">
+<div id="post" class="post">
+    <a name="top"></a>
+    <h2><a href="http://www.cnblogs.com/kenshincui/p/3885689.html" id="cb_post_title_url">iOS开发系列&mdash;Objective-C之Foundation框架</a></h2>
+    <small>2014-08-01 19:04 by KenshinCui, <span id="post_view_count">49012</span> 阅读, <span id="post_comment_count">50</span> 评论, <a onclick="AddToWz(3885689);return false;" href="#">收藏</a>,  <a rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?postid=3885689">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><h1 id="autoid-0-0-0">概述</h1> <p>我们前面的章节中就一直新建Cocoa Class，那么Cocoa到底是什么，它和我们前面以及后面要讲的内容到底有什么关系呢？Objective-C开发中经常用到NSObject，那么这个对象到底是谁？它为什么又出现在Objective-C中间呢？今天我们将揭开这层面纱，重点分析在IOS开发中一个重要的框架Foundation，今天的主要内容有：</p> <ol> <li><a href="#foundation">Foundation概述</a>  </li><li><a href="#struct">常用结构体</a>  </li><li><a href="#date">日期</a>  </li><li><a href="#string">字符串</a>  </li><li><a href="#array">数组</a>  </li><li><a href="#dictionary">字典</a>  </li><li><a href="#boxing">装箱和拆箱</a>  </li><li><a href="#reflector">反射</a>  </li><li><a href="#copy">拷贝</a>  </li><li><a href="#io">文件操作</a>  </li><li><a href="#archiver">归档</a></li></ol> <h1 id="foundation">Foundation概述</h1> <p>为什么前面说的内容中新建一个类的时候我们都是选择Cocoa Class呢？Cocoa是什么呢？</p> <p>Cocoa不是一种编程语言（它可以运行多种编程语言），它也不是一个开发工具（通过命令行我们仍然可以开发Cocoa程序），它是创建Mac OS X和IOS程序的原生面向对象API，为这两者应用提供了编程环境。</p> <p>我们通常称为“Cocoa框架”，事实上Cocoa本身是一个框架的集合，它包含了众多子框架，其中最重要的要数“Foundation”和“UIKit”。前者是框架的基础，和界面无关，其中包含了大量常用的API；后者是基础的UI类库，以后我们在IOS开发中会经常用到。这两个框架在系统中的位置如下图：</p> <p><a href="ios_helloworld/011901227126262.jpg"><img border="0" height="186" width="499" src="ios_helloworld/011901266024074.jpg" alt="Cocoa" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Cocoa"></a> </p> <p>其实所有的Mac OS X和IOS程序都是由大量的对象构成，而这些对象的根对象都是NSObject，NSObject就处在Foundation框架之中，具体的类结构如下：</p> <p><a href="ios_helloworld/011902441182259.jpg"><img border="0" height="498" width="373" src="ios_helloworld/011902445406430.jpg" alt="Foundation1" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Foundation1"></a> </p> <p><a href="ios_helloworld/011902454464988.jpg"><img border="0" height="674" width="383" src="ios_helloworld/011902458525930.jpg" alt="Foundation2" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Foundation2"></a> </p> <p><a href="ios_helloworld/011902462275115.jpg"><img border="0" height="642" width="374" src="ios_helloworld/011903203057004.jpg" alt="Foundation3" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Foundation3"></a> </p> <p>通常我们会将他们分为几类：</p> <ol> <li>值对象  </li><li>集合  </li><li>操作系统服务：文件系统、URL、进程通讯  </li><li>通知  </li><li>归档和序列化  </li><li>表达式和条件判断  </li><li>Objective-C语言服务</li></ol> <p>UIKit主要用于界面构架，这里我们不妨也看一下它的类结构：</p> <p><a href="ios_helloworld/011903207747161.jpg"><img border="0" height="1159" width="873" src="ios_helloworld/011903214304560.jpg" alt="UIKit" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="UIKit"></a></p> <h1 id="struct">常用结构体</h1> <p>在Foundation中定义了很多常用结构体类型来简化我们的日常开发，这些结构体完全采用Objective-C定义，和我们自己定义的结构体没有任何区别，之所以由框架为我们提供完全是为了简化我们的开发。常用的结构体有NSRange、NSPoint、NSSize、NSRect等</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: green;">/*NSRange表示一个范围*/
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    NSRange rg={3,5};</span><span style="color: green;">//第一参数是起始位置第二个参数是长度
+    //NSRange rg;
+    //rg.location=3;
+    //rg.length=5;
+    //NSRange rg={.location=3,.length=5};
+    //常用下面的方式定义 </span><span style="color: black;">NSRange rg2=NSMakeRange(3,5);</span><span style="color: green;">//使用NSMakeRange定义一个NSRange 
+    //打印NSRange可以使用Foundation中方法 </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"rg2 is %@"</span><span style="color: black;">, NSStringFromRange(rg2));</span><span style="color: green;">//注意不能直接NSLog(@"rg2 is %@", rg2)，因为rg2不是对象（准确的说%@是指针）而是结构体
+</span><span style="color: black;">}
+</span><span style="color: green;">/*NSPoint表示一个点*/
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    NSPoint p=NSMakePoint(10, 15);</span><span style="color: green;">//NSPoint其实就是CGPoint
+    //这种方式比较常见 </span><span style="color: black;">NSPoint p2=CGPointMake(10, 15);
+    NSLog(NSStringFromPoint(p2));
+}
+</span><span style="color: green;">/*NSSize表示大小*/
+</span><span style="color: blue;">void </span><span style="color: black;">test3(){
+    NSSize s=NSMakeSize(10, 15);</span><span style="color: green;">//NSSize其实就是CGSize
+    //这种方式比较常见 </span><span style="color: black;">CGSize s2=CGSizeMake(10, 15);
+    NSLog(NSStringFromSize(s2));
+}
+</span><span style="color: green;">/*NSRect表示一个矩形*/
+</span><span style="color: blue;">void </span><span style="color: black;">test4(){
+    NSRect r=NSMakeRect(10, 5, 100, 200);</span><span style="color: green;">//NSRect其实就是CGRect
+    //这种方式比较常见 </span><span style="color: black;">NSRect r2=CGRectMake(10, 5, 100, 200);
+    NSLog(NSStringFromRect(r2));
+}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    @autoreleasepool {
+        test1();
+        test2();
+        test3();
+        test4();
+    } </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>可以看到对于常用结构体在Foundation框架中都有一个对应的make方法进行创建，这也是我们日后比较常用的操作;而且与之对应的还都有一个NSStringFromXX方法来进行字符串转换，方便我们调试。上面也提到NSSize其实就是CGSize，NSRect其实就是CGRect，我们可以通过查看代码进行确认，例如NSSize定义： 
+<p><a href="ios_helloworld/011903221491175.png"><img border="0" height="40" width="234" src="ios_helloworld/011903223996631.png" alt="NSSize" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="NSSize"></a> </p>
+<p>继续查看CGSize的代码：</p>
+<p><a href="ios_helloworld/011903226804845.png"><img border="0" height="127" width="287" src="ios_helloworld/011903229776288.png" alt="CGSize" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="CGSize"></a> </p>
+<h1 id="date">日期</h1>
+<p>接下来熟悉一下Foundation框架中日期的操作</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    
+    NSDate *date1=[NSDate date];</span><span style="color: green;">//获得当前日期
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,date1); </span><span style="color: green;">//结果：2014-07-16 07:25:28 +0000
+    
+    </span><span style="color: black;">NSDate *date2=[NSDate dateWithTimeIntervalSinceNow:100];</span><span style="color: green;">//在当前日期的基础上加上100秒，注意在ObjC中多数时间单位都是秒
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,date2); </span><span style="color: green;">//结果：2014-07-16 07:27:08 +0000
+    
+    </span><span style="color: black;">NSDate *date3=[NSDate distantFuture];</span><span style="color: green;">//随机获取一个将来的日期
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,date3); </span><span style="color: green;">//结果：4001-01-01 00:00:00 +0000
+    
+    </span><span style="color: black;">NSTimeInterval time=[date2 timeIntervalSinceDate:date1];</span><span style="color: green;">//日期之差,返回单位为秒
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%f"</span><span style="color: black;">,time); </span><span style="color: green;">//结果：100.008833
+    
+    </span><span style="color: black;">NSDate *date5=[date1 earlierDate:date3];</span><span style="color: green;">//返回比较早的日期
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,date5); </span><span style="color: green;">//结果：2014-07-16 07:25:28 +0000
+    
+    //日期格式化
+    </span><span style="color: black;">NSDateFormatter *formater1=[[NSDateFormatter alloc]init];
+    formater1.dateFormat=@</span><span style="color: rgb(163, 21, 21);">"yy-MM-dd HH:mm:ss"</span><span style="color: black;">;
+    NSString *datestr1=[formater1 stringFromDate:date1];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,datestr1); </span><span style="color: green;">//结果：14-07-16 15:25:28
+    //字符串转化为日期
+    </span><span style="color: black;">NSDate *date6=[formater1 dateFromString:@</span><span style="color: rgb(163, 21, 21);">"14-02-14 11:07:16"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,date6); </span><span style="color: green;">//结果：2014-02-14 03:07:16 +0000
+
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<h1 id="string">字符串</h1>
+<h2 id="autoid-5-0-0">不可变字符串</h2>
+<p>在ObjC中字符串操作要比在C语言中简单的多，在下面的例子中你将看到字符串的初始化、大小写转化、后缀前缀判断、字符串比较、字符串截取、字符串转换等，通过下面的例子我们基本可以掌握常用的字符串操作(注意这些内容虽然基本，但却是十分常用的操作，需要牢记)：</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: green;">/**字符串操作*/
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: blue;">char </span><span style="color: black;">*str1=</span><span style="color: rgb(163, 21, 21);">"C string"</span><span style="color: black;">;</span><span style="color: green;">//这是C语言创建的字符串
+    </span><span style="color: black;">NSString *str2=@</span><span style="color: rgb(163, 21, 21);">"OC string"</span><span style="color: black;">;</span><span style="color: green;">//ObjC字符串需要加@，并且这种方式创建的对象不需要自己释放内存
+
+    //下面的创建方法都应该释放内存
+    </span><span style="color: black;">NSString *str3=[[NSString alloc] init];
+    str3=@</span><span style="color: rgb(163, 21, 21);">"OC string"</span><span style="color: black;">;
+    NSString *str4=[[NSString alloc] initWithString:@</span><span style="color: rgb(163, 21, 21);">"Objective-C string"</span><span style="color: black;">];
+    NSString *str5=[[NSString alloc] initWithFormat:@</span><span style="color: rgb(163, 21, 21);">"age is %i,name is %.2f"</span><span style="color: black;">,19,1.72f];
+    NSString *str6=[[NSString alloc] initWithUTF8String:</span><span style="color: rgb(163, 21, 21);">"C string"</span><span style="color: black;">];</span><span style="color: green;">//C语言的字符串转换为ObjC字符串
+
+    //以上方法都有对应静态方法（一般以string开头）,不需要管理内存（系统静态方法一般都是自动释放）
+    </span><span style="color: black;">NSString *str7=[NSString stringWithString:@</span><span style="color: rgb(163, 21, 21);">"Objective-C string"</span><span style="color: black;">];
+}
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"\"Hello world!\" to upper is %@"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"Hello world!" </span><span style="color: black;">uppercaseString]);
+    </span><span style="color: green;">//结果："Hello world!" to upper is HELLO WORLD!
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"\"Hello world!\" to lowwer is %@"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"Hello world!" </span><span style="color: black;">lowercaseString]);
+    </span><span style="color: green;">//结果："Hello world!" to lowwer is hello world!
+     
+    //首字母大写，其他字母小写
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"\"Hello world!\" to capitalize is %@"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"Hello world!" </span><span style="color: black;">capitalizedString]);
+    </span><span style="color: green;">//结果："Hello world!" to capitalize is Hello World!
+     
+    </span><span style="color: black;">BOOL result= [@</span><span style="color: rgb(163, 21, 21);">"abc" </span><span style="color: black;">isEqualToString:@</span><span style="color: rgb(163, 21, 21);">"aBc"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,result);
+    </span><span style="color: green;">//结果：0
+    </span><span style="color: black;">NSComparisonResult result2= [@</span><span style="color: rgb(163, 21, 21);">"abc" </span><span style="color: black;">compare:@</span><span style="color: rgb(163, 21, 21);">"aBc"</span><span style="color: black;">];</span><span style="color: green;">//如果是[@"abc" caseInsensitiveCompare:@"aBc"]则忽略大小写比较
+    </span><span style="color: blue;">if</span><span style="color: black;">(result2==NSOrderedAscending){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"left&lt;right."</span><span style="color: black;">);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(result2==NSOrderedDescending){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"left&gt;right."</span><span style="color: black;">);
+    }</span><span style="color: blue;">else if</span><span style="color: black;">(result2==NSOrderedSame){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"left=right."</span><span style="color: black;">);
+    }
+    </span><span style="color: green;">//结果：left&gt;right.
+</span><span style="color: black;">}
+</span><span style="color: blue;">void </span><span style="color: black;">test3(){
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"has prefix ab? %i"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"abcdef" </span><span style="color: black;">hasPrefix:@</span><span style="color: rgb(163, 21, 21);">"ab"</span><span style="color: black;">]);
+    </span><span style="color: green;">//结果：has prefix ab? 1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"has suffix ab? %i"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"abcdef" </span><span style="color: black;">hasSuffix:@</span><span style="color: rgb(163, 21, 21);">"ef"</span><span style="color: black;">]);
+    </span><span style="color: green;">//结果：has suffix ab? 1
+    </span><span style="color: black;">NSRange range=[@</span><span style="color: rgb(163, 21, 21);">"abcdefabcdef" </span><span style="color: black;">rangeOfString:@</span><span style="color: rgb(163, 21, 21);">"cde"</span><span style="color: black;">];</span><span style="color: green;">//注意如果遇到cde则不再往后面搜索,如果从后面搜索或其他搜索方式可以设置第二个options参数
+    </span><span style="color: blue;">if</span><span style="color: black;">(range.location==NSNotFound){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"not found."</span><span style="color: black;">);
+    }</span><span style="color: blue;">else</span><span style="color: black;">{
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"range is %@"</span><span style="color: black;">,NSStringFromRange(range));
+    }
+    </span><span style="color: green;">//结果：range is {2, 3}
+</span><span style="color: black;">}
+</span><span style="color: green;">//字符串分割
+</span><span style="color: blue;">void </span><span style="color: black;">test4(){
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"abcdef" </span><span style="color: black;">substringFromIndex:3]);</span><span style="color: green;">//从第三个索引开始（包括第三个索引对应的字符）截取到最后一位
+    //结果：def
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"abcdef" </span><span style="color: black;">substringToIndex:3]);</span><span style="color: green;">////从0开始截取到第三个索引（不包括第三个索引对应的字符）
+    //结果：abc
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"abcdef" </span><span style="color: black;">substringWithRange:NSMakeRange(2, 3)]);
+    </span><span style="color: green;">//结果：cde
+    </span><span style="color: black;">NSString *str1=@</span><span style="color: rgb(163, 21, 21);">"12.abcd.3a"</span><span style="color: black;">;
+    NSArray *array1=[str1 componentsSeparatedByString:@</span><span style="color: rgb(163, 21, 21);">"."</span><span style="color: black;">];</span><span style="color: green;">//字符串分割
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+     </span><span style="color: green;">/*结果：
+      (
+         12,
+         abcd,
+         3a
+      )
+      */
+ 
+</span><span style="color: black;">}
+</span><span style="color: green;">//其他操作
+</span><span style="color: blue;">void </span><span style="color: black;">test5(){
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"12" </span><span style="color: black;">intValue]);</span><span style="color: green;">//类型转换
+    //结果：12
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%zi"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"hello world,世界你好！" </span><span style="color: black;">length]);</span><span style="color: green;">//字符串长度注意不是字节数
+    //结果：17
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%c"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"abc" </span><span style="color: black;">characterAtIndex:0]);</span><span style="color: green;">//取出制定位置的字符
+    //结果：a
+    </span><span style="color: blue;">const char </span><span style="color: black;">*s=[@</span><span style="color: rgb(163, 21, 21);">"abc" </span><span style="color: black;">UTF8String];</span><span style="color: green;">//转换为C语言字符串
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%s"</span><span style="color: black;">,s);
+    </span><span style="color: green;">//结果：abc
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    test1();
+    test2();
+    test3();
+    test4();
+    test5();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>注意：上面代码注释中提到的需要释放内存指的是在MRC下的情况，当然本质上在ARC下也需要释放，只是这部分代码编译器会自动创建。</p>
+<h3 id="autoid-5-0-0">扩展--文件操作</h3>
+<p>在ObjC中路径、文件读写等操作是利用字符串来完成的，这里通过几个简单的例子来演示（首先在桌面上新建一个test.txt文件，里面存储的内容是”hello world,世界你好！”）</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: green;">//读取文件内容
+    </span><span style="color: black;">NSString *path=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/test.txt"</span><span style="color: black;">;
+    NSString *str1=[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    </span><span style="color: green;">//注意上面也可以使用gb2312 gbk等,例如kCFStringEncodingGB_18030_2000，但是需要用CFStringConvertEncodingToNSStringEncoding转换
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"str1 is %@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：str1 is hello world,世界你好！
+
+    
+    
+    
+    //上面我们看到了读取文件，但并没有处理错误,当然在ObjC中可以@try @catch @finnally但通常我们并不那么做
+    //由于我们的test.txt中有中文，所以使用下面的编码读取会报错，下面的代码演示了错误获取的过程
+    </span><span style="color: black;">NSError *error;
+    NSString *str2=[NSString stringWithContentsOfFile:path encoding:kCFStringEncodingGB_18030_2000 error:&amp;error];</span><span style="color: green;">//注意这句话中的error变量是**error，就是指针的指针那就是指针的地址，由于error就是一个指针此处也就是error的地址&amp;error，具体原因见下面补充
+    </span><span style="color: blue;">if</span><span style="color: black;">(error){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"read error ,the error is %@"</span><span style="color: black;">,error);
+    }</span><span style="color: blue;">else</span><span style="color: black;">{
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"read success,the file content is %@"</span><span style="color: black;">,str2);
+    }
+    </span><span style="color: green;">//结果：read error ,the error is Error Domain=NSCocoaErrorDomain Code=261 "The file couldn’t be opened using the specified text encoding." UserInfo=0x100109620 {NSFilePath=/Users/kenshincui/Desktop/test.txt, NSStringEncoding=1586}
+
+    
+    
+    
+    //读取文件内容还有一种方式就是利用URl，它除了可以读取本地文件还可以读取网络文件
+    //NSURL *url=[NSURL URLWithString:@"file:///Users/kenshincui/Desktop/test.txt"];
+    </span><span style="color: black;">NSURL *url=[NSURL URLWithString:@</span><span style="color: rgb(163, 21, 21);">"http://www.apple.com"</span><span style="color: black;">];
+    NSString *str3=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"str3 is %@"</span><span style="color: black;">,str3);
+}
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    </span><span style="color: green;">//下面是文件写入
+    </span><span style="color: black;">NSString *path1=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/test2.txt"</span><span style="color: black;">;
+    NSError *error1;
+    NSString *str11=@</span><span style="color: rgb(163, 21, 21);">"hello world,世界你好！"</span><span style="color: black;">;
+    [str11 writeToFile:path1 atomically:YES encoding:NSUTF8StringEncoding error:&amp;error1];</span><span style="color: green;">//automically代表一次性写入，如果写到中间出错了最后就全部不写入
+    </span><span style="color: blue;">if</span><span style="color: black;">(error1){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"write fail,the error is %@"</span><span style="color: black;">,[error1 localizedDescription]);</span><span style="color: green;">//调用localizedDescription是只打印关键错误信息
+    </span><span style="color: black;">}</span><span style="color: blue;">else</span><span style="color: black;">{
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"write success!"</span><span style="color: black;">);
+    }
+    </span><span style="color: green;">//结果：write success!
+</span><span style="color: black;">}
+</span><span style="color: green;">//路径操作
+</span><span style="color: blue;">void </span><span style="color: black;">test3(){
+    NSMutableArray *marray=[NSMutableArray </span><span style="color: blue;">array</span><span style="color: black;">];</span><span style="color: green;">//可变数组
+    </span><span style="color: black;">[marray addObject:@</span><span style="color: rgb(163, 21, 21);">"Users"</span><span style="color: black;">];
+    [marray addObject:@</span><span style="color: rgb(163, 21, 21);">"KenshinCui"</span><span style="color: black;">];
+    [marray addObject:@</span><span style="color: rgb(163, 21, 21);">"Desktop"</span><span style="color: black;">];
+
+    NSString *path=[NSString pathWithComponents:marray];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,path);</span><span style="color: green;">//字符串拼接成路径
+    //结果：Users/KenshinCui/Desktop
+
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[path pathComponents]);</span><span style="color: green;">//路径分割成数组
+    /*结果： 
+     (
+        Users,
+        KenshinCui,
+        Desktop
+    )
+    */
+
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[path isAbsolutePath]);</span><span style="color: green;">//是否绝对路径（其实就是看字符串是否以“/”开头）
+    //结果：0
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[path lastPathComponent]);</span><span style="color: green;">//取得最后一个目录
+    //结果：Desktop
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[path stringByDeletingLastPathComponent]);</span><span style="color: green;">//删除最后一个目录，注意path本身是常量不会被修改,只是返回一个新字符串
+    //结果：Users/KenshinCui
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[path stringByAppendingPathComponent:@</span><span style="color: rgb(163, 21, 21);">"Documents"</span><span style="color: black;">]);</span><span style="color: green;">//路径拼接
+    //结果：Users/KenshinCui/Desktop/Documents
+</span><span style="color: black;">}
+ </span><span style="color: green;">//扩展名操作
+</span><span style="color: blue;">void </span><span style="color: black;">test4(){
+    NSString *path=@</span><span style="color: rgb(163, 21, 21);">"Users/KenshinCui/Desktop/test.txt"</span><span style="color: black;">;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[path pathExtension]);</span><span style="color: green;">//取得扩展名，注意ObjC中扩展名不包括"."
+    //结果：txt
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[path stringByDeletingPathExtension]);</span><span style="color: green;">//删除扩展名，注意包含"."
+    //结果：Users/KenshinCui/Desktop/test
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[@</span><span style="color: rgb(163, 21, 21);">"Users/KenshinCui/Desktop/test" </span><span style="color: black;">stringByAppendingPathExtension:@</span><span style="color: rgb(163, 21, 21);">"mp3"</span><span style="color: black;">]);</span><span style="color: green;">//添加扩展名
+    //结果：Users/KenshinCui/Desktop/test.mp3
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    test1();
+    test2();
+    test3();
+    test4();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<blockquote>
+<p>注意:在上面的例子中我们用到了可变数组，下面会专门介绍。</p></blockquote>
+<h2 id="autoid-5-0-0">可变字符串</h2>
+<p>我们知道在字符串操作过程中我们经常希望改变原来的字符串，当然这在C语言中实现比较复杂，但是ObjC为我们提供了新的可变字符串类NSMutableString，它是NSString的子类。</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    
+    </span><span style="color: green;">/*可变字符串，注意NSMutableString是NSString子类*/
+    //注意虽然initWithCapacity分配字符串大小，但是不是绝对的不可以超过此范围，声明此变量对性能有好处
+    </span><span style="color: black;">NSMutableString *str1= [[NSMutableString alloc] initWithCapacity:10];
+    [str1 setString:@</span><span style="color: rgb(163, 21, 21);">"hello"</span><span style="color: black;">];</span><span style="color: green;">//设置字符串
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：hello
+
+    </span><span style="color: black;">[str1 appendString:@</span><span style="color: rgb(163, 21, 21);">",world!"</span><span style="color: black;">];</span><span style="color: green;">//追加字符串
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：hello,world!
+
+    </span><span style="color: black;">[str1 appendFormat:@</span><span style="color: rgb(163, 21, 21);">"我的年龄是%i。dear,I love you."</span><span style="color: black;">,18];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：hello,world!我的年龄是18。dear,I love you.
+    
+    //替换字符串
+    </span><span style="color: black;">NSRange range=[str1 rangeOfString:@</span><span style="color: rgb(163, 21, 21);">"dear"</span><span style="color: black;">];
+    [str1 replaceCharactersInRange:range withString:@</span><span style="color: rgb(163, 21, 21);">"Honey"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：hello,world!我的年龄是18。Honey,I love you.
+    
+    //插入字符串
+    </span><span style="color: black;">[str1 insertString:@</span><span style="color: rgb(163, 21, 21);">"My name is Kenshin." </span><span style="color: black;">atIndex:12];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：hello,world!My name is Kenshin.我的年龄是18。Honey,I love you.
+    
+    //删除指定字符串
+    </span><span style="color: black;">[str1 deleteCharactersInRange:[str1 rangeOfString:@</span><span style="color: rgb(163, 21, 21);">"My name is Kenshin."</span><span style="color: black;">]];</span><span style="color: green;">//删除指定范围的字符串
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：hello,world!我的年龄是18。Honey,I love you.
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<h1 id="array">数组</h1>
+<h2 id="autoid-6-0-0">不可变数组</h2>
+<p>下面将演示常用的数组操作：初始化、数组对象的方法执行、数组元素的遍历、在原有数组基础上产生新数组、数组排序等</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: green;">//NSArray长度不可变所以初始化的时候就赋值，并且最后以nil结尾
+    //此外需要注意NSArray不能存放C语言的基础类型
+    </span><span style="color: black;">NSObject *obj=[[NSObject alloc]init];
+    </span><span style="color: green;">//NSArray *array1=[[NSArray alloc] initWithObjects:@"abc",obj,@"cde",@"opq", nil];
+    </span><span style="color: black;">NSArray *array1=[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"abc"</span><span style="color: black;">,obj,@</span><span style="color: rgb(163, 21, 21);">"cde"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"opq"</span><span style="color: black;">,@25, nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%zi"</span><span style="color: black;">,array1.count);</span><span style="color: green;">//数组长度,结果：5
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[array1 containsObject:@</span><span style="color: rgb(163, 21, 21);">"cde"</span><span style="color: black;">]);</span><span style="color: green;">//是否包含某个对象，结果：1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[array1 lastObject]);</span><span style="color: green;">//最后一个对象，结果：25
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%zi"</span><span style="color: black;">,[array1 indexOfObject:@</span><span style="color: rgb(163, 21, 21);">"abc"</span><span style="color: black;">]);</span><span style="color: green;">//对象所在的位置：0
+    
+    </span><span style="color: black;">Person *person1=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">];
+    Person *person2=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">];
+    Person *person3=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">];
+    NSArray *array2=[[NSArray alloc]initWithObjects:person1,person2,person3, nil];
+    [array2 makeObjectsPerformSelector:@selector(showMessage:) withObject:@</span><span style="color: rgb(163, 21, 21);">"Hello,world!"</span><span style="color: black;">];</span><span style="color: green;">//执行所有元素的showMessage方法,后面的参数最多只能有一个
+    /*结果：
+     My name is Kenshin,the infomation is "Hello,world!".
+     My name is Kaoru,the infomation is "Hello,world!".
+     My name is Rosa,the infomation is "Hello,world!".
+     */
+</span><span style="color: black;">}
+</span><span style="color: green;">//数组的遍历
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    NSObject *obj=[[NSObject alloc]init];
+    NSArray *</span><span style="color: blue;">array</span><span style="color: black;">=[[NSArray alloc] initWithObjects:@</span><span style="color: rgb(163, 21, 21);">"abc"</span><span style="color: black;">,obj,@</span><span style="color: rgb(163, 21, 21);">"cde"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"opq"</span><span style="color: black;">,@25, nil];
+    </span><span style="color: green;">//方法1
+    </span><span style="color: blue;">for</span><span style="color: black;">(</span><span style="color: blue;">int </span><span style="color: black;">i=0,len=</span><span style="color: blue;">array</span><span style="color: black;">.count;i&lt;len;++i){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"method1:index %i is %@"</span><span style="color: black;">,i,[</span><span style="color: blue;">array </span><span style="color: black;">objectAtIndex:i]);
+    }
+    </span><span style="color: green;">/*结果：
+     method1:index 0 is abc
+     method1:index 1 is &lt;NSObject: 0x100106de0&gt;
+     method1:index 2 is cde
+     method1:index 3 is opq
+     method1:index 4 is 25
+     */
+    
+    
+    //方法2
+    </span><span style="color: blue;">for</span><span style="color: black;">(id obj in </span><span style="color: blue;">array</span><span style="color: black;">){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"method2:index %zi is %@"</span><span style="color: black;">,[</span><span style="color: blue;">array </span><span style="color: black;">indexOfObject:obj],obj);
+    }
+    </span><span style="color: green;">/*结果：
+     method2:index 0 is abc
+     method2:index 1 is &lt;NSObject: 0x100602f00&gt;
+     method2:index 2 is cde
+     method2:index 3 is opq
+     method2:index 4 is 25
+     */
+    
+    
+    //方法3,利用代码块方法
+    </span><span style="color: black;">[</span><span style="color: blue;">array </span><span style="color: black;">enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"method3:index %zi is %@"</span><span style="color: black;">,idx,obj);
+        </span><span style="color: blue;">if</span><span style="color: black;">(idx==2){</span><span style="color: green;">//当idx=2时设置*stop为YES停止遍历
+            </span><span style="color: black;">*stop=YES;
+        }
+    }];
+    </span><span style="color: green;">/*结果：
+     method3:index 0 is abc
+     method3:index 1 is &lt;NSObject: 0x100106de0&gt;
+     method3:index 2 is cde
+     */
+    
+    
+    //方法4，利用迭代器
+    //NSEnumerator *enumerator= [array objectEnumerator];//获得一个迭代器
+    </span><span style="color: black;">NSEnumerator *enumerator=[</span><span style="color: blue;">array </span><span style="color: black;">reverseObjectEnumerator];</span><span style="color: green;">//获取一个反向迭代器
+    //NSLog(@"all:%@",[enumerator allObjects]);//获取所有迭代对象，注意调用完此方法迭代器就遍历完了，下面的nextObject就没有值了
+    </span><span style="color: black;">id obj2=nil;
+    </span><span style="color: blue;">while </span><span style="color: black;">(obj2=[enumerator nextObject]) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"method4:%@"</span><span style="color: black;">,obj2);
+    }
+    </span><span style="color: green;">/*结果：
+     method4:25
+     method4:opq
+     method4:cde
+     method4:&lt;NSObject: 0x100106de0&gt;
+     method4:abc
+     */
+</span><span style="color: black;">}
+</span><span style="color: green;">//数组派生出新的数组
+</span><span style="color: blue;">void </span><span style="color: black;">test3(){
+    NSArray *</span><span style="color: blue;">array</span><span style="color: black;">=[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">, nil];
+    NSArray *array2=[</span><span style="color: blue;">array </span><span style="color: black;">arrayByAddingObject:@</span><span style="color: rgb(163, 21, 21);">"4"</span><span style="color: black;">];</span><span style="color: green;">//注意此时array并没有变
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array2);
+    </span><span style="color: green;">/*结果：
+     (
+         1,
+         2,
+         3,
+         4
+     )
+     */
+    
+    
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[array2 arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"5"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"6"</span><span style="color: black;">, nil]]);</span><span style="color: green;">//追加形成新的数组
+    /*结果：
+     (
+         1,
+         2,
+         3,
+         4,
+         5,
+         6
+     )
+     */
+    
+    
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[array2 subarrayWithRange:NSMakeRange(1, 3)]);</span><span style="color: green;">//根据一定范围取得生成一个新的数组
+    /*结果：
+     (
+         2,
+         3,
+         4
+     )
+     */
+    
+    
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[</span><span style="color: blue;">array </span><span style="color: black;">componentsJoinedByString:@</span><span style="color: rgb(163, 21, 21);">","</span><span style="color: black;">]);</span><span style="color: green;">//数组连接，形成一个字符串
+    //结果：1,2,3
+    
+    //读写文件
+    </span><span style="color: black;">NSString *path=@</span><span style="color: rgb(163, 21, 21);">"/Users/KenshinCui/Desktop/array.xml"</span><span style="color: black;">;
+    [</span><span style="color: blue;">array </span><span style="color: black;">writeToFile:path atomically:YES];
+    NSArray *array3=[NSArray arrayWithContentsOfFile:path];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array3);
+    </span><span style="color: green;">/*结果：
+     (
+         1,
+         2,
+         3
+     )
+     */
+</span><span style="color: black;">}
+</span><span style="color: green;">//数组排序
+</span><span style="color: blue;">void </span><span style="color: black;">test4(){
+    </span><span style="color: green;">//方法1,使用自带的比较器
+    </span><span style="color: black;">NSArray *</span><span style="color: blue;">array</span><span style="color: black;">=[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">, nil];
+    NSArray *array2= [</span><span style="color: blue;">array </span><span style="color: black;">sortedArrayUsingSelector:@selector(compare:)];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array2);
+    </span><span style="color: green;">/*结果：
+     (
+         1,
+         2,
+         3
+     )
+     */
+    
+    
+    //方法2,自己定义比较器
+    </span><span style="color: black;">Person *person1=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">];
+    Person *person2=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">];
+    Person *person3=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">];
+    NSArray *array3=[NSArray arrayWithObjects:person1,person2,person3, nil];
+    NSArray *array4=[array3 sortedArrayUsingSelector:@selector(comparePerson:)];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array4);
+    </span><span style="color: green;">/*结果：
+     (
+         "name=Kaoru",
+         "name=Kenshin",
+         "name=Rosa"
+     )
+     */
+    
+    
+    //方法3使用代码块
+    </span><span style="color: black;">NSArray *array5=[array3 sortedArrayUsingComparator:^NSComparisonResult(Person *obj1, Person *obj2) {
+        </span><span style="color: blue;">return </span><span style="color: black;">[obj2.name compare:obj1.name];</span><span style="color: green;">//降序
+    </span><span style="color: black;">}];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array5);
+    </span><span style="color: green;">/*结果：
+     (
+         "name=Rosa",
+         "name=Kenshin",
+         "name=Kaoru"
+     )
+     */
+    
+    
+    //方法4 通过描述器定义排序规则
+    </span><span style="color: black;">Person *person4=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Jack"</span><span style="color: black;">];
+    Person *person5=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Jerry"</span><span style="color: black;">];
+    Person *person6=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Tom"</span><span style="color: black;">];
+    Person *person7=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Terry"</span><span style="color: black;">];
+    NSArray *array6=[NSArray arrayWithObjects:person4,person5,person6,person7, nil];
+    </span><span style="color: green;">//定义一个排序描述
+    </span><span style="color: black;">NSSortDescriptor *personName=[NSSortDescriptor sortDescriptorWithKey:@</span><span style="color: rgb(163, 21, 21);">"name" </span><span style="color: black;">ascending:YES];
+    NSSortDescriptor *accountBalance=[NSSortDescriptor sortDescriptorWithKey:@</span><span style="color: rgb(163, 21, 21);">"account.balance" </span><span style="color: black;">ascending:YES];
+    NSArray *des=[NSArray arrayWithObjects:personName,accountBalance, nil];</span><span style="color: green;">//先按照person的name排序再按照account的balance排序
+    </span><span style="color: black;">NSArray *array7=[array6 sortedArrayUsingDescriptors:des];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array7);
+    </span><span style="color: green;">/*结果：
+     (
+         "name=Jack",
+         "name=Jerry",
+         "name=Terry",
+         "name=Tom"
+     )
+     */
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    test1();
+    test2();
+    test3();
+    test4();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>需要注意几点：</p>
+<ul>
+<li>NSArray中只能存放对象，不能存放基本数据类型，通常我们可以通过在基本数据类型前加@进行转换； 
+</li><li>数组中的元素后面必须加nil以表示数据结束； 
+</li><li>makeObjectsPerformSelector执行数组中对象的方法，其参数最多只能有一个； 
+</li><li>上面数组操作中无论是数组的追加、删除、截取都没有改变原来的数组，只是产生了新的数组而已； 
+</li><li>对象的比较除了使用系统自带的方法，我们可以通过自定义比较器的方法来实现；</li></ul>
+<h2 id="autoid-6-0-0">可变数组</h2>
+<p>下面看一下可变数组的内容：</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    Person *person1=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">];
+    Person *person2=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">];
+    Person *person3=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">];
+    NSMutableArray *array1=[NSMutableArray arrayWithObjects:person1,person2,person3, nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         "name=Kenshin",
+         "name=Kaoru",
+         "name=Rosa"
+     )
+     */
+    
+    </span><span style="color: black;">Person *person4=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Jack"</span><span style="color: black;">];</span><span style="color: green;">//此时person4的retainCount为1
+    </span><span style="color: black;">[array1 addObject:person4];</span><span style="color: green;">//添加一个元素,此时person4的retainCount为2
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         "name=Kenshin",
+         "name=Kaoru",
+         "name=Rosa",
+         "name=Jack"
+     )
+     */
+    
+    </span><span style="color: black;">[array1 removeObject:person3];</span><span style="color: green;">//删除一个元素
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         "name=Kenshin",
+         "name=Kaoru",
+         "name=Jack"
+     )
+     */
+    
+    </span><span style="color: black;">[array1 removeLastObject];</span><span style="color: green;">//删除最后一个元素,//此时person4的retainCount为1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         "name=Kenshin",
+         "name=Kaoru"
+     )
+     */
+    
+    </span><span style="color: black;">[array1 removeAllObjects];</span><span style="color: green;">//删除所以元素
+    
+    //注意当往数组中添加一个元素时会retain因此计数器+1，当从数组中移除一个元素时会release因此计数器-1
+    //当NSMutalbeArray对象release的时候会依次调用每一个对象的release
+</span><span style="color: black;">}
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    NSMutableArray *array1=[NSMutableArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">, nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         1,
+         3,
+         2
+     )
+     */
+    
+    </span><span style="color: black;">NSArray *array2= [array1 sortedArrayUsingSelector:@selector(compare:)];</span><span style="color: green;">//注意这个方法没有修改array1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         1,
+         3,
+         2
+     )
+     */
+    
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array2);
+    </span><span style="color: green;">/*结果：
+     (
+         1,
+         2,
+         3
+     )
+     */
+    </span><span style="color: black;">[array1 sortUsingSelector:@selector(compare:)];</span><span style="color: green;">//这个方法会修改array1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         1,
+         2,
+         3
+     )
+     */
+    
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    
+    test1();
+    
+    test2();
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<ul>
+<li>可变数组中的元素后面必须加nil以表示数据结束； 
+</li><li>往一个可变数组中添加一个对象，此时这个对象的引用计数器会加1，当这个对象从可变数组中移除其引用计数器减1。同时当整个数组销毁之后会依次调用每个对象的releaes方法。 
+</li><li>在不可变数组中无论对数组怎么排序，原来的数组顺序都不会改变，但是在可变数组中如果使用sortUsingSelector:排序原来的数组顺序就发生了变化。</li></ul>
+<p>&nbsp;</p>
+<h1 id="dictionary">字典</h1>
+<p>字典在我们日常开发中也是比较常用的，通过下面的代码我们看一下在ObjC中的字典的常用操作：初始化、遍历、排序</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    NSDictionary *dic1=[NSDictionary dictionaryWithObject:@</span><span style="color: rgb(163, 21, 21);">"1" </span><span style="color: black;">forKey:@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic1);
+    </span><span style="color: green;">/*结果：
+     {
+        a = 1;
+     }
+     */
+    
+    //常用的方式
+    </span><span style="color: black;">NSDictionary *dic2=[NSDictionary dictionaryWithObjectsAndKeys:
+                        @</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"c"</span><span style="color: black;">,
+                        nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic2);
+    </span><span style="color: green;">/*结果：
+     {
+         a = 1;
+         b = 2;
+         c = 3;
+     }
+     */
+    
+    
+    </span><span style="color: black;">NSDictionary *dic3=[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">, nil] forKeys:[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">, nil]];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic3);
+    </span><span style="color: green;">/*结果：
+     {
+         a = 1;
+         b = 2;
+     }
+     */
+    
+    
+    //更简单的方式
+    </span><span style="color: black;">NSDictionary *dic4=@{@</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">"c"</span><span style="color: black;">};
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic4);
+    </span><span style="color: green;">/*结果：
+     {
+         1 = a;
+         2 = b;
+         3 = c;
+     }
+     */
+</span><span style="color: black;">}
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    NSDictionary *dic1=[NSDictionary dictionaryWithObjectsAndKeys:
+                        @</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"c"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"d"</span><span style="color: black;">,
+                        nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%zi"</span><span style="color: black;">,[dic1 count]); </span><span style="color: green;">//结果：4
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[dic1 valueForKey:@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">]);</span><span style="color: green;">//根据键取得值，结果：2
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic1[@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">]);</span><span style="color: green;">//还可以这样读取，结果：2
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@,%@"</span><span style="color: black;">,[dic1 allKeys],[dic1 allValues]);
+    </span><span style="color: green;">/*结果：
+     (
+         d,
+         b,
+         c,
+         a
+     ),(
+         2,
+         2,
+         3,
+         1
+     )
+
+     */
+    
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[dic1 objectsForKeys:[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"e" </span><span style="color: black;">, nil]notFoundMarker:@</span><span style="color: rgb(163, 21, 21);">"not fount"</span><span style="color: black;">]);</span><span style="color: green;">//后面一个参数notFoundMarker是如果找不到对应的key用什么值代替
+    /*结果：
+     (
+         1,
+         "not fount"
+     )
+     */
+</span><span style="color: black;">}
+</span><span style="color: blue;">void </span><span style="color: black;">test3(){
+    NSDictionary *dic1=[NSDictionary dictionaryWithObjectsAndKeys:
+                        @</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"c"</span><span style="color: black;">,
+                        @</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"d"</span><span style="color: black;">,
+                        nil];
+    </span><span style="color: green;">//遍历1
+    </span><span style="color: blue;">for </span><span style="color: black;">(id key in dic1) {</span><span style="color: green;">//注意对于字典for遍历循环的是key
+        </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@=%@"</span><span style="color: black;">,key,[dic1 objectForKey:key]);
+    }
+    </span><span style="color: green;">/*结果：
+     d=2
+     b=2
+     c=3
+     a=1
+     */
+    
+    //遍历2
+    </span><span style="color: black;">NSEnumerator *enumerator=[dic1 keyEnumerator];</span><span style="color: green;">//还有值的迭代器[dic1 objectEnumerator]
+    </span><span style="color: black;">id key=nil;
+    </span><span style="color: blue;">while </span><span style="color: black;">(key=[enumerator nextObject]) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@=%@"</span><span style="color: black;">,key,[dic1 objectForKey:key]);
+        
+    }
+    </span><span style="color: green;">/*结果：
+     d=2
+     b=2
+     c=3
+     a=1
+     */
+    
+    //遍历3
+    </span><span style="color: black;">[dic1 enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@=%@"</span><span style="color: black;">,key,obj);
+    }];
+    </span><span style="color: green;">/*结果：
+     d=2
+     b=2
+     c=3
+     a=1
+     */
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">void </span><span style="color: black;">test4(){
+    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithObjectsAndKeys:@</span><span style="color: rgb(163, 21, 21);">"1"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">,
+                              @</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">,
+                              @</span><span style="color: rgb(163, 21, 21);">"3"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"c"</span><span style="color: black;">,
+                              @</span><span style="color: rgb(163, 21, 21);">"2"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"d"</span><span style="color: black;">,
+                            nil];
+    [dic removeObjectForKey:@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic);
+    </span><span style="color: green;">/*结果：
+     {
+         a = 1;
+         c = 3;
+         d = 2;
+     }
+     */
+    
+    </span><span style="color: black;">[dic addEntriesFromDictionary:@{@</span><span style="color: rgb(163, 21, 21);">"e"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">"7"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"f"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">"6"</span><span style="color: black;">}];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic);
+    </span><span style="color: green;">/*结果：
+     {
+         a = 1;
+         c = 3;
+         d = 2;
+         e = 7;
+         f = 6;
+     }
+     */
+    
+    </span><span style="color: black;">[dic setValue:@</span><span style="color: rgb(163, 21, 21);">"5" </span><span style="color: black;">forKey:@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic);
+    </span><span style="color: green;">/*结果：
+     {
+         a = 5;
+         c = 3;
+         d = 2;
+         e = 7;
+         f = 6;
+     }
+     */
+     
+    
+    //注意，一个字典的key或value添加到字典中时计数器+1；字典释放时调用key或value的release一次，计数器-1
+</span><span style="color: black;">}
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    test1();
+    test2();
+    test3();
+    test4();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p><strong><font color="#ff0000">注意：同数组一样，不管是可变字典还是不可变字典初始化元素后面必须加上nil以表示结束。</font></strong></p>
+<h1 id="boxing">装箱和拆箱</h1>
+<p>其实从上面的例子中我们也可以看到，数组和字典中只能存储对象类型，其他基本类型和结构体是没有办法放到数组和字典中的，当然你也是无法给它们发送消息的（也就是说有些NSObject的方法是无法调用的），这个时候通常会用到装箱（boxing）和拆箱（unboxing）。其实各种高级语言基本上都有装箱和拆箱的过程，例如C#中我们将基本数据类型转化为Object就是一个装箱的过程，将这个Object对象转换为基本数据类型的过程就是拆箱，而且在C#中装箱的过程可以自动完成，基本数据类型可以直接赋值给Object对象。但是在ObjC中装箱的过程必须手动实现，ObjC不支持自动装箱。</p>
+<p>在ObjC中我们一般将基本数据类型装箱成NSNumber类型（当然它也是NSObject的子类，但是NSNumber不能对结构体装箱），调用其对应的方法进行转换：</p>
+<p><strong>+(NSNumber *)numberWithChar:(char)value;</strong></p>
+<p><strong>+(NSNumber *)numberWithInt:(int)value;</strong></p>
+<p><strong>+(NSNumber *)numberWithFloat:(float)value;</strong></p>
+<p><strong>+(NSNumber *)numberWithDouble:(double)value;</strong></p>
+<p><strong>+(NSNumber *)numberWithBool:(BOOL)value;</strong></p>
+<p><strong>+(NSNumber *)numberWithInteger:(NSInteger)value;</strong></p>
+<p>拆箱的过程就更加简单了，可以调用如下方法：</p>
+<p><strong>-(char)charValue;</strong></p>
+<p><strong>-(int)intValue;</strong></p>
+<p><strong>-(float)floatValue;</strong></p>
+<p><strong>-(double)doubleValue;</strong></p>
+<p><strong>-(BOOL)boolValue;</strong></p>
+<p>简单看一个例子</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: green;">/*可以存放基本类型到数组、字典*/
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: green;">//包装类NSNumber，可以包装基本类型但是无法包装结构体类型
+    </span><span style="color: black;">NSNumber *number1=[NSNumber numberWithChar:</span><span style="color: rgb(163, 21, 21);">'a'</span><span style="color: black;">];</span><span style="color: green;">//'a'是一个C语言的char类型我们无法放倒NSArray中，但是我们可以通过NSNumber包装
+    </span><span style="color: black;">NSArray *array1=[NSArray arrayWithObject:number1];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+        97
+     )
+     */
+    
+    </span><span style="color: black;">NSNumber *number2= [array1 lastObject];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,number2);</span><span style="color: green;">//返回的不是基本类型,结果：97
+    
+    
+    </span><span style="color: blue;">char </span><span style="color: black;">char1=[number2 charValue];</span><span style="color: green;">//number转化为char
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%c"</span><span style="color: black;">,char1); </span><span style="color: green;">//结果：a
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    test1();
+    </span><span style="color: blue;">return  </span><span style="color: black;">0;
+}</span></pre>
+<p>上面我们看到了基本数据类型的装箱和拆箱过程，那么结构体呢？这个时候我们需要引入另外一个类型NSValue，其实上面的NSNumber就是NSValue的子类，它包装了一些基本数据类型的常用装箱、拆箱方法，当要对结构体进行装箱、拆箱操作我们需要使用NSValue，NSValue可以对任何数据类型进行装箱、拆箱操作。</p>
+<p>事实上对于常用的结构体Foundation已经为我们提供好了具体的装箱方法：</p>
+<p>+(NSValue *)valueWithPoint:(NSPoint)point;</p>
+<p>+(NSValue *)valueWithSize:(NSSize)size;</p>
+<p>+(NSValue *)valueWithRect:(NSRect)rect;</p>
+<p>对应的拆箱方法：</p>
+<p>-(NSPoint)pointValue;</p>
+<p>-(NSSize)sizeValue;</p>
+<p>-(NSRect)rectValue;</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: green;">//NSNumber是NSValue的子类，而NSValue可以包装任何类型，包括结构体
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    CGPoint point1=CGPointMake(10, 20);
+    NSValue *value1=[NSValue valueWithPoint:point1];</span><span style="color: green;">//对于系统自带类型一般都有直接的方法进行包装
+    </span><span style="color: black;">NSArray *array1=[NSArray arrayWithObject:value1];</span><span style="color: green;">//放倒数组中
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+        "NSPoint: {10, 20}"
+     )
+     */
+    
+    </span><span style="color: black;">NSValue *value2=[array1 lastObject];
+    CGPoint point2=[value2 pointValue];</span><span style="color: green;">//同样对于系统自带的结构体有对应的取值方法（例如本例pointValue）
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"x=%f,y=%f"</span><span style="color: black;">,point2.x,point2.y);</span><span style="color: green;">//结果：x=10.000000,y=20.000000
+</span><span style="color: black;">}
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    test1();
+    </span><span style="color: blue;">return  </span><span style="color: black;">0;
+}</span></pre>
+<p>&nbsp;</p>
+<p>那么如果是我们自定义的结构体类型呢，这个时候我们需要使用NSValue如下方法进行装箱：</p>
+<p><strong>+(NSValue *)valueWithBytes:(const void *)value objCType:(const char *)type;</strong></p>
+<p>调用下面的方法进行拆箱：</p>
+<p><strong>-(void)getValue:(void *)value;</strong></p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: blue;">typedef struct </span><span style="color: black;">{
+    </span><span style="color: blue;">int </span><span style="color: black;">year;
+    </span><span style="color: blue;">int </span><span style="color: black;">month;
+    </span><span style="color: blue;">int </span><span style="color: black;">day;
+} Date;
+
+
+</span><span style="color: green;">//NSNumber是NSValue的子类，而NSValue可以包装任何类型，包括结构体
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: green;">//如果我们自己定义的结构体包装
+    </span><span style="color: black;">Date date={2014,2,28};
+    </span><span style="color: blue;">char </span><span style="color: black;">*type=@encode(Date);
+    NSValue *value3=[NSValue value:&amp;date withObjCType:type];</span><span style="color: green;">//第一参数传递结构体地址，第二个参数传递类型字符串
+    </span><span style="color: black;">NSArray *array2=[NSArray arrayWithObject:value3];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array2);
+    </span><span style="color: green;">/*结果：
+     (
+        "&lt;de070000 02000000 1c000000&gt;"
+     )
+     */
+    
+    </span><span style="color: black;">Date date2;
+    [value3 getValue:&amp;date2];</span><span style="color: green;">//取出对应的结构体，注意没有返回值
+    //[value3 objCType]//取出包装内容的类型
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i,%i,%i"</span><span style="color: black;">,date2.year,date2.month,date2.day); </span><span style="color: green;">//结果：2014,2,28
+    
+</span><span style="color: black;">}
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    test1();
+    </span><span style="color: blue;">return  </span><span style="color: black;">0;
+}</span></pre>
+<h2 id="autoid-8-0-0">扩展1-NSNull</h2>
+<p>通过前面的介绍大家都知道无论在数组还是在字典中都必须以nil结尾，否则数组或字典无法判断是否这个数组或字典已经结束（与C语言中的字符串比较类似，C语言中定义字符串后面必须加一个”\0”）。但是我们有时候确实想在数据或字典中存储nil值而不是作为结束标记怎么办呢？这个时候需要使用NSNull，这个类是一个单例，只有一个null方法。简单看一下：</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    
+    NSNull *nl=[NSNull null];</span><span style="color: green;">//注意这是一个对象，是一个单例，只有一个方法null创建一个对象
+    </span><span style="color: black;">NSNull *nl2=[NSNull null];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,nl==nl2);</span><span style="color: green;">//由于是单例所以地址相等,结果：1
+    
+    </span><span style="color: black;">NSArray *array1=[NSArray arrayWithObjects:@</span><span style="color: rgb(163, 21, 21);">"abc"</span><span style="color: black;">,nl,@123, nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         abc,
+         "&lt;null&gt;",
+         123
+     )
+     */
+
+    </span><span style="color: blue;">return  </span><span style="color: black;">0;
+}</span></pre>
+<p>&nbsp;</p>
+<h2 id="autoid-8-0-0">扩展2-@符号</h2>
+<p>我们知道在ObjC中很多关键字前都必须加上@符号，例如@protocol、@property等，当然ObjC中的字符串必须使用@符号，还有就是%@可以表示输出一个对象。其实@符号在新版的ObjC中还有一个作用：装箱。</p>
+<p>相信聪明的童鞋在前面的例子中已经看到了，这里简单的介绍一下（在下面的演示中你也将看到很多ObjC新特性）。</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: blue;">typedef enum </span><span style="color: black;">{
+    spring,
+    summer,
+    autumn,
+    winter
+} Season;
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: green;">/*装箱*/
+    </span><span style="color: black;">NSNumber *number1=@100;
+    NSArray *array1=[NSArray arrayWithObjects:number1,@</span><span style="color: rgb(163, 21, 21);">"abc"</span><span style="color: black;">,@16,@</span><span style="color: rgb(163, 21, 21);">'A'</span><span style="color: black;">,@16.7,@YES, nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array1);
+    </span><span style="color: green;">/*结果：
+     (
+         100,
+         abc,
+         16,
+         65,
+         "16.7"
+         1
+     )
+     */
+    </span><span style="color: black;">NSNumber *number2=@(1+2*3);
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,number2); </span><span style="color: green;">//结果：7
+    </span><span style="color: black;">NSNumber *number3=@(autumn);
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,number3); </span><span style="color: green;">//结果：2
+    
+
+    </span><span style="color: black;">NSArray <a href="mailto:*array2=@[@&quot;abc&quot;,@16,@'A',@16.7,@YES];//">*array2=@[@</a></span><a href="mailto:*array2=@[@&quot;abc&quot;,@16,@'A',@16.7,@YES];//"><span style="color: rgb(163, 21, 21);">"abc"</span><span style="color: black;">,@16,@</span><span style="color: rgb(163, 21, 21);">'A'</span><span style="color: black;">,@16.7,@YES];</span><span style="color: green;">//</span></a>使用这种方式最后不用添加nil值了
+    <span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array2[2]); </span><span style="color: green;">//结果：65
+    </span><span style="color: black;">NSMutableArray *array3=[NSMutableArray arrayWithArray:array2];
+    array3[0]=@</span><span style="color: rgb(163, 21, 21);">"def"</span><span style="color: black;">;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,array3[0]); </span><span style="color: green;">//结果：def
+    
+    </span><span style="color: black;">NSDictionary *dic1=@{@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">:@123,@</span><span style="color: rgb(163, 21, 21);">"b"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">'c'</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"c"</span><span style="color: black;">:@YES};
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic1);
+    </span><span style="color: green;">/*结果：
+     {
+         a = 123;
+         b = 99;
+         c = 1;
+     }
+     */
+    </span><span style="color: black;">NSMutableDictionary *dic2=[NSMutableDictionary dictionaryWithDictionary:dic1];
+    dic2[@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">]=@456;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,dic2[@</span><span style="color: rgb(163, 21, 21);">"a"</span><span style="color: black;">]);</span><span style="color: green;">//结果：456
+
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<h1 id="reflector">反射</h1>
+<p>由于ObjC动态性，在ObjC中实现反射可以说是相当简单，下面代码中演示了常用的反射操作，具体作用也都在代码中进行了注释说明:</p>
+<p>Account.h</p><pre class="code"><span style="color: green;">//
+//  Account.h
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">Account : NSObject
+
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,assign) </span><span style="color: blue;">double </span><span style="color: black;">balance;
+
+@end</span></pre>
+<p>Account.m</p><pre class="code"><span style="color: green;">//
+//  Account.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Account.h"
+
+</span><span style="color: black;">@implementation Account
+
+@end</span></pre>
+<p>Person.h</p><pre class="code"><span style="color: green;">//
+//  Person.h
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: black;">@</span><span style="color: blue;">class </span><span style="color: black;">Account;
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">Person : NSObject
+
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *name;
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,retain) Account *account;
+
+-(Person *)initWithName:(NSString *)name;
+
++(Person *)personWithName:(NSString *)name;
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)showMessage:(NSString *)infomation;
+
+</span><span style="color: green;">//自己实现对象比较方法
+</span><span style="color: black;">-(NSComparisonResult)comparePerson:(Person *)person;
+@end</span></pre>
+<p>Person.m</p><pre class="code"><span style="color: green;">//
+//  Person.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+</span><span style="color: black;">@implementation Person
+
+-(Person *)initWithName:(NSString *)name{
+    </span><span style="color: blue;">if</span><span style="color: black;">(self=[super init]){
+        self.name=name;
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
++(Person *)personWithName:(NSString *)name{
+    Person *person=[[Person alloc]initWithName:name];
+    </span><span style="color: blue;">return </span><span style="color: black;">person;
+}
+
+-(</span><span style="color: blue;">void</span><span style="color: black;">)showMessage:(NSString *)infomation{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"My name is %@,the infomation is \"%@\"."</span><span style="color: black;">,_name,infomation);
+}
+
+</span><span style="color: green;">//自己实现对象比较方法
+</span><span style="color: black;">-(NSComparisonResult)comparePerson:(Person *)person{
+    </span><span style="color: blue;">return </span><span style="color: black;">[_name compare:person.name];
+}
+
+-(NSString *)description{
+    </span><span style="color: blue;">return </span><span style="color: black;">[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"name=%@"</span><span style="color: black;">,_name];
+}
+
+@end</span></pre>
+<p>main.m</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: green;">/*常用方法*/
+    </span><span style="color: black;">Person *person1=[Person personWithName:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[person1 isKindOfClass:[NSObject </span><span style="color: blue;">class</span><span style="color: black;">]]); </span><span style="color: green;">//判断一个对象是否为某种类型（如果是父类也返回YES），结果：1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[person1 isMemberOfClass:[NSObject </span><span style="color: blue;">class</span><span style="color: black;">]]); </span><span style="color: green;">//判断一个对象是否是某个类的实例化对象，结果：0
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[person1 isMemberOfClass:[Person </span><span style="color: blue;">class</span><span style="color: black;">]]); </span><span style="color: green;">//结果：1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[person1 conformsToProtocol:@protocol(NSCopying)]);</span><span style="color: green;">//是否实现了某个协议，结果：0
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i"</span><span style="color: black;">,[person1 respondsToSelector:@selector(showMessage:)]);</span><span style="color: green;">//是否存在某个方法，结果：1
+    
+    </span><span style="color: black;">[person1 showMessage:@</span><span style="color: rgb(163, 21, 21);">"Hello,world!"</span><span style="color: black;">];</span><span style="color: green;">//直接调用一个方法
+    </span><span style="color: black;">[person1 performSelector:@selector(showMessage:) withObject:@</span><span style="color: rgb(163, 21, 21);">"Hello,world!"</span><span style="color: black;">];
+    </span><span style="color: green;">//动态调用一个方法，注意如果有参数那么参数类型只能为ObjC对象，并且最多只能有两个参数
+
+    
+    /*反射*/
+    //动态生成一个类
+    </span><span style="color: black;">NSString *className=@</span><span style="color: rgb(163, 21, 21);">"Person"</span><span style="color: black;">;
+    Class myClass=NSClassFromString(className);</span><span style="color: green;">//根据类名生成类
+    </span><span style="color: black;">Person *person2=[[myClass alloc]init]; </span><span style="color: green;">//实例化
+    </span><span style="color: black;">person2.name=@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,person2);</span><span style="color: green;">//结果：name=Kaoru
+
+    //类转化为字符串
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@,%@"</span><span style="color: black;">,NSStringFromClass(myClass),NSStringFromClass([Person </span><span style="color: blue;">class</span><span style="color: black;">])); </span><span style="color: green;">//结果：Person,Person
+
+    //调用方法
+    </span><span style="color: black;">NSString *methodName=@</span><span style="color: rgb(163, 21, 21);">"showMessage:"</span><span style="color: black;">;
+    SEL mySelector=NSSelectorFromString(methodName);
+    Person *person3=[[myClass alloc]init];
+    person3.name=@</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">;
+    [person3 performSelector:mySelector withObject:@</span><span style="color: rgb(163, 21, 21);">"Hello,world!"</span><span style="color: black;">]; </span><span style="color: green;">//结果：My name is Rosa,the infomation is "Hello,world!".
+
+    //方法转化为字符串
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,NSStringFromSelector(mySelector)); </span><span style="color: green;">//结果：showMessage:
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<h1 id="copy">拷贝</h1>
+<p>对象拷贝操作也比较常见，在ObjC中有两种方式的拷贝：copy和mutablecopy，这两种方式都将产生一个新的对象，只是后者产生的是一个可变对象。在ObjC中如果要想实现copy或者mutablecopy操作需要实现NSCopy或者NSMutableCopy协议，拷贝操作产生的新的对象默认引用计数器是1，在非ARC模式下我们应该对这个对象进行内存管理。在熟悉这两种操作之前我们首先需要弄清两个概念:深复制（或深拷贝）和浅复制（或浅拷贝）。</p>
+<ul>
+<li>浅复制：在执行复制操作时，对于对象中每一层（对象中包含的对象，例如说属性是某个对象类型）复制都是指针复制（如果从引用计数器角度出发，那么每层对象的引用计数器都会加1）。 
+</li><li>深复制：在执行复制操作时，至少有一个对象的复制是对象内容复制（如果从引用计数器角度出发，那么除了对象内容复制的那个对象的引用计数器不变，其他指针复制的对象其引用计数器都会加1）。</li></ul>
+<blockquote>
+<p>注：</p>
+<p>指针拷贝:拷贝的是指针本身（也就是具体对象的地址）而不是指向的对象内容本身。</p>
+<p>对象复制：对象复制指的是复制内容是对象本身而不是对象的地址。</p>
+<p>完全复制：上面说了深复制和浅复制，既然深复制是至少一个对象复制是对象内容复制，那么如果所有复制都是对象内容复制那么这个复制就叫完全复制。</p></blockquote>
+<p>对比copy和mutablecopy其实前面我们一直还用到一个操作是retain，它们之间的关系如下：</p>
+<p>retain：始终采取浅复制，引用计数器会加1，返回的对象和被复制对象是同一个对象1（也就是说这个对象的引用多了一个，或者说是指向这个对象的指针多了一个）；</p>
+<p>copy：对于不可变对象copy采用的是浅复制，引用计数器加1（其实这是编译器进行了优化，既然原来的对象不可变，复制之后的对象也不可变那么就没有必要再重新创建一个对象了）；对于可变对象copy采用的是深复制，引用计数器不变（原来的对象是可变，现在要产生一个不可变的当然得重新产生一个对象）；</p>
+<p>mutablecopy：无论是可变对象还是不可变对象采取的都是深复制，引用计数器不变（如果从一个不可变对象产生一个可变对象自然不用说两个对象绝对不一样肯定是深复制；如果从一个可变对象产生出另一个可变对象，那么当其中一个对象改变自然不希望另一个对象改变，当然也是深复制）。</p>
+<blockquote>
+<p>注：</p>
+<p>可变对象：当值发生了改变，那么地址也随之发生改变；</p>
+<p>不可变对象：当值发生了改变，内容首地址不发生变化；</p>
+<p>引用计数器：用于计算一个对象有几个指针在引用（有几个指针变量指向同一个内存地址）；</p></blockquote>
+<p>&nbsp;</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    NSString *name=@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">;
+    NSString *str1=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"I'm %@."</span><span style="color: black;">,name];</span><span style="color: green;">//注意此时str1的计数器是1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%lu"</span><span style="color: black;">,[str1 retainCount]); </span><span style="color: green;">//结果：1
+    
+    
+    </span><span style="color: black;">NSMutableString *str2=[str1 mutableCopy];</span><span style="color: green;">//注意此时str2的计数器为1，str1的计数器还是1
+    //NSMutableString *str5 =CFRetain((__bridge CFTypeRef)str2);
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str1)=%lu,retainCount(str2)=%lu"</span><span style="color: black;">,[str1 retainCount],[str2 retainCount]);
+    </span><span style="color: green;">//结果：retainCount(str1)=1,retainCount(str2)=1
+    
+    
+    </span><span style="color: black;">[str2 appendString:@</span><span style="color: rgb(163, 21, 21);">"def"</span><span style="color: black;">];</span><span style="color: green;">//改变str2，str1不变
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%zi"</span><span style="color: black;">,str1==str2);</span><span style="color: green;">//二者不是向同一个对象,结果：0
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"str1=%@"</span><span style="color: black;">,str1); </span><span style="color: green;">//结果：str1=I'm Kenshin.
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"str2=%@"</span><span style="color: black;">,str2); </span><span style="color: green;">//结果：str2=I'm Kenshin.def
+    
+    
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"str1's %lu"</span><span style="color: black;">,[str1 retainCount]);
+    NSString *str3=[str1 copy];</span><span style="color: green;">//str3不是产生的新对象而是复制了对象指针，但是str1的计数器+1（当然既然str3同样指向同一个对象，那么如果计算str3指向的对象引用计数器肯定等于str1的对象引用计数器）
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%zi"</span><span style="color: black;">,str1==str3);</span><span style="color: green;">//二者相等指向同一个对象,结果：1
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str1)=%lu,retainCount(str3)=%lu"</span><span style="color: black;">,str1.retainCount,str3.retainCount);
+    </span><span style="color: green;">//结果：retainCount(str1)=2,retainCount(str3)=2
+    
+    //需要注意的是使用copy和mutableCopy是深复制还是浅复制不是绝对，关键看由什么对象产生什么样的对象
+    </span><span style="color: black;">NSString *str4=[str2 copy];</span><span style="color: green;">//由NSMutableString产生了NSString，二者类型都不同肯定是深拷贝，此时str2的计数器还是1，str4的计数器也是1
+    </span><span style="color: black;">[str2 appendString:@</span><span style="color: rgb(163, 21, 21);">"g"</span><span style="color: black;">];</span><span style="color: green;">//改变原对象不影响str4
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%zi"</span><span style="color: black;">,str2==str4); </span><span style="color: green;">//结果：0
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"str2=%@"</span><span style="color: black;">,str2); </span><span style="color: green;">//结果：str2=I'm Kenshin.defg
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"str4=%@"</span><span style="color: black;">,str4); </span><span style="color: green;">//结果：str4=I'm Kenshin.def
+
+    
+    </span><span style="color: black;">[str1 release];
+    str1=nil;
+    [str3 release];</span><span style="color: green;">//其实这里也可以调用str1再次release，因为他们两个指向的是同一个对象（但是一般不建议那么做，不容易理解）
+    </span><span style="color: black;">str3=nil;
+    
+    [str2 release];
+    str2=nil;
+    [str4 release];
+    str4=nil;
+    
+    </span><span style="color: green;">//上面只有一种情况是浅拷贝：不可变对象调用copy方法
+    
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc,</span><span style="color: blue;">char </span><span style="color: black;">*argv[]){
+    test1();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>为了方便大家理解上面的代码，这里以图形画出str1、str2、str3、str4在内存中的存储情况： 
+</p><p><a href="ios_helloworld/011903238052402.png"><img border="0" height="662" width="769" src="ios_helloworld/011903243995287.png" alt="MemoryStore" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="MemoryStore"></a> 
+</p><p>从上面可以清楚的看到str1和str3同时指向同一个对象，因此这个对象的引用计数器是2(可以看到两箭头指向那个对象)，str2和str4都是两个新的对象；另外ObjC引入对象拷贝是为了改变一个对象不影响另一个对象，但是我们知道NSString本身就不能改变那么即使我重新复制一个对象也没有任何意义，因此为了性能着想如果通过copy方法产生一个NSString时ObjC不会再复制一个对象而是将新变量指向同一个对象。 </p>
+<blockquote>
+<p>注意网上很多人支招在ARC模式下可以利用_objc_rootRetainCount()或者CFGetRetainCount()取得retainCount都是不准确的，特别是在对象拷贝操作之后你会发现二者取值也是不同的，因此如果大家要查看retainCount最好还是暂时关闭ARC。</p></blockquote>
+<p>要想支持copy或者mutablecopy操作那么对象必须实现NSCoping协议并实现<strong>-(id)copyWithZone:(NSZone*)zone</strong>方法，在Foundation中常用的可复制对象有：NSNumber、NSString、NSMutableString、NSArray、NSMutableArray、NSDictionary、NSMutableDictionary。下面看一下如何让自定义的类支持copy操作：</p>
+<p>Person.h</p><pre class="code"><span style="color: green;">//
+//  Person.h
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: black;">@</span><span style="color: blue;">class </span><span style="color: black;">Account;
+
+@</span><span style="color: blue;">interface </span><span style="color: black;">Person : NSObject
+
+@</span><span style="color: blue;">property  </span><span style="color: black;">NSMutableString *name;
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,assign) </span><span style="color: blue;">int </span><span style="color: black;">age;
+
+
+@end</span></pre>
+<p>Person.m</p><pre class="code"><span style="color: green;">//
+//  Person.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+</span><span style="color: black;">@implementation Person
+
+
+-(NSString *)description{
+    </span><span style="color: blue;">return </span><span style="color: black;">[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"name=%@,age=%i"</span><span style="color: black;">,_name,_age];
+}
+
+</span><span style="color: green;">//实现copy方法
+</span><span style="color: black;">-(id)copyWithZone:(NSZone *)zone{
+    </span><span style="color: green;">//注意zone是系统已经分配好的用于存储当前对象的内存
+    //注意下面创建对象最好不要用[[Person allocWithZone:zone]init]，因为子类如果没有实现该方法copy时会调用父类的copy方法，此时需要使用子类对象初始化如果此时用self就可以表示子类对象，还有就是如果子类调用了父类的这个方法进行重写copy也需要调用子类对象而不是父类Person
+    </span><span style="color: black;">Person *person1=[[[self </span><span style="color: blue;">class</span><span style="color: black;">] allocWithZone:zone]init];
+    person1.name=_name;
+    person1.age=_age;
+    </span><span style="color: blue;">return </span><span style="color: black;">person1;
+}
+
+@end</span><span style="color: black;">
+</span></pre>
+<p>main.m</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Account.h"
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    Person *person1=[[Person alloc]init];
+    NSMutableString *str1=[NSMutableString stringWithString:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">];
+    person1.name=str1;
+    </span><span style="color: green;">//由于name定义的时候使用属性参数采用的是copy策略，而根据前面的知识我们知道NSMutableString的copy策略采用的是对象内容复制，因此如果修改str1不会改变person1.name
+    </span><span style="color: black;">[str1 appendString:@</span><span style="color: rgb(163, 21, 21);">" Cui"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);</span><span style="color: green;">//结果：Kenshin Cui
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,person1.name); </span><span style="color: green;">//结果：Kenshin
+    
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    Person *person1=[[Person alloc]init];
+    person1.name=[NSMutableString stringWithString:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">];
+    person1.age=28;
+    Person *person2=[person1 copy];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,person1); </span><span style="color: green;">//结果：name=Kenshin,age=0
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,person2); </span><span style="color: green;">//结果：name=Kenshin,age=0
+    
+    </span><span style="color: black;">[person2.name appendString:@</span><span style="color: rgb(163, 21, 21);">" Cui"</span><span style="color: black;">];
+    
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,person1);</span><span style="color: green;">//结果：name=Kenshin Cui,age=28
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,person2);</span><span style="color: green;">//结果：name=Kenshin Cui,age=28
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc,</span><span style="color: blue;">char </span><span style="color: black;">*argv[]){
+    test1();
+    test2();
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>在上面的代码中重点说一下test2这个方法，在test2方法中我们发现当修改了person2.name属性之后person1.name也改变了，这是为什么呢？我们可以看到在Person.m中自定义实现了copy方法，同时实现了一个浅拷贝。之所以说是浅拷贝主要是因为我们的name属性参数是直接赋值完成的，同时由于name属性定义时采用的是assign参数（默认为assign），所以当通过copy创建了person2之后其实person2对象的name属性和person1指向同一个NSMutableString对象。通过图形表示如下：</p>
+<p><a href="ios_helloworld/011903248689742.png"><img border="0" height="361" width="843" src="ios_helloworld/011903251968643.png" alt="MemoryStore2" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="MemoryStore2"></a> </p>
+<p>上面test2的写法纯属为了让大家了解复制的原理和本质，实际开发中我们很少会遇到这种情况，首先我们一般定义name的话可能用的是NSString类型，根本也不能修改；其次我们定义字符串类型的话一般使用(copy)参数，同样可以避免这个问题（因为NSMutableString的copy是深复制）。那么如果我们非要使用NSMutabeString同时不使用属性的copy参数如何解决这个问题呢？答案就是使用深复制，将<span style="background: white; color: black">-(id)copyWithZone:(NSZone *)zone</span>方法中person1.name=_name改为，person1.name=[_name copy];或person1.name=[_name mutablecopy]即可，这样做也正好满足我们上面对于深复制的定义。</p>
+<h2 id="autoid-10-0-0">补充-NSString的引用计数器</h2>
+<p>在好多语言中字符串都是一个特殊的对象，在ObjC中也不例外。NSString作为一个对象类型存储在堆中，多数情况下它跟一般的对象类型没有区别，但是这里我们需求强调一点那就是字符串的引用计数器。</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc,</span><span style="color: blue;">char </span><span style="color: black;">*argv[]){
+    
+    NSString *str1=@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str1)=%i"</span><span style="color: black;">,(</span><span style="color: blue;">unsigned long</span><span style="color: black;">)str1.retainCount); </span><span style="color: green;">//结果：-1
+    </span><span style="color: black;">[str1 retain];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str1)=%i"</span><span style="color: black;">,(</span><span style="color: blue;">unsigned long</span><span style="color: black;">)str1.retainCount); </span><span style="color: green;">//结果：-1
+    
+    </span><span style="color: black;">NSString *str2=[NSString stringWithString:@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str2)=%i"</span><span style="color: black;">,str2.retainCount); </span><span style="color: green;">//结果：-1
+    </span><span style="color: black;">[str1 retain];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str2)=%i"</span><span style="color: black;">,str2.retainCount); </span><span style="color: green;">//结果：-1
+    </span><span style="color: black;">NSString *str2_1=[NSString stringWithString:[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"Kaoru %@"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"sun"</span><span style="color: black;">]];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str2_1)=%i"</span><span style="color: black;">,str2_1.retainCount);<span style="color: green;">//结果：2 </span>
+    [str2_1 release];
+    [str2_1 release];
+    
+    
+    
+    NSString *str3=[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"Rosa %@"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"Sun"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str3)=%i"</span><span style="color: black;">,str3.retainCount); </span><span style="color: green;">//结果：1
+    </span><span style="color: black;">[str3 retain];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str3)=%i"</span><span style="color: black;">,str3.retainCount); </span><span style="color: green;">//结果：2
+    </span><span style="color: black;">[str3 release];
+    [str3 release];
+    
+    NSString *str4=[NSString stringWithUTF8String:</span><span style="color: rgb(163, 21, 21);">"Jack"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str4)=%i"</span><span style="color: black;">,str4.retainCount); </span><span style="color: green;">//结果：1
+    </span><span style="color: black;">[str4 retain];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str4)=%i"</span><span style="color: black;">,str4.retainCount); </span><span style="color: green;">//结果：2
+    </span><span style="color: black;">[str4 release];
+    [str4 release];
+    
+    NSString *str5=[NSString stringWithCString:</span><span style="color: rgb(163, 21, 21);">"Tom" </span><span style="color: black;">encoding:NSUTF8StringEncoding];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str5)=%i"</span><span style="color: black;">,str5.retainCount); </span><span style="color: green;">//结果：1
+    </span><span style="color: black;">[str5 retain];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str5)=%i"</span><span style="color: black;">,str5.retainCount); </span><span style="color: green;">//结果：2
+    </span><span style="color: black;">[str5 release];
+    [str5 release];
+    
+    
+    
+    NSMutableString *str6=@</span><span style="color: rgb(163, 21, 21);">"Jerry"</span><span style="color: black;">;
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str6)=%i"</span><span style="color: black;">,str6.retainCount); </span><span style="color: green;">//结果：-1
+    </span><span style="color: black;">[str6 retain];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str6)=%i"</span><span style="color: black;">,str6.retainCount); </span><span style="color: green;">//结果：-1
+    </span><span style="color: black;">[str6 release];
+    [str6 release];
+    
+    NSMutableArray *str7=[NSMutableString stringWithString:@</span><span style="color: rgb(163, 21, 21);">"Lily"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str7)=%i"</span><span style="color: black;">,str7.retainCount); </span><span style="color: green;">//结果：1
+    </span><span style="color: black;">[str7 retain];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"retainCount(str7)=%i"</span><span style="color: black;">,str7.retainCount); </span><span style="color: green;">//结果：2
+    </span><span style="color: black;">[str7 release];
+    [str7 release];
+
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>看完上面的例子如果不了解NSString的处理你也许会有点奇怪（注意上面的代码请在Xcode5下运行）？请看下面的解释</p>
+<ul>
+<li>str1是一个字符串常量，它存储在常量区，系统不会对它进行引用计数，因此无论是初始化还是做retain操作其引用计数器均为-1； 
+</li><li>str3、str4、str5创建的对象同一般对象类似，存储在堆中，系统会对其进行引用计数； 
+</li><li>采用stringWithString定义的变量有些特殊，当后面的字符串是字符串常量，则它本身就作为字符串常用量存储（str2），类似于str1；如果后面的参数是通过类似于str3、str4、str5的定义，那么它本身就是一个普通对象，只是后面的对象引用计数器默认为1，当给它赋值时会做一次拷贝操作（浅拷贝），引用计数器加1，所有str2_1引用计数器为2； 
+</li><li>str6其实和str1类似，虽然定义的是可变数组，但是它的本质还是字符串常量，事实上对于可变字符串只有为字符串常量时引用计数器才为-1，其他情况它的引用计数器跟一般对象完全一致；</li></ul>
+<p><strong><font color="#ff0000">后记：注意上面这段代码的运行结果是在Xcode5中运行的结果，事实上针对最新的Xcode6由于LLVM的优化，只有str2_1和str7的引用计数器为1（str7 retain一次后第二次为2），其他均为-1。</font></strong></p>
+<h1 id="io">文件操作</h1>
+<p>在今天的最后一节内容中让我们看一下Foundation中文件操作，下面将以一个例子进行说明：</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: green;">/*目录操作*/
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: green;">//文件管理器是专门用于文件管理的类
+    </span><span style="color: black;">NSFileManager *manager=[NSFileManager defaultManager];
+    
+    </span><span style="color: green;">//获得当前程序所在目录(当然可以改变)
+    </span><span style="color: black;">NSString *currentPath=[manager currentDirectoryPath];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"current path is :%@"</span><span style="color: black;">,currentPath);
+    </span><span style="color: green;">//结果：/Users/kenshincui/Library/Developer/Xcode/DerivedData/FoundationFramework-awxjohcpgsqcpsanqofqogwbqgbx/Build/Products/Debug
+    
+    //创建目录
+    </span><span style="color: black;">NSString *myPath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/myDocument"</span><span style="color: black;">;
+    BOOL result= [manager createDirectoryAtPath:myPath withIntermediateDirectories:YES attributes:nil error:nil];
+    </span><span style="color: blue;">if</span><span style="color: black;">(result==NO){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"Couldn't create directory!"</span><span style="color: black;">);
+    }
+    
+    </span><span style="color: green;">//目录重命名，如果需要删除目录只要调用removeItemAtPath:&lt;#(NSString *)#&gt; error:&lt;#(NSError **)#&gt;
+    </span><span style="color: black;">NSError *error;
+    NSString *newPath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/myNewDocument"</span><span style="color: black;">;
+    </span><span style="color: blue;">if</span><span style="color: black;">([manager moveItemAtPath:myPath toPath:newPath error:&amp;error]==NO){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"Rename directory failed!Error infomation is:%@"</span><span style="color: black;">,error);
+    }
+    
+    </span><span style="color: green;">//改变当前目录
+    </span><span style="color: blue;">if</span><span style="color: black;">([manager changeCurrentDirectoryPath:newPath]==NO){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"Change current directory failed!"</span><span style="color: black;">);
+    }
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"current path is :%@"</span><span style="color: black;">,[manager currentDirectoryPath]);
+    </span><span style="color: green;">//结果：current path is :/Users/kenshincui/Desktop/myNewDocument
+    
+    //遍历整个目录
+    </span><span style="color: black;">NSString *path;
+    NSDirectoryEnumerator *directoryEnumerator= [manager enumeratorAtPath:newPath];
+    </span><span style="color: blue;">while </span><span style="color: black;">(path=[directoryEnumerator nextObject]) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,path);
+    }
+    </span><span style="color: green;">/*结果：
+     documents
+     est.txt
+    */
+    
+    //或者这样遍历
+    </span><span style="color: black;">NSArray *paths= [manager contentsOfDirectoryAtPath:newPath error:nil];
+    NSObject *p;
+    </span><span style="color: blue;">for </span><span style="color: black;">(p in paths) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,p);
+    }
+    </span><span style="color: green;">/*结果：
+     documents
+     est.txt
+     */
+</span><span style="color: black;">}
+
+</span><span style="color: green;">/*文件操作*/
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    NSFileManager *manager=[NSFileManager defaultManager];
+    NSString *filePath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/myNewDocument/test.txt"</span><span style="color: black;">;
+    NSString *filePath2=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/test.txt"</span><span style="color: black;">;
+    NSString *newPath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/myNewDocument/test2.txt"</span><span style="color: black;">;
+    
+    </span><span style="color: green;">//判断文件是否存在，这个方法也可以判断目录是否存在，这要后面的参数设置位YES
+    </span><span style="color: blue;">if </span><span style="color: black;">([manager fileExistsAtPath:filePath isDirectory:NO]) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"File exists！"</span><span style="color: black;">);
+    }
+    
+    </span><span style="color: green;">//文件是否可读
+    </span><span style="color: blue;">if</span><span style="color: black;">([manager isReadableFileAtPath:filePath]){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"File is readable!"</span><span style="color: black;">);
+    }
+    
+    </span><span style="color: green;">//判断两个文件内容是否相等
+    </span><span style="color: blue;">if </span><span style="color: black;">([manager contentsEqualAtPath:filePath andPath:filePath2]) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"file1 equals file2"</span><span style="color: black;">);
+    }
+    
+    </span><span style="color: green;">//文件重命名，方法类似于目录重命名
+    </span><span style="color: blue;">if </span><span style="color: black;">(![manager moveItemAtPath:filePath toPath:newPath error:nil]) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"Rename file1 failed!"</span><span style="color: black;">);
+    }
+    
+    </span><span style="color: green;">//文件拷贝
+    </span><span style="color: black;">NSString *filePath3=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/test3.txt"</span><span style="color: black;">;
+    </span><span style="color: blue;">if</span><span style="color: black;">(![manager copyItemAtPath:newPath toPath:filePath3 error:nil]){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"Copy failed!"</span><span style="color: black;">);
+    }
+    
+    </span><span style="color: green;">//读取文件属性
+    </span><span style="color: black;">NSDictionary *attributes;
+    </span><span style="color: blue;">if </span><span style="color: black;">((attributes=[manager attributesOfItemAtPath:newPath error:nil])==nil) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"Read attributes failed!"</span><span style="color: black;">);
+    }
+    </span><span style="color: blue;">for </span><span style="color: black;">(NSObject *key in attributes) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@=%@"</span><span style="color: black;">,key,attributes[key]);
+    }
+    </span><span style="color: green;">/*结果：
+         NSFileOwnerAccountID=501
+         NSFileHFSTypeCode=0
+         NSFileSystemFileNumber=1781953
+         NSFileExtensionHidden=0
+         NSFileSystemNumber=16777218
+         NSFileSize=27
+         NSFileGroupOwnerAccountID=20
+         NSFileOwnerAccountName=kenshincui
+         NSFileCreationDate=2014-07-28 11:47:58 +0000
+         NSFilePosixPermissions=420
+         NSFileHFSCreatorCode=0
+         NSFileType=NSFileTypeRegular
+         NSFileExtendedAttributes={
+         "com.apple.TextEncoding" = &lt;7574662d 383b3133 34323137 393834&gt;;
+         }
+         NSFileGroupOwnerAccountName=staff
+         NSFileReferenceCount=1
+         NSFileModificationDate=2014-07-28 11:47:58 +0000
+     */
+    
+    //删除文件
+    </span><span style="color: black;">[manager removeItemAtPath:newPath error:nil];
+    
+}
+</span><span style="color: green;">//文件操作--文件内容操作（NSData，非结构化字节流对象，有缓冲区管理机制，可用于网络传输）
+</span><span style="color: blue;">void </span><span style="color: black;">test3(){
+    NSFileManager *manager=[NSFileManager defaultManager];
+    NSString *filePath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/myNewDocument/test2.txt"</span><span style="color: black;">;
+    NSData *data=[manager contentsAtPath:filePath];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,data);</span><span style="color: green;">//存储的是二进制字节流
+    //结果:&lt;68656c6c 6f20776f 726c642c e4b896e7 958ce4bd a0e5a5bd efbc81&gt;
+    
+    //NSData转化成字符串
+    </span><span style="color: black;">NSString *str1=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+    </span><span style="color: green;">//结果：hello world,世界你好！
+    
+    //字符串转化成NSData
+    </span><span style="color: black;">NSString *str2=@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">;
+    NSData *data2=[str2 dataUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,data2);
+    
+    </span><span style="color: green;">//当然一般如果仅仅是简单读取文件内容，直接用户NSString方法即可
+    </span><span style="color: black;">NSString *content=[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,content);
+    </span><span style="color: green;">//结果：hello world,世界你好！
+    
+</span><span style="color: black;">}
+</span><span style="color: green;">//文件操作--细粒度控制文件,文件操作柄
+</span><span style="color: blue;">void </span><span style="color: black;">test4(){
+    NSFileManager *manager=[NSFileManager defaultManager];
+    NSString *filePath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/myNewDocument/test2.txt"</span><span style="color: black;">;
+    
+    </span><span style="color: green;">//以只读方式打开文件
+    </span><span style="color: black;">NSFileHandle *fileHandle=[NSFileHandle fileHandleForReadingAtPath:filePath];</span><span style="color: green;">//注意这个方法返回类型为instancetype，也就是说对于上面的NSFileHandle它的返回类型也是NSFileHandle
+    </span><span style="color: black;">NSData *data= [fileHandle readDataToEndOfFile];</span><span style="color: green;">//完整读取文件
+    </span><span style="color: black;">NSString *newPath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/test4.txt"</span><span style="color: black;">;
+    [manager createFileAtPath:newPath contents:nil attributes:nil];
+    NSFileHandle *fileHandle2=[NSFileHandle fileHandleForWritingAtPath:newPath];</span><span style="color: green;">//以可写方式打开文件
+    </span><span style="color: black;">[fileHandle2 writeData:data];</span><span style="color: green;">//写入文件内容
+    
+    </span><span style="color: black;">[fileHandle2 closeFile];</span><span style="color: green;">//关闭文件
+
+    
+    //定位到指定位置,默认在文件开头
+    </span><span style="color: black;">[fileHandle seekToFileOffset:12];
+    NSData *data2= [fileHandle readDataToEndOfFile];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"data2=%@"</span><span style="color: black;">,[[NSString alloc]initWithData:data2 encoding:NSUTF8StringEncoding]);
+    </span><span style="color: green;">//结果：data2=世界你好！
+    
+    </span><span style="color: black;">[fileHandle seekToFileOffset:6];
+    NSData *data3=[fileHandle readDataOfLength:5];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"data3=%@"</span><span style="color: black;">,[[NSString alloc]initWithData:data3 encoding:NSUTF8StringEncoding]);
+    </span><span style="color: green;">//结果：data3=world
+    
+    </span><span style="color: black;">[fileHandle closeFile];
+    
+}
+
+</span><span style="color: green;">//文件路径
+</span><span style="color: blue;">void </span><span style="color: black;">test5(){
+    NSString *filePath=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/myDocument"</span><span style="color: black;">;
+    NSString *filePath2=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/test.txt"</span><span style="color: black;">;
+
+    </span><span style="color: green;">//临时文件所在目录
+    </span><span style="color: black;">NSString *path=NSTemporaryDirectory();
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"temporary directory is :%@"</span><span style="color: black;">,path);
+    </span><span style="color: green;">//结果：/var/folders/h6/lss6gncs509c2pgzgty3wd_40000gn/T/
+
+    </span><span style="color: black;">NSString *lastComponent= [filePath lastPathComponent];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,lastComponent); </span><span style="color: green;">//结果：myDocument
+    
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[filePath stringByDeletingLastPathComponent]);
+    </span><span style="color: green;">//结果：/Users/kenshincui/Desktop
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[filePath stringByAppendingPathComponent:@</span><span style="color: rgb(163, 21, 21);">"Pictrues"</span><span style="color: black;">]);
+    </span><span style="color: green;">//结果：/Users/kenshincui/Desktop/myDocument/Pictrues
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[filePath2 pathExtension]);
+    </span><span style="color: green;">//结果：txt
+    
+    </span><span style="color: black;">[[filePath pathComponents] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"%i=%@"</span><span style="color: black;">,idx,obj);
+    }];
+    </span><span style="color: green;">/*结果：
+     0=/
+     1=Users
+     2=kenshincui
+     3=Desktop
+     4=myDocument
+     */
+    
+    
+</span><span style="color: black;">}
+
+</span><span style="color: green;">//文件操作--NSURL
+</span><span style="color: blue;">void </span><span style="color: black;">test6(){
+    NSURL *url=[NSURL URLWithString:@</span><span style="color: rgb(163, 21, 21);">"http://developer.apple.com"</span><span style="color: black;">];
+    NSString *str1=[NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,str1);
+}
+
+</span><span style="color: green;">//文件操作--NSBundle，程序包，一般用于获取Resource中的资源（当然由于当前并非IOS应用没有程序包，只是表示当前程序运行路径）
+//在ios中经常用于读取应用程序中的资源文件，如图片、声音、视频等
+</span><span style="color: blue;">void </span><span style="color: black;">test7(){
+    </span><span style="color: green;">//在程序包所在目录创建一个文件
+    </span><span style="color: black;">NSFileManager *manager=[NSFileManager defaultManager];
+    NSString *currentPath=[manager currentDirectoryPath];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"current path is :%@"</span><span style="color: black;">,currentPath);
+    </span><span style="color: green;">//结果：current path is :/Users/kenshincui/Library/Developer/Xcode/DerivedData/FoundationFramework-awxjohcpgsqcpsanqofqogwbqgbx/Build/Products/Debug
+    </span><span style="color: black;">NSString *filePath=[currentPath stringByAppendingPathComponent:@</span><span style="color: rgb(163, 21, 21);">"test.txt"</span><span style="color: black;">];
+    [manager createFileAtPath:filePath contents:[@</span><span style="color: rgb(163, 21, 21);">"Hello,world!" </span><span style="color: black;">dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+    
+    
+    </span><span style="color: green;">//利用NSBundle在程序包所在目录查找对应的文件
+    </span><span style="color: black;">NSBundle *bundle=[NSBundle mainBundle];</span><span style="color: green;">//主要操作程序包所在目录
+    //如果有test.txt则返回路径，否则返回nil
+    </span><span style="color: black;">NSString *path=[bundle pathForResource:@</span><span style="color: rgb(163, 21, 21);">"test" </span><span style="color: black;">ofType:@</span><span style="color: rgb(163, 21, 21);">"txt"</span><span style="color: black;">];</span><span style="color: green;">//也可以写成：[bundle pathForResource:@"instructions.txt" ofType:nil];
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,path);
+    </span><span style="color: green;">//结果：/Users/kenshincui/Library/Developer/Xcode/DerivedData/FoundationFramework-awxjohcpgsqcpsanqofqogwbqgbx/Build/Products/Debug/test.txt
+    </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil]);
+    </span><span style="color: green;">//结果：Hello,world!
+    
+    //假设我们在程序运行创建一个Resources目录，并且其中新建pic.jpg，那么用下面的方法获得这个文件完整路径
+    </span><span style="color: black;">NSString *path1= [bundle pathForResource:@</span><span style="color: rgb(163, 21, 21);">"pic" </span><span style="color: black;">ofType:@</span><span style="color: rgb(163, 21, 21);">"jpg" </span><span style="color: black;">inDirectory:@</span><span style="color: rgb(163, 21, 21);">"Resources"</span><span style="color: black;">];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,path1);
+    </span><span style="color: green;">//结果：/Users/kenshincui/Library/Developer/Xcode/DerivedData/FoundationFramework-awxjohcpgsqcpsanqofqogwbqgbx/Build/Products/Debug/Resources/pic.jpg
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc,</span><span style="color: blue;">char </span><span style="color: black;">*argv[]){
+
+    test1();
+    test2();
+    test3();
+    test4();
+    test5();
+    test6();
+    test7();
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<h1 id="archiver">归档</h1>
+<p>归档，在其他语言中又叫“序列化”，就是将对象保存到硬盘；解档，在其他语言又叫“反序列化”就是将硬盘文件还原成对象。其实归档就是数据存储的过程，在IOS中数据的存储有五种方式：</p>
+<ol>
+<li>
+<p>xml属性列表（plist归档）</p>
+</li><li>
+<p>NSUserDefaults（偏好设置）</p>
+</li><li>
+<p>NSKeyedArchiver归档（加密形式）</p>
+</li><li>
+<p>SQLite3(嵌入式数据库)</p>
+</li><li>
+<p>Core Data（面向对象方式的嵌入式数据库）</p></li></ol>
+<p>当然关于2、4、5点不是我们今天介绍的重点，这个在IOS开发过程中我们会重点说到。</p>
+<h2 id="autoid-12-0-0">xml属性列表</h2>
+<p>首先我们先来看一下xml属性列表，xml属性列表进行归档的方式是将对象存储在一个plist文件中，这个操作起来比较简单，其实相当于xml序列化。但是同时它也有缺点：一是这种方式是明文保存的；二是这种方式操作的对象有限，只有NSArray、NSMutableArray、NSDictionary、NSMutableDictionary支持（归档时只要调用对应的writeToFile方法即可，解档调用arrayWithContentsOfFile或dictionaryWithContentsOfFile，注意像NSString、NSNumber、NSData即使有这个方法它存储的也不是xml格式）。</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: green;">//xml属性
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: green;">//数组
+    </span><span style="color: black;">NSString *path=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/arrayXml.plist"</span><span style="color: black;">;
+    NSArray *array1=@[@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">];
+    [array1 writeToFile:path atomically:YES];
+    
+    NSArray *array2=[NSArray arrayWithContentsOfFile:path];
+    [array2 enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"array2[%lu]=%@"</span><span style="color: black;">,idx,obj);
+    }];
+    </span><span style="color: green;">/*结果：
+     array1[0]=Kenshin
+     array1[1]=Kaoru
+     array1[2]=Rosa
+     */
+    
+    
+    //字典
+    </span><span style="color: black;">NSString *path2=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/dicXml.plist"</span><span style="color: black;">;
+    NSDictionary *dic1=@{@</span><span style="color: rgb(163, 21, 21);">"name"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"age"</span><span style="color: black;">:@28,@</span><span style="color: rgb(163, 21, 21);">"height"</span><span style="color: black;">:@172.5};
+    [dic1 writeToFile:path2 atomically:YES];
+    
+    NSDictionary *dic2=[NSDictionary dictionaryWithContentsOfFile:path2];
+    [dic2 enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"dic2[%@]=%@"</span><span style="color: black;">,key,obj);
+    }];
+    </span><span style="color: green;">/*结果：
+     dic2[height]=172.5
+     dic2[age]=28
+     dic2[name]=Kenshin
+     */
+</span><span style="color: black;">}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc,</span><span style="color: blue;">char </span><span style="color: black;">*argv[]){
+    
+    test1();
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>生成的文件如下</p>
+<p><a href="ios_helloworld/011903255242844.png"><img border="0" height="163" width="801" src="ios_helloworld/011903258372814.png" alt="arrayXml" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="arrayXml"></a> </p>
+<p><a href="ios_helloworld/011903263052971.png"><img border="0" height="173" width="800" src="ios_helloworld/011903266499399.png" alt="dicXml" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="dicXml"></a> </p>
+<h2 id="autoid-12-0-0">NSKeyedArchiver归档</h2>
+<p>如果要针对更多对象归档或者需要归档时能够加密的话就需要使用NSKeyedArchiver进行归档和解档，使用这种方式归档的范围更广而且归档内容是密文存储。从归档范围来讲NSKeyedArchiver适合所有ObjC对象，但是对于自定义对象我们需要实现NSCoding协议；从归档方式来讲NSKeyedArchiver分为简单归档和复杂对象归档，简单归档就是针对单个对象可以直接将对象作为根对象（不用设置key），复杂对象就是针对多个对象，存储时不同对象需要设置不同的Key。</p>
+<p>首先看一下系统对象两种归档方式（注意由于本章主要介绍Foundation内容，下面的程序是OS X命令行程序并没有创建成iOS应用，如果移植到到iOS应用下运行将NSArchiver和NSUnarchiver换成NSKeyedArchiver和NSKeyedUnarchiver。虽然在Foundation部分iOS和OS X在设计上尽可能通用但是还存在着细微差别。）</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: green;">//系统对象简单归档
+</span><span style="color: blue;">void </span><span style="color: black;">test1(){
+    </span><span style="color: green;">//NSString归档
+    </span><span style="color: black;">NSString *str1=@</span><span style="color: rgb(163, 21, 21);">"Hello,world!"</span><span style="color: black;">;
+    NSString *path1=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/archiver1.arc"</span><span style="color: black;">;
+    </span><span style="color: blue;">if</span><span style="color: black;">(![NSArchiver archiveRootObject:str1 toFile:path1]){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"archiver failed!"</span><span style="color: black;">);
+    }
+    </span><span style="color: green;">//NSString解档
+    </span><span style="color: black;">NSString *str2= [NSUnarchiver unarchiveObjectWithFile:path1];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"str2=%@"</span><span style="color: black;">,str2);</span><span style="color: green;">//结果：str2=Hello,world!
+    
+    
+    //NSArray归档
+    </span><span style="color: black;">NSString *path2=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/archiver2.arc"</span><span style="color: black;">;
+    NSArray *array1=@[@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">];
+    </span><span style="color: blue;">if</span><span style="color: black;">(![NSArchiver archiveRootObject:array1 toFile:path2]){
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"archiver failed!"</span><span style="color: black;">);
+    }
+    </span><span style="color: green;">//NSArray解档
+    </span><span style="color: black;">NSArray *array2=[NSUnarchiver unarchiveObjectWithFile:path2];
+    [array2 enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"array2[%lu]=%@"</span><span style="color: black;">,idx,obj);
+    }];
+    </span><span style="color: green;">/*结果：
+     array2[0]=Kenshin
+     array2[1]=Kaoru
+     array2[2]=Rosa
+     */
+</span><span style="color: black;">}
+
+</span><span style="color: green;">//系统复杂对象归档（多对象归档）
+</span><span style="color: blue;">void </span><span style="color: black;">test2(){
+    </span><span style="color: green;">/*归档*/
+    </span><span style="color: black;">NSString *path1=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/archiver3.arc"</span><span style="color: black;">;
+    
+    </span><span style="color: blue;">int </span><span style="color: black;">int1=89;
+    CGSize size1={12.5,16.8};
+    NSNumber *number1=@60.5;
+    NSString *str1=@</span><span style="color: rgb(163, 21, 21);">"Hello,world!"</span><span style="color: black;">;
+    NSArray *array1=@[@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">];
+    NSDictionary *dic1=@{@</span><span style="color: rgb(163, 21, 21);">"name"</span><span style="color: black;">:@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">,@</span><span style="color: rgb(163, 21, 21);">"age"</span><span style="color: black;">:@28,@</span><span style="color: rgb(163, 21, 21);">"height"</span><span style="color: black;">:@172.5};
+    
+    </span><span style="color: green;">//同时对多个对象进行归档
+    </span><span style="color: black;">NSMutableData *data1=[[NSMutableData alloc]init];</span><span style="color: green;">//定义一个NSMutableData用于临时存放数据
+    </span><span style="color: black;">NSKeyedArchiver *archiver=[[NSKeyedArchiver alloc]initForWritingWithMutableData:data1];</span><span style="color: green;">//定义归档对象
+    </span><span style="color: black;">[archiver encodeInt:int1 forKey:@</span><span style="color: rgb(163, 21, 21);">"int"</span><span style="color: black;">];</span><span style="color: green;">//对int1归档并指定一个key以便以后读取
+    </span><span style="color: black;">[archiver encodeSize:size1 forKey:@</span><span style="color: rgb(163, 21, 21);">"size"</span><span style="color: black;">];
+    [archiver encodeObject:number1 forKey:@</span><span style="color: rgb(163, 21, 21);">"number"</span><span style="color: black;">];
+    [archiver encodeObject:str1 forKey:@</span><span style="color: rgb(163, 21, 21);">"string"</span><span style="color: black;">];
+    [archiver encodeObject:array1 forKey:@</span><span style="color: rgb(163, 21, 21);">"array"</span><span style="color: black;">];
+    [archiver encodeObject:dic1 forKey:@</span><span style="color: rgb(163, 21, 21);">"dic"</span><span style="color: black;">];
+
+    [archiver finishEncoding];</span><span style="color: green;">//结束归档
+    
+    </span><span style="color: black;">[data1 writeToFile:path1 atomically:YES];</span><span style="color: green;">//写入文件
+    
+    
+    
+    /*解档*/
+    </span><span style="color: blue;">int </span><span style="color: black;">int2;
+    CGSize size2;
+    NSNumber *number2;
+    NSString *str2;
+    NSArray *array2;
+    NSDictionary *dic2;
+    
+    NSData *data2=[[NSData alloc]initWithContentsOfFile:path1];</span><span style="color: green;">//读出数据到NSData
+    </span><span style="color: black;">NSKeyedUnarchiver *unarchiver=[[NSKeyedUnarchiver alloc]initForReadingWithData:data2];
+    
+    int2= [unarchiver decodeInt64ForKey:@</span><span style="color: rgb(163, 21, 21);">"int"</span><span style="color: black;">];
+    size2=[unarchiver decodeSizeForKey:@</span><span style="color: rgb(163, 21, 21);">"size"</span><span style="color: black;">];
+    number2=[unarchiver decodeObjectForKey:@</span><span style="color: rgb(163, 21, 21);">"number"</span><span style="color: black;">];
+    str2=[unarchiver decodeObjectForKey:@</span><span style="color: rgb(163, 21, 21);">"string"</span><span style="color: black;">];
+    array2=[unarchiver decodeObjectForKey:@</span><span style="color: rgb(163, 21, 21);">"array"</span><span style="color: black;">];
+    dic2=[unarchiver decodeObjectForKey:@</span><span style="color: rgb(163, 21, 21);">"dic"</span><span style="color: black;">];
+    
+    [unarchiver finishDecoding];
+    
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"int2=%i,size=%@,number2=%@,str2=%@,array2=%@,dic2=%@"</span><span style="color: black;">,int2,NSStringFromSize(size2),number2,str2,array2,dic2);
+    </span><span style="color: green;">/*结果：
+     int2=89,
+     size={12.5, 16.800000000000001},
+     number2=60.5,
+     str2=Hello,world!,
+     array2=(
+         Kenshin,
+         Kaoru,
+         Rosa
+     ),
+     dic2={
+         age = 28;
+         height = "172.5";
+         name = Kenshin;
+     }
+     */
+</span><span style="color: black;">}
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc,</span><span style="color: blue;">char </span><span style="color: black;">*argv[]){
+
+    test1();
+    test2();
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>接下来看一下自定义的对象如何归档，上面说了如果要对自定义对象进行归档那么这个对象必须实现NSCoding协议，在这个协议中有两个方法都必须实现：</p>
+<p><strong>-(void)encodeWithCoder:(NSCoder *)aCoder</strong>;通过给定的Archiver对消息接收者进行编码；</p>
+<p><strong>-(id)initWithCoder:(NSCoder *)aDecoder</strong>;从一个给定的Unarchiver的数据返回一个初始化对象；</p>
+<p>这两个方法分别在归档和解档时调用。下面通过一个例子进行演示（注意对于自定义类的多对象归档与系统类多对象归档完全一样，代码中不再演示）：</p>
+<p>Person.h</p><pre class="code"><span style="color: green;">//
+//  Person.h
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: black;">@</span><span style="color: blue;">interface </span><span style="color: black;">Person : NSObject&lt;NSCoding&gt;
+
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,copy) NSString *name;
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,assign) </span><span style="color: blue;">int </span><span style="color: black;">age;
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,assign) </span><span style="color: blue;">float </span><span style="color: black;">height;
+@</span><span style="color: blue;">property </span><span style="color: black;">(nonatomic,assign) NSDate *birthday;
+
+@end</span></pre>
+<p>Person.m</p><pre class="code"><span style="color: green;">//
+//  Person.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+</span><span style="color: black;">@implementation Person
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 解码
+-(id)initWithCoder:(NSCoder *)aDecoder{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"decode..."</span><span style="color: black;">);
+    </span><span style="color: blue;">if </span><span style="color: black;">(self=[super init]) {
+        self.name=[aDecoder decodeObjectForKey:@</span><span style="color: rgb(163, 21, 21);">"name"</span><span style="color: black;">];
+        self.age=[aDecoder decodeInt64ForKey:@</span><span style="color: rgb(163, 21, 21);">"age"</span><span style="color: black;">];
+        self.height=[aDecoder decodeFloatForKey:@</span><span style="color: rgb(163, 21, 21);">"heiht"</span><span style="color: black;">];
+        self.birthday=[aDecoder decodeObjectForKey:@</span><span style="color: rgb(163, 21, 21);">"birthday"</span><span style="color: black;">];
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">self;
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 编码
+-(</span><span style="color: blue;">void</span><span style="color: black;">)encodeWithCoder:(NSCoder *)aCoder{
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"encode..."</span><span style="color: black;">);
+    [aCoder encodeObject:_name forKey:@</span><span style="color: rgb(163, 21, 21);">"name"</span><span style="color: black;">];
+    [aCoder encodeInt64:_age forKey:@</span><span style="color: rgb(163, 21, 21);">"age" </span><span style="color: black;">];
+    [aCoder encodeFloat:_height forKey:@</span><span style="color: rgb(163, 21, 21);">"height"</span><span style="color: black;">];
+    [aCoder encodeObject:_birthday forKey:@</span><span style="color: rgb(163, 21, 21);">"birthday"</span><span style="color: black;">];
+
+}
+
+</span><span style="color: blue;">#pragma </span><span style="color: black;">mark 重写描述
+-(NSString *)description{
+    NSDateFormatter *formater1=[[NSDateFormatter alloc]init];
+    formater1.dateFormat=@</span><span style="color: rgb(163, 21, 21);">"yyyy-MM-dd"</span><span style="color: black;">;
+    </span><span style="color: blue;">return </span><span style="color: black;">[NSString stringWithFormat:@</span><span style="color: rgb(163, 21, 21);">"name=%@,age=%i,height=%.2f,birthday=%@"</span><span style="color: black;">,_name,_age,_height,[formater1 stringFromDate:_birthday]];
+}
+
+@end</span></pre>
+<p>main.m</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  FoundationFramework
+//
+//  Created by Kenshin Cui on 14-2-16.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">"Person.h"
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc,</span><span style="color: blue;">char </span><span style="color: black;">*argv[]){
+
+    </span><span style="color: green;">//归档
+    </span><span style="color: black;">Person *person1=[[Person alloc]init];
+    person1.name=@</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">;
+    person1.age=28;
+    person1.height=1.72;
+    NSDateFormatter *formater1=[[NSDateFormatter alloc]init];
+    formater1.dateFormat=@</span><span style="color: rgb(163, 21, 21);">"yyyy-MM-dd"</span><span style="color: black;">;
+    person1.birthday=[formater1 dateFromString:@</span><span style="color: rgb(163, 21, 21);">"1986-08-08"</span><span style="color: black;">];
+    
+    NSString *path1=@</span><span style="color: rgb(163, 21, 21);">"/Users/kenshincui/Desktop/person1.arc"</span><span style="color: black;">;
+    
+    [NSKeyedArchiver archiveRootObject:person1 toFile:path1];
+
+    </span><span style="color: green;">//解档
+    </span><span style="color: black;">Person *person2= [NSKeyedUnarchiver unarchiveObjectWithFile:path1];
+    NSLog(@</span><span style="color: rgb(163, 21, 21);">"%@"</span><span style="color: black;">,person2);
+    </span><span style="color: green;">/*结果：
+     name=Kenshin,age=28,height=0.00,birthday=1986-08-08
+     */
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>今天的文章就到这里了，内容确实不少，但是要用一篇文章把Foundation的所有内容说完也是完全不现实的。这篇文章有一部分内容并没有详细的解释代码，这部分内容主要是个人认为比较简单，通过注释大家就可以理解。不过并不是说这部分内容不重要，而是这些内容多数是记忆性的东西，不需要过多解释。</div><div id="MySignature" style="display: block;"><div style="clear: both; border: solid #E8E7D0 1px; padding: 10px 10px 10px 10px; background-color: #f8f8ee;">
+<table border="0">
+<tbody>
+<tr style="vertical-align: top;">
+<td><a rel="license" href="http://creativecommons.org/licenses/by/2.5/cn/"><img alt="知识共享许可协议" src="http://i.creativecommons.org/l/by/2.5/cn/88x31.png" style="border-width: 0;"></a></td>
+<td>本<span>作品</span>采用<a rel="license" href="http://creativecommons.org/licenses/by/2.5/cn/">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，演绎或用于商业目的。但转载请注明来自<a href="http://www.cnblogs.com/kenshincui">崔江涛（KenshinCui）</a>，并包含相关链接。</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+        <div id="blog_post_info">
+        </div>
+        <div class="clear"></div>
+        </div>
+</div>
+
+</div>
+
+</div>
+  </div>
+</div>
+</div>
+</body>
+</html>

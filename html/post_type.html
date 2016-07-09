@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>$_POST、$GLOBALS['HTTP_RAW_POST_DATA']和file_get_contents('php://input')</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>$_POST、$GLOBALS['HTTP_RAW_POST_DATA']和file_get_contents('php://input')区别</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        
+            <h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">    public function __construct($token, $wxuser = ''){  
+            $this -> auth($token, $wxuser) || exit;  
+            if(IS_GET){  
+                echo($_GET['echostr']);  
+                exit;  
+            }else{  
+                $xml = file_get_contents("php://input");  
+                $xml = new SimpleXMLElement($xml);  
+                $xml || exit;  
+                foreach ($xml as $key => $value){  
+                    $this -> data[$key] = strval($value);  
+                }  
+            }  
+        }  </span></code></li></ol></pre>
+<p>上述代码是截取的一个片段，意思为把接收到的微信传过来的xml解析为数组。其中有一处file_get_contents('php://input')，后经查证，微信给开发者账号填写的url发送的是xml数据，但PHP默认只识别application/x-www.form-urlencoded标准的数据类型，对text/xml的内容无法解析为$_POST数组，因此会保留原型，可以交给file_get_contents(‘php://input’)接收，也可以用$GLOBALS['HTTP_RAW_POST_DATA']。</p>
+
+<p>如，传过来的xml为</p>
+
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">&ltxml&gt  
+	&ltToUserName&gt&lt![CDATA[ebyben1413005325]]&gt&lt/ToUserName&gt  
+	&ltFromUserName&gt&lt![CDATA[ga_6281708af4c6]]&gt&lt/FromUserName&gt  
+	&ltCreateTime&gt1413341614&lt/CreateTime&gt  
+	&ltMsgType&gt&lt![CDATA[text]]&gt&lt/MsgType&gt  
+	&ltContent&gt&lt![CDATA[首页]]&gt&lt/Content&gt  
+	&ltMsgId&gt1234567890123456&lt/MsgId&gt 
+&lt/xml&gt</span></code></li></ol></pre>
+
+<p>解析过后为 </p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">Array  
+(  
+	[ToUserName] => ebyben1413005325  
+	[FromUserName] => ga_6281708af4c6  
+	[CreateTime] => 1413341614  
+	[MsgType] => text  
+	[Content] => 首页  
+	[MsgId] => 1234567890123456  
+)  </span></code></li></ol></pre>
+
+<p>
+php://input 允许读取 POST 的原始数据。和$GLOBALS['HTTP_RAW_POST_DATA'] 比起来，它给内存带来的压力较小，并且不需要任何特殊的 php.ini 设置。同时两者皆不能用于接收enctype="multipart/form-data"形式的数据。</p>
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

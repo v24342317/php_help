@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>微信公众平台开发(83) 生成带参数二维码 - 方倍工作室 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="../css/wechat_qrcode/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="../css/wechat_qrcode/bundle-SimpleBlue.css">
+<link type="text/css" rel="stylesheet" href="../css/wechat_qrcode/99079.css">
+<link href="../css/wechat_qrcode/slide_share.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="home"><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/txw1958/p/weixin-qrcode-with-parameters.html">微信公众平台开发(83) 生成带参数二维码</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>本文介绍在微信公众平台上如何使用高级接口开发生成带参数二维码的功能。</p>
+<p>&nbsp;</p>
+<h1><strong>一、场景二维码</strong></h1>
+<p>为了满足用户渠道推广分析的需要，公众平台提供了生成带参数二维码的接口。使用该接口可以获得多个带不同场景值的二维码，用户扫描后，公众号可以接收到事件推送。</p>
+<p>目前有2种类型的二维码，分别是临时二维码和永久二维码，前者有过期时间，最大为1800秒，但能够生成较多数量，后者无过期时间，数量较少（目前参数只支持1--100000）。两种二维码分别适用于帐号绑定、用户来源统计等场景。</p>
+<p>用户扫描带场景值二维码时，可能推送以下两种事件：</p>
+<p>如果用户还未关注公众号，则用户可以关注公众号，关注后微信会将带场景值关注事件推送给开发者。</p>
+<p>如果用户已经关注公众号，在用户扫描后会自动进入会话，微信也会将带场景值扫描事件推送给开发者。</p>
+<p>获取带参数的二维码的过程包括两步，首先创建二维码ticket，然后凭借ticket到指定URL换取二维码。</p>
+<p>&nbsp;</p>
+<h1><strong>二、创建二维码</strong><strong>ticket</strong></h1>
+<p>每次创建二维码ticket需要提供一个开发者自行设定的参数（scene_id），分别介绍临时二维码和永久二维码的创建二维码ticket过程。</p>
+<p>临时二维码请求说明</p>
+<p>http请求URL</p>
+<p>https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN</p>
+<p>POST数据格式</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">2</span>     "expire_seconds": 1800<span style="color: #000000;">,
+</span><span style="color: #008080;">3</span>     "action_name": "QR_SCENE"<span style="color: #000000;">,
+</span><span style="color: #008080;">4</span>     "action_info"<span style="color: #000000;">: {
+</span><span style="color: #008080;">5</span>         "scene"<span style="color: #000000;">: {
+</span><span style="color: #008080;">6</span>             "scene_id": 100000
+<span style="color: #008080;">7</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;">8</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">9</span> }</pre>
+</div>
+<p>返回格式：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">{
+    </span>"ticket": "gQFK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3kweXE0T3JscWY3UTltc3ZPMklvAAIEG9jUUgMECAcAAA=="<span style="color: #000000;">,
+    </span>"expire_seconds": 1800<span style="color: #000000;">
+}</span></pre>
+</div>
+<p><span style="line-height: 1.5;">永久二维码请求说明</span></p>
+<p>http请求URL</p>
+<p>https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=TOKEN</p>
+<p>POST数据格式</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">{
+    </span>"action_name": "QR_LIMIT_SCENE"<span style="color: #000000;">,
+    </span>"action_info"<span style="color: #000000;">: {
+        </span>"scene"<span style="color: #000000;">: {
+            </span>"scene_id": 1000<span style="color: #000000;">
+        }
+    }
+}</span></pre>
+</div>
+<p><span style="line-height: 1.5;">返回格式</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">{
+    </span>"ticket": "gQHi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UweTNxNi1sdlA3RklyRnNKbUFvAAIELdnUUgMEAAAAAA=="<span style="color: #000000;">
+}</span></pre>
+</div>
+<p><span style="line-height: 1.5;">提交数据参数说明：</span></p>
+<p><span style="line-height: 1.5;"><img src="../img/wechat_qrcode/071719453311348.png" alt=""></span></p>
+<p>返回结果参数说明</p>
+<p><img src="../img/wechat_qrcode/071719526128355.png" alt=""></p>
+<p>程序实现</p>
+<p><img src="../img/wechat_qrcode/051837003702977.jpg" alt=""></p>
+<p>&nbsp;</p>
+<h1><strong>三、通过</strong><strong>ticket</strong><strong>换取二维码</strong></h1>
+<p>获取二维码ticket后，开发者可用ticket换取二维码图片。无须登录态即可调用。</p>
+<p>HTTPS GET请求说明（TICKET必需UrlEncode）</p>
+<p><a href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET">https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET</a></p>
+<p>ticket正确情况下，http 返回码是200，是一张图片，可以直接展示或者下载。</p>
+<p>HTTP头示例如下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 2</span>     "url": "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UweTNxNi1sdlA3RklyRnNKbUFvAAIELdnUUgMEAAAAAA%3D%3D",
+<span style="color: #008080;"> 3</span>     "content_type": "image/jpg",
+<span style="color: #008080;"> 4</span>     "http_code": 200,
+<span style="color: #008080;"> 5</span>     "header_size": 162,
+<span style="color: #008080;"> 6</span>     "request_size": 181,
+<span style="color: #008080;"> 7</span>     "filetime": -1,
+<span style="color: #008080;"> 8</span>     "ssl_verify_result": 20,
+<span style="color: #008080;"> 9</span>     "redirect_count": 0,
+<span style="color: #008080;">10</span>     "total_time": 0.509,
+<span style="color: #008080;">11</span>     "namelookup_time": 0,
+<span style="color: #008080;">12</span>     "connect_time": 0.058,
+<span style="color: #008080;">13</span>     "pretransfer_time": 0.343,
+<span style="color: #008080;">14</span>     "size_upload": 0,
+<span style="color: #008080;">15</span>     "size_download": 28497,
+<span style="color: #008080;">16</span>     "speed_download": 55986,
+<span style="color: #008080;">17</span>     "speed_upload": 0,
+<span style="color: #008080;">18</span>     "download_content_length": 28497,
+<span style="color: #008080;">19</span>     "upload_content_length": 0,
+<span style="color: #008080;">20</span>     "starttransfer_time": 0.481,
+<span style="color: #008080;">21</span>     "redirect_time": 0
+<span style="color: #008080;">22</span> }</pre>
+</div>
+<p><span style="line-height: 1.5;">下面是二种场景二维码的URL及生成的图片</span></p>
+<p><a href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3kweXE0T3JscWY3UTltc3ZPMklvAAIEG9jUUgMECAcAAA%3d%3d">https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFK8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3kweXE0T3JscWY3UTltc3ZPMklvAAIEG9jUUgMECAcAAA%3d%3d</a></p>
+<p><a href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UweTNxNi1sdlA3RklyRnNKbUFvAAIELdnUUgMEAAAAAA%3d%3d">https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UweTNxNi1sdlA3RklyRnNKbUFvAAIELdnUUgMEAAAAAA%3d%3d</a></p>
+<p><img src="../img/wechat_qrcode/071720052216404.png" alt=""></p>
+<p>&nbsp;</p>
+<h1><strong>四、下载二维码</strong></h1>
+<p>二维码生成以后，可以在浏览器中右键另存为本地图片，但如果有很多二维码的时候，用程序来下载就比较方便。</p>
+<p>我们使用CURL获取图片的所有信息，并将图片数据保存为一个文件。一个完整的下载代码如下：</p>
+<p><img src="../img/wechat_qrcode/051837260885368.jpg" alt=""></p>
+<p><span style="line-height: 1.5;">这样，在程序当前目录就会生成一个包含二维码的图片文件。</span></p>
+<p>&nbsp;</p>
+<h1><strong>五、扫描带参数二维码事件</strong></h1>
+<p>用户扫描带场景值二维码时，可能推送以下两种事件：</p>
+<p>如果用户还未关注公众号，则用户可以关注公众号，关注后微信会将带场景值关注事件推送给开发者。</p>
+<p>如果用户已经关注公众号，则微信会将带场景值扫描事件推送给开发者。</p>
+<p>1. 用户未关注时，进行关注后的事件推送</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">xml</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">ToUserName</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">gh_45072270791c</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">ToUserName</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">FromUserName</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">o7Lp5t6n59DeX3U0C7Kric9qEx-Q</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">FromUserName</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">CreateTime</span><span style="color: #0000ff;">&gt;</span>1389684286<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">CreateTime</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">MsgType</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">event</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">MsgType</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">Event</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">subscribe</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">Event</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">EventKey</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">qrscene_1000</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">EventKey</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">Ticket</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">gQHi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UweTNxNi1sdlA3RklyRnNKbUFvAAIELdnUUgMEAAAAAA==</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">Ticket</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">xml</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p><span style="line-height: 1.5;">参数说明</span></p>
+<p><span style="line-height: 1.5;"><img src="../img/wechat_qrcode/071720178933265.png" alt=""></span></p>
+<p>2. 用户已关注时的事件推送</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">xml</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">ToUserName</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">gh_45072270791c</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">ToUserName</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">FromUserName</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">o7Lp5t6n59DeX3U0C7Kric9qEx-Q</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">FromUserName</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">CreateTime</span><span style="color: #0000ff;">&gt;</span>1389684184<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">CreateTime</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">MsgType</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">event</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">MsgType</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">Event</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">SCAN</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">Event</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">EventKey</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">1000</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">EventKey</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">Ticket</span><span style="color: #0000ff;">&gt;</span><span style="color: #0000ff;">&lt;![CDATA[</span><span style="color: #808080;">gQHi8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UweTNxNi1sdlA3RklyRnNKbUFvAAIELdnUUgMEAAAAAA==</span><span style="color: #0000ff;">]]&gt;</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">Ticket</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">xml</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p><span style="line-height: 1.5;">参数说明</span></p>
+<p><span style="line-height: 1.5;"><img src="../img/wechat_qrcode/071034129564458.png" alt=""></span></p>
+<p>事件代码：</p>
+<p>以下代码判定了扫描带参数二维码的两种情形</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">private</span> <span style="color: #0000ff;">function</span> receiveEvent(<span style="color: #800080;">$object</span><span style="color: #000000;">)
+{
+    </span><span style="color: #800080;">$contentStr</span> = ""<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">switch</span> (<span style="color: #800080;">$object</span>-&gt;<span style="color: #000000;">Event)
+    {
+        </span><span style="color: #0000ff;">case</span> "subscribe":
+            <span style="color: #800080;">$contentStr</span> = "欢迎关注方倍工作室 "<span style="color: #000000;">;
+            </span><span style="color: #0000ff;">if</span> (<span style="color: #0000ff;">isset</span>(<span style="color: #800080;">$object</span>-&gt;<span style="color: #000000;">EventKey)){
+                </span><span style="color: #800080;">$contentStr</span> = "关注二维码场景 ".<span style="color: #800080;">$object</span>-&gt;<span style="color: #000000;">EventKey;
+            }
+            </span><span style="color: #0000ff;">break</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">case</span> "SCAN":
+            <span style="color: #800080;">$contentStr</span> = "扫描 ".<span style="color: #800080;">$object</span>-&gt;<span style="color: #000000;">EventKey;
+             </span><span style="color: #008000;">//</span><span style="color: #008000;">要实现统计分析，则需要扫描事件写入数据库，这里可以记录 EventKey及用户OpenID，扫描时间</span>
+            <span style="color: #0000ff;">break</span><span style="color: #000000;">;
+        </span><span style="color: #0000ff;">default</span>:
+            <span style="color: #0000ff;">break</span><span style="color: #000000;">;      
+ 
+    }
+    </span><span style="color: #800080;">$resultStr</span> = <span style="color: #800080;">$this</span>-&gt;transmitText(<span style="color: #800080;">$object</span>, <span style="color: #800080;">$contentStr</span><span style="color: #000000;">);
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">$resultStr</span><span style="color: #000000;">;
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<h1><strong>六、渠道统计分析</strong></h1>
+<p>后台将获得所有二维码关注情况，数据如下所示：</p>
+<p><img src="../img/wechat_qrcode/021837075481280.jpg" alt=""></p>
+<p>对其进行简单统计分析后，效果如图</p>
+<p><img src="../img/wechat_qrcode/021837513615799.png" alt=""></p>
+<p>&nbsp;</p>
+<h1><strong>七、内容更新及源码下载</strong></h1>
+<p>本节最新的教程说明及源代码已在《微信公众平台开发最佳实践》一书中发布，欢迎购买。</p>
+<p>点此<span style="color: #0000ff;"><a href="http://redirect.simba.taobao.com/rd?w=unionnojs&amp;f=http%3A%2F%2Fai.taobao.com%2Fauction%2Fedetail.htm%3Fe%3DfC7%252Fi5ksM%252BQjmraEDZVrLscw9Aks5Dc7%252BsMsoDJoEyOLltG5xFicOdXrTUTgh9sMDPIwxrc30rjMMEkER9S2vpbVMrCM0u%252BAECoJT1o2C2RPrS%252BeJ9ft9W3abJM7sDg2LfjN5cvNJgFZVtFBwmuytw%253D%253D%26ptype%3D100010%26from%3Dbasic&amp;k=5ccfdb950740ca16&amp;c=un&amp;b=alimm_0&amp;p=mm_29363734_8476722_29266976" target="_blank"><span style="color: #0000ff;"><strong>购买《微信公众平台开发最佳实践》</strong></span></a></span></p>
+</div>
+	
+
+
+
+		</div>
+	
+	</div>
+
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2015 方倍工作室
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+</body></html>

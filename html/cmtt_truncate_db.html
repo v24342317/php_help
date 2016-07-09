@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>判断请求类型</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>馋猫特特对测试数据进行数据库清除操作</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        
+            <h2>清空会员有关数据</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `fc_users` ;
+TRUNCATE TABLE `fc_user_account` ;
+TRUNCATE TABLE `fc_user_bonus` ;
+TRUNCATE TABLE `fc_user_address` ;
+TRUNCATE TABLE `fc_return` ;
+TRUNCATE TABLE `fc_return_note` ;
+TRUNCATE TABLE `fc_pay_log` ;
+TRUNCATE TABLE `fc_order_info` ;
+TRUNCATE TABLE `fc_order_info2` ;
+TRUNCATE TABLE `fc_order_goods` ;
+TRUNCATE TABLE `fc_order_action` ;
+TRUNCATE TABLE `fc_feedback` ;
+TRUNCATE TABLE `fc_delivery_goods`;
+TRUNCATE TABLE `fc_delivery_order` ;
+TRUNCATE TABLE `fc_comment` ;
+TRUNCATE TABLE `fc_collect_goods` ;
+TRUNCATE TABLE `fc_back_goods` ;
+TRUNCATE TABLE `fc_back_order` ;
+TRUNCATE TABLE `fc_admin_log` ;
+TRUNCATE TABLE `fc_account_log` ;
+TRUNCATE TABLE `fc_cart` ;
+TRUNCATE TABLE `fc_reg_extend_info` ;
+TRUNCATE TABLE `fc_user_pin` ;</span></code></li></ol></pre>
+
+<h2>清空商品有关数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `fc_goods` ;
+TRUNCATE TABLE `fc_goods_activity` ;
+TRUNCATE TABLE `fc_goods_activity` ;
+TRUNCATE TABLE `fc_goods_article` ;
+TRUNCATE TABLE `fc_goods_attr` ;
+TRUNCATE TABLE `fc_goods_cat` ;
+TRUNCATE TABLE `fc_goods_gallery` ;
+TRUNCATE TABLE `fc_goods_type` ;
+TRUNCATE TABLE `fc_group_goods` ;
+TRUNCATE TABLE `fc_keywords` ;
+TRUNCATE TABLE `fc_products` ;
+TRUNCATE TABLE `fc_brand` ;
+TRUNCATE TABLE `fc_card` ;
+TRUNCATE TABLE `fc_exchange_goods` ;
+TRUNCATE TABLE `fc_link_goods` ;
+TRUNCATE TABLE `fc_package_goods` ;
+TRUNCATE TABLE `fc_tag` ;</span></code></li></ol></pre>
+
+<h2>清空分类有关数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `fc_category` ;
+TRUNCATE TABLE `fc_cat_recommend` ;</span></code></li></ol></pre>
+
+<h2>清空商品类型有关数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `fc_attribute` ;</span></code></li></ol></pre>
+
+<h2>清空SESSION</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `fc_sessions` ;
+TRUNCATE TABLE `fc_sessions_data` ;
+TRUNCATE TABLE `fc_app_sessions` ;
+TRUNCATE TABLE `fc_app_sessions_data` ;</span></code></li></ol></pre>
+
+<h2>清空erp相关数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `erp_basic`;
+DELETE FROM  `erp_boss` WHERE boss&lt;&gt;&quot;admin&quot;;
+ALTER TABLE `erp_boss` AUTO_INCREMENT =11;
+TRUNCATE TABLE `erp_categories`;
+TRUNCATE TABLE `erp_consignort`;
+TRUNCATE TABLE `erp_dw`;
+TRUNCATE TABLE `erp_gg`;
+TRUNCATE TABLE `erp_group`;
+TRUNCATE TABLE `erp_gys`;
+TRUNCATE TABLE `erp_item`;
+TRUNCATE TABLE `erp_lab`;
+TRUNCATE TABLE `erp_mainkc`;
+TRUNCATE TABLE `erp_order`;
+TRUNCATE TABLE `erp_pro_pp`;
+TRUNCATE TABLE `erp_recordline`;
+DELETE FROM `erp_shoplist` WHERE shop_name &lt;&gt;  "总公司" AND shop_name &lt;&gt;  "财务部";
+ALTER TABLE `erp_shoplist` AUTO_INCREMENT =17;
+DELETE FROM `erp_staff` WHERE s_name &lt;&gt;  "admin";
+ALTER TABLE `erp_staff` AUTO_INCREMENT =2;
+DELETE FROM `erp_usertype` WHERE typename&lt;&gt;'超级管理员' AND typename&lt;&gt;'部门管理员' AND typename&lt;&gt;'财务管理员';
+ALTER TABLE `erp_usertype` AUTO_INCREMENT =4;</span></code></li></ol></pre>
+<h2>微信商城用户测试绑定</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">UPDATE wxch_user SET uid = 0,uname='';
+TRUNCATE TABLE `wxch_message`;</span></code></li></ol></pre>
+<h2>其他</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `fc_affiliateaddlog`;
+TRUNCATE TABLE `fc_affiliatepageclicklog`;
+TRUNCATE TABLE `fc_affiliate_group`;
+TRUNCATE TABLE `fc_affiliate_log`;
+TRUNCATE TABLE `fc_affiliate_pageclick_reward`;
+TRUNCATE TABLE `fc_affiliate_user_layer`;
+
+TRUNCATE TABLE `fc_android_push`;
+TRUNCATE TABLE `fc_stats`;</span></code></li></ol></pre>
+
+<h2>清除订单数据</h2>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">TRUNCATE TABLE `erp_order`;
+TRUNCATE TABLE `erp_item`;
+TRUNCATE TABLE `fc_back_order`;
+TRUNCATE TABLE `fc_back_goods`;
+TRUNCATE TABLE `fc_delivery_order`;
+TRUNCATE TABLE `fc_delivery_goods`;
+TRUNCATE TABLE `fc_order_action`;
+TRUNCATE TABLE `fc_order_goods`;
+TRUNCATE TABLE `fc_order_info`;
+TRUNCATE TABLE `fc_order_info2`;
+TRUNCATE TABLE `fc_order_return_goods`;
+TRUNCATE TABLE `fc_pay_log`;</span></code></li></ol></pre>
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

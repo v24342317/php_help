@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0048)http://www.cnblogs.com/amumustyle/p/5435653.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>JavaScript原型与原型链学习笔记 - 阿木木style - 博客园</title>
+<link type="text/css" rel="stylesheet" href="js_prototype/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="js_prototype/bundle-coffee.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/amumustyle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/amumustyle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/amumustyle/wlwmanifest.xml">
+
+</head>
+<body>
+
+<!--done-->
+<div id="home">
+
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow"><!--end: navigator 博客导航栏 -->
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="js_prototype/JavaScript原型与原型链学习笔记 - 阿木木style - 博客园.htm">JavaScript原型与原型链学习笔记</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p style="margin-left: 30px;"><strong>一.什么是原型？</strong><br>原型是一个对象，其他对象可以通过它实现属性继承。<br>简单的说就是任何一个对象都可以成为原型</p>
+<p style="margin-left: 30px;"><br><strong>prototype属性：</strong> 我们创建的每个函数都有一个prototype属性，这个属性是一个指针，指向一个对象，而这个对象包含可以有特定类型的所有实例共享的属性和方法。这个对象就是原型对象（也就是某个对象的原型所引用的对象）。<br><span style="color: #ff0000; background-color: #ffffff;"><strong>1.总之只要创建了函数，该函数都有一个prototype属性，指向函数的原型对象。</strong></span></p>
+<p style="margin-left: 30px;"><span style="color: #ff0000; background-color: #ffffff;"><strong><img src="js_prototype/883805-20160426162146486-2087956119.png" alt=""></strong></span></p>
+<p style="margin-left: 30px;">如上图，Person是一个函数，右侧的方框就是它的原型。</p>
+<p>&nbsp;</p>
+<p style="margin-left: 30px;"><strong><span style="color: #ff0000;">2.默认情况下所有原型对象都会自动获得一个<span style="font-family: Verdana;">constructor</span><span style="font-family: 宋体;">（构造函数）属性，这个属性包含一个指向</span><span style="font-family: Verdana;">prototype</span><span style="font-family: 宋体;">属性所在函数的指针。</span></span></strong></p>
+<p style="margin-left: 30px;">简单来说prototype<span style="font-family: 宋体;">的属性值是一个对象（属性的集合</span>，我们可以给他设置各种值），默认的只有一个叫做<span style="font-family: Verdana;">constructor</span><span style="font-family: 宋体;">的属性，指向这个函数本身。</span></p>
+<p style="margin-left: 30px;">下面就是一个原型对象的例子：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_prototype/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">function Person() {   
+</span><span style="color: #008080;"> 2</span>             
+<span style="color: #008080;"> 3</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">        Person.prototype.name="花花";
+</span><span style="color: #008080;"> 5</span> <span style="color: #000000;">        Person.prototype.sex="女";
+</span><span style="color: #008080;"> 6</span> <span style="color: #000000;">        Person.prototype.showName=function(){
+</span><span style="color: #008080;"> 7</span> <span style="color: #000000;">                console.log('我的名字叫:'+this.name+'我是:'+this.sex+'的');
+</span><span style="color: #008080;"> 8</span> <span style="color: #000000;">            }
+</span><span style="color: #008080;"> 9</span>      
+<span style="color: #008080;">10</span> <span style="color: #000000;">        var p1=new Person(); 
+</span><span style="color: #008080;">11</span>          
+<span style="color: #008080;">12</span>         p1.showName();</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_prototype/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp; &nbsp; &nbsp;&nbsp;<img src="js_prototype/883805-20160426162445298-37095769.png" alt=""></p>
+<p>&nbsp; &nbsp; &nbsp;&nbsp;</p>
+<p style="margin-left: 30px;">所以在这个例子里：原型对象Person.prototype的constructor属性指向Person。</p>
+<p style="margin-left: 30px;"><strong><span style="color: #ff0000;">3.原型对象的内部还包括一个指针__proto__指向构造函数的原型对象。每个对象都有一个__proto__属性。</span></strong><br><strong><span style="color: #ff0000;">注意：Object.prototype是一个特例——它的__proto__指向的是null</span></strong></p>
+<p style="margin-left: 30px;">这个__proto__是一个隐藏的属性，在FF，Safari和Ghrome支持。</p>
+<p style="margin-left: 30px;"><br>如上面的例子，Person是一个函数，p1对象是从Person函数new出来的，这样p1对象就可以调用Person.prototype中的属性。因为每个对象都有一个隐藏的属性——“__proto__”，这个属性引用了创建这个对象的函数的prototype。即：p1.__proto__ === Person.prototype<br>下面在上面的例子中添加下面代码来验证一下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> console.log(p1.__proto__ === Person.prototype);//ture</pre>
+</div>
+<p style="margin-left: 30px;"><img src="js_prototype/883805-20160426162638048-1408843210.png" alt=""></p>
+<p style="margin-left: 30px;">结果为true证明他们是相等的</p>
+<p style="margin-left: 30px;">简单分析一下：构造函数Person有一个prototype的属性对象（即：Person.prototype），其中prototype属性对象中会包括__proto__,constructor(构造函数)指向构造函数，还有一些添加的属性。创建构造函数的实例对象p1，p1会有__proto__属性,指向其原型Person.prototype。</p>
+<p style="margin-left: 30px;">看看下面的图捋一捋</p>
+<p style="margin-left: 30px;"><img src="js_prototype/883805-20160426162834486-113788684.png" alt=""></p>
+<p class="p" style="margin-left: 30px;">那么问题来了，之前我们说每个对象都有一个<span style="font-family: Verdana;">__proto__</span>属性，函数也是一种对象，那么函数自然也有<span style="font-family: Verdana;">__proto__</span>了，函数也是被创建出来的。谁创建了函数呢？那就是——Function——<span style="font-family: 宋体;">注意这个大写的</span><span style="font-family: Verdana;">“F”</span><span style="font-family: 宋体;">。</span></p>
+<p class="p" style="margin-left: 30px;">演示代码如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_prototype/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">function fn1(a,b) {   
+</span><span style="color: #008080;">2</span> <span style="color: #000000;">            return a+b;
+</span><span style="color: #008080;">3</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">4</span> <span style="color: #000000;">    console.log(fn1(2,6));
+</span><span style="color: #008080;">5</span> 
+<span style="color: #008080;">6</span> <span style="color: #000000;">    var fn2=new Function("a","b","return a+b")
+</span><span style="color: #008080;">7</span>     console.log(fn2(6,6));</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_prototype/copycode.gif" alt="复制代码"></a></span></div></div>
+<p class="p" style="margin-left: 30px;">以上代码中，第一种方式是比较传统的函数创建方式，第二种是用<span style="font-family: Verdana;">new Functoin</span><span style="font-family: 宋体;">创建。</span>注意：不推荐用第二种方式</p>
+<p class="p">&nbsp;</p>
+<p style="margin-left: 30px;">综上所述：第一个例子中的构造函数Person也是一个对象，所以它也存在__proto__属性，指向它的原型Function.prototype。</p>
+<p style="margin-left: 30px;"><img src="js_prototype/883805-20160426163105939-1264186665.png" alt=""></p>
+<p class="p" style="margin-left: 30px;">（根据这个图用下面的方法可自行验证）</p>
+<p style="margin-left: 30px;">Function.prototype<span style="font-family: 宋体;">指向的对象也是一个普通的被</span><span style="font-family: Verdana;">Object</span><span style="font-family: 宋体;">创建的对象</span>，所以Function.prototype<span style="font-family: 宋体;">指向的对象，它的</span><span style="font-family: Verdana;">__proto__</span><span style="font-family: 宋体;">也指向</span><span style="font-family: Verdana;">Object.prototype</span></p>
+<p style="margin-left: 30px;">&nbsp;</p>
+<p>&nbsp; &nbsp; &nbsp; 验证一下：&nbsp; &nbsp;&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> console.log(Function.prototype.__proto__);//结果是Object {}</pre>
+</div>
+<p>&nbsp; &nbsp; &nbsp;&nbsp;判断原型的方法有下面三种：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">1</span> <span style="color: #000000;">        console.log(Object.getPrototypeOf(Person));
+</span><span style="color: #008080;">2</span> <span style="color: #000000;">        console.log(Object.__proto__);//函数原型对象
+</span><span style="color: #008080;">3</span>         console.log(Person.constructor.prototype);</pre>
+</div>
+<p style="margin-left: 30px;">Object.getPrototypeOf()方法是ECMAScript5新加的，主流浏览才可以用。</p>
+<p style="margin-left: 30px;"><span style="color: #ff0000;"><strong>总结一下：每个函数都有一个prototype，即原型（指向函数的原型对象）。每个对象都有一个__proto__属性（指向构造函数的原型对象），可成为隐式原型。<br>那么原型就是构造函数的实例对象的__proto__属性指向的构造函数的原型对象。</strong></span></p>
+<p style="margin-left: 30px;">&nbsp;</p>
+<p class="p" style="margin-left: 30px;"><strong>二．原型链</strong></p>
+<p class="p" style="margin-left: 30px;"><strong><span style="color: #ff0000;">原型链：访问一个对象的属性时，先在基本属性中查找，如果没有，再沿着<span style="font-family: Verdana;">__proto__</span><span style="font-family: 宋体;">这条链向上找，这就是原型链</span></span></strong></p>
+<p style="margin-left: 30px;">下面是一个原型链的例子：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_prototype/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #000000;">function Person(name,sex) {   
+</span><span style="color: #008080;"> 2</span> <span style="color: #000000;">            this.name=name;
+</span><span style="color: #008080;"> 3</span> <span style="color: #000000;">            this.sex=sex;
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;"> 5</span>         
+<span style="color: #008080;"> 6</span> <span style="color: #000000;">        Person.prototype.show=function(){
+</span><span style="color: #008080;"> 7</span> <span style="color: #000000;">                console.log('我的名字叫:'+this.name+'我是:'+this.sex+'的');
+</span><span style="color: #008080;"> 8</span> <span style="color: #000000;">            }
+</span><span style="color: #008080;"> 9</span> <span style="color: #000000;">        Person.prototype.showName=function(){
+</span><span style="color: #008080;">10</span> <span style="color: #000000;">                console.log('名字:'+this.name);
+</span><span style="color: #008080;">11</span> <span style="color: #000000;">            }
+</span><span style="color: #008080;">12</span>               
+<span style="color: #008080;">13</span> <span style="color: #000000;">        function Worker(name,sex,job){
+</span><span style="color: #008080;">14</span> <span style="color: #000000;">            Person.call(this,name,sex);//继承Person属性
+</span><span style="color: #008080;">15</span> <span style="color: #000000;">            this.job=job;
+</span><span style="color: #008080;">16</span> <span style="color: #000000;">        }<br>
+</span><span style="color: #008080;">17</span> <span style="color: #000000;">        Worker.prototype=Person.prototype;//这是原型链（通往父级的一条链上传递）
+</span><span style="color: #008080;">18</span> <span style="color: #000000;">        Worker.prototype.showJob=function(){//子级添加新方法
+</span><span style="color: #008080;">19</span> <span style="color: #000000;">            console.log(this.job);
+</span><span style="color: #008080;">20</span> <span style="color: #000000;">        }<br>
+</span><span style="color: #008080;">21</span> <span style="color: #000000;">        Worker.prototype.show=function(){
+</span><span style="color: #008080;">22</span> <span style="color: #000000;">                console.log('名字:'+this.name+'性别:'+this.sex+'工作：'+this.job);
+</span><span style="color: #008080;">23</span> <span style="color: #000000;">            }<br>
+</span><span style="color: #008080;">24</span> <span style="color: #000000;">        var p2=new Worker('mumu','女','student'); 
+</span><span style="color: #008080;">25</span> <span style="color: #000000;">        p2.showName();
+</span><span style="color: #008080;">26</span>         p2.show();</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_prototype/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><img src="js_prototype/883805-20160426163633486-397184440.png" alt=""></p>
+<p class="p" style="margin-left: 30px;">分析下例子：创建Person函数，并在Person的原型对象上创建show和showName函数</p>
+<p class="p" style="margin-left: 30px;">创建Worker函数，Worker原型对象继承Person的原型对象&nbsp;Worker.prototype = Person.prototype;并在Worker原型对象上覆盖Person的原型对象上的show</p>
+<p class="p" style="margin-left: 30px;">函数。</p>
+<p class="p" style="margin-left: 30px;">那么，创建Worker的实例对象p2，在调用函数showName()时会在实例本身进行查找，若没有找到，再沿着<span style="font-family: Verdana;">__proto__</span><span style="font-family: 宋体;">这条链</span>查找上一级原型对象，一层一层向上找（原型链顶端Object.prototype），直到找到为止。</p>
+<p style="margin-left: 30px;">如果当找到__proto__属性为null时，返回 <span style="font-family: Verdana;">undefined</span>，证明不存在此方法或属性。这样一层一层查找实例上的原型上的属性就构成一条原型链。</p>
+<p style="margin-left: 30px;"><img src="js_prototype/883805-20160426163740330-1000062357.png" alt=""></p>
+<p style="margin-left: 30px;">&nbsp;</p>
+<p style="margin-left: 30px;">好了就到这里了，有不对的地方请指正~~~~</p>
+<p style="margin-left: 30px;">&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/amumustyle/p/5422214.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/amumustyle/p/5422214.html" title="发布于2016-04-22 17:40">javascript面向对象编程笔记</a><br></div>
+</div>
+
+
+		</div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=264090,cb_entryId=5435653,cb_blogApp=currentBlogApp,cb_blogUserGuid='053ce937-7abe-e511-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/4/26 16:39:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<br>
+<div class="feedback_area_title">评论</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/amumustyle/p/5435653.html#3417772" class="layer">#1楼</a><a name="3417772" id="comment_anchor_3417772"></a> <span class="comment_date">2016-04-26 16:50</span> | <a id="a_comment_author_3417772" href="http://www.cnblogs.com/lixiaolong899/" target="_blank">天空-李小龙</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E7%A9%BA-%E6%9D%8E%E5%B0%8F%E9%BE%99" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3417772" class="blog_comment_body">mark</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3417772,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3417772,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/amumustyle/p/5435653.html#3417891" class="layer">#2楼</a><a name="3417891" id="comment_anchor_3417891"></a> <span class="comment_date">2016-04-26 19:11</span> | <a id="a_comment_author_3417891" href="http://www.cnblogs.com/oxspirt/" target="_blank">牛顿的小脑</a> <a href="http://msg.cnblogs.com/send/%E7%89%9B%E9%A1%BF%E7%9A%84%E5%B0%8F%E8%84%91" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3417891" class="blog_comment_body">总结的不错，很清晰。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3417891,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3417891,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/amumustyle/p/5435653.html#3419790" class="layer">#3楼</a><a name="3419790" id="comment_anchor_3419790"></a><span id="comment-maxId" style="display:none;">3419790</span><span id="comment-maxDate" style="display:none;">2016/4/28 22:55:15</span> <span class="comment_date">2016-04-28 22:55</span> | <a id="a_comment_author_3419790" href="http://home.cnblogs.com/u/897369/" target="_blank">白人没你黑</a> <a href="http://msg.cnblogs.com/send/%E7%99%BD%E4%BA%BA%E6%B2%A1%E4%BD%A0%E9%BB%91" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3419790" class="blog_comment_body">感谢，容易理解。期待更好的文章！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3419790,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3419790,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+  <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="opt_under_post"></div>
+<div id="ad_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/543110/" target="_blank">架构漫谈（九）：理清技术、业务和架构的关系</a><br> ·  <a href="http://kb.cnblogs.com/page/542725/" target="_blank">架构漫谈（八）：从架构的角度看如何写好代码</a><br> ·  <a href="http://kb.cnblogs.com/page/542257/" target="_blank">架构漫谈（七）：不要空设架构师这个职位，给他实权</a><br> ·  <a href="http://kb.cnblogs.com/page/541740/" target="_blank">架构漫谈（六）：软件架构到底是要解决什么问题？</a><br> ·  <a href="http://kb.cnblogs.com/page/541188/" target="_blank">架构漫谈（五）：什么是软件</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+
+
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

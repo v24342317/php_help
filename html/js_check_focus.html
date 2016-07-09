@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>js如何判断一个元素是否获得焦点</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>js如何判断一个元素是否获得焦点</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+<p>js如何判断一个元素是否获得焦点:
+可能在实际应用中需求不多，也或许使用以下方式判断过于直白，不过原理总是那么回事，下面就是一个简单的判断元素是否获得焦点的例子</p>        
+          <h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">$("#theid").click(function(){
+  var act = document.activeElement.id;
+  if(act=="theid" ){
+    alert("获取焦点了");
+  }
+  else{
+    alert("没有获取焦点");
+  }
+});</span></code></li></ol></pre>
+以上代码实现了我们的要求，可以判断指定元素是否获得焦点。<br>
+关于activeElement可以参阅<a href="http://www.softwhy.com/forum.php?mod=viewthread&tid=11551" target="_blank">js的activeElement简单介绍</a>一章节。 </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

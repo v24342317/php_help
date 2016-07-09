@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>判断是否手机浏览</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>判断是否手机浏览</h1>
+            <div class="description"></div>
+        </header>
+
+        <section class="content">
+
+        
+            <h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 判断是否手机浏览
+*
+* @return BOOL
+*/
+function checkmobile() {
+	global $_G;
+	$mobile = array();
+	static $touchbrowser_list =array('iphone', 'android', 'phone', 'mobile', 'wap', 'netfront', 'java', 'opera mobi', 'opera mini',
+				'ucweb', 'windows ce', 'symbian', 'series', 'webos', 'sony', 'blackberry', 'dopod', 'nokia', 'samsung',
+				'palmsource', 'xda', 'pieplus', 'meizu', 'midp', 'cldc', 'motorola', 'foma', 'docomo', 'up.browser',
+				'up.link', 'blazer', 'helio', 'hosin', 'huawei', 'novarra', 'coolpad', 'webos', 'techfaith', 'palmsource',
+				'alcatel', 'amoi', 'ktouch', 'nexian', 'ericsson', 'philips', 'sagem', 'wellcom', 'bunjalloo', 'maui', 'smartphone',
+				'iemobile', 'spice', 'bird', 'zte-', 'longcos', 'pantech', 'gionee', 'portalmmm', 'jig browser', 'hiptop',
+				'benq', 'haier', '^lct', '320x320', '240x320', '176x220', 'windows phone');
+	static $wmlbrowser_list = array('cect', 'compal', 'ctl', 'lg', 'nec', 'tcl', 'alcatel', 'ericsson', 'bird', 'daxian', 'dbtel', 'eastcom',
+			'pantech', 'dopod', 'philips', 'haier', 'konka', 'kejian', 'lenovo', 'benq', 'mot', 'soutec', 'nokia', 'sagem', 'sgh',
+			'sed', 'capitel', 'panasonic', 'sonyericsson', 'sharp', 'amoi', 'panda', 'zte');
+
+	static $pad_list = array('ipad');
+
+	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+	if(dstrpos($useragent, $pad_list)) {
+		return false;
+	}
+	if(($v = dstrpos($useragent, $touchbrowser_list, true))){
+		return '2';
+	}
+	if(($v = dstrpos($useragent, $wmlbrowser_list))) {
+		return '3'; //wml版
+	}
+	$brower = array('mozilla', 'chrome', 'safari', 'opera', 'm3gate', 'winwap', 'openwave', 'myop');
+	if(dstrpos($useragent, $brower)) return false;
+
+	return false;
+	
+}
+/**
+* 判断字符串里是否包含数组元素
+*
+* @access public
+* @param string $string //参数顺序要和函数或方法括号里的一致
+* @param array $arr
+* @param bool $returnvalue
+* @return bool
+*/
+function dstrpos($string, $arr, $returnvalue = false) {
+	if(empty($string)) return false;
+	foreach((array)$arr as $v) {
+		if(strpos($string, $v) !== false) {
+			$return = $returnvalue ? $v : true;
+			return $return;
+		}
+	}
+	return false;
+} </span></code></li></ol></pre>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

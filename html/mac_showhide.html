@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>Mac中直接打开隐藏的文件或文件夹</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>Mac中直接打开隐藏的文件或文件夹</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+          <p>发现mac上面对隐藏文件夹的操作不像在windows里面那么容易，找了下解决方案，几个方案如下：</p>
+          <p>Mac OS X中有很多系统隐藏的信息文件, 一般在Finder中都是看不到,也修改不了的.</p>
+          <p>但通过在"终端"中输入命令, 就可以在Finder中显示出来:</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">defaults write com.apple.finder AppleShowAllFiles TRUE
+killall Finder</span></code></li></ol></pre>
+
+<p>      其实就是修改系统的一个设置, 再重启Finder</p>
+<p>      同样的道理可以让Finder不显示隐藏文件:</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">defaults write com.apple.finder AppleShowAllFiles FALSE
+killall Finder</span></code></li></ol></pre>
+<p>自己在网上搜了很多，结果发现在Mac下有很多方法可以隐藏。不过我最终选择了一个最最简单的方法。</p>
+ 
+<p>1.打开终端（不要说你不知道终端在哪噢，打开“应用程序”-->“实用工具”，下面有终端）</p>
+<p>2.输入： chflags hidden 文件路径</p>
+<p>同理，要取消隐藏，就输入 chflags nohidden 文件路径</p>
+ 
+<p>PS:通常在文件夹后面加个*号，就会隐藏该文件夹下所有的文件，但是文件夹本身不会隐藏。</p>
+ 
+<p>例如：如果输入  chflags hidden Movies/1/*  ，那么就会把1文件夹下的所有内容隐藏，但是1文件夹本身不会隐藏</p>
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

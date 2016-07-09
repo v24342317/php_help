@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>【坐在马桶上看算法】算法1：最快最简单的排序——桶排序 - 啊哈磊 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/bundle-ThinkInside.css">
+<link type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/161710.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/ahalei/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/ahalei/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/ahalei/wlwmanifest.xml">
+
+
+</head>
+<body>
+
+<!--done-->
+<div id="home">
+<!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a href="http://www.cnblogs.com/ahalei/p/3577792.html" class="postTitle2" id="cb_post_title_url">【坐在马桶上看算法】小哼买书</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><div align="left"><span style="font-size: 16px;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;之前讲了三种常用的经典排序。排序算法还有很多，例如选择排序、计数排序、基数排序、插入排序、归并排序和堆排序等等。堆排序是基于二叉树的排序，以后再说吧。先分享一个超酷的排序算法的视频。</span></div>
+
+<div align="left"><span style="font-size: 16px;">&nbsp;</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;再来看一个具体的例子《小哼买书》来看看三个排序在应用上的区别和局限性。 小哼的学校要建立一个图书角，老师派小哼去找一些同学做调查，看看同学们都喜欢读哪些书。小哼让每个同学写出一个自己最想读的书的ISBN号（你知道吗？每本书都有唯一的ISBN号，不信话你去找本书翻到背面看看）。当然有一些好书会有很多同学都喜欢，这样就会收集到很多重复的ISBN号。小哼需要去掉其中重复的ISBN号，即每个ISBN号只保留一个，也就说同样的书只买一本（学校真是够抠门的）。然后再把这些ISBN号从小到大排序，小哼将按照排序好的ISBN号去书店去买书。请你协助小哼完成“去重”与“排序”的工作。<br></span></div>
+<div align="left">
+<div align="center"><span style="font-size: 16px;"><img width="500" alt="" src="aha_arithmetic_barrel/094917ihggcxx3h3mxe1on.png" class="zoom" id="aimg_1863">&nbsp;</span></div>
+
+
+</div>
+<p><span style="font-size: 16px;">&nbsp;</span></p>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;输入有2行，第1行为一个正整数，表示有n个同学参与调查（n&lt;=100）。第2行有n个用空格隔开的正整数，为每本图书的ISBN号（假设图书的ISBN号在1~1000之间）。</span></div>
+<p><span style="font-size: 16px;">&nbsp;</span></p>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;输出也是2行，第1行为一个正整数k，表示需要买多少本书。第2行为k个用空格隔开的正整数，为从小到大已排好序的需要购买的图书ISBN号。</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;例如输入</span></div>
+<div align="left">
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">10</span>
+<span style="color: #800080;">20</span> <span style="color: #800080;">40</span> <span style="color: #800080;">32</span> <span style="color: #800080;">67</span> <span style="color: #800080;">40</span> <span style="color: #800080;">20</span> <span style="color: #800080;">89</span> <span style="color: #800080;">300</span> <span style="color: #800080;">400</span> <span style="color: #800080;">15</span></pre>
+</div>
+</div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;则输出</span></div>
+<div align="left">
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">8</span>
+<span style="color: #800080;">15</span> <span style="color: #800080;">20</span> <span style="color: #800080;">32</span> <span style="color: #800080;">40</span> <span style="color: #800080;">67</span> <span style="color: #800080;">89</span> <span style="color: #800080;">300</span> <span style="color: #800080;">400</span></pre>
+</div>
+</div>
+<div align="left">&nbsp;</div>
+<div align="left">&nbsp;</div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;最后，程序运行的时间限制为：1秒。</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;解决这个问题的方法大致有两种，第一种方法：先将这n个图书的ISBN号去重，再进行从小到大排序并输出。第二种方法：先从小到大排序，输出的时候再去重。这两种方法都可以。</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;先来看第一种方法。通过第一节的学习我们发现桶排序稍加改动正好可以起到去重的效果，因此我们可以使用桶排序的方法来解决此问题。</span></div>
+<div align="left">
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div>
+<pre>#include &lt;stdio.h&gt;
+<span style="color: #0000ff;">int</span><span style="color: #000000;"> main()
+{
+    </span><span style="color: #0000ff;">int</span> a[<span style="color: #800080;">1001</span><span style="color: #000000;">],n,i,t;
+    </span><span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=<span style="color: #800080;">1000</span>;i++<span style="color: #000000;">)
+         a[i]</span>=<span style="color: #800080;">0</span>; <span style="color: #008000;">//</span><span style="color: #008000;">初始化</span>
+<span style="color: #000000;">   
+    scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;n); <span style="color: #008000;">//</span><span style="color: #008000;">读入n</span>
+    <span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=n;i++) <span style="color: #008000;">//</span><span style="color: #008000;">循环读入n个图书的ISBN号</span>
+<span style="color: #000000;">    {
+        scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;t); <span style="color: #008000;">//</span><span style="color: #008000;">把每一个ISBN号读到变量t中</span>
+        a[t]=<span style="color: #800080;">1</span>; <span style="color: #008000;">//</span><span style="color: #008000;">标记出现过的ISBN号</span>
+<span style="color: #000000;">    }
+   
+    </span><span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=<span style="color: #800080;">1000</span>;i++) <span style="color: #008000;">//</span><span style="color: #008000;">依次判断1~1000这个1000个桶</span>
+<span style="color: #000000;">    {
+         </span><span style="color: #0000ff;">if</span>(a[i]==<span style="color: #800080;">1</span>)<span style="color: #008000;">//</span><span style="color: #008000;">如果这个ISBN号出现过则打印出来</span>
+             printf(<span style="color: #800000;">"</span><span style="color: #800000;">%d </span><span style="color: #800000;">"</span><span style="color: #000000;">,i);
+    }
+    getchar();getchar();
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div></div>
+</div>
+<div align="left">&nbsp;</div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;这种方法的时间复杂度是就是桶排序的时间复杂度为O(N+M)。</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp;</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;第二种方法我们需要先排序再去重。排序我们可以用冒泡排序或者快速排序。</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;20 40 32 67 40 20 89 300 400 15</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp;</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;将这10个数从小到大排序之后为 15 20 20 32 40 40 67 89 300 400。</span></div>
+<div align="left"><span style="font-size: 16px;">接下来，要在输出的时候去掉重复的。因为我们已经排好序，因此相同的数都会紧挨在一起。只要在输出的时候，预先判断一下当前这个数a[i ]与前面一个数a[i-1]是否相同。如果相同则表示这个数之前已经输出过了，不同再次输出。不同则表示这个数是第一次出现需要，则需要输出这个数。</span></div>
+<div align="left">
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div>
+<pre>#include &lt;stdio.h&gt;
+<span style="color: #0000ff;">int</span><span style="color: #000000;"> main()
+{
+    </span><span style="color: #0000ff;">int</span> a[<span style="color: #800080;">101</span><span style="color: #000000;">],n,i,j,t;
+   
+    scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;n);   <span style="color: #008000;">//</span><span style="color: #008000;">读入n</span>
+    <span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=n;i++) <span style="color: #008000;">//</span><span style="color: #008000;">循环读入n个图书ISBN号</span>
+<span style="color: #000000;">    {
+        scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;<span style="color: #000000;">a[i]);
+    }
+   
+   </span><span style="color: #008000;">//</span><span style="color: #008000;">开始冒泡排序</span>
+    <span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=n-<span style="color: #800080;">1</span>;i++<span style="color: #000000;">)
+    {
+        </span><span style="color: #0000ff;">for</span>(j=<span style="color: #800080;">1</span>;j&lt;=n-i;j++<span style="color: #000000;">)
+        {
+            </span><span style="color: #0000ff;">if</span>(a[j]&gt;a[j+<span style="color: #800080;">1</span><span style="color: #000000;">])
+            {  t</span>=a[j]; a[j]=a[j+<span style="color: #800080;">1</span>]; a[j+<span style="color: #800080;">1</span>]=<span style="color: #000000;">t;  }
+        }
+    }
+    printf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d </span><span style="color: #800000;">"</span>,a[<span style="color: #800080;">1</span>]); <span style="color: #008000;">//</span><span style="color: #008000;">输出第1个数</span>
+    <span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">2</span>;i&lt;=n;i++) <span style="color: #008000;">//</span><span style="color: #008000;">从2循环到n</span>
+<span style="color: #000000;">    {
+         </span><span style="color: #0000ff;">if</span>( a[i] != a[i-<span style="color: #800080;">1</span>] ) <span style="color: #008000;">//</span><span style="color: #008000;">如果当前这个数是第一次出现则输出</span>
+             printf(<span style="color: #800000;">"</span><span style="color: #800000;">%d </span><span style="color: #800000;">"</span><span style="color: #000000;">,a[i]);
+    }
+    getchar();getchar();
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码" onclick="copyCnblogsCode(this)" href="javascript:void(0);"><img alt="复制代码" src="http://common.cnblogs.com/images/copycode.gif"></a></span></div></div>
+<p>&nbsp;</p>
+</div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;这种方法的时间复杂度由两部分组成，一部分是冒泡排序时间复杂度是O(N<sup>2</sup>)，另一部分是读入和输出都是O(N)，因此整个算法的时间复杂度是O(2*N+N<sup>2</sup>)。相对于N<sup>2</sup>来说，2*N可以忽略（我们通常忽略低阶），最终该方法的时间复杂度是O(N<sup>2</sup>)。</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp;</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;接下来我们还需要看下数据范围。每个图书ISBN号都是1~1000之间的整数，并且参加调查的同学人数不超过100，即n&lt;=100。之前已经说过，在粗略计算时间复杂度的时候，我们通常认为计算机每秒钟大约运行10亿次（当然实际情况要更快）。因此以上两种方法都可以在1秒钟内计算出解。如果题目图书ISBN号范围不是在1~1000之间，而是-2147483648~2147483647之间的话，那么第一种方法就不可行了，因为你无法申请出这么大数组来标记每一个ISBN号是否出现过。另外如果n的范围不是小于等于100而是小于等于10万，那么第二种方法的排序部分也不能使用冒泡排序。因为题目要求的时间限制是1秒，使用冒泡排序对10万个数的排序，计算机需要运行100亿次，需要10秒钟，需要替换为快速排序，快速排序只需要100000×log2100000≈100000×17≈170万次，这还不到0.0017秒。是不是很神奇，同样的问题使用不同的算法竟然有如此之大的时间差距，这就是算法的魅力！</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp;</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;我们来回顾一下本章三种排序算法的时间复杂度。桶排序是最快的，它的时间复杂度是O(N+M)；冒泡排序是O(N<sup>2</sup>)；快速排序是O(NlogN)。</span></div>
+<div align="left"><span style="font-size: 16px;">&nbsp;</span></div>
+<div align="left">
+<div align="left"><span style="font-size: 16px;">码字不容易啊，转载请标明出处^_^.</span></div>
+<div align="left"><span style="font-size: 16px;"><a href="http://www.cnblogs.com/ahalei/p/3577792.html">http://www.cnblogs.com/ahalei/p/3577792.html</a></span></div>
+<div align="left">&nbsp;</div>
+</div></div><div id="MySignature"></div>
+<div class="clear"></div>
+		</div>
+	</div>
+
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+
+	</div><!--end: main -->
+<!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

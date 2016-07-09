@@ -1,0 +1,1563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" dir="ltr" lang="zh"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>structure:routing - 微擎指导手册</title>
+<meta name="generator" content="DokuWiki">
+<meta name="robots" content="index,follow">
+<meta name="keywords" content="structure,routing">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.we7.cc/manual/lib/exe/opensearch.php" title="微擎指导手册">
+<link rel="start" href="http://www.we7.cc/manual/">
+<link rel="contents" href="http://www.we7.cc/manual/structure:routing?do=index" title="网站地图">
+<link rel="alternate" type="application/rss+xml" title="最近更改" href="http://www.we7.cc/manual/feed.php">
+<link rel="alternate" type="application/rss+xml" title="当前命名空间" href="http://www.we7.cc/manual/feed.php?mode=list&amp;ns=structure">
+<link rel="alternate" type="text/html" title="纯HTML" href="http://www.we7.cc/manual/_export/xhtml/structure:routing">
+<link rel="canonical" href="http://www.we7.cc/manual/structure:routing">
+<link rel="stylesheet" type="text/css" href="wq_structure_routing/css.css">
+<script type="text/javascript">/*<![CDATA[*/var NS='structure';var JSINFO = {"id":"structure:routing","namespace":"structure"};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="wq_structure_routing/js.php"></script><style id="iris-css">.iris-picker{display:block;position:relative}.iris-picker,.iris-picker *{-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input+.iris-picker{margin-top:4px}.iris-error{background-color:#ffafaf}.iris-border{border-radius:3px;border:1px solid #aaa;width:200px;background-color:#fff}.iris-picker-inner{position:absolute;top:0;right:0;left:0;bottom:0}.iris-border .iris-picker-inner{top:10px;right:10px;left:10px;bottom:10px}.iris-picker .iris-square-inner{position:absolute;left:0;right:0;top:0;bottom:0}.iris-picker .iris-square,.iris-picker .iris-slider,.iris-picker .iris-square-inner,.iris-picker .iris-palette{border-radius:3px;box-shadow:inset 0 0 5px rgba(0,0,0,.4);height:100%;width:12.5%;float:left;margin-right:5%}.iris-picker .iris-square{width:76%;margin-right:10%;position:relative}.iris-picker .iris-square-inner{width:auto;margin:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-square-inner,.iris-ie-9 .iris-palette{box-shadow:none;border-radius:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-palette{outline:1px solid rgba(0,0,0,.1)}.iris-ie-lt9 .iris-square,.iris-ie-lt9 .iris-slider,.iris-ie-lt9 .iris-square-inner,.iris-ie-lt9 .iris-palette{outline:1px solid #aaa}.iris-ie-lt9 .iris-square .ui-slider-handle{outline:1px solid #aaa;background-color:#fff;-ms-filter:"alpha(Opacity=30)"}.iris-ie-lt9 .iris-square .iris-square-handle{background:0;border:3px solid #fff;-ms-filter:"alpha(Opacity=50)"}.iris-picker .iris-strip{margin-right:0;position:relative}.iris-picker .iris-strip .ui-slider-handle{position:absolute;background:0;margin:0;right:-3px;left:-3px;border:4px solid #aaa;border-width:4px 3px;width:auto;height:6px;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.2);opacity:.9;z-index:5;cursor:ns-resize}.iris-strip .ui-slider-handle:before{content:" ";position:absolute;left:-2px;right:-2px;top:-3px;bottom:-3px;border:2px solid #fff;border-radius:3px}.iris-picker .iris-slider-offset{position:absolute;top:11px;left:0;right:0;bottom:-3px;width:auto;height:auto;background:transparent;border:0;border-radius:0}.iris-picker .iris-square-handle{background:transparent;border:5px solid #aaa;border-radius:50%;border-color:rgba(128,128,128,.5);box-shadow:none;width:12px;height:12px;position:absolute;left:-10px;top:-10px;cursor:move;opacity:1;z-index:10}.iris-picker .ui-state-focus .iris-square-handle{opacity:.8}.iris-picker .iris-square-handle:hover{border-color:#999}.iris-picker .iris-square-value:focus .iris-square-handle{box-shadow:0 0 2px rgba(0,0,0,.75);opacity:.8}.iris-picker .iris-square-handle:hover::after{border-color:#fff}.iris-picker .iris-square-handle::after{position:absolute;bottom:-4px;right:-4px;left:-4px;top:-4px;border:3px solid #f9f9f9;border-color:rgba(255,255,255,.8);border-radius:50%;content:" "}.iris-picker .iris-square-value{width:8px;height:8px;position:absolute}.iris-ie-lt9 .iris-square-value,.iris-mozilla .iris-square-value{width:1px;height:1px}.iris-palette-container{position:absolute;bottom:0;left:0;margin:0;padding:0}.iris-border .iris-palette-container{left:10px;bottom:10px}.iris-picker .iris-palette{margin:0;cursor:pointer}.iris-square-handle,.ui-slider-handle{border:0;outline:0}</style>
+
+<link rel="shortcut icon" href="http://www.we7.cc/manual/lib/tpl/vector/static/3rd/dokuwiki/favicon.ico">
+<link rel="apple-touch-icon" href="http://www.we7.cc/manual/lib/tpl/vector/static/3rd/dokuwiki/apple-touch-icon.png">
+<!--[if lte IE 8]><link rel="stylesheet" media="all" type="text/css" href="/manual/lib/tpl/vector/static/css/screen_iehacks.css" /><![endif]-->
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/manual/lib/tpl/vector/static/3rd/vector/csshover.htc")}</style><![endif]-->
+<style class="firebugResetStyles" type="text/css" charset="utf-8">/* See license.txt for terms of usage */
+/** reset styling **/
+.firebugResetStyles {
+    z-index: 2147483646 !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    border: 0 none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    outline: 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    position: fixed !important;
+    transform: rotate(0deg) !important;
+    transform-origin: 50% 50% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent none !important;
+    pointer-events: none !important;
+    white-space: normal !important;
+}
+style.firebugResetStyles {
+    display: none !important;
+}
+
+.firebugBlockBackgroundColor {
+    background-color: transparent !important;
+}
+
+.firebugResetStyles:before, .firebugResetStyles:after {
+    content: "" !important;
+}
+/**actual styling to be modified by firebug theme**/
+.firebugCanvas {
+    display: none !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBox {
+    width: auto !important;
+    position: static !important;
+}
+
+.firebugLayoutBoxOffset {
+    opacity: 0.8 !important;
+    position: fixed !important;
+}
+
+.firebugLayoutLine {
+    opacity: 0.4 !important;
+    background-color: #000000 !important;
+}
+
+.firebugLayoutLineLeft, .firebugLayoutLineRight {
+    width: 1px !important;
+    height: 100% !important;
+}
+
+.firebugLayoutLineTop, .firebugLayoutLineBottom {
+    width: 100% !important;
+    height: 1px !important;
+}
+
+.firebugLayoutLineTop {
+    margin-top: -1px !important;
+    border-top: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineRight {
+    border-right: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineBottom {
+    border-bottom: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineLeft {
+    margin-left: -1px !important;
+    border-left: 1px solid #999999 !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBoxParent {
+    border-top: 0 none !important;
+    border-right: 1px dashed #E00 !important;
+    border-bottom: 1px dashed #E00 !important;
+    border-left: 0 none !important;
+    position: fixed !important;
+    width: auto !important;
+}
+
+.firebugRuler{
+    position: absolute !important;
+}
+
+.firebugRulerH {
+    top: -15px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 14px !important;
+    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%13%88%00%00%00%0E%08%02%00%00%00L%25a%0A%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%04%F8IDATx%DA%EC%DD%D1n%E2%3A%00E%D1%80%F8%FF%EF%E2%AF2%95%D0D4%0E%C1%14%B0%8Fa-%E9%3E%CC%9C%87n%B9%81%A6W0%1C%A6i%9A%E7y%0As8%1CT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AATE9%FE%FCw%3E%9F%AF%2B%2F%BA%97%FDT%1D~K(%5C%9D%D5%EA%1B%5C%86%B5%A9%BDU%B5y%80%ED%AB*%03%FAV9%AB%E1%CEj%E7%82%EF%FB%18%BC%AEJ8%AB%FA'%D2%BEU9%D7U%ECc0%E1%A2r%5DynwVi%CFW%7F%BB%17%7Dy%EACU%CD%0E%F0%FA%3BX%FEbV%FEM%9B%2B%AD%BE%AA%E5%95v%AB%AA%E3E5%DCu%15rV9%07%B5%7F%B5w%FCm%BA%BE%AA%FBY%3D%14%F0%EE%C7%60%0EU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5JU%88%D3%F5%1F%AE%DF%3B%1B%F2%3E%DAUCNa%F92%D02%AC%7Dm%F9%3A%D4%F2%8B6%AE*%BF%5C%C2Ym~9g5%D0Y%95%17%7C%C8c%B0%7C%18%26%9CU%CD%13i%F7%AA%90%B3Z%7D%95%B4%C7%60%E6E%B5%BC%05%B4%FBY%95U%9E%DB%FD%1C%FC%E0%9F%83%7F%BE%17%7DkjMU%E3%03%AC%7CWj%DF%83%9An%BCG%AE%F1%95%96yQ%0Dq%5Dy%00%3Et%B5'%FC6%5DS%95pV%95%01%81%FF'%07%00%00%00%00%00%00%00%00%00%F8x%C7%F0%BE%9COp%5D%C9%7C%AD%E7%E6%EBV%FB%1E%E0(%07%E5%AC%C6%3A%ABi%9C%8F%C6%0E9%AB%C0'%D2%8E%9F%F99%D0E%B5%99%14%F5%0D%CD%7F%24%C6%DEH%B8%E9rV%DFs%DB%D0%F7%00k%FE%1D%84%84%83J%B8%E3%BA%FB%EF%20%84%1C%D7%AD%B0%8E%D7U%C8Y%05%1E%D4t%EF%AD%95Q%BF8w%BF%E9%0A%BF%EB%03%00%00%00%00%00%00%00%00%00%B8vJ%8E%BB%F5%B1u%8Cx%80%E1o%5E%CA9%AB%CB%CB%8E%03%DF%1D%B7T%25%9C%D5(%EFJM8%AB%CC'%D2%B2*%A4s%E7c6%FB%3E%FA%A2%1E%80~%0E%3E%DA%10x%5D%95Uig%15u%15%ED%7C%14%B6%87%A1%3B%FCo8%A8%D8o%D3%ADO%01%EDx%83%1A~%1B%9FpP%A3%DC%C6'%9C%95gK%00%00%00%00%00%00%00%00%00%20%D9%C9%11%D0%C0%40%AF%3F%EE%EE%92%94%D6%16X%B5%BCMH%15%2F%BF%D4%A7%C87%F1%8E%F2%81%AE%AAvzr%DA2%ABV%17%7C%E63%83%E7I%DC%C6%0Bs%1B%EF6%1E%00%00%00%00%00%00%00%00%00%80cr%9CW%FF%7F%C6%01%0E%F1%CE%A5%84%B3%CA%BC%E0%CB%AA%84%CE%F9%BF)%EC%13%08WU%AE%AB%B1%AE%2BO%EC%8E%CBYe%FE%8CN%ABr%5Dy%60~%CFA%0D%F4%AE%D4%BE%C75%CA%EDVB%EA(%B7%F1%09g%E5%D9%12%00%00%00%00%00%00%00%00%00H%F6%EB%13S%E7y%5E%5E%FB%98%F0%22%D1%B2'%A7%F0%92%B1%BC%24z3%AC%7Dm%60%D5%92%B4%7CEUO%5E%F0%AA*%3BU%B9%AE%3E%A0j%94%07%A0%C7%A0%AB%FD%B5%3F%A0%F7%03T%3Dy%D7%F7%D6%D4%C0%AAU%D2%E6%DFt%3F%A8%CC%AA%F2%86%B9%D7%F5%1F%18%E6%01%F8%CC%D5%9E%F0%F3z%88%AA%90%EF%20%00%00%00%00%00%00%00%00%00%C0%A6%D3%EA%CFi%AFb%2C%7BB%0A%2B%C3%1A%D7%06V%D5%07%A8r%5D%3D%D9%A6%CAu%F5%25%CF%A2%99%97zNX%60%95%AB%5DUZ%D5%FBR%03%AB%1C%D4k%9F%3F%BB%5C%FF%81a%AE%AB'%7F%F3%EA%FE%F3z%94%AA%D8%DF%5B%01%00%00%00%00%00%00%00%00%00%8E%FB%F3%F2%B1%1B%8DWU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*UiU%C7%BBe%E7%F3%B9%CB%AAJ%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5*%AAj%FD%C6%D4%5Eo%90%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5%86%AF%1B%9F%98%DA%EBm%BBV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%AD%D6%E4%F58%01%00%00%00%00%00%00%00%00%00%00%00%00%00%40%85%7F%02%0C%008%C2%D0H%16j%8FX%00%00%00%00IEND%AEB%60%82") repeat-x !important;
+    border-top: 1px solid #BBBBBB !important;
+    border-right: 1px dashed #BBBBBB !important;
+    border-bottom: 1px solid #000000 !important;
+}
+
+.firebugRulerV {
+    top: 0 !important;
+    left: -15px !important;
+    width: 14px !important;
+    height: 100% !important;
+    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%00%0E%00%00%13%88%08%02%00%00%00%0E%F5%CB%10%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%06~IDATx%DA%EC%DD%D1v%A20%14%40Qt%F1%FF%FF%E4%97%D9%07%3BT%19%92%DC%40(%90%EEy%9A5%CB%B6%E8%F6%9Ac%A4%CC0%84%FF%DC%9E%CF%E7%E3%F1%88%DE4%F8%5D%C7%9F%2F%BA%DD%5E%7FI%7D%F18%DDn%BA%C5%FB%DF%97%BFk%F2%10%FF%FD%B4%F2M%A7%FB%FD%FD%B3%22%07p%8F%3F%AE%E3%F4S%8A%8F%40%EEq%9D%BE8D%F0%0EY%A1Uq%B7%EA%1F%81%88V%E8X%3F%B4%CEy%B7h%D1%A2E%EBohU%FC%D9%AF2fO%8BBeD%BE%F7X%0C%97%A4%D6b7%2Ck%A5%12%E3%9B%60v%B7r%C7%1AI%8C%BD%2B%23r%00c0%B2v%9B%AD%CA%26%0C%1Ek%05A%FD%93%D0%2B%A1u%8B%16-%95q%5Ce%DCSO%8E%E4M%23%8B%F7%C2%FE%40%BB%BD%8C%FC%8A%B5V%EBu%40%F9%3B%A72%FA%AE%8C%D4%01%CC%B5%DA%13%9CB%AB%E2I%18%24%B0n%A9%0CZ*Ce%9C%A22%8E%D8NJ%1E%EB%FF%8F%AE%CAP%19*%C3%BAEKe%AC%D1%AAX%8C*%DEH%8F%C5W%A1e%AD%D4%B7%5C%5B%19%C5%DB%0D%EF%9F%19%1D%7B%5E%86%BD%0C%95%A12%AC%5B*%83%96%CAP%19%F62T%86%CAP%19*%83%96%CA%B8Xe%BC%FE)T%19%A1%17xg%7F%DA%CBP%19*%C3%BA%A52T%86%CAP%19%F62T%86%CA%B0n%A9%0CZ%1DV%C6%3D%F3%FCH%DE%B4%B8~%7F%5CZc%F1%D6%1F%AF%84%F9%0F6%E6%EBVt9%0E~%BEr%AF%23%B0%97%A12T%86%CAP%19%B4T%86%CA%B8Re%D8%CBP%19*%C3%BA%A52huX%19%AE%CA%E5%BC%0C%7B%19*CeX%B7h%A9%0C%95%E1%BC%0C%7B%19*CeX%B7T%06%AD%CB%5E%95%2B%BF.%8F%C5%97%D5%E4%7B%EE%82%D6%FB%CF-%9C%FD%B9%CF%3By%7B%19%F62T%86%CA%B0n%D1R%19*%A3%D3%CA%B0%97%A12T%86uKe%D0%EA%B02*%3F1%99%5DB%2B%A4%B5%F8%3A%7C%BA%2B%8Co%7D%5C%EDe%A8%0C%95a%DDR%19%B4T%C66%82fA%B2%ED%DA%9FC%FC%17GZ%06%C9%E1%B3%E5%2C%1A%9FoiB%EB%96%CA%A0%D5qe4%7B%7D%FD%85%F7%5B%ED_%E0s%07%F0k%951%ECr%0D%B5C%D7-g%D1%A8%0C%EB%96%CA%A0%A52T%C6)*%C3%5E%86%CAP%19%D6-%95A%EB*%95q%F8%BB%E3%F9%AB%F6%E21%ACZ%B7%22%B7%9B%3F%02%85%CB%A2%5B%B7%BA%5E%B7%9C%97%E1%BC%0C%EB%16-%95%A12z%AC%0C%BFc%A22T%86uKe%D0%EA%B02V%DD%AD%8A%2B%8CWhe%5E%AF%CF%F5%3B%26%CE%CBh%5C%19%CE%CB%B0%F3%A4%095%A1%CAP%19*Ce%A8%0C%3BO*Ce%A8%0C%95%A12%3A%AD%8C%0A%82%7B%F0v%1F%2FD%A9%5B%9F%EE%EA%26%AF%03%CA%DF9%7B%19*Ce%A8%0C%95%A12T%86%CA%B8Ze%D8%CBP%19*Ce%A8%0C%95%D1ae%EC%F7%89I%E1%B4%D7M%D7P%8BjU%5C%BB%3E%F2%20%D8%CBP%19*Ce%A8%0C%95%A12T%C6%D5*%C3%5E%86%CAP%19*Ce%B4O%07%7B%F0W%7Bw%1C%7C%1A%8C%B3%3B%D1%EE%AA%5C%D6-%EBV%83%80%5E%D0%CA%10%5CU%2BD%E07YU%86%CAP%19*%E3%9A%95%91%D9%A0%C8%AD%5B%EDv%9E%82%FFKOee%E4%8FUe%A8%0C%95%A12T%C6%1F%A9%8C%C8%3D%5B%A5%15%FD%14%22r%E7B%9F%17l%F8%BF%ED%EAf%2B%7F%CF%ECe%D8%CBP%19*Ce%A8%0C%95%E1%93~%7B%19%F62T%86%CAP%19*Ce%A8%0C%E7%13%DA%CBP%19*Ce%A8%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4%AE%A4%F5%25%C0%00%DE%BF%5C'%0F%DA%B8q%00%00%00%00IEND%AEB%60%82") repeat-y !important;
+    border-left: 1px solid #BBBBBB !important;
+    border-right: 1px solid #000000 !important;
+    border-bottom: 1px dashed #BBBBBB !important;
+}
+
+.overflowRulerX > .firebugRulerV {
+    left: 0 !important;
+}
+
+.overflowRulerY > .firebugRulerH {
+    top: 0 !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.fbProxyElement {
+    position: fixed !important;
+    pointer-events: auto !important;
+}
+</style></head>
+<body class="skin-vector">
+<div id="page-container">
+  <!-- start panel/sidebar --><!-- end panel/sidebar -->
+
+<!-- start div id=content -->
+<div id="content">
+  <a id="top" name="top"></a>
+  <a id="dokuwiki__top" name="dokuwiki__top"></a>
+
+  <!-- start div id=right-navigation -->
+  <div id="right-navigation">
+    <div class="vectorTabs" id="p-views">
+      <ul>
+        <li class="selected" id="ca-view"><a href="/manual/dev:func:global"><span>阅读</span></a></li>
+      </ul>
+    </div>
+	 
+  <div id="p-personal">
+    <ul>
+      <li id="pt-login"><a rel="nofollow" href="/manual/dev:func:global?do=login">登录</a></li>
+    </ul>
+  </div>
+  </div>
+  <!-- end div id=right-navigation -->
+
+  <!-- start main content area -->
+  
+  <!-- start div id bodyContent -->
+  <div class="dokuwiki" id="bodyContent">
+    <!-- start rendered wiki content -->
+    <!-- TOC START -->
+<div id="dw__toc">
+<span>目录 <span onclick="jQuery('#dw__toc div').toggle();">[隐藏]</span></span>
+<div>
+
+<ul class="toc">
+<li class="level1"><div class="li"><a href="#全局公共函数">全局公共函数</a></div>
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#array2xml">array2xml</a></div></li>
+<li class="level2"><div class="li"><a href="#array_elements">array_elements</a></div></li>
+<li class="level2"><div class="li"><a href="#authcode">authcode</a></div></li>
+<li class="level2"><div class="li"><a href="#checkpermission">checkpermission</a></div></li>
+<li class="level2"><div class="li"><a href="#checksubmit">checksubmit</a></div></li>
+<li class="level2"><div class="li"><a href="#cutstr">cutstr</a></div></li>
+<li class="level2"><div class="li"><a href="#emotion">emotion</a></div></li>
+<li class="level2"><div class="li"><a href="#error">error</a></div></li>
+<li class="level2"><div class="li"><a href="#getip">getip</a></div></li>
+<li class="level2"><div class="li"><a href="#is_base64">is_base64</a></div></li>
+<li class="level2"><div class="li"><a href="#is_error">is_error</a></div></li>
+<li class="level2"><div class="li"><a href="#ihtmlspecialchars">ihtmlspecialchars</a></div></li>
+<li class="level2"><div class="li"><a href="#ijson_encode">ijson_encode</a></div></li>
+<li class="level2"><div class="li"><a href="#iserializer">iserializer</a></div></li>
+<li class="level2"><div class="li"><a href="#isetcookie">isetcookie</a></div></li>
+<li class="level2"><div class="li"><a href="#is_serialized">is_serialized</a></div></li>
+<li class="level2"><div class="li"><a href="#istripslashes">istripslashes</a></div></li>
+<li class="level2"><div class="li"><a href="#istrlen">istrlen</a></div></li>
+<li class="level2"><div class="li"><a href="#iunserializer">iunserializer</a></div></li>
+<li class="level2"><div class="li"><a href="#murl">murl</a></div></li>
+<li class="level2"><div class="li"><a href="#pagination">pagination</a></div></li>
+<li class="level2"><div class="li"><a href="#random">random</a></div></li>
+<li class="level2"><div class="li"><a href="#referer">referer</a></div></li>
+<li class="level2"><div class="li"><a href="#range_limit">range_limit</a></div></li>
+<li class="level2"><div class="li"><a href="#sizecount">sizecount</a></div></li>
+<li class="level2"><div class="li"><a href="#strexists">strexists</a></div></li>
+<li class="level2"><div class="li"><a href="#tablename">tablename</a></div></li>
+<li class="level2"><div class="li"><a href="#token">token</a></div></li>
+<li class="level2"><div class="li"><a href="#tomedia">tomedia</a></div></li>
+<li class="level2"><div class="li"><a href="#ver_compare">ver_compare</a></div></li>
+<li class="level2"><div class="li"><a href="#wurl">wurl</a></div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 id="全局公共函数" class="sectionedit1">全局公共函数</h1>
+<div class="level1">
+
+<p>
+系统全局公共函数全部位于 <strong>framework/function/global.func.php</strong> 文件内。
+</p>
+
+<p>
+注意：系统会默认加载该文件，因此该文件内所有函数均可直接使用。
+</p>
+
+</div>
+
+<h2 id="array2xml" class="sectionedit2">array2xml</h2>
+<div class="level2">
+<div class="table sectionedit3"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string array2xml(array $arr, [int $level]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取数组的XML结构
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit4"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$arr </th><td class="col1"> array </td><td class="col2"> 需要进行转换的数组 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$level </th><td class="col1"> int </td><td class="col2"> 节点层级, 1 为 Root </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+将参数数组转换为XML结构并且返回，可选参数 $level 表示节点的层级，默认为1。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="re0">$result</span> <span class="sy0">=</span> array2xml<span class="br0">(</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'TagName'</span> <span class="sy0">=&gt;</span> <span class="st_h">'A'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  &lt;xml&gt;&lt;TagName&gt;&lt;![CDATA[A]]&gt;&lt;/TagName&gt;&lt;/xml&gt;</span></pre>
+
+</div>
+
+<h2 id="array_elements" class="sectionedit5">array_elements</h2>
+<div class="level2">
+<div class="table sectionedit6"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array array_elements(array $keys, array $src, [mixed $default)]; </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+从一个数组中取得若干元素
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数 </div></blockquote>
+</div></blockquote>
+<div class="table sectionedit7"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$keys </th><td class="col1"> array </td><td class="col2"> 需要筛选的键名列表 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$src </th><td class="col1"> array </td><td class="col2"> 进行筛选的数组 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$default </th><td class="col1"> mixed </td><td class="col2"> 如果原数组未定义某个键，则使用 $default 替换，默认为 false。</td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+返回筛选并替换完成的数组。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="re0">$result</span> <span class="sy0">=</span> array_elements<span class="br0">(</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> <span class="nu0">4</span><span class="br0">)</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="br0">)</span><span class="sy0">,</span> <span class="nu0">0</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">2</span>
+    <span class="br0">[</span><span class="nu0">2</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span>
+    <span class="br0">[</span><span class="nu0">3</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span>
+    <span class="br0">[</span><span class="nu0">4</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span>
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="authcode" class="sectionedit8">authcode</h2>
+<div class="level2">
+<div class="table sectionedit9"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string authcode(string $string, [string $operation], [string $key], [int $expiry]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+字符串加密或解密
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit10"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$string </th><td class="col1"> string </td><td class="col2"> 要加密或解密的字符串 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$operation </th><td class="col1"> string </td><td class="col2"> 操作类型 'ENCODE' 或 'DECODE' </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$key </th><td class="col1"> string </td><td class="col2"> 加密密钥或解密密钥 </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0">$expiry </th><td class="col1"> int </td><td class="col2"> 过期时间, 秒为单位 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+根据参数 $operation 决定对指定字符 $string 进行加密或者解密操作， 可选参数 $key 表示加密密钥或解密密钥，可选参数 $expiry 表示过期时间。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例 </div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> authcode<span class="br0">(</span><span class="st_h">'hello-world'</span><span class="sy0">,</span> <span class="st_h">'ENCODE'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  b3ae8oQNH91yF4oshY+8PiBuoSfDSrwoWzYrrmpyIG03c6B3FYFlCA</span></pre>
+
+</div>
+
+<h2 id="checkpermission" class="sectionedit11">checkpermission</h2>
+<div class="level2">
+<div class="table sectionedit12"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean checkpermission(string $type, mixed $target); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+检查操作用户是否为指定公众号的管理员或操作员
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit13"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$type </th><td class="col1"> string </td><td class="col2"> 公众号类型 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$target </th><td class="col1"> mixed </td><td class="col2"> 公众号 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+返回一个当前操作用户是否有权限操作公众号的布尔值。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">if</span> <span class="br0">(</span><span class="sy0">!</span>checkpermission<span class="br0">(</span><span class="st_h">'wechats'</span><span class="sy0">,</span> <span class="re0">$_W</span><span class="br0">[</span><span class="st_h">'uid'</span><span class="br0">]</span><span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span>
+	message<span class="br0">(</span><span class="st_h">'公众号不存在或是您没有权限操作！'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span></pre>
+
+</div>
+
+<h2 id="checksubmit" class="sectionedit14">checksubmit</h2>
+<div class="level2">
+<div class="table sectionedit15"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean checksubmit(string $var, [int $allowget]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+提交来源检查
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit16"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$var </th><td class="col1"> string </td><td class="col2"> 表单Submit名称 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$allowget </th><td class="col1"> int </td><td class="col2"> 是否通过检查，默认为否 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+检查 POST 表单是否值得信任并返回一个布尔值, 如果参数 $allowget 为 true，则默认通过检查。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">if</span><span class="br0">(</span>checksubmit<span class="br0">(</span><span class="st_h">'submitdelete'</span><span class="br0">)</span><span class="br0">)</span><span class="br0">{</span>
+    <span class="co1">// 执行批量删除提交 </span>
+<span class="br0">}</span> <span class="kw1">elseif</span><span class="br0">(</span>checksubmit<span class="br0">(</span><span class="st_h">'submitupdate'</span><span class="br0">)</span><span class="br0">)</span><span class="br0">{</span>
+    <span class="co1">// 执行批量更新提交</span>
+<span class="br0">}</span> <span class="kw1">elseif</span><span class="br0">(</span>checksubmit<span class="br0">(</span><span class="st_h">'submitvalidate'</span><span class="br0">)</span><span class="br0">)</span><span class="br0">{</span>
+    <span class="co1">// 执行批量审核提交</span>
+<span class="br0">}</span></pre>
+
+</div>
+
+<h2 id="cutstr" class="sectionedit17">cutstr</h2>
+<div class="level2">
+<div class="table sectionedit18"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string cutstr(string $string, int $length, [boolean $havedot], [string $charset]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+截取|替换字符串
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit19"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$stirng </th><td class="col1"> string </td><td class="col2"> 对该字符串进行截取 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$length </th><td class="col1"> int </td><td class="col2"> 指定截取长度 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$havedot </th><td class="col1"> boolean </td><td class="col2"> 超出指定长度的字符是否用 '…' 显示，默认为 false </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0">$charset </th><td class="col1"> string </td><td class="col2"> 字符编码 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+从字符串左侧开始进行截取，参数 $string 表示要进行截取的字符串，参数 $length 表示要截取的长度， 可选参数 $havedot 为 true, 超过指定长度的字符串将用 '…' 显示。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> cutstr<span class="br0">(</span><span class="st_h">'hello-world'</span><span class="sy0">,</span> <span class="nu0">5</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  hello</span>
+<span class="kw1">echo</span> cutstr<span class="br0">(</span><span class="st_h">'hello-微擎'</span><span class="sy0">,</span> <span class="nu0">5</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  hello...</span></pre>
+
+</div>
+
+<h2 id="emotion" class="sectionedit20">emotion</h2>
+<div class="level2">
+<div class="table sectionedit21"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string emotion([string $message], [string $size]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取表情字符串HTML
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit22"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$message </th><td class="col1"> string </td><td class="col2"> 表情字符串 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$size </th><td class="col1"> string </td><td class="col2"> 表情图片大小 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+获取表情字符串HTML代码并返回，可选参数 $message 表示指定表情的字符，可选参数 $size 表示表情尺寸。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="re0">$emotion</span> <span class="sy0">=</span> emotion<span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre>
+
+</div>
+
+<h2 id="error" class="sectionedit23">error</h2>
+<div class="level2">
+<div class="table sectionedit24"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array error(int $errno, string $message); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+构造错误数组
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit25"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$errno </th><td class="col1"> int </td><td class="col2"> 错误码，0为无任何错误 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$message </th><td class="col1"> string </td><td class="col2"> 错误信息 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+通过参数构造并返回相应的错误数组，如果参数 $errno 为0，则表示没有任何错误。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="re0">$result</span> <span class="sy0">=</span> error<span class="br0">(</span><span class="sy0">-</span><span class="nu0">1</span><span class="sy0">,</span> <span class="st_h">'保存信息失败'</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span>errno<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="sy0">-</span><span class="nu0">1</span>
+    <span class="br0">[</span>message<span class="br0">]</span> <span class="sy0">=&gt;</span> 保存信息失败
+<span class="br0">)</span></pre>
+
+<p>
+<strong>最佳实践：</strong>在模型中操作数据表时，可以使用 error() 根据不同的信息构造并返回不同的信息数组，控制器接受结果后使用 is_error() 进行检测，提高程序灵活性。
+</p>
+
+</div>
+
+<h2 id="getip" class="sectionedit26">getip</h2>
+<div class="level2">
+<div class="table sectionedit27"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string getip (); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取客户端IP
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+
+<p>
+^void |
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+获取客户端IP地址并返回，如果获取失败返回 unknow。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> getip<span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  127.0.0.1</span></pre>
+
+<p>
+<strong>最佳实践：</strong> 系统在入口文件中已经将 <strong>getip()</strong> 的结果赋值给常量 <strong>CLIENT_IP</strong> ,在需要获取客户端IP的情况下，直接使用 <strong>CLIENT_IP</strong> 常量可以增强系统维护性和扩展性。
+</p>
+
+</div>
+
+<h2 id="is_base64" class="sectionedit28">is_base64</h2>
+<div class="level2">
+<div class="table sectionedit29"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean is_base64(string $str); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+判断是否为加密字符串
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit30"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$str </th><td class="col1"> string </td><td class="col2"> 需要进行判断的字符串 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+判断参数是否为加密后的字符串，并返回一个布尔值的结果。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> is_base64<span class="br0">(</span><span class="st_h">'hello'</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  false</span></pre>
+
+</div>
+
+<h2 id="is_error" class="sectionedit31">is_error</h2>
+<div class="level2">
+<div class="table sectionedit32"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean is_error(mixed $data); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+检测数组是否产生错误
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit33"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$data </th><td class="col1"> mixed </td><td class="col2"> 需要进行检测的数据 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+检测给定的参数是否产生错误，并返回一个布尔值结果。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="re0">$result</span> <span class="sy0">=</span> error<span class="br0">(</span><span class="sy0">-</span><span class="nu0">1</span><span class="sy0">,</span> <span class="st_h">'保存信息失败'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> is_error<span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  true</span></pre>
+
+<p>
+<strong>最佳实践：</strong>在模型中操作数据表时，可以使用 error() 根据不同的信息构造并返回不同的信息数组，控制器接受结果后使用 is_error() 进行检测，提高程序灵活性。
+</p>
+
+</div>
+
+<h2 id="ihtmlspecialchars" class="sectionedit34">ihtmlspecialchars</h2>
+<div class="level2">
+<div class="table sectionedit35"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed ihtmlspecialchars (mixed $var); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+转义字符串或数组中的的HTML
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit36"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$var </th><td class="col1 leftalign">mixed   </td><td class="col2">需要转义的字符串或数组 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+将字符串或数组中的HTML代码进行转义并返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> ihtmlspecialchars<span class="br0">(</span><span class="st_h">'&lt;h1&gt;WeiEngine&lt;/h1&gt;'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  &lt;h1&gt;WeiEngine&lt;/h1&gt;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span>ihtmlspecialchars<span class="br0">(</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'&lt;h1&gt;WeiEngine&lt;/h1&gt;'</span><span class="sy0">,</span> <span class="st_h">'&lt;h4&gt;WeiXin&lt;/h4&gt;'</span><span class="br0">)</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="sy0">&lt;</span>h1<span class="sy0">&gt;</span>WeiEngine<span class="sy0">&lt;/</span>h1<span class="sy0">&gt;</span>
+    <span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="sy0">&lt;</span>h4<span class="sy0">&gt;</span>WeiXin<span class="sy0">&lt;/</span>h4<span class="sy0">&gt;</span>
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="ijson_encode" class="sectionedit37">ijson_encode</h2>
+<div class="level2">
+<div class="table sectionedit38"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string ijson_encode(string $value); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+JSON编码,加上转义操作,适合于JSON入库
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数 </div></blockquote>
+</div></blockquote>
+<div class="table sectionedit39"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$value </th><td class="col1"> string </td><td class="col2"> 需要进行编码的字符串 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+将参数进行JSON编码并且转义后返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> ijson_encode<span class="br0">(</span><span class="st_h">'hello-world'</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  \"hello-world\"</span></pre>
+
+</div>
+
+<h2 id="iserializer" class="sectionedit40">iserializer</h2>
+<div class="level2">
+<div class="table sectionedit41"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string iserializer(mixed $value); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取字符串序列化结果
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit42"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$value </th><td class="col1"> mixed </td><td class="col2"> 需要进行序列化操作的字符或数组 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+将参数序列化后返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> iserializer<span class="br0">(</span><span class="st_h">'hello-world'</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  s:11:"hello-world";</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span>iserializer<span class="br0">(</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> <span class="nu0">4</span><span class="sy0">,</span> <span class="nu0">5</span><span class="br0">)</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>		<span class="co1">// a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}</span></pre>
+
+</div>
+
+<h2 id="isetcookie" class="sectionedit43">isetcookie</h2>
+<div class="level2">
+<div class="table sectionedit44"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean isetcookie (string $key, string $value, [int $expire]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+写入cookie值
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit45"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$key </th><td class="col1 leftalign">string   </td><td class="col2">Cookie名称 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$value </th><td class="col1"> string </td><td class="col2">Cookie值 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$expire </th><td class="col1"> int </td><td class="col2">Cookie生命周期，默认为0 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+<strong>isetcookie()</strong> 会根据参数写入对应的cookie值(cookie的名称会进行加密)，并且返回一个是否写入成功的布尔值。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">isetcookie <span class="br0">(</span><span class="st_h">'test'</span><span class="sy0">,</span> <span class="st_h">'hello-world'</span><span class="sy0">,</span> <span class="nu0">3600</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  记录了一个名为 test 值为 hello-world 的 cookie ，有效期为一个小时。</span></pre>
+
+</div>
+
+<h2 id="is_serialized" class="sectionedit46">is_serialized</h2>
+<div class="level2">
+<div class="table sectionedit47"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean is_serialized(mixed $data, [boolean $strict]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+判断是否为序列化字符串
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit48"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$data </th><td class="col1"> mixed </td><td class="col2"> 需要进行判断的字符串 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$strict </th><td class="col1"> boolean </td><td class="col2"> 是否为严格模式，默认为 true </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+判断参数是否会序列化后的结果，并返回一个布尔值的结果。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> is_serialized<span class="br0">(</span><span class="st_h">'hello'</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  false</span></pre>
+
+</div>
+
+<h2 id="istripslashes" class="sectionedit49">istripslashes</h2>
+<div class="level2">
+<div class="table sectionedit50"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed istripslashes (mixed $var); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+反转义字符串或数组中的 \
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit51"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$var </th><td class="col1 leftalign">mixed   </td><td class="col2">需要转义的字符串或数组 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+将字符串或数组中的 \' \“  \ \ 转换为  ' ” \ 并返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> istripslashes<span class="br0">(</span><span class="st_h">'\r\n\r\n'</span><span class="br0">)</span><span class="sy0">;</span>   <span class="co1">//  rnrn</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span>istripslashes<span class="br0">(</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'\t'</span><span class="sy0">,</span> <span class="st_h">'\r'</span><span class="sy0">,</span> <span class="st_h">'\n'</span><span class="br0">)</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span> <span class="sy0">=&gt;</span> t
+    <span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy0">=&gt;</span> r
+    <span class="br0">[</span><span class="nu0">2</span><span class="br0">]</span> <span class="sy0">=&gt;</span> n
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="istrlen" class="sectionedit52">istrlen</h2>
+<div class="level2">
+<div class="table sectionedit53"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">int istrlen(string $string, [string $charset]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取字符串长度
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit54"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$string </th><td class="col1"> string </td><td class="col2"> 指定字符串 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$charset </th><td class="col1"> string </td><td class="col2"> 字符编码 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+获取参数字符串的长度并返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">Example：使用istrlen<span class="br0">(</span><span class="br0">)</span>的例子
+&nbsp;
+<span class="kw1">echo</span> istrlen<span class="br0">(</span><span class="st_h">'hello-world'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  11</span>
+<span class="kw1">echo</span> istrlen<span class="br0">(</span><span class="st_h">'hello-微擎'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  8</span></pre>
+
+</div>
+
+<h2 id="iunserializer" class="sectionedit55">iunserializer</h2>
+<div class="level2">
+<div class="table sectionedit56"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed iunserializer(string $value); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取序列化字符的反序列化结果
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit57"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$value </th><td class="col1"> string </td><td class="col2"> 需要进行反序列化操作的字符或数组 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+将参数进行反序列化后返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span>iunserializer<span class="br0">(</span><span class="st_h">'a:5:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:4;i:4;i:5;}'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span>
+    <span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">2</span>
+    <span class="br0">[</span><span class="nu0">2</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">3</span>
+    <span class="br0">[</span><span class="nu0">3</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">4</span>
+    <span class="br0">[</span><span class="nu0">4</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">5</span>
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="murl" class="sectionedit58">murl</h2>
+<div class="level2">
+<div class="table sectionedit59"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string murl(string $segment, [array $params], [boolean $noredirect]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取Mobile端URL地址
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit60"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$segment </th><td class="col1"> string </td><td class="col2"> 路由参数 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$params </th><td class="col1"> array </td><td class="col2"> 附加参数 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$noredirect </th><td class="col1"> boolean </td><td class="col2"> 是否追加微信URl后缀 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+根据参数生成Mobile端的URL地址并返回。如果参数 $params 不为空，则将 $params 中的值设置为附加参数，如果参数
+$noredirect 为 false，则会在 <abbr title="Uniform Resource Locator">URL</abbr> 末尾追加微信的 <abbr title="Uniform Resource Locator">URL</abbr> 后缀。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> murl<span class="br0">(</span><span class="st_h">'home/welcome/mc'</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  ./index.php?i=477&amp;c=home&amp;a=welcome&amp;do=mc&amp;</span>
+<span class="kw1">echo</span> murl<span class="br0">(</span><span class="st_h">'home/welcome/mc'</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'uid'</span> <span class="sy0">=&gt;</span> <span class="st_h">'100'</span><span class="sy0">,</span> <span class="st_h">'op'</span> <span class="sy0">=&gt;</span> <span class="st_h">'foo'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>		<span class="co1">//  ./index.php?i=477&amp;c=home&amp;a=welcome&amp;do=mc&amp;uid=100&amp;op=foo</span>
+<span class="kw1">echo</span> murl<span class="br0">(</span><span class="st_h">'home/welcome/mc'</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'uid'</span> <span class="sy0">=&gt;</span> <span class="st_h">'100'</span><span class="sy0">,</span> <span class="st_h">'op'</span> <span class="sy0">=&gt;</span> <span class="st_h">'foo'</span><span class="br0">)</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  ./index.php?i=477&amp;c=home&amp;a=welcome&amp;do=mc&amp;uid=100&amp;op=foo&amp;wxref=mp.weixin.qq.com#wechat_redirect</span></pre>
+
+</div>
+
+<h2 id="pagination" class="sectionedit61">pagination</h2>
+<div class="level2">
+<div class="table sectionedit62"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string pagination(int $total, int $pageIndex, int $psgeSize, [string $url], [array $context]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取分页导航HTML
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit63"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$total </th><td class="col1"> int </td><td class="col2"> 总记录数 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$pageIndex </th><td class="col1"> int </td><td class="col2"> 当前页码 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$pageSize </th><td class="col1"> int </td><td class="col2"> 每页显示条数 </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0">$url </th><td class="col1"> string </td><td class="col2"> 要生成的 url 格式 </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0">$context </th><td class="col1"> array </td><td class="col2"> 附加配置参数信息 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+根据参数计算并返回分页导航条的HTML代码。其中参数 $total 表示为总记录条数， $pageIndex 表示当前页码， $pageSize 表示每页显示条数， 可选参数 $url 表示要生成的 url 格式，如果为空系统将自动生成，可选参数 $context 可以设置分页导航条的一些信息。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="re0">$pagination</span> <span class="sy0">=</span> pagination<span class="br0">(</span><span class="nu0">20</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">5</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  生成HTML分页导航条</span>
+<span class="kw1">echo</span> <span class="re0">$pagination</span><span class="sy0">;</span></pre>
+
+<p>
+<strong>最佳实践：</strong>参数中的 $total 一般由SQL查询语句得出。
+</p>
+
+</div>
+
+<h2 id="random" class="sectionedit64">random</h2>
+<div class="level2">
+<div class="table sectionedit65"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string random(int $length, [boolean $numeric]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取随机字符串
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit66"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$length </th><td class="col1"> int </td><td class="col2"> 指定字符串长度 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$numeric </th><td class="col1"> boolean </td><td class="col2"> 指定字符串是否为是否为纯数字，默认为false </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+生成指定长度的随机字符串并返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> random<span class="br0">(</span><span class="nu0">6</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  JUmtIp</span>
+<span class="kw1">echo</span> random<span class="br0">(</span><span class="nu0">10</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  9824464484</span></pre>
+
+</div>
+
+<h2 id="referer" class="sectionedit67">referer</h2>
+<div class="level2">
+<div class="table sectionedit68"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string referer([string $default]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取引用页地址
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数 </div></blockquote>
+</div></blockquote>
+<div class="table sectionedit69"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$default </th><td class="col1"> string </td><td class="col2"> 默认引用页地址 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+获取到当前页面的引用页地址，并将其注入到 $_W['referer'] 全局变量中，然后返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="re0">$referer</span> <span class="sy0">=</span> referer<span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre>
+
+<p>
+<strong>最佳实践：</strong>在进行表单数据编辑更新时，表单提交后可使用 referer() 获取引用页，然后进行跳转，这样就可以省略掉计算 <abbr title="Uniform Resource Locator">URL</abbr> 的步骤。
+</p>
+
+</div>
+
+<h2 id="range_limit" class="sectionedit70">range_limit</h2>
+<div class="level2">
+<div class="table sectionedit71"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed range_limit(string $number, int $downline, int $upline, [boolean $returnNear]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+判断给定参数是否位于区间内或将参数转换为区间内的数
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit72"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$number </th><td class="col1"> string </td><td class="col2"> 输入参数 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$downline </th><td class="col1"> int </td><td class="col2"> 区间下限 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$upline </th><td class="col1"> int </td><td class="col2"> 区间上限 </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0">$returnNear </th><td class="col1"> boolean </td><td class="col2"> 输入参数处理方式 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+判断给定参数是否位于区间内，并且根据参数 $returnNear 决定返回判断结果还是返回转换后的值。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> range_limit<span class="br0">(</span><span class="st_h">'100'</span><span class="sy0">,</span> <span class="nu0">50</span><span class="sy0">,</span> <span class="nu0">250</span><span class="sy0">,</span> <span class="kw4">false</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  true</span>
+<span class="kw1">echo</span> range_limit<span class="br0">(</span><span class="st_h">'300'</span><span class="sy0">,</span> <span class="nu0">50</span><span class="sy0">,</span> <span class="nu0">250</span><span class="br0">)</span><span class="sy0">;</span>	  <span class="co1">//  250</span></pre>
+
+</div>
+
+<h2 id="sizecount" class="sectionedit73">sizecount</h2>
+<div class="level2">
+<div class="table sectionedit74"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string sizecount(int $size); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+格式化显示文件大小
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit75"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$size </th><td class="col1"> int </td><td class="col2"> 文件原始大小 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+将文件大小进行友好格式化然后返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> sizecount<span class="br0">(</span><span class="nu0">1024</span> <span class="sy0">*</span> <span class="nu0">1024</span> <span class="sy0">*</span> <span class="nu0">1024</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  1 GB</span></pre>
+
+</div>
+
+<h2 id="strexists" class="sectionedit76">strexists</h2>
+<div class="level2">
+<div class="table sectionedit77"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean strexists(string $string, string $find); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+判断字符串是否包含子串
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit78"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$string </th><td class="col1"> string </td><td class="col2"> 在该字符串中进行查找 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$find </th><td class="col1"> string </td><td class="col2"> 需要查找的字符串 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+判断字符串 $string 中是否包含 $find，如果包含返回 true ，否则返回 false。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> strexists<span class="br0">(</span><span class="st_h">'helloworld'</span><span class="sy0">,</span> <span class="st_h">'h'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  true</span></pre>
+
+</div>
+
+<h2 id="tablename" class="sectionedit79">tablename</h2>
+<div class="level2">
+<div class="table sectionedit80"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string tablename(string $table); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取完整数据表名
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit81"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$table </th><td class="col1"> string </td><td class="col2"> 数据表名 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+返回包含前缀的数据表名称。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="co2">#数据表前缀为 `ims`
+</span><span class="kw1">echo</span> tablename<span class="br0">(</span><span class="st_h">'account'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  `ims_account`</span></pre>
+
+</div>
+
+<h2 id="token" class="sectionedit82">token</h2>
+<div class="level2">
+<div class="table sectionedit83"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string token ([string $specialadd]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取Token
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+
+<p>
+^$specialadd | string | 附加字符信息 | 
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+根据配置文件中的信息生成加密Token字串并返回,如果参数 $specialadd 不为空，则将参数附加在配置信息后面。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> token<span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  3e9bc946</span></pre>
+
+<p>
+<strong>最佳实践：</strong> 系统在入口文件中已经将 <strong>token()</strong> 的结果赋值给全局变量 <strong>$_W['token']</strong> ,在需要获取Token的情况下，直接使用 <strong>$_W['token']</strong> 常量可以增强系统维护性和扩展性。
+</p>
+
+</div>
+
+<h2 id="tomedia" class="sectionedit84">tomedia</h2>
+<div class="level2">
+<div class="table sectionedit85"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string tomedia(string $src); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取附件的HTTP绝对路径
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit86"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$src </th><td class="col1"> srtring </td><td class="col2"> 需要进行转换的附件路径 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值 </div></blockquote>
+</div></blockquote>
+
+<p>
+将参数转换为HTTP绝对路径并返回。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> tomedia<span class="br0">(</span><span class="st_h">'images/noavatar_middle.gif'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  http://pro.we7.cc/attachment/images/noavatar_middle.gif</span>
+<span class="kw1">echo</span> tomedia<span class="br0">(</span><span class="st_h">'http://pro.we7.cc/attachment/images/noavatar_middle.gif'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  http://pro.we7.cc/attachment/images/noavatar_middle.gif</span></pre>
+
+<p>
+<strong>最佳实践：</strong>通过SQL语句得到数据表中的数据，如果需要将其中的附件显示在页面中，可先使用 tomedia() 进行地址转换。
+</p>
+
+</div>
+
+<h2 id="ver_compare" class="sectionedit87">ver_compare</h2>
+<div class="level2">
+<div class="table sectionedit88"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">int ver_compare (string $version1, string $version2); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+比较字符串int类型大小
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit89"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$arg1 </th><td class="col1 leftalign">string   </td><td class="col2">字符串1 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$arg2 </th><td class="col1 leftalign">string   </td><td class="col2">字符串2 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+判断 $arg1 是否大于 $arg2，如果大于返回 1， 否则返回 -1。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> ver_compare<span class="br0">(</span><span class="st_h">'2.37'</span><span class="sy0">,</span> <span class="st_h">'1.1'</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">//  1</span>
+<span class="kw1">echo</span> ver_compare<span class="br0">(</span><span class="st_h">'5.5789'</span><span class="sy0">,</span> <span class="st_h">'5.6'</span><span class="br0">)</span><span class="sy0">;</span>  <span class="co1">//  -1</span></pre>
+
+</div>
+
+<h2 id="wurl" class="sectionedit90">wurl</h2>
+<div class="level2">
+<div class="table sectionedit91"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">string wurl(string $segment, [array $params]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取WEB端URL地址
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit92"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$segment </th><td class="col1"> string </td><td class="col2"> 路由参数 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$params </th><td class="col1"> array </td><td class="col2"> 附加参数 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+根据参数生成Web端的URL地址并返回。如果参数 $params 不为空，则将 $params 中的值设置为附加参数。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+示例</div></blockquote>
+</div></blockquote>
+<pre class="code php"><span class="kw1">echo</span> wurl<span class="br0">(</span><span class="st_h">'home/welcome/mc'</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  ./index.php?c=home&amp;a=welcome&amp;do=mc&amp;</span>
+<span class="kw1">echo</span> wurl<span class="br0">(</span><span class="st_h">'home/welcome/mc'</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'uid'</span> <span class="sy0">=&gt;</span> <span class="st_h">'100'</span><span class="sy0">,</span> <span class="st_h">'op'</span> <span class="sy0">=&gt;</span> <span class="st_h">'foo'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>	<span class="co1">//  ./index.php?c=home&amp;a=welcome&amp;do=mc&amp;uid=100&amp;op=foo</span></pre>
+
+</div>
+
+    <!-- end rendered wiki content -->
+    <div class="clearer"></div>
+  </div>
+  <!-- end div id bodyContent -->
+
+  
+  <div class="catlinks noprint"><p>
+    <span class="bchead">您的足迹:</span> <span class="bcsep">•</span> <bdi><a title="start" class="breadcrumbs" href="/manual/start">start</a></bdi> <span class="bcsep">•</span> <span class="curid"><bdi><a title="dev:func:global" class="breadcrumbs" href="/manual/dev:func:global">global</a></bdi></span>
+  </p></div>
+<ul style="list-style: none; margin: 0; padding: 5px 0 0 0; text-align: right; font-size: 14px; color: #999;" id="footer-info">
+    <li id="footer-info-lastmod">
+      <bdi>dev/func/global.txt</bdi> · 最后更改: 2015-06-24 11:08 由 <bdi>gorden</bdi>    </li>
+  </ul>
+</div>
+<!-- end div id=content -->
+</div>
+<!-- end page-container -->
+
+<!-- start footer --><!-- end footer -->
+<img src="wq_structure_routing/indexer.gif" alt="" height="1" width="2">
+</body></html>

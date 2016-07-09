@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/___dtree.css" type="text/css" />
+    <script type="text/javascript" src="../js/___dtree.js"></script>
+</head>
+<body>
+<div class="dtree">
+<p><a href="javascript: d.openAll();">全部展开</a> | <a href="javascript: d.closeAll();">全部折叠</a></p>
+<script type="text/javascript"><!--
+d = new dTree("d");
+d.add(0,-1,"开发手册","");
+d.add(1,0,"速查表","cheatsheet.html");
+
+d.add(2,0,"常规","");
+d.add(3,2,"开发规范","develop_standard.html");
+d.add(27,2,"基础","");
+d.add(28,27,"进程与线程的一个简单解释","processes_and_threads.html");
+d.add(55,27,"提高网站访问速度的方法汇总","html_quick.html");
+
+d.add(4,0,"二次开发","");
+d.add(7,4,"ecshop","");
+d.add(8,7,"ecshop数据库字典","ecshop_db.html");
+d.add(33,7,"ecshop测试数据进行数据库清除操作","ecshop_truncate_db.html");
+d.add(56,7,"ecshop时间函数","ecshop_functions_time.html");
+d.add(65,7,"ecshop订单函数","ecshop_functions_order.html");
+d.add(64,7,"ecshop添加快递","ecshop_shipping.html");
+d.add(88,7,"ecshop后台中添加自己的任务计划 ","ecshop_sale_cron.html");
+
+d.add(5,0,"js","");
+
+d.add(124,5,"echarts让数据说话","http://echarts.baidu.com/index.html");
+d.add(128,5,"基于html5手机移动端对话框特效","h5_phone_alert.html");
+
+d.add(6,5,"二维码","");
+d.add(9,6,"jQuery.qrcode","jQuery.qrcode.html");
+
+d.add(15,5,"基础","");
+d.add(16,15,"js时间戳转为日期格式","jsdate.html");
+d.add(45,15,"js验证浏览器类型鉴别那些事","js_check_browser.html");
+d.add(72,15,"Canvas制作排序算法演示动画","canvas_sort_animation.html");
+d.add(85,15,"JavaScript数据类型检测","js_check_type.html");
+d.add(93,15,"js判断页面是否加载完成","js_check_onready.html");
+d.add(115,15,"Javascript设计模式理论与实战：状态模式","js_design_model.html");
+d.add(136,15,"js如何判断一个元素是否获得焦点","js_check_focus.html");
+d.add(181,15,"JavaScript原型与原型链学习","js_prototype.html");
+d.add(182,15,"设计模式之单例模式","js_classes.html");
+d.add(186,15,"高性能滚动scroll及页面渲染优化","js_scroll.html");
+d.add(187,15,"Js apply()使用详解 ","js_apply.html");
+
+d.add(17,5,"相册","");
+d.add(18,17,"jquery+css3实现3d滚动旋转","3droll.html");
+d.add(31,17,"jQuery Lazy Load 图片延迟加载","jquery_lazy_load.html");
+d.add(86,17,"smartcrop.js智能图片裁剪库","smartcrop.html");
+
+d.add(29,5,"浮动","");
+d.add(30,29,"jquery.floatDiv.js","jquery_floatDiv.html");
+
+d.add(38,5,"icon","");
+d.add(39,38,"FavIconX","../js/FavIconX.html");
+
+d.add(90,5,"插件","");
+d.add(91,90,"标签球jquery插件","jquery_windstagball.html");
+d.add(92,90,"遮罩层动画jQuery插件","jquery_hover.html");
+d.add(94,90,"js+jquery复制","jquery_copy.html");
+d.add(106,90,"jQuery网页步骤流程进度条","jquery_runload.html");
+d.add(135,90,"jquery.fly飞了购物车","jquery_fly/index.html");
+d.add(180,90,"js_require.js","js_require.html");
+d.add(185,90,"动态高度滑动轮播","jquery_dongtailunbo/index.html");
+
+
+d.add(10,0,"php","");
+d.add(11,10,"基础","");
+d.add(12,11,"判断请求类型","checkrequesttype.html");
+d.add(13,11,"判断是否手机浏览","checkmobile.html");
+d.add(14,11,"$_POST、$GLOBALS['HTTP_RAW_POST_DATA']和file_get_contents('php://input') ","post_type.html");
+d.add(71,11,"PHP二维数组合并,根据某个key合并","php_twoarray_keymerge.html");
+d.add(74,11,"php获取具体日期","php_specificdate.html");
+d.add(84,11,"PHP过滤各种HTML标签","php_filter_html.html");
+d.add(89,11,"php银行卡校验(参考资料)","php_check_bankcard.html");
+d.add(98,11,"PHP模拟发送POST请求之五curl基本使用和多线程优化","php_curl.html");
+d.add(99,11,"PHP计算两个字符的相似程度similar_text","php_similar_text.html");
+d.add(105,11,"PHP内核探索之变量（1）变量的容器-Zval","php_core_zval.html");
+d.add(112,11,"windows下安装php真正的多线程扩展pthreads","php_win_pthreads.html");
+d.add(126,11,"正则表达式中/i,/g,/ig,/gi,/m的区别和含义","php_preg_igm.html");
+
+
+
+d.add(19,10,"安全","");
+d.add(20,19,"XSS简介和防范","xsssafe.html");
+d.add(175,19,"PHP加密利器Zend Guard 6.0下载安装与破解激活","php_zendguard.html");
+d.add(176,19,"Zend Guard6.0 PHP代码加密","php_zendguard_encryption.html");
+
+d.add(32,10,"微信","");
+d.add(37,32,"生成带参数二维码","wechat_qrcode.html");
+d.add(54,32,"微信JS-SDK分享功能","wechat_jsskd_share.html");
+
+d.add(35,10,"APP接口","");
+d.add(36,35,"ECSHOP带的APP接口测试","ecshop_app/index.php");
+d.add(50,10,"工具","");
+d.add(46,50,"chrome下php调试工具","chrome_php_console.html");
+d.add(51,50,"PHP 用QueryList抓取网页内容","querylist.html");
+d.add(82,50,"phpMyDataGrid","http://www.gurusistemas.com/_guru/indexdatagrid.php");
+
+d.add(24,0,"MYSQL","");
+d.add(25,24,"基础","");
+d.add(26,25,"timestamp类型字段的CURRENT_TIMESTAMP与ON UPDATE CURRENT_TIMESTAMP属性","mysql_timestamp_type.html");
+d.add(87,25,"MySQL安全问题（攻防必知）","mysql_safe.html");
+d.add(142,25,"mysql存储过程之游标遍历数据表","mysql_cursor.html");
+
+d.add(40,24,"优化","");
+d.add(41,40,"MySQL调优系列基础篇","mysql_tuning.html");
+
+d.add(42,0,"测试","");
+d.add(43,42,"apache ab","");
+d.add(44,43,"apache ab介绍","apache_ab.html");
+d.add(52,42,"基础","");
+d.add(53,52,"checklist介绍","bigou_checklist.html");
+d.add(180,52,"Wireshark基本介绍和学习TCP三次握手","wireshark_tcp.html");
+d.add(77,42,"loadrunner","");
+d.add(78,77,"loadrunner调试","loadrunner_debug.html");
+d.add(79,77,"loadrunner手动关联","loadrunner_correlation.html");
+d.add(80,42,"selenium","");
+d.add(81,80,"python下的自动化测试-selenium验证码输入问题","python_selenimu_code.html");
+
+d.add(57,0,"需求","");
+d.add(58,57,"图表","");
+d.add(59,58,"看懂UML类图和时序图","look_uml_class.html");
+d.add(70,58,"活动图","activity.html");
+d.add(95,58,"状态图","uml_stauts.html");
+d.add(117,58,"序列图","uml_sequence.html");
+
+d.add(75,57,"流程","");
+d.add(76,75,"中小企业代码上线流程规范（linux运维）","liunx_code_commit.html");
+
+d.add(47,0,"运维","");
+d.add(62,47,"基础","");
+d.add(63,62,"在linux下如何显示隐藏文件","linux_show_file.html");
+d.add(73,62,"Linux下svn配置开启hooks","linux_svn_open_hooks.html");
+d.add(179,62,"查看文件大小","linux_file_size.html");
+d.add(183,62,"格式化和挂载","linux_mount.html");
+
+d.add(60,47,"命令","");
+d.add(61,60,"history命令","linux_history.html");
+d.add(83,60,"dos2unix命令","linux_dos2unix.html");
+d.add(184,60,"tar命令","linux_tar.html");
+
+d.add(48,47,"负载均衡","");
+d.add(49,48,"Sersync+rsync文件同步","Sersync_rsync.html");
+
+d.add(21,0,"公司项目","");
+d.add(22,21,"馋猫特特","");
+d.add(23,22,"数据库词典","cmtt_db.html");
+d.add(34,22,"测试数据进行数据库清除操作","cmtt_truncate_db.html");
+d.add(66,21,"erp","");
+d.add(67,66,"时间控件","http://www.my97.net/dp/demo/index.htm");
+d.add(68,66,"phpexcel1.8.0","phpexcel180.html");
+d.add(69,66,"字符串函数","cmtt_erp_string_func.html");
+d.add(145,21,"智慧社区-微擎","");
+d.add(146,145,"概述","wq_explain.html");
+d.add(147,145,"数据字典","wq_db.html");
+d.add(148,145,"URL路由&创建","wq_structure_routing.html");
+d.add(151,145,"$_W&全局变量","wq_W.html");
+d.add(152,145,"数据库操作","wq_db_pdo.html");
+d.add(153,145,"全局公共函数","wq_global_func.html");
+d.add(154,145,"Web端公共函数","wq_web_global_func.html");
+d.add(155,145,"App端公共函数","wq_app_global_func.html");
+d.add(156,145,"文件操作函数","wq_file_func.html");
+d.add(157,145,"表单生成助手函数","wq_form_func.html");
+d.add(158,145,"缓存操作函数","wq_cache_func.html");
+d.add(159,145,"Http请求函数","wq_http_func.html");
+d.add(160,145,"日志操作函数","wq_logging_func.html");
+d.add(161,145,"日志记录","wq_logging.html");
+d.add(162,145,"错误处理","wq_erorr.html");
+d.add(163,145,"模板引擎","wq_template.html");
+d.add(164,145,"公众号相关函数","wq_public_service.html");
+d.add(165,145,"会员相关函数","wq_member_service.html");
+d.add(166,145,"用户操作相关函数","wq_users_service.html");
+d.add(167,145,"系统缓存相关函数","wq_system_cache.html");
+d.add(168,145,"配置信息相关函数","wq_setting.html");
+d.add(169,145,"优惠券相关函数","wq_activity.html");
+d.add(170,145,"微站相关函数","wq_app_service.html");
+d.add(171,145,"扩展相关函数","wq_extension.html");
+d.add(172,145,"规则回复相关函数","wq_reply.html");
+d.add(173,145,"JavaScript函数","wq_js.html");
+d.add(174,145,"微擎开发说明","http://www.we7.cc/manual/dev:bak");
+d.add(178,145,"阿里云配置环境下载","zhsq_download.html");
+
+d.add(96,0,"IOS","");
+d.add(97,96,"Windows远程桌面连接Mac OS X","windows_mac_link.html");
+d.add(100,96,"Xcode 7真机测试详解","xcode_truephone.html");
+d.add(101,96,"iOS开发系列--IOS程序开发概览","ios_helloworld.html");
+d.add(102,96,"Mac中直接打开隐藏的文件或文件夹","mac_showhide.html");
+d.add(103,96,"C语言之指针","c_pointer.html");
+d.add(104,96,"C语言之基础知识","mac_c.html");
+d.add(107,96,"C语言之数组和字符串","c_arrayandstring.html");
+d.add(108,96,"C语言之预处理","c_define.html");
+d.add(111,96,"C语言之存储方式和作用域","c_extern.html");
+d.add(113,96,"xcode6下使用autolayout+sizeclass实践","ios_autolayout_sizeclass.html");
+d.add(114,96,"iOS开发系列--C语言之构造类型","c_struct.html");
+d.add(118,96,"iOS开发系列—Objective-C之基础概览","oc_baisc.html");
+d.add(119,96,"iOS开发系列--Objective-C之类和对象","oc_class.html");
+d.add(120,96,"iOS开发系列--无限循环的图片浏览器","ios_loop_img.html");
+d.add(123,96,"iOS中属性Property的常用关键字的使用说明","ios_property_type.html");
+d.add(125,96,"iOS性能优化之内存管理：Analyze、Leaks、Allocations的使用和案例代码","ios_optimization_memory.html");
+d.add(127,96,"iOS开发系列—Objective-C之内存管理","ios_memory.html");
+d.add(129,96,"iOS 8中使用UIAlertController","ios_UIAlertController.html");
+d.add(130,96,"iOS开发系列—Objective-C之Foundation框架","ios_Foundation.html");
+d.add(131,96,"iOS开发系列--UITableView全面解析","ios_uitableview.html");
+d.add(132,96,"利用 Xcode7新特性解耦Storyboard","Xcode7-Storyboard.html");
+d.add(133,96,"ios-storyboard-1","ios-Storyboard.html");
+d.add(134,96,"ios-storyboard-2","iOS-Storyboard2.htm");
+d.add(137,96,"iOS开发系列--视图切换","ios_UINavigationBar.html");
+d.add(149,96,"iOS开发系列--触摸事件、手势识别、摇晃事件、耳机线控","ios_event.html");
+
+d.add(109,96,"解决错误","");
+d.add(110,109," OC中ARC forbids explicit message send of release错误 ","oc_error_arc.html");
+
+d.add(121,0,"CSS","");
+d.add(122,121,"JS组件系列——两种bootstrap multiselect组件大比拼","http://www.cnblogs.com/landeanfen/p/5013452.html");
+
+d.add(138,0,"算法","");
+d.add(139,138,"最快最简单的排序——桶排序","aha_arithmetic_barrel.html");
+d.add(140,138,"工作中遇到的算法","arithmetic_to_job.html");
+d.add(141,138,"算法3：最常用的排序——快速排序","aha_arithmetic_fast.html");
+d.add(143,138,"哼买书","aha_arithmetic_book.html");
+d.add(144,138,"算法4：队列——解密QQ号","aha_arithmetic_queue.html");
+d.add(150,138,"算法5：解密回文——栈","aha_stack.html");
+d.add(177,138,"算法6：只有五行的Floyd最短路算法","aha_arithmetic_floyd.html");
+document.write(d);
+//-->
+</script>
+</div>
+<p \><hr size="1" \>
+
+
+</body>
+</html>

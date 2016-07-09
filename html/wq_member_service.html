@@ -1,0 +1,987 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" dir="ltr" lang="zh"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>structure:routing - 微擎指导手册</title>
+<meta name="generator" content="DokuWiki">
+<meta name="robots" content="index,follow">
+<meta name="keywords" content="structure,routing">
+<link rel="search" type="application/opensearchdescription+xml" href="http://www.we7.cc/manual/lib/exe/opensearch.php" title="微擎指导手册">
+<link rel="start" href="http://www.we7.cc/manual/">
+<link rel="contents" href="http://www.we7.cc/manual/structure:routing?do=index" title="网站地图">
+<link rel="alternate" type="application/rss+xml" title="最近更改" href="http://www.we7.cc/manual/feed.php">
+<link rel="alternate" type="application/rss+xml" title="当前命名空间" href="http://www.we7.cc/manual/feed.php?mode=list&amp;ns=structure">
+<link rel="alternate" type="text/html" title="纯HTML" href="http://www.we7.cc/manual/_export/xhtml/structure:routing">
+<link rel="canonical" href="http://www.we7.cc/manual/structure:routing">
+<link rel="stylesheet" type="text/css" href="wq_structure_routing/css.css">
+<script type="text/javascript">/*<![CDATA[*/var NS='structure';var JSINFO = {"id":"structure:routing","namespace":"structure"};
+/*!]]>*/</script>
+<script type="text/javascript" charset="utf-8" src="wq_structure_routing/js.php"></script><style id="iris-css">.iris-picker{display:block;position:relative}.iris-picker,.iris-picker *{-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input+.iris-picker{margin-top:4px}.iris-error{background-color:#ffafaf}.iris-border{border-radius:3px;border:1px solid #aaa;width:200px;background-color:#fff}.iris-picker-inner{position:absolute;top:0;right:0;left:0;bottom:0}.iris-border .iris-picker-inner{top:10px;right:10px;left:10px;bottom:10px}.iris-picker .iris-square-inner{position:absolute;left:0;right:0;top:0;bottom:0}.iris-picker .iris-square,.iris-picker .iris-slider,.iris-picker .iris-square-inner,.iris-picker .iris-palette{border-radius:3px;box-shadow:inset 0 0 5px rgba(0,0,0,.4);height:100%;width:12.5%;float:left;margin-right:5%}.iris-picker .iris-square{width:76%;margin-right:10%;position:relative}.iris-picker .iris-square-inner{width:auto;margin:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-square-inner,.iris-ie-9 .iris-palette{box-shadow:none;border-radius:0}.iris-ie-9 .iris-square,.iris-ie-9 .iris-slider,.iris-ie-9 .iris-palette{outline:1px solid rgba(0,0,0,.1)}.iris-ie-lt9 .iris-square,.iris-ie-lt9 .iris-slider,.iris-ie-lt9 .iris-square-inner,.iris-ie-lt9 .iris-palette{outline:1px solid #aaa}.iris-ie-lt9 .iris-square .ui-slider-handle{outline:1px solid #aaa;background-color:#fff;-ms-filter:"alpha(Opacity=30)"}.iris-ie-lt9 .iris-square .iris-square-handle{background:0;border:3px solid #fff;-ms-filter:"alpha(Opacity=50)"}.iris-picker .iris-strip{margin-right:0;position:relative}.iris-picker .iris-strip .ui-slider-handle{position:absolute;background:0;margin:0;right:-3px;left:-3px;border:4px solid #aaa;border-width:4px 3px;width:auto;height:6px;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.2);opacity:.9;z-index:5;cursor:ns-resize}.iris-strip .ui-slider-handle:before{content:" ";position:absolute;left:-2px;right:-2px;top:-3px;bottom:-3px;border:2px solid #fff;border-radius:3px}.iris-picker .iris-slider-offset{position:absolute;top:11px;left:0;right:0;bottom:-3px;width:auto;height:auto;background:transparent;border:0;border-radius:0}.iris-picker .iris-square-handle{background:transparent;border:5px solid #aaa;border-radius:50%;border-color:rgba(128,128,128,.5);box-shadow:none;width:12px;height:12px;position:absolute;left:-10px;top:-10px;cursor:move;opacity:1;z-index:10}.iris-picker .ui-state-focus .iris-square-handle{opacity:.8}.iris-picker .iris-square-handle:hover{border-color:#999}.iris-picker .iris-square-value:focus .iris-square-handle{box-shadow:0 0 2px rgba(0,0,0,.75);opacity:.8}.iris-picker .iris-square-handle:hover::after{border-color:#fff}.iris-picker .iris-square-handle::after{position:absolute;bottom:-4px;right:-4px;left:-4px;top:-4px;border:3px solid #f9f9f9;border-color:rgba(255,255,255,.8);border-radius:50%;content:" "}.iris-picker .iris-square-value{width:8px;height:8px;position:absolute}.iris-ie-lt9 .iris-square-value,.iris-mozilla .iris-square-value{width:1px;height:1px}.iris-palette-container{position:absolute;bottom:0;left:0;margin:0;padding:0}.iris-border .iris-palette-container{left:10px;bottom:10px}.iris-picker .iris-palette{margin:0;cursor:pointer}.iris-square-handle,.ui-slider-handle{border:0;outline:0}</style>
+
+<link rel="shortcut icon" href="http://www.we7.cc/manual/lib/tpl/vector/static/3rd/dokuwiki/favicon.ico">
+<link rel="apple-touch-icon" href="http://www.we7.cc/manual/lib/tpl/vector/static/3rd/dokuwiki/apple-touch-icon.png">
+<!--[if lte IE 8]><link rel="stylesheet" media="all" type="text/css" href="/manual/lib/tpl/vector/static/css/screen_iehacks.css" /><![endif]-->
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/manual/lib/tpl/vector/static/3rd/vector/csshover.htc")}</style><![endif]-->
+<style class="firebugResetStyles" type="text/css" charset="utf-8">/* See license.txt for terms of usage */
+/** reset styling **/
+.firebugResetStyles {
+    z-index: 2147483646 !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    border: 0 none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    outline: 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    position: fixed !important;
+    transform: rotate(0deg) !important;
+    transform-origin: 50% 50% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent none !important;
+    pointer-events: none !important;
+    white-space: normal !important;
+}
+style.firebugResetStyles {
+    display: none !important;
+}
+
+.firebugBlockBackgroundColor {
+    background-color: transparent !important;
+}
+
+.firebugResetStyles:before, .firebugResetStyles:after {
+    content: "" !important;
+}
+/**actual styling to be modified by firebug theme**/
+.firebugCanvas {
+    display: none !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBox {
+    width: auto !important;
+    position: static !important;
+}
+
+.firebugLayoutBoxOffset {
+    opacity: 0.8 !important;
+    position: fixed !important;
+}
+
+.firebugLayoutLine {
+    opacity: 0.4 !important;
+    background-color: #000000 !important;
+}
+
+.firebugLayoutLineLeft, .firebugLayoutLineRight {
+    width: 1px !important;
+    height: 100% !important;
+}
+
+.firebugLayoutLineTop, .firebugLayoutLineBottom {
+    width: 100% !important;
+    height: 1px !important;
+}
+
+.firebugLayoutLineTop {
+    margin-top: -1px !important;
+    border-top: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineRight {
+    border-right: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineBottom {
+    border-bottom: 1px solid #999999 !important;
+}
+
+.firebugLayoutLineLeft {
+    margin-left: -1px !important;
+    border-left: 1px solid #999999 !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.firebugLayoutBoxParent {
+    border-top: 0 none !important;
+    border-right: 1px dashed #E00 !important;
+    border-bottom: 1px dashed #E00 !important;
+    border-left: 0 none !important;
+    position: fixed !important;
+    width: auto !important;
+}
+
+.firebugRuler{
+    position: absolute !important;
+}
+
+.firebugRulerH {
+    top: -15px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 14px !important;
+    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%13%88%00%00%00%0E%08%02%00%00%00L%25a%0A%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%04%F8IDATx%DA%EC%DD%D1n%E2%3A%00E%D1%80%F8%FF%EF%E2%AF2%95%D0D4%0E%C1%14%B0%8Fa-%E9%3E%CC%9C%87n%B9%81%A6W0%1C%A6i%9A%E7y%0As8%1CT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AATE9%FE%FCw%3E%9F%AF%2B%2F%BA%97%FDT%1D~K(%5C%9D%D5%EA%1B%5C%86%B5%A9%BDU%B5y%80%ED%AB*%03%FAV9%AB%E1%CEj%E7%82%EF%FB%18%BC%AEJ8%AB%FA'%D2%BEU9%D7U%ECc0%E1%A2r%5DynwVi%CFW%7F%BB%17%7Dy%EACU%CD%0E%F0%FA%3BX%FEbV%FEM%9B%2B%AD%BE%AA%E5%95v%AB%AA%E3E5%DCu%15rV9%07%B5%7F%B5w%FCm%BA%BE%AA%FBY%3D%14%F0%EE%C7%60%0EU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5JU%88%D3%F5%1F%AE%DF%3B%1B%F2%3E%DAUCNa%F92%D02%AC%7Dm%F9%3A%D4%F2%8B6%AE*%BF%5C%C2Ym~9g5%D0Y%95%17%7C%C8c%B0%7C%18%26%9CU%CD%13i%F7%AA%90%B3Z%7D%95%B4%C7%60%E6E%B5%BC%05%B4%FBY%95U%9E%DB%FD%1C%FC%E0%9F%83%7F%BE%17%7DkjMU%E3%03%AC%7CWj%DF%83%9An%BCG%AE%F1%95%96yQ%0Dq%5Dy%00%3Et%B5'%FC6%5DS%95pV%95%01%81%FF'%07%00%00%00%00%00%00%00%00%00%F8x%C7%F0%BE%9COp%5D%C9%7C%AD%E7%E6%EBV%FB%1E%E0(%07%E5%AC%C6%3A%ABi%9C%8F%C6%0E9%AB%C0'%D2%8E%9F%F99%D0E%B5%99%14%F5%0D%CD%7F%24%C6%DEH%B8%E9rV%DFs%DB%D0%F7%00k%FE%1D%84%84%83J%B8%E3%BA%FB%EF%20%84%1C%D7%AD%B0%8E%D7U%C8Y%05%1E%D4t%EF%AD%95Q%BF8w%BF%E9%0A%BF%EB%03%00%00%00%00%00%00%00%00%00%B8vJ%8E%BB%F5%B1u%8Cx%80%E1o%5E%CA9%AB%CB%CB%8E%03%DF%1D%B7T%25%9C%D5(%EFJM8%AB%CC'%D2%B2*%A4s%E7c6%FB%3E%FA%A2%1E%80~%0E%3E%DA%10x%5D%95Uig%15u%15%ED%7C%14%B6%87%A1%3B%FCo8%A8%D8o%D3%ADO%01%EDx%83%1A~%1B%9FpP%A3%DC%C6'%9C%95gK%00%00%00%00%00%00%00%00%00%20%D9%C9%11%D0%C0%40%AF%3F%EE%EE%92%94%D6%16X%B5%BCMH%15%2F%BF%D4%A7%C87%F1%8E%F2%81%AE%AAvzr%DA2%ABV%17%7C%E63%83%E7I%DC%C6%0Bs%1B%EF6%1E%00%00%00%00%00%00%00%00%00%80cr%9CW%FF%7F%C6%01%0E%F1%CE%A5%84%B3%CA%BC%E0%CB%AA%84%CE%F9%BF)%EC%13%08WU%AE%AB%B1%AE%2BO%EC%8E%CBYe%FE%8CN%ABr%5Dy%60~%CFA%0D%F4%AE%D4%BE%C75%CA%EDVB%EA(%B7%F1%09g%E5%D9%12%00%00%00%00%00%00%00%00%00H%F6%EB%13S%E7y%5E%5E%FB%98%F0%22%D1%B2'%A7%F0%92%B1%BC%24z3%AC%7Dm%60%D5%92%B4%7CEUO%5E%F0%AA*%3BU%B9%AE%3E%A0j%94%07%A0%C7%A0%AB%FD%B5%3F%A0%F7%03T%3Dy%D7%F7%D6%D4%C0%AAU%D2%E6%DFt%3F%A8%CC%AA%F2%86%B9%D7%F5%1F%18%E6%01%F8%CC%D5%9E%F0%F3z%88%AA%90%EF%20%00%00%00%00%00%00%00%00%00%C0%A6%D3%EA%CFi%AFb%2C%7BB%0A%2B%C3%1A%D7%06V%D5%07%A8r%5D%3D%D9%A6%CAu%F5%25%CF%A2%99%97zNX%60%95%AB%5DUZ%D5%FBR%03%AB%1C%D4k%9F%3F%BB%5C%FF%81a%AE%AB'%7F%F3%EA%FE%F3z%94%AA%D8%DF%5B%01%00%00%00%00%00%00%00%00%00%8E%FB%F3%F2%B1%1B%8DWU%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*UiU%C7%BBe%E7%F3%B9%CB%AAJ%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5J%95*U%AAT%A9R%A5*%AAj%FD%C6%D4%5Eo%90%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5%86%AF%1B%9F%98%DA%EBm%BBV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%ADV%AB%D5j%B5Z%AD%D6%E4%F58%01%00%00%00%00%00%00%00%00%00%00%00%00%00%40%85%7F%02%0C%008%C2%D0H%16j%8FX%00%00%00%00IEND%AEB%60%82") repeat-x !important;
+    border-top: 1px solid #BBBBBB !important;
+    border-right: 1px dashed #BBBBBB !important;
+    border-bottom: 1px solid #000000 !important;
+}
+
+.firebugRulerV {
+    top: 0 !important;
+    left: -15px !important;
+    width: 14px !important;
+    height: 100% !important;
+    background: url("data:image/png,%89PNG%0D%0A%1A%0A%00%00%00%0DIHDR%00%00%00%0E%00%00%13%88%08%02%00%00%00%0E%F5%CB%10%00%00%00%04gAMA%00%00%D6%D8%D4OX2%00%00%00%19tEXtSoftware%00Adobe%20ImageReadyq%C9e%3C%00%00%06~IDATx%DA%EC%DD%D1v%A20%14%40Qt%F1%FF%FF%E4%97%D9%07%3BT%19%92%DC%40(%90%EEy%9A5%CB%B6%E8%F6%9Ac%A4%CC0%84%FF%DC%9E%CF%E7%E3%F1%88%DE4%F8%5D%C7%9F%2F%BA%DD%5E%7FI%7D%F18%DDn%BA%C5%FB%DF%97%BFk%F2%10%FF%FD%B4%F2M%A7%FB%FD%FD%B3%22%07p%8F%3F%AE%E3%F4S%8A%8F%40%EEq%9D%BE8D%F0%0EY%A1Uq%B7%EA%1F%81%88V%E8X%3F%B4%CEy%B7h%D1%A2E%EBohU%FC%D9%AF2fO%8BBeD%BE%F7X%0C%97%A4%D6b7%2Ck%A5%12%E3%9B%60v%B7r%C7%1AI%8C%BD%2B%23r%00c0%B2v%9B%AD%CA%26%0C%1Ek%05A%FD%93%D0%2B%A1u%8B%16-%95q%5Ce%DCSO%8E%E4M%23%8B%F7%C2%FE%40%BB%BD%8C%FC%8A%B5V%EBu%40%F9%3B%A72%FA%AE%8C%D4%01%CC%B5%DA%13%9CB%AB%E2I%18%24%B0n%A9%0CZ*Ce%9C%A22%8E%D8NJ%1E%EB%FF%8F%AE%CAP%19*%C3%BAEKe%AC%D1%AAX%8C*%DEH%8F%C5W%A1e%AD%D4%B7%5C%5B%19%C5%DB%0D%EF%9F%19%1D%7B%5E%86%BD%0C%95%A12%AC%5B*%83%96%CAP%19%F62T%86%CAP%19*%83%96%CA%B8Xe%BC%FE)T%19%A1%17xg%7F%DA%CBP%19*%C3%BA%A52T%86%CAP%19%F62T%86%CA%B0n%A9%0CZ%1DV%C6%3D%F3%FCH%DE%B4%B8~%7F%5CZc%F1%D6%1F%AF%84%F9%0F6%E6%EBVt9%0E~%BEr%AF%23%B0%97%A12T%86%CAP%19%B4T%86%CA%B8Re%D8%CBP%19*%C3%BA%A52huX%19%AE%CA%E5%BC%0C%7B%19*CeX%B7h%A9%0C%95%E1%BC%0C%7B%19*CeX%B7T%06%AD%CB%5E%95%2B%BF.%8F%C5%97%D5%E4%7B%EE%82%D6%FB%CF-%9C%FD%B9%CF%3By%7B%19%F62T%86%CA%B0n%D1R%19*%A3%D3%CA%B0%97%A12T%86uKe%D0%EA%B02*%3F1%99%5DB%2B%A4%B5%F8%3A%7C%BA%2B%8Co%7D%5C%EDe%A8%0C%95a%DDR%19%B4T%C66%82fA%B2%ED%DA%9FC%FC%17GZ%06%C9%E1%B3%E5%2C%1A%9FoiB%EB%96%CA%A0%D5qe4%7B%7D%FD%85%F7%5B%ED_%E0s%07%F0k%951%ECr%0D%B5C%D7-g%D1%A8%0C%EB%96%CA%A0%A52T%C6)*%C3%5E%86%CAP%19%D6-%95A%EB*%95q%F8%BB%E3%F9%AB%F6%E21%ACZ%B7%22%B7%9B%3F%02%85%CB%A2%5B%B7%BA%5E%B7%9C%97%E1%BC%0C%EB%16-%95%A12z%AC%0C%BFc%A22T%86uKe%D0%EA%B02V%DD%AD%8A%2B%8CWhe%5E%AF%CF%F5%3B%26%CE%CBh%5C%19%CE%CB%B0%F3%A4%095%A1%CAP%19*Ce%A8%0C%3BO*Ce%A8%0C%95%A12%3A%AD%8C%0A%82%7B%F0v%1F%2FD%A9%5B%9F%EE%EA%26%AF%03%CA%DF9%7B%19*Ce%A8%0C%95%A12T%86%CA%B8Ze%D8%CBP%19*Ce%A8%0C%95%D1ae%EC%F7%89I%E1%B4%D7M%D7P%8BjU%5C%BB%3E%F2%20%D8%CBP%19*Ce%A8%0C%95%A12T%C6%D5*%C3%5E%86%CAP%19*Ce%B4O%07%7B%F0W%7Bw%1C%7C%1A%8C%B3%3B%D1%EE%AA%5C%D6-%EBV%83%80%5E%D0%CA%10%5CU%2BD%E07YU%86%CAP%19*%E3%9A%95%91%D9%A0%C8%AD%5B%EDv%9E%82%FFKOee%E4%8FUe%A8%0C%95%A12T%C6%1F%A9%8C%C8%3D%5B%A5%15%FD%14%22r%E7B%9F%17l%F8%BF%ED%EAf%2B%7F%CF%ECe%D8%CBP%19*Ce%A8%0C%95%E1%93~%7B%19%F62T%86%CAP%19*Ce%A8%0C%E7%13%DA%CBP%19*Ce%A8%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4h%A9%0C%B3E%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%A9%0CZf%8B%16-Z%B4h%D1R%19f%8B%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1R%19%B4%CC%16-Z%B4h%D1%A2%A52%CC%16-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2%A52h%99-Z%B4h%D1%A2EKe%98-Z%B4h%D1%A2EKe%D02%5B%B4h%D1%A2EKe%D02%5B%B4h%D1%A2E%8B%96%CA0%5B%B4h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%96%CA%A0e%B6h%D1%A2E%8B%16-%95a%B6h%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-%95A%CBl%D1%A2E%8B%16-Z*%C3l%D1%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z*%83%96%D9%A2E%8B%16-Z%B4T%86%D9%A2E%8B%16-Z%B4T%06-%B3E%8B%16-Z%B4%AE%A4%F5%25%C0%00%DE%BF%5C'%0F%DA%B8q%00%00%00%00IEND%AEB%60%82") repeat-y !important;
+    border-left: 1px solid #BBBBBB !important;
+    border-right: 1px solid #000000 !important;
+    border-bottom: 1px dashed #BBBBBB !important;
+}
+
+.overflowRulerX > .firebugRulerV {
+    left: 0 !important;
+}
+
+.overflowRulerY > .firebugRulerH {
+    top: 0 !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.fbProxyElement {
+    position: fixed !important;
+    pointer-events: auto !important;
+}
+</style></head>
+<body class="skin-vector">
+<div id="page-container">
+  <!-- start panel/sidebar --><!-- end panel/sidebar -->
+
+<!-- start div id=content -->
+<div id="content">
+  <a id="top" name="top"></a>
+  <a id="dokuwiki__top" name="dokuwiki__top"></a>
+
+  <!-- start div id=right-navigation -->
+  <div id="right-navigation">
+    <div class="vectorTabs" id="p-views">
+      <ul>
+        <li class="selected" id="ca-view"><a href="/manual/dev:model:mc"><span>阅读</span></a></li>
+      </ul>
+    </div>
+	 
+  <div id="p-personal">
+    <ul>
+      <li id="pt-login"><a rel="nofollow" href="/manual/dev:model:mc?do=login">登录</a></li>
+    </ul>
+  </div>
+  </div>
+  <!-- end div id=right-navigation -->
+
+  <!-- start main content area -->
+  
+  <!-- start div id bodyContent -->
+  <div class="dokuwiki" id="bodyContent">
+    <!-- start rendered wiki content -->
+    <!-- TOC START -->
+<div id="dw__toc">
+<span>目录 <span onclick="jQuery('#dw__toc div').toggle();">[隐藏]</span></span>
+<div>
+
+<ul class="toc">
+<li class="level2"><div class="li"><a href="#会员相关函数">会员相关函数</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_check">mc_check</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_update">mc_update</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_fetch">mc_fetch</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_fansinfo">mc_fansinfo</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_oauth_fans">_mc_oauth_fans</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_oauth_userinfo">mc_oauth_userinfo</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_require">mc_require</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_credit_update">mc_credit_update</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_credit_fetch">mc_credit_fetch</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_credit_types">mc_credit_types</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_groups">mc_groups</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_login">_mc_login</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_fields">mc_fields</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_handsel">mc_handsel</a></div></li>
+<li class="level2"><div class="li"><a href="#mc_openid2uid">mc_openid2uid</a></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h2 id="会员相关函数" class="sectionedit1">会员相关函数</h2>
+<div class="level2">
+
+<p>
+会员相关函数全部位于 framework/model/mc.mod.php 文件内。
+</p>
+
+<p>
+注意：该文件内所有函数使用前必须加载文件: <strong>load()→model('mc');</strong>
+</p>
+
+</div>
+
+<h2 id="mc_check" class="sectionedit2">mc_check</h2>
+<div class="level2">
+<div class="table sectionedit3"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed mc_check(array $data); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+检测会员信息是否存在(邮箱和手机号)
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit4"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$data </th><td class="col1"> array </td><td class="col2"> 会员信息 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果会员不存在，返回 true，否则返回注册信息。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">&nbsp;
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_check<span class="br0">(</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'email'</span> <span class="sy0">=&gt;</span> <span class="st_h">'123456'</span><span class="sy0">,</span> <span class="st_h">'mobile'</span> <span class="sy0">=&gt;</span> <span class="st_h">'654321'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span>errno<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="sy0">-</span><span class="nu0">1</span>
+    <span class="br0">[</span>message<span class="br0">]</span> <span class="sy0">=&gt;</span> 邮箱格式不正确
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="mc_update" class="sectionedit5">mc_update</h2>
+<div class="level2">
+<div class="table sectionedit6"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed mc_update(int $uid, array $fields); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+更新会员个人信息
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit7"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$uid </th><td class="col1"> int </td><td class="col2"> 会员id </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$fields </th><td class="col1"> array </td><td class="col2"> 更新字段 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果更新成功，返回 true，如果更新失败或者数据错误，返回 false。如果会员不存在，则插入一条信息记录，然后返回记录ID。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_update<span class="br0">(</span><span class="nu0">9937</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'realname'</span> <span class="sy0">=&gt;</span> <span class="st_h">'海绵宝宝'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">// false  至少应该包含邮箱和手机号码其中一种</span></pre>
+
+</div>
+
+<h2 id="mc_fetch" class="sectionedit8">mc_fetch</h2>
+<div class="level2">
+<div class="table sectionedit9"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array mc_fetch(mixed $uid, array $fields); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取一个或多个会员某个或多个字段的信息
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit10"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$uid </th><td class="col1"> int </td><td class="col2"> 一个或多个会员 uid </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$fields </th><td class="col1"> array </td><td class="col2"> 一个、多个或所有字段 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果是单个会员，则返回单个会员信息，否则返回多个会员信息。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_fetch<span class="br0">(</span><span class="nu0">9937</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'email'</span><span class="sy0">,</span> <span class="st_h">'mobile'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span>uid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">9937</span>
+    <span class="br0">[</span>email<span class="br0">]</span> <span class="sy0">=&gt;</span> 6fe2f6684331355e375764afb887ee34<span class="sy0">@</span>we7<span class="sy0">.</span>cc
+    <span class="br0">[</span>mobile<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">13467027986</span>
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="mc_fansinfo" class="sectionedit11">mc_fansinfo</h2>
+<div class="level2">
+<div class="table sectionedit12"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array mc_fansinfo(mixed $openidOruid, int $acid, int $uniacid); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取粉丝信息
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit13"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$openidOruid </th><td class="col1"> mixed </td><td class="col2"> 粉丝或会员ID </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$acid </th><td class="col1"> int </td><td class="col2"> 子公众号ID </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$uniacid </th><td class="col1"> int </td><td class="col2"> 主公众号ID </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+粉丝信息。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">&nbsp;
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_fansinfo<span class="br0">(</span><span class="re0">$_W</span><span class="br0">[</span><span class="st_h">'member'</span><span class="br0">]</span><span class="br0">[</span><span class="st_h">'uid'</span><span class="br0">]</span><span class="sy0">,</span> <span class="re0">$_W</span><span class="br0">[</span><span class="st_h">'acid'</span><span class="br0">]</span><span class="sy0">,</span> <span class="re0">$_W</span><span class="br0">[</span><span class="st_h">'uniacid'</span><span class="br0">]</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span>fanid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">62043</span>
+    <span class="br0">[</span>acid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">238</span>
+    <span class="br0">[</span>uniacid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">181</span>
+    <span class="br0">[</span>uid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">9937</span>
+    <span class="br0">[</span>openid<span class="br0">]</span> <span class="sy0">=&gt;</span> duanbiaowu
+    <span class="br0">[</span>nickname<span class="br0">]</span> <span class="sy0">=&gt;</span> 段彪武
+    <span class="br0">[</span>groupid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span>
+    <span class="br0">[</span>salt<span class="br0">]</span> <span class="sy0">=&gt;</span> hP9r5c60
+    <span class="br0">[</span>follow<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span>
+    <span class="br0">[</span>followtime<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">1418985842</span>
+    <span class="br0">[</span>unfollowtime<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span>
+    <span class="br0">[</span>tag<span class="br0">]</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+        <span class="br0">(</span>
+        <span class="br0">)</span>
+&nbsp;
+    <span class="br0">[</span>updatetime<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span>
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="mc_oauth_fans" class="sectionedit14">_mc_oauth_fans</h2>
+<div class="level2">
+<div class="table sectionedit15"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array _mc_oauth_fans(string $openid, int $acid); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+无网页授权的公众号,通过借用授权定位 openid 和 uid
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit16"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$openid </th><td class="col1"> string </td><td class="col2"> 粉丝唯一标志 </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$acid </th><td class="col1"> int </td><td class="col2"> 子公众号ID </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+粉丝信息。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">暂无适合示例。</pre>
+
+</div>
+
+<h2 id="mc_oauth_userinfo" class="sectionedit17">mc_oauth_userinfo</h2>
+<div class="level2">
+<div class="table sectionedit18"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed _mc_oauth_fans(int $acid); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+调用oauth用户授权获取资料并更新会员信息
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit19"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$acid </th><td class="col1"> int </td><td class="col2"> 子公众号ID </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果公众号为订阅号，则直接获取并更新粉丝和会员信息，并返回最新信息。如果未出现错误信息，则跳转到微信网页授权，否则返回错误信息。
+</p>
+
+<p>
+注意：粉丝信息头像字段为：<strong>headimgurl</strong>。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">暂无适合示例。</pre>
+
+</div>
+
+<h2 id="mc_require" class="sectionedit20">mc_require</h2>
+<div class="level2">
+<div class="table sectionedit21"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed mc_require(int $uid, array $fields, [string $pre]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+如果某个模块需要获取用户的的一些信息(比如:真实姓名等),可使用函数【因生日.地区tpl函数修改,重新改造该函数】
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit22"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$uid </th><td class="col1"> int </td><td class="col2"> 会员ID </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$fields </th><td class="col1"> array </td><td class="col2"> 会员字段信息 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$pre </th><td class="col1"> string </td><td class="col2"> 提示信息连接符 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+ 如果用户已经完善了(真实姓名),则返回用户的信息(真实姓名)。如果没有完善,则显示表单,让用户填写。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+mc_require<span class="br0">(</span><span class="nu0">9937</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="st_h">'site'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span></pre>
+
+<p>
+结果示例：
+</p>
+
+<p>
+<img width="800" alt="" class="media" src="weiqing/mc_require.jpg">
+</p>
+
+</div>
+
+<h2 id="mc_credit_update" class="sectionedit23">mc_credit_update</h2>
+<div class="level2">
+<div class="table sectionedit24"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed mc_credit_update(int $uid, string $credittype, [mixed $creditval], [array $log]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+会员积分操作(记录所有的积分变动)
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit25"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$uid </th><td class="col1"> int </td><td class="col2"> 会员ID </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$credittype </th><td class="col1"> string </td><td class="col2"> 积分类型 </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$creditval </th><td class="col1"> mixed </td><td class="col2"> 积分数量，数量可以为正数或是负数 </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0">$creditval </th><td class="col1"> array </td><td class="col2"> 积分操作日志 索引数组,0⇒操作管理员id,1⇒备注 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果操作记录成功，返回 true，否则返回错误信息。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_credit_update<span class="br0">(</span><span class="nu0">9937</span><span class="sy0">,</span> <span class="st_h">'credit1'</span><span class="sy0">,</span> <span class="nu0">10</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">// true</span></pre>
+
+</div>
+
+<h2 id="mc_credit_fetch" class="sectionedit26">mc_credit_fetch</h2>
+<div class="level2">
+<div class="table sectionedit27"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array mc_credit_fetch(int $uid, array $types); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取会员积分
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit28"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$uid </th><td class="col1"> int </td><td class="col2"> 会员ID </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$types </th><td class="col1"> array </td><td class="col2"> 获取积分类型 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+会员积分列表。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_credit_fetch<span class="br0">(</span><span class="nu0">9937</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span>credit1<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu19">2324.26</span>
+    <span class="br0">[</span>credit2<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu19">9496.16</span>
+    <span class="br0">[</span>credit3<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu19">99.86</span>
+    <span class="br0">[</span>credit4<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu19">0.00</span>
+    <span class="br0">[</span>credit5<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu19">0.00</span>
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="mc_credit_types" class="sectionedit29">mc_credit_types</h2>
+<div class="level2">
+<div class="table sectionedit30"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array mc_credit_types(); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取会员所有积分类型
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+
+<p>
+void
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+积分类型列表。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_credit_types<span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span> <span class="sy0">=&gt;</span> credit1
+    <span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span> <span class="sy0">=&gt;</span> credit2
+    <span class="br0">[</span><span class="nu0">2</span><span class="br0">]</span> <span class="sy0">=&gt;</span> credit3
+    <span class="br0">[</span><span class="nu0">3</span><span class="br0">]</span> <span class="sy0">=&gt;</span> credit4
+    <span class="br0">[</span><span class="nu0">4</span><span class="br0">]</span> <span class="sy0">=&gt;</span> credit5
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="mc_groups" class="sectionedit31">mc_groups</h2>
+<div class="level2">
+<div class="table sectionedit32"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">array mc_groups(int $uniacid); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取公众号会员组
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit33"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$uniacid </th><td class="col1"> int </td><td class="col2"> 公众号ID </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+会员组列表。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">&nbsp;
+load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_groups<span class="br0">(</span><span class="re0">$_W</span><span class="br0">[</span><span class="st_h">'uniacid'</span><span class="br0">]</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span><span class="nu0">8</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+        <span class="br0">(</span>
+            <span class="br0">[</span>groupid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">8</span>
+            <span class="br0">[</span>uniacid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">181</span>
+            <span class="br0">[</span>title<span class="br0">]</span> <span class="sy0">=&gt;</span> 默认会员组
+            <span class="br0">[</span>orderlist<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span>
+            <span class="br0">[</span>isdefault<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">1</span>
+        <span class="br0">)</span>
+&nbsp;
+    <span class="br0">[</span><span class="nu0">105</span><span class="br0">]</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+        <span class="br0">(</span>
+            <span class="br0">[</span>groupid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">105</span>
+            <span class="br0">[</span>uniacid<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">181</span>
+            <span class="br0">[</span>title<span class="br0">]</span> <span class="sy0">=&gt;</span> VIP1
+            <span class="br0">[</span>orderlist<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">2</span>
+            <span class="br0">[</span>isdefault<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="nu0">0</span>
+        <span class="br0">)</span>
+        <span class="sy0">.......</span>
+        <span class="sy0">.......</span></pre>
+
+</div>
+
+<h2 id="mc_login" class="sectionedit34">_mc_login</h2>
+<div class="level2">
+<div class="table sectionedit35"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean _mc_login(array $member); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+更新当前已登录会员信息
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit36"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$member </th><td class="col1"> array </td><td class="col2"> 会员信息 </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果更新信息成功，返回 true，否则返回 false。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">暂无适合示例。</pre>
+
+</div>
+
+<h2 id="mc_fields" class="sectionedit37">mc_fields</h2>
+<div class="level2">
+<div class="table sectionedit38"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean mc_fields(); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+获取会员配置信息所有字段
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+
+<p>
+void
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+会员字段信息列表。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_fields<span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span>mobile<span class="br0">]</span> <span class="sy0">=&gt;</span> 手机号码
+    <span class="br0">[</span>email<span class="br0">]</span> <span class="sy0">=&gt;</span> 电子邮箱
+    <span class="br0">[</span>realname<span class="br0">]</span> <span class="sy0">=&gt;</span> 真实姓名
+    <span class="br0">[</span>nickname<span class="br0">]</span> <span class="sy0">=&gt;</span> 昵称
+    <span class="br0">[</span>avatar<span class="br0">]</span> <span class="sy0">=&gt;</span> 头像
+    <span class="br0">[</span>qq<span class="br0">]</span> <span class="sy0">=&gt;</span> QQ号
+    <span class="br0">[</span>gender<span class="br0">]</span> <span class="sy0">=&gt;</span> 性别
+    <span class="br0">[</span>birth<span class="br0">]</span> <span class="sy0">=&gt;</span> 生日
+    <span class="br0">[</span>constellation<span class="br0">]</span> <span class="sy0">=&gt;</span> 星座
+    <span class="br0">[</span>zodiac<span class="br0">]</span> <span class="sy0">=&gt;</span> 生肖
+    <span class="br0">[</span>telephone<span class="br0">]</span> <span class="sy0">=&gt;</span> 固定电话
+    <span class="br0">[</span>idcard<span class="br0">]</span> <span class="sy0">=&gt;</span> 证件号码
+    <span class="br0">[</span>studentid<span class="br0">]</span> <span class="sy0">=&gt;</span> 学号
+    <span class="br0">[</span>grade<span class="br0">]</span> <span class="sy0">=&gt;</span> 班级
+    <span class="br0">[</span>address<span class="br0">]</span> <span class="sy0">=&gt;</span> 地址
+    <span class="br0">[</span>zipcode<span class="br0">]</span> <span class="sy0">=&gt;</span> 邮编
+    <span class="br0">[</span>nationality<span class="br0">]</span> <span class="sy0">=&gt;</span> 国籍
+    <span class="br0">[</span>reside<span class="br0">]</span> <span class="sy0">=&gt;</span> 居住地
+    <span class="br0">[</span>graduateschool<span class="br0">]</span> <span class="sy0">=&gt;</span> 毕业学校
+    <span class="br0">[</span>company<span class="br0">]</span> <span class="sy0">=&gt;</span> 公司
+    <span class="br0">[</span>education<span class="br0">]</span> <span class="sy0">=&gt;</span> 学历
+    <span class="br0">[</span>occupation<span class="br0">]</span> <span class="sy0">=&gt;</span> 职业
+    <span class="br0">[</span>position<span class="br0">]</span> <span class="sy0">=&gt;</span> 职位
+    <span class="br0">[</span>revenue<span class="br0">]</span> <span class="sy0">=&gt;</span> 年收入
+    <span class="br0">[</span>affectivestatus<span class="br0">]</span> <span class="sy0">=&gt;</span> 情感状态
+    <span class="br0">[</span>lookingfor<span class="br0">]</span> <span class="sy0">=&gt;</span>  交友目的
+    <span class="br0">[</span>bloodtype<span class="br0">]</span> <span class="sy0">=&gt;</span> 血型
+    <span class="br0">[</span>height<span class="br0">]</span> <span class="sy0">=&gt;</span> 身高
+    <span class="br0">[</span>weight<span class="br0">]</span> <span class="sy0">=&gt;</span> 体重
+    <span class="br0">[</span>alipay<span class="br0">]</span> <span class="sy0">=&gt;</span> 支付宝帐号
+    <span class="br0">[</span>msn<span class="br0">]</span> <span class="sy0">=&gt;</span> MSN
+    <span class="br0">[</span>taobao<span class="br0">]</span> <span class="sy0">=&gt;</span> 阿里旺旺
+    <span class="br0">[</span>site<span class="br0">]</span> <span class="sy0">=&gt;</span> 主页
+    <span class="br0">[</span>bio<span class="br0">]</span> <span class="sy0">=&gt;</span> 自我介绍
+    <span class="br0">[</span>interest<span class="br0">]</span> <span class="sy0">=&gt;</span> 兴趣爱好
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="mc_handsel" class="sectionedit39">mc_handsel</h2>
+<div class="level2">
+<div class="table sectionedit40"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">boolean mc_handsel(int $touid, int $fromuid, array $handsel, [string $uniacid]); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+用户积分赠送模块
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit41"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$touid </th><td class="col1"> int </td><td class="col2"> 赠送积分用户uid </td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">$fromuid </th><td class="col1"> int </td><td class="col2"> 赠送积分来源用户uid(系统模块填写-1) </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0">$handsel </th><td class="col1"> array </td><td class="col2"> 赠送信息 array('module' ⇒ <code>, 'sign' ⇒ </code>, 'action' ⇒ '', 'credit_value' ⇒, 'credit_log' ⇒ ); </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0">$uniacid </th><td class="col1"> string </td><td class="col2"> 公众号ID 默认为$_W['uniacid'] </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果赠送信息记录成功，返回 true，否则返回 false。
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_handsel<span class="br0">(</span><span class="nu0">9937</span><span class="sy0">,</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">,</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/array"><span class="kw3">Array</span></a>
+<span class="br0">(</span>
+    <span class="br0">[</span>errno<span class="br0">]</span> <span class="sy0">=&gt;</span> <span class="sy0">-</span><span class="nu0">1</span>
+    <span class="br0">[</span>message<span class="br0">]</span> <span class="sy0">=&gt;</span> 没有填写模块名称
+<span class="br0">)</span></pre>
+
+</div>
+
+<h2 id="mc_openid2uid" class="sectionedit42">mc_openid2uid</h2>
+<div class="level2">
+<div class="table sectionedit43"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">mixed mc_openid2uid(string $openid); </th>
+	</tr>
+</tbody></table></div>
+
+<p>
+将粉丝openid转换为会员uid
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 参数</div></blockquote>
+</div></blockquote>
+<div class="table sectionedit44"><table class="inline">
+	<tbody><tr class="row0">
+		<th class="col0">$openid </th><td class="col1"> string </td><td class="col2"> 粉丝Openid </td>
+	</tr>
+</tbody></table></div>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 返回值</div></blockquote>
+</div></blockquote>
+
+<p>
+如果 openid 为单条信息，则查询单个会员id，如果为数组，则查询多个会员id并将结果与参数合并。如果没有结果为空，返回false，否则返回结果集合。 
+</p>
+<blockquote><div class="no">
+<blockquote><div class="no">
+ 示例</div></blockquote>
+</div></blockquote>
+<pre class="code php">load<span class="br0">(</span><span class="br0">)</span><span class="sy0">-&gt;</span><span class="me1">model</span><span class="br0">(</span><span class="st_h">'mc'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="re0">$result</span> <span class="sy0">=</span> mc_openid2uid<span class="br0">(</span><span class="st_h">'duanbiaowu'</span><span class="br0">)</span><span class="sy0">;</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$result</span><span class="br0">)</span><span class="sy0">;</span>    <span class="co1">// 9937</span></pre>
+
+</div>
+
+    <!-- end rendered wiki content -->
+    <div class="clearer"></div>
+  </div>
+  <!-- end div id bodyContent -->
+
+  
+  <div class="catlinks noprint"><p>
+    <span class="bchead">您的足迹:</span> <span class="bcsep">•</span> <bdi><a title="structure:errorhandler" class="breadcrumbs" href="/manual/structure:errorhandler">errorhandler</a></bdi> <span class="bcsep">•</span> <bdi><a title="structure:template" class="breadcrumbs" href="/manual/structure:template">template</a></bdi> <span class="bcsep">•</span> <bdi><a title="start" class="breadcrumbs" href="/manual/start">start</a></bdi> <span class="bcsep">•</span> <bdi><a title="structure:resource" class="breadcrumbs" href="/manual/structure:resource">resource</a></bdi> <span class="bcsep">•</span> <bdi><a title="dev:model:account" class="breadcrumbs" href="/manual/dev:model:account">account</a></bdi> <span class="bcsep">•</span> <bdi><a title="dev:model:activity" class="breadcrumbs" href="/manual/dev:model:activity">activity</a></bdi> <span class="bcsep">•</span> <bdi><a title="dev:model:app" class="breadcrumbs" href="/manual/dev:model:app">app</a></bdi> <span class="bcsep">•</span> <bdi><a title="dev:model:cache" class="breadcrumbs" href="/manual/dev:model:cache">cache</a></bdi> <span class="bcsep">•</span> <bdi><a title="dev:model:extension" class="breadcrumbs" href="/manual/dev:model:extension">extension</a></bdi> <span class="bcsep">•</span> <span class="curid"><bdi><a title="dev:model:mc" class="breadcrumbs" href="/manual/dev:model:mc">mc</a></bdi></span>
+  </p></div>
+<ul style="list-style: none; margin: 0; padding: 5px 0 0 0; text-align: right; font-size: 14px; color: #999;" id="footer-info">
+    <li id="footer-info-lastmod">
+      <bdi>dev/model/mc.txt</bdi> · 最后更改: 2015-11-24 11:30 由 <bdi>gorden</bdi>    </li>
+  </ul>
+</div>
+<!-- end div id=content -->
+</div>
+<!-- end page-container -->
+
+<!-- start footer --><!-- end footer -->
+<img src="wq_structure_routing/indexer.gif" alt="" height="1" width="2">
+</body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-cn"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>iOS中属性Property的常用关键字的使用说明 - 华过的痕迹 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="ios_property_type/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_property_type/bundle-CornflowerBlue.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/JackieHoo/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/JackieHoo/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/JackieHoo/wlwmanifest.xml">
+
+</head>
+<body>
+<div id="main">
+  
+  <div id="post_detail">
+	<div class="post">
+	
+		<h2>
+			<a id="cb_post_title_url" href="http://www.cnblogs.com/JackieHoo/p/5020208.html">iOS中属性Property的常用关键字的使用说明</a>
+		</h2>
+		<div class="postbody"><div id="cnblogs_post_body"><p class="p1">&nbsp;</p>
+<p class="p1"><span class="s1"><span style="font-size: 16px;"><strong>属性关键字的作用</strong></span></span></p>
+<p class="p1"><span class="s1">　　现在我们iOS开发中，基本都是使用ARC（自动引用计数）技术，来编写我们的代
+码。因此在属性property中我们经常使用的关键字有
+strong，weak，assign，copy，nonatomic，atomic，readonly,readwrite,getter，setter。
+可能经常写代码的朋友，已经很清楚在什么情况下会使用他们。但可能并不清楚他们的含义，下面我先通过一张表总结下他们的作用：</span></p>
+<table cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td colspan="2" valign="top">
+<p align="center"><span style="color: #000000; font-family: 'PingFang SC';"><strong>属性关键字的作用</strong></span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">属性关键字</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">对属性的作用</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">strong</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">释放旧对象</span><span style="color: #000000; font-family: 'PingFang SC';">将旧对象的值赋予输入对象</span><span style="color: #000000; font-family: 'PingFang SC';">，再提高输入对象的索引计数为</span><span style="color: #000000; font-family: Helvetica;">1</span><span style="color: #000000; font-family: 'PingFang SC';">，常使用在继承自</span><span style="color: #000000; font-family: Helvetica;">NSObject</span><span style="color: #000000; font-family: 'PingFang SC';">的类。</span><span style="color: #000000; font-family: Helvetica;">&nbsp;</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">weak</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">weak</span><span style="color: #000000; font-family: 'PingFang SC';">不增加对对象的引用计数，也不持有对象，因此不能决定对象的释放。它比</span><span style="color: #000000; font-family: Helvetica;">assign</span><span style="color: #000000; font-family: 'PingFang SC';">多了一个功能，当对象消失后自动把指针变成</span><span style="color: #000000; font-family: Helvetica;">nil</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">assign</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">简单赋值</span><span style="color: #000000; font-family: 'PingFang SC';">，不更改索引计数</span><span style="color: #000000; font-family: 'PingFang SC';">，适用于基础数据类型（</span><span style="color: #000000; font-family: Helvetica;">NSInteger CGFloat</span><span style="color: #000000; font-family: 'PingFang SC';">）和</span><span style="color: #000000; font-family: Helvetica;">C</span><span style="color: #000000; font-family: 'PingFang SC';">数据类型（</span><span style="color: #000000; font-family: Helvetica;">int float double char </span><span style="color: #000000; font-family: 'PingFang SC';">等）简单数据类型。</span></p>
+<p>&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">copy</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">建立一个索引计数为</span><span style="color: #000000; font-family: Helvetica;">1 </span><span style="color: #000000; font-family: 'PingFang SC';">的对象</span><span style="color: #000000; font-family: 'PingFang SC';">然后释放旧对象</span><span style="color: #000000; font-family: Helvetica;">&nbsp; </span><span style="color: #000000; font-family: 'PingFang SC';">对</span><span style="color: #000000; font-family: Helvetica;">NSString</span><span style="color: #000000; font-family: 'PingFang SC';">它指出</span><span style="color: #000000; font-family: 'PingFang SC';">，在赋值时使用传入值的一份拷贝</span><span style="color: #000000; font-family: 'PingFang SC';">，拷贝工作由</span><span style="color: #000000; font-family: Helvetica;">copy</span><span style="color: #000000; font-family: 'PingFang SC';">方法执行，此属性只对那些实行了</span><span style="color: #000000; font-family: Helvetica;">NSCopying</span><span style="color: #000000; font-family: 'PingFang SC';">协议的对象类型有效。</span></p>
+<p>&nbsp;</p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">atomic</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">和</span><span style="color: #000000; font-family: Helvetica;"> nonatomic</span><span style="color: #000000; font-family: 'PingFang SC';">用来决定编译器生成的</span><span style="color: #000000; font-family: Helvetica;">getter</span><span style="color: #000000; font-family: 'PingFang SC';">和</span><span style="color: #000000; font-family: Helvetica;">setter</span><span style="color: #000000; font-family: 'PingFang SC';">是否为原子操作</span><span style="color: #000000; font-family: 'PingFang SC';">，</span><span style="color: #000000; font-family: Helvetica;">atomic </span><span style="color: #000000; font-family: 'PingFang SC';">设置成员变量的</span><span style="color: #000000; font-family: Helvetica;">@property</span><span style="color: #000000; font-family: 'PingFang SC';">属性时</span><span style="color: #000000; font-family: Helvetica;">&nbsp; </span><span style="color: #000000; font-family: 'PingFang SC';">默认为是</span><span style="color: #000000; font-family: Helvetica;">atomic </span><span style="color: #000000; font-family: 'PingFang SC';">提供线程安全</span><span style="color: #000000; font-family: 'PingFang SC';">。在多线程环境下</span><span style="color: #000000; font-family: 'PingFang SC';">，原子操作是必要的</span><span style="color: #000000; font-family: 'PingFang SC';">否则会引起错误的结果</span><span style="color: #000000; font-family: 'PingFang SC';">。</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">nonatomic</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">非原子性访问</span><span style="color: #000000; font-family: 'PingFang SC';">对于属性赋值的时候不加锁</span><span style="color: #000000; font-family: 'PingFang SC';">，多线程并发访问会提高性能，如果不加此属性</span><span style="color: #000000; font-family: 'PingFang SC';">则默认是两个访问方法都为原子型事务访问。</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">readonly</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">此标记说明属性是只读的</span><span style="color: #000000; font-family: Helvetica;">&nbsp;</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">readwrite</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">此标记说明属性会被当成读写的</span><span style="color: #000000; font-family: Helvetica;">&nbsp; </span><span style="color: #000000; font-family: 'PingFang SC';">这也是默认的属性</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">unsafe_unretained</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">跟</span><span style="color: #000000; font-family: Helvetica;">weak</span><span style="color: #000000; font-family: 'PingFang SC';">类似，声明一个弱引用，但是当引用计数为</span><span style="color: #000000; font-family: Helvetica;">0</span><span style="color: #000000; font-family: 'PingFang SC';">时，变量不会自动设置为</span><span style="color: #000000; font-family: Helvetica;">nil</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">getter</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">指定</span><span style="color: #000000; font-family: Helvetica;"> get </span><span style="color: #000000; font-family: 'PingFang SC';">方法，并需要实现这个方法</span><span style="color: #000000; font-family: 'PingFang SC';">。必须返回与声明类型相同的变量，没有参数</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">setter</span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">指定</span><span style="color: #000000; font-family: Helvetica;"> set </span><span style="color: #000000; font-family: 'PingFang SC';">方法，并需要实现这个方法</span><span style="color: #000000; font-family: 'PingFang SC';">。带一个与声明类型相同的参数，没有返回值（返回空值）</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: 'PingFang SC';">当声明为</span><span style="color: #000000; font-family: Helvetica;"> readonly </span><span style="color: #000000; font-family: 'PingFang SC';">的时候，不能指定</span><span style="color: #000000; font-family: Helvetica;"> set </span><span style="color: #000000; font-family: 'PingFang SC';">方法</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p class="p1"><span class="s1" style="font-size: 16px;"><strong>用一个形象的例子说明assign,strong,copy的作用</strong></span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p3"><span class="s2">&nbsp; &nbsp; <span class="s1">NSString *houseOfMM = [[NSString alloc] initWithString:'MM的三室两厅']; &nbsp;</span></span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span"> 上面一段代码会执行以下两个动作: &nbsp;</span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span"> 1 在堆上分配一段内存用来存储@' MM的三室两厅 ' ,比如:内存地址为 0X1111&nbsp; 内容为 ' MM的三室两厅' ， &nbsp;</span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span"> 2 在栈上分配一段内存用来存储 houseForWife ,比如:地址为 0XAAAA&nbsp; 内容自然为 0X1111 &nbsp; &nbsp;</span></span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">然后我们分别看下(assign,strong,copy)使用场景: &nbsp;</span></p>
+<p class="p1"><span class="s1">1.assign的情况: NSString&nbsp; * myHouse&nbsp; = [ houseOfMM &nbsp; assign ]; &nbsp;</span></p>
+<p class="p1"><span class="s1">此时 myHouse 和 houseOfMM 完全相同,地址都是 
+0XAAAA&nbsp; ,内容为 0X1111&nbsp; ,即 myHouse 只是 houseOfMM 
+的别名,对任何一个操作就等于对另一个操作。因此 retainCount 不需要增加.(同进同出，关系好，一把钥匙，给我拿着) &nbsp;</span></p>
+<p class="p1"><span class="s1">2.retain的情况： NSString&nbsp; *&nbsp; myHouse&nbsp; = [ houseOfMM &nbsp; retain ]; &nbsp;</span></p>
+<p class="p1"><span class="s1">此时 myHouse 的地址不再为 0XAAAA ,可能为 0XAABB 
+,但是内容依然为 0X1111 .因此 myHouse 和 houseOfMM都可以管理' 装梵几的三室两厅 '所在的内存。因此&nbsp; 
+retainCount 需要增加1.（有些独立，各自进出，两把钥匙） &nbsp;</span></p>
+<p class="p1"><span class="s1">3.copy的情况： NSString&nbsp; *&nbsp; myHouse&nbsp; = [ houseOfMM &nbsp; copy ]; &nbsp;</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">此时会在堆上重新开辟一段内存存放@'MM的三室两厅',比如0X1122,内容为
+@'MM的三室两厅',同时会在栈上为myHouse分配空间,比如地址:0XAACC,内容为0X1122,因此retainCount增加1供
+myHouse来管理0X1122这段内存.(两套@'装梵几的三室两厅'，条件好，分居了，房子一人一套，所以钥匙一人一把。)&nbsp;</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1" style="font-size: 16px;"><strong>关键字(assign,strong,copy)的使用场景</strong></span></p>
+<p class="p1"><span class="s1">什么时候用assign,当然是破房子，简装的房子拉</span></p>
+<p class="p1"><span class="s1">基础类型（简单类型，原子类型）：NSInteger,CGPoint,CGFloat,C数据类型（int,float,double,char等）</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">什么时候用copy</span></p>
+<p class="p1"><span class="s1">含有可深拷贝的mutable子类的类，如NSArray，NSSet，NSDictionary，NSData的，NSCharacterSet，NSIndexSet，NSString</span></p>
+<p class="p1"><span class="s1">(可深度拷贝的房子)</span></p>
+<p class="p1"><span class="s1">但是NSMutableArray这样的不可以，Mutable的不能用copy,不然初始化会有问题。切记</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">什么时候用strong</span></p>
+<p class="p1"><span class="s1">NSObject和其子类对象</span></p>
+<p class="p1"><span class="s1">weak：由ARC引入的对象变量的属性，比assign多了一个功能，对象消失后把指针置为nil，避免了野指针（不是null指针，是指向“垃圾”内存（不可用的内存）的指针）</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">用下面这张表来总结下关键字(assign,strong,copy)的使用场景</span></p>
+<p class="p1">&nbsp;</p>
+<table cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td colspan="2" valign="top">
+<p align="center"><span style="color: #000000; font-family: 'PingFang SC';">关键字</span><span style="color: #000000; font-family: Helvetica;">(assign,strong,copy)</span><span style="color: #000000; font-family: 'PingFang SC';">的使用场景</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;"><strong>assign</strong></span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">基本数据类型</span><span style="color: #000000; font-family: Helvetica;">,</span><span style="color: #000000; font-family: 'PingFang SC';">如：</span><span style="color: #000000; font-family: Helvetica;">NSInteger,CGPoint,CGFloat,C</span><span style="color: #000000; font-family: 'PingFang SC';">数据类型（</span><span style="color: #000000; font-family: Helvetica;">int,float,double,char</span><span style="color: #000000; font-family: 'PingFang SC';">等）</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;"><strong>copy</strong></span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: 'PingFang SC';">含有可深拷贝的</span><span style="color: #000000; font-family: Helvetica;">NSCopy</span><span style="color: #000000; font-family: 'PingFang SC';">子类的类，如</span><span style="color: #000000; font-family: Helvetica;">NSArray</span><span style="color: #000000; font-family: 'PingFang SC';">，</span><span style="color: #000000; font-family: Helvetica;">NSSet</span><span style="color: #000000; font-family: 'PingFang SC';">，</span><span style="color: #000000; font-family: Helvetica;">NSDictionary</span><span style="color: #000000; font-family: 'PingFang SC';">，</span><span style="color: #000000; font-family: Helvetica;">NSData</span><span style="color: #000000; font-family: 'PingFang SC';">的，</span><span style="color: #000000; font-family: Helvetica;">NSCharacterSet</span><span style="color: #000000; font-family: 'PingFang SC';">，</span><span style="color: #000000; font-family: Helvetica;">NSIndexSet</span><span style="color: #000000; font-family: 'PingFang SC';">，</span><span style="color: #000000; font-family: Helvetica;">NSString</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;"><strong>strong/weak</strong></span></p>
+</td>
+<td valign="top">
+<p><span style="color: #000000; font-family: Helvetica;">NSObject</span><span style="color: #000000; font-family: 'PingFang SC';">和其子类对象</span><span style="color: #000000; font-family: Helvetica;">&nbsp;(Cocoa</span><span style="color: #000000; font-family: 'PingFang SC';">框架的类以及我们多数自定义的类</span><span style="color: #000000; font-family: Helvetica;">)</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p4"><span class="s1" style="font-size: 16px;"><strong>属性关键字的对比</strong></span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1"><strong>1.copy与strong</strong></span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　1.copy 其实是建立了一个相同的对象 ，而strong不是 &nbsp; 
+&nbsp; 比如说 个NSString对象 地址是0x1111 内容为@"STR" ,copy到另外一个NSString之后 
+，地址为0x2222 内容相同 新的对象retain 为 1 ，旧有对象没 有变化 &nbsp; &nbsp; ； &nbsp; &nbsp; 
+retain到另外一个NSString之后，地址相同（建立了一个指针，指针拷贝）内容当然相同&nbsp; 
+这个对象的retain值+1&nbsp; 也就是说 retain 是指针拷贝 &nbsp; copy 是内容拷贝。</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　2.strong的set方法是浅拷贝&nbsp; copy的set方法是深拷贝</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　3.copy的另外一个用法：</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　copy是内容拷贝 对于像NSString的确是这样的&nbsp; 但是如果copy的对象是NSArray &nbsp;</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　比如：NSArray*array = [NSArray arrayWithObjects:@"hello",@"world",@"baby"];</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　　　　NSArray*array2 = [array copy];</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　这个时候 系统的确是为array2 开辟了一块新的内存空间 但是 array2中的每个元素 只是copy了指向array中相对应元素的指针 这便是所谓的浅复制。</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1"><strong>2.assign和strong</strong></span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　1.类似与C语言&nbsp; 当你malloc分配了一块内存&nbsp; 
+并且把它的地址赋给了指针a ，后来希望指针b也共享这一块内存 ，于是你又把a赋值给（assign）了b &nbsp; 。此时a和 b 
+指向同一块空间 ，当a不再需要这块内存的时候 ，能否直接释放它&nbsp; 答案是否定的 ，因为a并不知道b是否还在使用这块内存 
+，如果a释放掉了这块内存&nbsp; 那么b在使用这块内存的时候&nbsp; 程序会crash掉</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　2.1当中assign出现的问题如何解决 最简单的方法就是使用引用计数 
+（reference counting），还是上面的哪个例子&nbsp; 我们给内存设一个引用计数 当内存被分配并赋值给a 的时候&nbsp; 
+引用计数是1， 当把a赋值给b的时候&nbsp; 引用计数为2&nbsp; 这时如果a不再使用这块内存 ，它只需要把引用计数减1 
+表明自己不再用于这块内存 。b不再使用这块内存的时候也把引用计数减1&nbsp; 当引用计数为0 的时候 ，代表该内存不再被任何指针指向 
+系统可以直接把它释放掉。</span></p>
+<p class="p2"><span class="s1">&nbsp;</span></p>
+<p class="p1"><span class="s1">　　总结：上面两点就是assign和strong的区别&nbsp; 
+assign就是直接赋值 从而可能引起1.中的问题&nbsp; &nbsp; 当数据为int float等原生类型的时候，可以使用assign 
+&nbsp; &nbsp; strong就如2.中所描述的问题一样&nbsp; 使用了引用计数 retain引起引用计数加1&nbsp; 
+release 引起引用计数减1 当引用计数为0的时候&nbsp; dealloc函数被调用&nbsp; 内存被回收。</span></p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+	  </div>
+
+	</div>
+
+	
+</div>
+</div>
+
+
+
+</body></html>

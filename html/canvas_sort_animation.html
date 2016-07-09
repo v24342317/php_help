@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Canvas制作排序算法演示动画 - coder_leon - 博客园</title>
+<link type="text/css" rel="stylesheet" href="canvas_sort_animation/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="canvas_sort_animation/bundle-darkgreentrip.css">
+</head>
+<body>
+
+<!--done-->
+<div id="home"><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/coderleon/p/4784095.html">Canvas制作排序算法演示动画</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="cnblogs-markdown"><p>tips: 形象化演示排序算法可以让初学者快速理解，比较好的例子：<a href="http://jun-lu.github.io/SortAnimate/index.html">jun-lu的SortAnimate</a>，<a href="http://www.webhek.com/misc/comparison-sort">旧金山大学的David Galles教授的算法演示课件</a>。最近在看canvas，试着用js+canvas自己做了一个。</p>
+<h3>实现思路</h3>
+<ul>
+<li>获取输入字符串<br></li>
+<li>存入数组<code>S[]</code>中<br></li>
+<li>新建一个对象数组<code>Rect[]{ x , y , target_x , target_y ,	text:S[i]}</code>（注：<code>x , y</code> 是当前坐标，<code>target_x , target_y</code> 是目的坐标，<code>text</code> 记录字符）<br></li>
+<li>排序<br></li>
+<li>使用插入排序进行顺序排序，当数值有交换行为时， 用<code>track_insert[]</code>记录进行交换的元素在数组中的位置（方便在绘制动画时进行坐标定位）<br></li>
+<li>因为我用的是插入排序，属于<code>arr[i]</code>和<code>arr[i+1]</code>进行交换，所以只需要记录<code>i</code>就可以。<br></li>
+<li>绘制<br></li>
+<li>图片绘制<code>function Draw(){}</code><br></li>
+<li>图片坐标更新<code>function Update(){}</code><br></li>
+<li>使用<code>setInterval()</code>定时调用<code>Draw()</code>和<code>Update()</code>函数进行页面刷新</li>
+</ul>
+<h3>效果</h3>
+<p><img src="canvas_sort_animation/33395157.png" alt="初始界面"></p>
+<p><img src="canvas_sort_animation/72285328.png" alt="排序过程"></p>
+<p><img src="canvas_sort_animation/80070619.gif" alt="gif演示"></p>
+<h3>小结</h3>
+<p>做动画都是一个原理，不短刷新更新坐标，擦除，绘制，之前用opencv做的2d的小游戏也是同样的原理。</p>
+<h3 id="source-code">Source code</h3>
+<h4 id="html">.html</h4>
+<pre class="html"><code class="hljs xml"><span class="hljs-doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span> <span class="hljs-attribute">lang</span>=<span class="hljs-value">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-title">meta</span> <span class="hljs-attribute">charset</span>=<span class="hljs-value">"UTF-8"</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-title">meta</span> <span class="hljs-attribute">http-equiv</span>=<span class="hljs-value">"Content-Type"</span> <span class="hljs-attribute">content</span>=<span class="hljs-value">"text/html;charset=utf-8"</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/css"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"css/demo.css"</span>/&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span><span class="hljs-value">src="js</span>/<span class="hljs-attribute">demo2.js</span>"&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-title">title</span>&gt;</span>Demo<span class="hljs-tag">&lt;/<span class="hljs-title">title</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>	
+	<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"container"</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Input String：
+				<span class="hljs-tag">&lt;<span class="hljs-title">input</span>  <span class="hljs-attribute">name</span>=<span class="hljs-value">"string"</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"tin"</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text"</span>/&gt;</span>
+			<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>					
+		<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span> 
+				<span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"button"</span> <span class="hljs-attribute">onclick</span>=<span class="hljs-value">"showDemo()"</span><span class="hljs-value">id="bin"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"Show"</span>/&gt;</span>
+			<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-title">canvas</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"mycanvas"</span>  &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">canvas</span>&gt;</span>
+		<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span></code></pre>
+<h4 id="js">.js</h4>
+<pre class="js"><code class="hljs javascript"><span class="hljs-keyword">var</span> S;
+<span class="hljs-keyword">var</span> Coordinate_y = <span class="hljs-number">40</span>;
+<span class="hljs-keyword">var</span> Rect = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();
+<span class="hljs-keyword">var</span> track_insert = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();
+<span class="hljs-keyword">var</span> cons = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">var</span> cnt;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">func</span><span class="hljs-params">()</span> </span>{
+<span class="hljs-comment">//获取字符串，存入数组</span>
+	S = <span class="hljs-built_in">document</span>.getElementsByName(<span class="hljs-string">"string"</span>)[<span class="hljs-number">0</span>].value.split(<span class="hljs-string">""</span>);
+<span class="hljs-comment">//依据数组元素，完成对象数组</span>
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; S.length; i++) {
+		<span class="hljs-keyword">var</span> rect = {
+			x: <span class="hljs-number">30</span> * i,
+			y: Coordinate_y,
+			target_x: <span class="hljs-number">30</span> * i,
+			target_y: Coordinate_y,
+			text: S[i]
+		}
+		Rect.push(rect);
+	}
+	insertSort(S);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">insertSort</span><span class="hljs-params">(arr)</span> </span>{
+	<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>,
+	j, key, temp;
+	<span class="hljs-keyword">for</span> (; i &lt; arr.length; i++) {
+		j = i;
+		key = arr[i];
+		<span class="hljs-keyword">while</span> (--j &gt;= <span class="hljs-number">0</span>) {
+			<span class="hljs-keyword">if</span> (arr[j] &gt; key) {
+				arr[j + <span class="hljs-number">1</span>] = arr[j];
+				arr[j] = key;
+<span class="hljs-comment">//当数据有交换时，记录下标</span>
+				track_insert.push(j);
+			} <span class="hljs-keyword">else</span> {
+				<span class="hljs-keyword">break</span>;
+			}
+		}
+	}
+}
+<span class="hljs-comment">//坐标更新</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">()</span> </span>{
+	<span class="hljs-keyword">if</span> (cons &gt; track_insert.length) {
+		<span class="hljs-keyword">return</span>;
+	}
+	<span class="hljs-keyword">if</span> (cons == <span class="hljs-number">0</span>) {
+		cnt = track_insert[cons];
+		Rect[cnt].target_x = Rect[cnt + <span class="hljs-number">1</span>].x;
+		Rect[cnt + <span class="hljs-number">1</span>].target_x = Rect[cnt].x;
+		cons += <span class="hljs-number">1</span>;
+		<span class="hljs-built_in">console</span>.log(cnt);
+	}
+	<span class="hljs-keyword">if</span> (Rect[cnt].x == Rect[cnt].target_x) {
+		<span class="hljs-keyword">if</span> (cons == track_insert.length) {
+			cons += <span class="hljs-number">1</span>;
+			<span class="hljs-keyword">return</span>;
+		}
+		<span class="hljs-keyword">var</span> tem = Rect[cnt];
+		Rect[cnt] = Rect[cnt + <span class="hljs-number">1</span>];
+		Rect[cnt + <span class="hljs-number">1</span>] = tem;
+		cnt = track_insert[cons];
+		Rect[cnt].target_x = Rect[cnt + <span class="hljs-number">1</span>].x;
+		Rect[cnt + <span class="hljs-number">1</span>].target_x = Rect[cnt].x;
+		cons += <span class="hljs-number">1</span>;
+		<span class="hljs-built_in">console</span>.log(cnt);
+	} <span class="hljs-keyword">else</span> {
+		Rect[cnt].x += <span class="hljs-number">1</span>;
+		Rect[cnt + <span class="hljs-number">1</span>].x -= <span class="hljs-number">1</span>;
+	}
+}
+<span class="hljs-comment">//绘制图像</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">draw</span><span class="hljs-params">(context)</span> </span>{
+	context.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, context.canvas.width, context.canvas.height);
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; Rect.length; i++) {
+		<span class="hljs-keyword">if</span> ((Rect[i].x - Rect[i].target_x) &gt;= <span class="hljs-number">2</span> || (Rect[i].x - Rect[i].target_x) &lt; -<span class="hljs-number">2</span>) {
+			context.fillStyle = <span class="hljs-string">"yellow"</span>;
+			context.fillRect(Rect[i].x, Rect[i].y, <span class="hljs-number">25</span>, <span class="hljs-number">25</span>);
+			context.fillStyle = <span class="hljs-string">"blue"</span>;
+			context.fillText(Rect[i].text, Rect[i].x + <span class="hljs-number">10</span>, Rect[i].y + <span class="hljs-number">15</span>);
+		} <span class="hljs-keyword">else</span> {
+			context.strokeStyle = <span class="hljs-string">"blue"</span>;
+			context.strokeRect(Rect[i].x, Rect[i].y, <span class="hljs-number">25</span>, <span class="hljs-number">25</span>);
+			context.fillStyle = <span class="hljs-string">"blue"</span>;
+			context.fillText(Rect[i].text, Rect[i].x + <span class="hljs-number">10</span>, Rect[i].y + <span class="hljs-number">15</span>);
+		}
+	}
+	context.fillText(<span class="hljs-string">"插入排序"</span>, <span class="hljs-number">40</span>, <span class="hljs-number">80</span>);
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showDemo</span><span class="hljs-params">()</span> </span>{
+	func();
+	<span class="hljs-keyword">var</span> c = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"mycanvas"</span>);
+	c.width = <span class="hljs-number">600</span>;
+	c.height = <span class="hljs-number">300</span>;
+	<span class="hljs-keyword">var</span> context = c.getContext(<span class="hljs-string">"2d"</span>);
+<span class="hljs-comment">//40ms调用一次函数</span>
+	setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+		draw(context);
+		update();
+	}, <span class="hljs-number">40</span>);
+}</code></pre>
+<h4 id="css">.css</h4>
+<pre class="css"><code class="hljs"><span class="hljs-tag">input</span><span class="hljs-id">#tin</span><span class="hljs-rules">{
+	<span class="hljs-rule"><span class="hljs-attribute">margin-bottom</span>:<span class="hljs-value"> <span class="hljs-number">5px</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#fff</span></span></span>;<span class="hljs-rule"><span class="hljs-attribute">opacity</span>:<span class="hljs-value"><span class="hljs-number">0.85</span></span></span>;8
+	<span class="hljs-rule"><span class="hljs-attribute">width</span>:<span class="hljs-value"><span class="hljs-number">20px</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">height</span>:<span class="hljs-value"><span class="hljs-number">25px</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">border-width</span>:<span class="hljs-value"> <span class="hljs-number">1</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">17px</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#000</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">font-weight</span>:<span class="hljs-value"> <span class="hljs-number">500</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">border-radius</span>:<span class="hljs-value"> <span class="hljs-number">5px</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">cursor</span>:<span class="hljs-value">pointer</span></span>; 
+}</span>
+<span class="hljs-tag">input</span><span class="hljs-id">#bin</span><span class="hljs-rules">{
+	<span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value"> gray</span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">width</span>:<span class="hljs-value"><span class="hljs-number">80</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">height</span>:<span class="hljs-value"><span class="hljs-number">25</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">border-width</span>:<span class="hljs-value"> <span class="hljs-number">2</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">20px</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#FFFFFF</span></span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">font-weight</span>:<span class="hljs-value"> <span class="hljs-number">500</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">cursor</span>:<span class="hljs-value">pointer</span></span>; 
+	<span class="hljs-rule"><span class="hljs-attribute">border-radius</span>:<span class="hljs-value"> <span class="hljs-number">5px</span></span></span>;
+}</span>
+<span class="hljs-tag">canvas</span><span class="hljs-id">#mycanvas</span><span class="hljs-rules">{
+	<span class="hljs-rule"><span class="hljs-attribute">border</span>:<span class="hljs-value"><span class="hljs-number">1px</span> solid</span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">width</span>:<span class="hljs-value"> <span class="hljs-number">600px</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">height</span>:<span class="hljs-value"> <span class="hljs-number">300px</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">margin-top</span>:<span class="hljs-value"> <span class="hljs-number">5px</span></span></span>;
+	<span class="hljs-rule"><span class="hljs-attribute">border-radius</span>:<span class="hljs-value"> <span class="hljs-number">5px</span></span></span>;
+}</span>
+<span class="hljs-tag">div</span><span class="hljs-id">#container</span><span class="hljs-rules">{
+	<span class="hljs-rule"><span class="hljs-attribute">margin-left</span>:<span class="hljs-value"> <span class="hljs-number">70px</span></span></span>;
+}</span></code></pre></div><div id="MySignature"></div>
+<div class="clear"></div>
+		</div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+</div></div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+  </div><!--end: main -->
+  <div class="clear"></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

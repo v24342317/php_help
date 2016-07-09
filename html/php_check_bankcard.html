@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>php银行卡校验</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>php银行卡校验(参考资料,实际使用有问题)</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+          <h2>前言</h2><br>
+          银行金卡，维萨和万事达、银联品牌，如果是贷记卡或准贷记卡，一定为16位卡号。而借记卡可以16-19位不等。<br>
+          美国运通卡则不论金卡或是白金卡、普通卡，都是15位卡号。<br>
+          16-19 位卡号校验位采用 Luhm 校验方法计算</p>
+          <h2>Luhm校验</h2>
+          <ol>
+            <li>将未带校验位的 15 位卡号从右依次编号 1 到 15，位于奇数位号上的数字乘以 2<br>
+            </li>
+            <li>将奇位乘积的个十位全部相加，再加上所有偶数位上的数字<br>
+            </li>
+            <li>将加法和加上校验位能被 10 整除。</li>
+          </ol>
+
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">&lt;?php
+/*
+  16-19 位卡号校验位采用 Luhm 校验方法计算：
+    1，将未带校验位的 15 位卡号从右依次编号 1 到 15，位于奇数位号上的数字乘以 2
+    2，将奇位乘积的个十位全部相加，再加上所有偶数位上的数字
+    3，将加法和加上校验位能被 10 整除。
+*/
+function luhm($s) {
+    $n = 0;
+    for ($i = strlen($s); $i >= 1; $i--) {
+        $index=$i-1;
+        //偶数位
+        if ($i % 2==0) {
+            $n += $s{$index};
+        } else {//奇数位
+            $t = $s{$index} * 2;
+            if ($t > 9) {
+                $t = (int)($t/10)+ $t%10;
+            }
+            $n += $t;
+        }
+    }
+    return ($n % 10) == 0;
+}
+
+$r = luhm('6225881414207430');
+var_dump($r);
+?&gt;</span></code></li></ol></pre>
+
+  <p>准确率怎么样，附文一片<br>
+    <a href="http://xiangkg.blog.163.com/blog/static/56688504201269112417414/">银行卡校验规则(Luhn算法)</a></p>
+  <p>本文链接 :<a href="http://blog.newbmiao.com/2015/09/25/use-luhm-to-validate-bank-card.html">http://blog.newbmiao.com/2015/09/25/use-luhm-to-validate-bank-card.html</a></p>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

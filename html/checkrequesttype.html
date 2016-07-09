@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>判断请求类型</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>判断请求类型</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        
+            <h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">if(strtolower($_SERVER['REQUEST_METHOD']) === 'post') {
+	....
+}</span></code></li></ol></pre>
+
+<h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">define('REQUEST_METHOD',$_SERVER['REQUEST_METHOD']);  
+define('IS_GET',        REQUEST_METHOD =='GET' ? true : false);  
+define('IS_POST',       REQUEST_METHOD =='POST' ? true : false);  
+define('IS_PUT',        REQUEST_METHOD =='PUT' ? true : false);  
+define('IS_DELETE',     REQUEST_METHOD =='DELETE' ? true : false);  
+define('IS_AJAX',       ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')])) ? true : false);</span></code></li></ol></pre>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

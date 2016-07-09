@@ -1,0 +1,3542 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}.ng-hide-add-active,.ng-hide-remove{display:block!important;}</style>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Language" content="zh-CN">
+  <meta name="robots" content="index, follow">
+  <link rel="shortcut icon" type="image/x-icon" href="http://my.oschina.net/img/favicon.ico?t=1451964198000">
+  <title>iOS开发19：Storyboard的简单使用 -  双子座的个人页面 - 开源中国社区</title>
+    <meta name="Keywords" content="iOS,iPad,iPhone,开发,Storyboard,静态表格">
+      <meta name="Description" content="iOS开发19：Storyboard的简单使用：之前做的例子，我们经常会用到.xib文件，在其中我们可以进行界面的设计。不过如果想切换视图，我们就得自...">
+    <link rel="stylesheet/less" href="http://my.oschina.net/plumsoft/styles.less?ver=20150812&amp;date=20130317205444" type="text/css" media="screen">
+  <link rel="stylesheet" href="iOS-Storyboard2/tip-yellowsimple.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/jquery_002.css" media="screen">
+	<!--添加emoji支持-->
+    <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/nature.css">
+    <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/object.css">
+    <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/people.css">
+    <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/place.css">
+    <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/Sysmbols.css">
+    <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/twemoji.css">
+
+<style id="less:plumsoft-styles" media="screen" type="text/css">:focus {
+  outline: 0;
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+a {
+  color: #4466bb;
+  outline: 0;
+}
+a:hover {
+  color: #0000aa;
+}
+ul,
+ol {
+  list-style-type: none;
+}
+img {
+  border: 0;
+}
+textarea {
+  resize: none;
+}
+body {
+  background: #f9f9f9;
+  text-align: center;
+  font-size: 10pt;
+}
+label.SELECTED {
+  color: #A00;
+  font-weight: bold;
+}
+.clear {
+  clear: both;
+  font-size: 1px;
+  line-height: 0;
+}
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.clearfix {
+  display: inline-block;
+}
+html[xmlns] .clearfix {
+  display: block;
+}
+* html .clearfix {
+  height: 1%;
+}
+.ostable {
+  width: 100%;
+  table-layout: fixed;
+}
+.ostable td {
+  vertical-align: top;
+  overflow: hidden;
+}
+.highlight {
+  color: #A00;
+  padding: 0 1px;
+  margin: 0 2px;
+}
+.NoData {
+  text-align: center;
+  padding: 20px 0;
+  color: #999999;
+}
+a.tag {
+  background-color: #E0EAF1;
+  border-bottom: 1px solid #3E6D8E;
+  border-right: 1px solid #7F9FB6;
+  color: #3E6D8E;
+  font-size: 8pt;
+  line-height: 2.4;
+  margin: 2px 2px 2px 0;
+  padding: 2px 4px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+a.tag:hover {
+  background-color: #3E6D8E;
+  color: #fff;
+}
+a.project {
+  background-color: #cfc;
+  color: #060;
+}
+a.project:hover {
+  background-color: #5cc26f;
+  color: #fff;
+}
+a.rndbutton {
+  background: #5cc26f;
+  color: #fff;
+  text-decoration: none;
+  height: 30px;
+  float: left;
+  margin: 0;
+  border: 0px solid #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+a.rndbutton:hover {
+  background: #40ab54;
+}
+a.rndbutton:hover span {
+  background: #40ab54;
+  color: #fff;
+}
+a.rndbutton span {
+  background: #5cc26f;
+  color: #fff;
+  float: left;
+  margin: 0 0 0 12px;
+  padding: 0 12px 0 0;
+  height: 30px;
+  line-height: 30px;
+}
+.obj_type_1 a.title {
+  background: url('/img/a2.gif') no-repeat left center;
+  background-position: 5px;
+}
+.obj_type_2 a.title {
+  background: url('/img/thread.gif') no-repeat left center;
+  background-position: 5px;
+}
+.obj_type_3 a.title {
+  background: url('/img/thread.gif') no-repeat left center;
+  background-position: 5px;
+}
+.obj_type_4 a.title {
+  background: url('/img/a3.gif') no-repeat left center;
+  background-position: 5px;
+}
+.obj_type_5 a.title {
+  background: url('/img/code.gif') no-repeat left center;
+}
+.obj_type_7 a.title {
+  background: url('/img/a3.gif') no-repeat left center;
+  background-position: 5px;
+}
+.obj_type_36 a.title {
+  background: url('/img/a2.gif') no-repeat left center;
+  background-position: 5px;
+}
+.init_degree {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+}
+.first_degree {
+  -webkit-transform: rotate(-90deg) translate(-100%);
+  -moz-transform: rotate(-90deg) translate(-100%);
+  -o-transform: rotate(-90deg) translate(-100%);
+  -ms-transform: rotate(-90deg) translate(-100%);
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+}
+.second_degree {
+  -webkit-transform: rotate(-180deg) translate(-100%, -100%);
+  -moz-transform: rotate(-180deg) translate(-100%, -100%);
+  -o-transform: rotate(-180deg) translate(-100%, -100%);
+  -ms-transform: rotate(-180deg) translate(-100%, -100%);
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+}
+.third_degree {
+  -webkit-transform: rotate(-270deg) translate(0, -100%);
+  -moz-transform: rotate(-270deg) translate(0, -100%);
+  -o-transform: rotate(-270deg) translate(0, -100%);
+  -ms-transform: rotate(-270deg) translate(0, -100%);
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+}
+#OSC_Screen {
+  margin: 0px auto;
+  text-align: left;
+  padding: 0 4px;
+  margin-bottom: 50px;
+}
+#OSC_Banner {
+  background: #40aa53;
+  border-top: 0;
+  height: 36px;
+  padding: 2px 5px 0 5px;
+}
+#OSC_Banner #OSC_Logo {
+  float: left;
+  margin: 1px 0 0 2px;
+  width: 105px;
+}
+#OSC_Banner #OSC_Logo a {
+  float: left;
+  background: url('/img/2012/osc2.png') no-repeat 0 1px;
+  width: 100px;
+  height: 34px;
+  text-indent: -9999px;
+}
+#OSC_Banner #OSC_Slogon {
+  float: left;
+  margin: 10px 0 0 10px;
+  color: #f2f2f2;
+}
+#OSC_Banner #OSC_Slogon a {
+  color: #fff;
+}
+#OSC_Banner #OSC_Channels {
+  margin-right: 10px;
+  float: right;
+  font-weight: bold;
+  font-size: 10.5pt;
+  height: 35px;
+  line-height: 35px;
+}
+#OSC_Banner #OSC_Channels ul li {
+  float: left;
+  margin: 0px 5px 0 10px;
+}
+#OSC_Banner #OSC_Channels ul li a {
+  text-decoration: none;
+  color: #f2f2f2;
+  padding: 2px;
+}
+#OSC_Banner #OSC_Channels ul li a:hover {
+  color: #fff;
+}
+#OSC_Notification {
+  width: 200px;
+  margin-left: 10px;
+  font-size: 9pt;
+}
+#OSC_Notification a.msgbox {
+  background: url('/img/msg.gif') no-repeat 5px 5px;
+  padding: 2px 4px 2px 22px;
+  text-decoration: none;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+#OSC_Notification a.newmsg {
+  color: #A00;
+  background: url('/img/msg2.gif') no-repeat 5px 3px;
+  padding: 2px 4px 2px 22px;
+  text-decoration: none;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+#OSC_Notification a:hover {
+  font-weight: bold;
+  color: #C00;
+}
+#OSC_Notification a em {
+  font-style: normal;
+  font-weight: bold;
+  margin-right: 2px;
+  text-decoration: underline;
+}
+#OSC_Topbar {
+  margin: 2px 0;
+}
+#OSC_Topbar #VisitorInfo {
+  font-size: 9pt;
+  color: #888;
+  float: left;
+}
+#OSC_Topbar #VisitorInfo a {
+  text-decoration: none;
+}
+#OSC_Topbar #SearchBar form {
+  float: right;
+  margin: 3px 0 0 0;
+  width: 310px;
+  background: #eee;
+  padding: 1px;
+  font-size: 0;
+}
+#OSC_Topbar #SearchBar form .ipt {
+  display: inline-block;
+  vertical-align: top;
+  height: 22px;
+  padding: 2px 0 0 5px;
+  background: #FFF;
+}
+#OSC_Topbar #SearchBar form .ipt input {
+  color: #868686;
+  width: 200px;
+  border: none;
+  background: #FFF;
+  padding: 0;
+  height: 20px;
+  outline: 0;
+}
+#OSC_Topbar #SearchBar form .bnt {
+  color: #FFF;
+  text-align: center;
+  background: #5cc26f;
+  width: 45px;
+  height: 24px;
+  border: 0;
+  cursor: pointer;
+}
+#OSC_Topbar #SearchBar form .bnt:hover {
+  background: #40ab54;
+}
+#OSC_Topbar #SearchBar form .search-by {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 10pt;
+}
+#OSC_Topbar #SearchBar form .search_on {
+  background: #FFF;
+  text-align: center;
+  position: relative;
+}
+#OSC_Topbar #SearchBar form .search_on .text {
+  height: 24px;
+  line-height: 23px;
+  width: 50px;
+  display: block;
+  color: #868686;
+  cursor: pointer ;
+  text-align: left;
+  padding: 0px 0 0 10px;
+  background: url(/img/android/selectbox_bg.png) no-repeat;
+}
+#OSC_Topbar #SearchBar form .search_on .text.on {
+  background-position: 0 -24px;
+}
+#OSC_Topbar #SearchBar form .search_on .text.hover {
+  background-position: 0 -48px;
+}
+#OSC_Topbar #SearchBar form .search_list {
+  background: #FFF;
+  display: none;
+  position: absolute;
+  width: 80px;
+  border: 1px solid #c3c3c3;
+  z-index: 9999;
+}
+#OSC_Topbar #SearchBar form .search_list li {
+  width: 80px;
+  height: 24px;
+  line-height: 24px;
+}
+#OSC_Topbar #SearchBar form .search_list a {
+  display: block;
+  color: #333 !important;
+  font-size: 8pt !important;
+  text-decoration: none;
+  padding: 0 0 0 10px;
+}
+#OSC_Topbar #SearchBar form .search_list a:hover {
+  background: #3399ff;
+  color: #ffffff !important;
+}
+#OSC_Topbar #SearchBar form .f_r {
+  display: inline-block;
+  vertical-align: top;
+}
+#OSC_Topbar #SearchBar form .f_l {
+  float: left;
+}
+#OSC_Topbar #SearchBar form .last {
+  margin: 0 !important;
+}
+#OSC_Topbar #SearchBar form .hide {
+  display: none;
+}
+/* 底部版权 */
+#OSC_Footer {
+  margin-top: 20px;
+  padding-bottom: 50px;
+  height: 38px;
+  line-height: 38px;
+  border-top: 2px solid #cccccc;
+  color: #666666;
+  text-align: center;
+}
+#OSC_Content {
+  margin: 10px 2px;
+  position: relative;
+}
+#SpaceLeft {
+  float: left;
+  width: 220px;
+}
+#SpaceLeft a {
+  text-decoration: none;
+}
+#SpaceMain {
+  margin: 0 220px 0 230px;
+  word-wrap: break-word;
+}
+#SpaceRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 210px;
+  word-wrap: break-word;
+}
+.SpaceList {
+  border: 1px solid #eee;
+  padding: 10px 15px;
+  background: #fff;
+  word-wrap: break-word;
+}
+.SpaceList .TopBar {
+  margin: 0 0 25px 0;
+  color: #999999;
+  font-size: 9pt;
+  height: 22px;
+  line-height: 22px;
+}
+.SpaceList .TopBar h1 {
+  color: #333333;
+}
+.Owner {
+  background: #5cc26f;
+  padding: 15px 5px 15px 10px;
+  position: relative;
+}
+.Owner a.Img:hover {
+  background: none;
+}
+.Owner a {
+  color: #fff;
+  padding: 0px;
+}
+.Owner a:hover {
+  background: #fff;
+  color: #5cc26f;
+}
+.Owner a.ThemeSetting {
+  position: absolute;
+  right: 0;
+  top: 0;
+  text-indent: -9999px;
+  width: 28px;
+  height: 28px;
+  background: url('/img/2012/enter_narrow.png') no-repeat 0 0;
+}
+.Owner a.ThemeSetting:hover {
+  background: url('/img/2012/enter_narrow.png') no-repeat 0 -30px;
+}
+.Owner .Img img {
+  float: left;
+  width: 56px;
+  height: 56px;
+  background: #fff;
+  padding: 3px;
+  margin: 0 8px 10px 0;
+}
+.Owner .Img:hover img {
+  background: #eee;
+}
+.Owner span.U {
+  float: left;
+  width: 130px;
+}
+.Owner span.U .Name {
+  color: #FFF;
+  font-size: 14pt;
+  display: block;
+  margin: 0 0 12px 0;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+.Owner span.U .Name {
+  background: none;
+}
+.Owner span.U .opts {
+  color: #fff;
+  font-size: 9pt;
+}
+.Owner span.U .opts a {
+  color: #fff;
+}
+.Owner span.U .opts a:hover {
+  background-color: #fff;
+  color: #5cc26f;
+}
+.Owner a#gender_icon {
+  text-indent: -9999px;
+  background-color: #5cc26f;
+}
+.Owner a#gender_icon:hover {
+  background-color: #5cc26f;
+}
+.Owner .stat {
+  color: #fff;
+  font-size: 9pt;
+}
+.Owner .stat a {
+  margin-right: 3px;
+}
+.Owner .stat a span {
+  font-size: 9pt;
+}
+.Resume {
+  background: #7798cb url('/img/2012/resume24.png') no-repeat left bottom;
+  margin: 3px 0 0 0;
+  color: #fff;
+  padding: 18px 10px 18px 40px;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.Resume textarea {
+  width: 170px;
+  height: 60px;
+  font-size: 9pt;
+}
+/*勋章*/
+.Medals {
+  background-color: #5cc26f;
+  margin-top: 3px;
+  padding: 5px;
+}
+.Opts {
+  margin: 3px 0 0 0;
+}
+.Opts a {
+  cursor: pointer;
+  float: left;
+  width: 108px;
+  height: 108px;
+}
+.Opts a.a1 {
+  background-color: #5cc26f;
+}
+.Opts a.a1:hover {
+  background-color: #40ab54;
+}
+.Opts a.a2 {
+  background-color: #5cc26f;
+}
+.Opts a.a2:hover {
+  background-color: #40ab54;
+}
+.Opts a.a3 {
+  margin-top: 3px;
+  width: 220px;
+  height: 60px;
+  background-color: #7798cb;
+}
+.Opts a.a3:hover {
+  background-color: #527cbd;
+}
+.Opts a span {
+  padding: 82px 0 0 10px;
+  font-size: 11pt;
+  color: #fff;
+}
+.Opts a.a3 span {
+  display: block;
+  padding: 15px 0 0 60px;
+  font-size: 18pt;
+}
+.Opts a i {
+  text-indent: -9999px;
+  display: block;
+  margin: 10px 0 0 20px;
+  width: 67px;
+  height: 67px;
+  background-image: url('/img/2012/space-opts.png');
+  background-repeat: no;
+}
+.Opts a.a2 {
+  margin-left: 4px;
+}
+.Opts a.blog i {
+  background-position: 0 -67px;
+}
+.Opts a.admin i {
+  background-position: 0 -201px;
+}
+.Opts a.sendmsg i {
+  background-position: 0 -134px;
+}
+.Opts a.ask i {
+  background-position: 0 0;
+}
+.Mod {
+  background: #EAEAEA;
+  margin: 3px 0 0 0;
+  padding: 5px 0;
+  color: #666666;
+  overflow: hidden;
+}
+.Mod strong {
+  display: block;
+  font-size: 12pt;
+  border-bottom: 2px solid #7798cb;
+  padding: 0 10px 5px 10px;
+  color: #666666;
+}
+.Mod strong .more {
+  float: right;
+  font-weight: normal;
+  font-size: 10pt;
+  margin: 3px 0 0 0;
+}
+.Mod ul,
+.Mod ol {
+  margin: 10px;
+  line-height: 24px;
+}
+.Users ul li {
+  float: left;
+}
+.Users ul li a {
+  margin: 1px 1px 0 0;
+}
+.Users ul li img {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #EAEAEA;
+}
+.Users ul li a:hover img {
+  border: 1px solid #5cc26f;
+}
+.Users .more {
+  margin: 10px 0;
+  text-align: right;
+  padding: 0 5px 0 0 ;
+}
+#BlogCatalogs ul li a {
+  background: url('/img/fw_arrow.gif') no-repeat left center;
+  padding-left: 15px;
+  color: #333333;
+}
+#BlogCatalogs ul li a:hover {
+  color: #000;
+}
+#BlogCatalogs ul li span {
+  color: #666666;
+  font-size: 8pt;
+  -webkit-text-size-adjust: none;
+  margin-left: 5px;
+}
+#BlogCatalogs ul li.draft a {
+  font-weight: bold;
+}
+#HotBlogs ol li a {
+  color: #333333;
+  display: block;
+}
+#HotBlogs ol li a:hover {
+  color: #000;
+  background: #ddd;
+}
+#BlogLinks li a {
+  color: #333333;
+  display: block;
+}
+#BlogLinks li a:hover {
+  color: #000;
+  background: #ddd;
+}
+#RelativeBlogs {
+  position: fixed;
+  bottom: 0;
+  right: -400px;
+  width: 380px;
+  height: 160px;
+  background-color: #FFFFFF;
+  font-size: 10.5pt;
+  border: 1px solid #5cc26f;
+}
+#RelativeBlogs strong {
+  display: block;
+  margin: 0 0 10px 0;
+  background: #5cc26f;
+  color: #fff;
+  padding: 2px 5px;
+}
+#RelativeBlogs strong a#btn_close {
+  cursor: pointer;
+  float: right;
+  color: #fff;
+  font-size: 9pt;
+}
+#RelativeBlogs ul {
+  margin: 10px;
+}
+#RelativeBlogs ul li {
+  line-height: 22px;
+}
+#RelativeBlogs ul li a {
+  background: url('/img/a2.gif') no-repeat left center;
+  padding-left: 15px;
+  font-size: 10pt;
+  text-decoration: none;
+}
+#RelativeBlogs ul li .date {
+  float: right;
+  font-size: 8pt;
+  color: #666666;
+  -webkit-text-size-adjust: none;
+}
+#BlogReplies ul li {
+  color: #666666;
+  border-bottom: 1px dashed #999999;
+}
+.TopBar .NavPath {
+  float: left;
+}
+.TopBar .PreviewMod {
+  float: right;
+}
+.TopBar .PreviewMod a.active {
+  font-weight: bold;
+  color: #4466BB;
+}
+.TopBar .PreviewMod a {
+  color: #666666;
+}
+.BlogList .Blog {
+  margin: 0 0 15px 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  position: relative;
+}
+.BlogList .Blog .date {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  background: #7798cb;
+  font-size: 8pt;
+  color: #fff;
+  -webkit-text-size-adjust: none;
+  text-align: center;
+  padding: 2px 3px;
+}
+.BlogList .Blog .date em {
+  font-style: normal;
+  font-family: Calibri;
+  font-size: 16pt;
+  display: block;
+  font-weight: bold;
+}
+.BlogList .Blog .title {
+  margin-right: 80px;
+}
+.BlogList .Blog h2 {
+  font-size: 12pt;
+  margin: 0 0 5px 0;
+}
+.BlogList .Blog h2.BlogAccess_false {
+  background: url('/img/lock.gif') no-repeat 3px center;
+  padding-left: 20px;
+}
+.BlogList .Blog h2.BlogTop_1 {
+  background: url('/img/top.gif') no-repeat left center;
+  padding-left: 22px;
+}
+.BlogList .Blog h2.BlogSong {
+  background: url('/img/song.gif') no-repeat left center;
+  padding-left: 22px;
+}
+.BlogList .Blog h2 a {
+  text-decoration: none;
+  color: #333333;
+}
+.BlogList .Blog .outline {
+  color: #666666;
+  font-size: 9pt;
+}
+.BlogList .Blog .bottom {
+  margin: 15px 0 8px 0;
+  color: #666666;
+  font-size: 9pt;
+}
+.BlogList .Blog .bottom a.fullcontent {
+  margin-left: 10px;
+}
+.BlogList .Blog .TextContent {
+  margin: 15px 0 0 0px;
+  color: #666666;
+  line-height: 22px;
+  overflow: hidden;
+  letter-spacing: 1px;
+}
+.BlogList .Blog a {
+  color: #666666;
+}
+.BlogList .Blog a:hover {
+  color: #333333;
+}
+.BlogList .Blog .catalog {
+  display: inline-block;
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+  vertical-align: middle;
+}
+.BlogList .Blog .catalog ul {
+  position: absolute;
+  top: 18px;
+  left: 27px;
+  width: 120px;
+  background: #5cc26f;
+  z-index: 1000;
+  overflow: hidden;
+  border: 1px solid #F1F1F1;
+  padding: 3px;
+  display: none;
+  vertical-align: middle;
+  color: #FFF;
+}
+.BlogList .Blog .catalog ul li {
+  line-height: 20px;
+  text-indent: 5px;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.BlogList .Blog .catalog ul li img {
+  cursor: pointer;
+  vertical-align: middle;
+  float: right;
+  margin-right: 5px;
+  display: none;
+}
+.BlogList .Blog .catalog ul li:hover img {
+  display: block;
+}
+.BlogList .Blog .setting {
+  margin-left: 4px;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #FFF;
+}
+.BlogList .Blog .setting:hover {
+  border: 1px solid #F3F3F3;
+}
+.BlogTitle {
+  padding: 5px 70px 5px 0px;
+  margin: 0 0 10px 0;
+  border-bottom: 2px solid #5cc26f;
+  position: relative;
+}
+.BlogTitle h1 {
+  font-size: 22px;
+  margin: 0 0 10px 0;
+  color: #000;
+  font-weight: normal;
+}
+.BlogTitle .BlogStat {
+  color: #666666;
+}
+.BlogTitle .BlogStat strong {
+  margin: 0 2px;
+  color: #A00;
+}
+.BlogTitle .BlogStat a {
+  color: #A00;
+  text-decoration: none;
+}
+.BlogTitle .BlogStat a:hover {
+  color: #F00;
+}
+.BlogTitle .BlogStat .admin em {
+  font-style: normal;
+  font-weight: bold;
+  color: #A00;
+  margin: 0 2px;
+}
+.BlogTitle .tvote {
+  height: 55px;
+  width: 50px;
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  bottom: 5px;
+}
+.BlogTitle .tvote .num,
+.BlogTitle .tvote .vote {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  font-style: normal;
+  color: #FFF;
+  background: #5cc26f;
+  cursor: pointer;
+}
+.BlogTitle .tvote .num:hover,
+.BlogTitle .tvote .vote:hover {
+  background-color: #4dbc62;
+}
+.BlogTitle .tvote .num {
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+}
+.BlogTitle .tvote .vote {
+  height: 35px;
+  line-height: 35px;
+  font-size: 20px;
+}
+.BlogContent {
+  font-size: 12.5px;
+  overflow: hidden;
+}
+.BlogContent p {
+  margin-bottom: 15pt;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}
+.BlogContent pre {
+  line-height: 18px;
+  font-size: 9pt;
+  font-family: Courier New,Arial;
+  border: 1px solid #ddd;
+  background: #f6f6f6;
+  padding: 5px;
+}
+.BlogAnchor {
+  background: #f4f7f9;
+  padding: 10px;
+}
+.BlogAnchor p {
+  font-size: 12px;
+}
+.BlogAnchor .AnchorContent {
+  padding: 5px 0px;
+}
+.BlogAnchor li {
+  list-style: none;
+  padding: 1px 0;
+}
+.BlogAnchor a {
+  text-decoration: none;
+}
+.BlogAnchor a:hover {
+  color: #5cc26f;
+}
+.BlogAnchor .osc_h1 {
+  text-indent: 20px;
+  font-size: 14px;
+}
+.BlogAnchor .osc_h2 {
+  text-indent: 35px;
+  font-size: 13px;
+}
+.BlogAnchor .osc_h3 {
+  text-indent: 50px;
+  font-size: 12px;
+}
+.BlogAnchor .osc_h4 {
+  text-indent: 65px;
+  font-size: 11px;
+}
+.BlogAnchor .osc_h5 {
+  text-indent: 80px;
+  font-size: 10px;
+}
+.BlogAnchor .osc_h6 {
+  text-indent: 95px;
+  font-size: 9px;
+}
+/*   happysha 2013-07-07   */
+.BlogContent {
+  color: #333;
+  padding: 10px;
+}
+.BlogAbstracts {
+  padding: 10px;
+  background: #f4f7f9;
+  font-size: 12px;
+}
+.BlogAbstracts strong {
+  font-size: 15px;
+  color: #15a230;
+  font-weight: normal;
+}
+.BlogAbstracts span {
+  font-size: 12.5px;
+  letter-spacing: 0.7px;
+}
+em.corner {
+  font-size: 13px;
+  font-weight: normal;
+  color: #FFF;
+  display: inline-block;
+  line-height: 20px;
+  background: #5cc26f;
+  font-style: normal;
+  padding: 1px 8px;
+  margin-right: 10px;
+}
+.BlogAnchor p {
+  font-size: 18px;
+  color: #15a230;
+}
+.BlogAnchor p strong {
+  font-weight: normal;
+  font-size: 14px;
+}
+.BlogContent,
+.BlogAbstracts,
+.BlogAnchor {
+  line-height: 180%;
+}
+.BlogContent h1,
+.BlogContent h2,
+.BlogContent h3,
+.BlogContent h4,
+.BlogContent h5,
+.BlogContent h6,
+.BlogContent p,
+.BlogContent ol,
+.BlogContent ul {
+  line-height: 180%;
+}
+.BlogContent h1,
+.BlogContent h2,
+.BlogContent h3,
+.BlogContent h4,
+.BlogContent h5,
+.BlogContent h6 {
+  font-weight: 600;
+}
+.BlogContent h1 {
+  font-size: 24px;
+  margin: 20px 0 10px 0;
+}
+.BlogContent h2 {
+  font-size: 20px;
+  margin: 20px 0 10px 0;
+}
+.BlogContent h3 {
+  font-size: 16px;
+  margin: 15px 0 10px 0;
+}
+.BlogContent h4 {
+  font-size: 14px;
+  margin: 10px 0;
+}
+.BlogContent h5 {
+  font-size: 12px;
+  margin: 10px 0;
+}
+.BlogContent h6 {
+  font-size: 12px;
+  margin: 10px 0;
+}
+.BlogContent p {
+  font-size: 12.5px;
+  margin: 8px 0;
+  letter-spacing: 0.5px;
+  white-space: normal;
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+}
+.BlogContent ol,
+.BlogContent ul {
+  margin: 10px 20px;
+}
+.BlogContent img {
+  max-width: 640px;
+  background: #f4f7f9;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+}
+.BlogContent blockquote:before,
+.BlogContent blockquote:after,
+.BlogContent q:before,
+.BlogContent q:after {
+  content: "";
+  font-size: 24px;
+  color: #0F6575;
+  font-family: Helvetica, arial, '宋体';
+  position: absolute;
+}
+.BlogContent blockquote:before {
+  content: "“";
+  top: 5px;
+  left: 10px;
+}
+.BlogContent blockquote:after {
+  content: "”";
+  bottom: -5px;
+  right: 15px;
+}
+.BlogContent q,
+.BlogContent blockquote {
+  position: relative;
+  background: #F4FDFD;
+  text-align: left;
+  margin: 20px 10px;
+  padding: 3px 25px 3px 25px;
+  color: #333;
+  font-size: 10pt;
+  line-height: 22px;
+  border-left: 3px solid #A4DAF0;
+}
+.BlogContent blockquote i,
+.BlogContent q i {
+  font-style: normal;
+  font-size: 12px;
+}
+.BlogContent b {
+  font-style: normal;
+  font-weight: 600;
+}
+.BlogContent > table {
+  border-collapse: collapse;
+  border-spacing: 1px;
+  border: 1px solid #F8F8F8;
+  font-size: 12px;
+  color: #444;
+}
+.BlogContent > table th,
+.BlogContent > table td {
+  padding: 0 2px;
+}
+.BlogContent > table th {
+  font-weight: 500;
+  background: #f3f3f3;
+}
+.BlogContent > table th,
+.BlogContent > table td {
+  border: 1px solid #F8F8F8;
+  padding: 1px 2px;
+}
+.BlogContent a {
+  color: #FF8373;
+  font-size: 12px;
+}
+.BlogContent ul,
+ol {
+  margin: 0 0 10px 20px;
+}
+.BlogContent ul {
+  list-style-type: disc;
+}
+.BlogContent ol {
+  list-style-type: decimal;
+}
+.BlogContent code {
+  font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'Courier New', 'Courier', 'monospace !important';
+  color: red;
+}
+.BlogContent pre code {
+  margin: 0 2px;
+  padding: 1px 3px;
+  border-radius: 3px;
+  white-space: pre-wrap;
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  padding: 8px 5px;
+}
+.BlogShare {
+  padding: 8px 0px;
+  border: 1px solid #DDD;
+  margin: 20px 0px;
+  line-height: 30px;
+}
+.BlogShare a {
+  text-decoration: none;
+}
+.BlogShare strong {
+  margin-left: 15px;
+  line-height: 30px;
+  vertical-align: middle;
+}
+.BlogShare .share_sina img,
+.BlogShare .share_qq img {
+  vertical-align: middle;
+  margin: 3px 8px;
+}
+.BlogShare .BlogVote {
+  height: 30px;
+  background: #5cc26f;
+  display: inline-block;
+  float: right;
+  padding: 3px 8px;
+  line-height: 30px;
+  color: #FFF;
+  margin-right: 5px;
+}
+.BlogShare .BlogVote:hover {
+  background-color: #4dbc62;
+}
+.BlogShare .BlogVote .num {
+  padding: 0px 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.BlogShare .BlogVote .vote {
+  padding: 0px 3px;
+  font-size: 18px;
+  cursor: pointer;
+}
+/*   happysha 2013-07-07   */
+.BlogLinks {
+  margin: 10px 0 20px 0;
+}
+.BlogLinks ul {
+  list-style-type: none;
+  font-weight: bold;
+  height: 24px;
+}
+.BlogLinks ul li.prev {
+  float: left;
+  width: 48%;
+}
+.BlogLinks ul li.next {
+  float: right;
+  width: 48%;
+  text-align: right;
+}
+.BlogCopyright {
+  color: #666666;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  background: #ffe;
+  padding: 5px 15px;
+  font-size: 12px;
+}
+.BlogCopyright a {
+  color: #666666;
+  text-decoration: none;
+}
+.BlogComments h2 {
+  font-size: 18px;
+  color: #444;
+  font-weight: 600;
+  padding: 5px 0px;
+  border-bottom: 1px solid #ccc;
+}
+.BlogComments h2 em {
+  font-size: 12px;
+  padding: 0px 5px;
+  font-style: normal;
+  color: #5cc26f;
+}
+.BlogComments h2 a {
+  float: right;
+  font-weight: normal;
+  font-size: 10pt;
+}
+.BlogComments ul {
+  margin: 10px 0 10px 0;
+}
+.BlogComments ul li {
+  margin: 0 0 10px 0;
+  padding: 5px 0px;
+}
+.BlogComments ul li.even {
+  background: #F6F6F6;
+}
+.BlogComments ul li .portrait {
+  width: 65px;
+  padding-top: 3px;
+}
+.BlogComments ul li .portrait img {
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+  background: #fff;
+  border: 1px solid #F1F1F1;
+}
+.BlogComments ul li .body .title {
+  color: #666666;
+  font-size: 9pt;
+}
+.BlogComments ul li .body .title a.user {
+  text-decoration: none;
+  color: #666666;
+  font-weight: bold;
+}
+.BlogComments ul li .body .post {
+  margin: 8px 0 0 0;
+  color: #00A;
+  font-size: 12px;
+}
+.BlogComments ul li .body .post div.ref {
+  border: 1px solid #999;
+  color: #333;
+  margin: 0 0 10px 0;
+  padding: 3px;
+  background: #ffe;
+  font-size: 9pt;
+}
+.BlogComments ul li .body .post div.ref h4 {
+  margin: 0;
+  padding: 2px 0px 3px 0px;
+  color: #1E50A2;
+  font-weight: normal;
+  font-size: 10pt;
+}
+.BlogComments ul li .body .post div.ref p {
+  margin: 0;
+  padding: 2px;
+  line-height: 20px;
+  color: color: #333;
+  font-size: 9pt;
+}
+.BlogComments ul li .body .post img {
+  width: 20px;
+  vertical-align: middle;
+  margin: 0px 2px;
+}
+.BlogComments .inline_reply {
+  margin-top: 10px;
+}
+.BlogCommentForm {
+  width: 650px;
+}
+.BlogCommentForm .comment_form {
+  padding-left: 70px;
+  width: 650px;
+}
+.blg_submit_btn {
+  padding: 5px 10px;
+  text-decoration: none;
+  background: #5cc26f;
+  font-size: 12px;
+  color: #FFF;
+  display: inline-block;
+  border: none;
+  font-family: '微软雅黑';
+  cursor: pointer;
+}
+.blg_submit_btn:hover {
+  background-color: #4dbc62;
+}
+.BlogCommentForm .comment_portrait {
+  float: left;
+  margin-left: 10px;
+}
+.BlogCommentForm .comment_portrait img {
+  width: 40px;
+  height: 40px;
+  padding: 2px;
+  border: #eee 1px solid;
+}
+.BlogCommentForm p {
+  margin: 5px 0px;
+  font-size: 12px;
+}
+.BlogCommentForm a.blog_emotion,
+.BlogCommentForm a.blog_soft {
+  text-decoration: none;
+  padding: 1px 2px 1px 18px;
+  color: #666;
+  border: 1px #FFF solid;
+}
+.BlogCommentForm a.blog_emotion:hover,
+.BlogCommentForm a.blog_soft:hover {
+  border: 1px #F00 solid;
+}
+.BlogCommentForm a.blog_emotion {
+  background: url('/img/space/emotion.gif') no-repeat left center;
+}
+.BlogCommentForm a.blog_soft {
+  background: url('/img/space/app.gif') no-repeat left center;
+}
+.LMod {
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 10px 10px 5px 10px;
+  overflow: hidden;
+}
+.LMod strong {
+  display: block;
+  font-size: 12pt;
+  padding: 0 10px;
+  color: #666666;
+}
+.LMod ul {
+  margin: 15px 0 0 0;
+}
+.LMod ul li {
+  margin: 0 0 10px 0;
+}
+.LMod ul li .d {
+  color: #999999;
+  font-size: 8pt;
+  -webkit-text-size-adjust: none;
+  margin-left: 5px;
+}
+.LMod ul li a {
+  background: url('/img/a2.gif') no-repeat left 6px;
+  padding-left: 15px;
+  text-decoration: none;
+}
+.LMod .more {
+  margin: 10px 0;
+  text-align: right;
+  padding: 0 5px 0 0 ;
+}
+.MMod {
+  border: 1px solid #eee;
+  background: #fff;
+}
+.RMod {
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 10px;
+}
+.RMod strong {
+  color: #333333;
+  display: block;
+  font-size: 14pt;
+  font-weight: normal;
+  margin: 0 0 10px 0;
+}
+.RMod strong a {
+  float: right;
+  font-weight: normal;
+  font-size: 10pt;
+  margin: 5px 2px 0 0;
+}
+.RMod ul li a {
+  color: #333333;
+  text-decoration: none;
+}
+.RMod ul li a:hover {
+  color: #000;
+}
+#Ad {
+  margin: 20px 0 0 0;
+}
+#Ad strong {
+  display: block;
+  margin: 0 0 10px 0;
+}
+#AboutMe {
+  padding: 20px;
+}
+#MyBlog {
+  background: #5cc26f;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+#MyBlog a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16pt;
+  float: left;
+  margin-left: 10px;
+}
+#MyBlog .action {
+  float: left;
+  width: 30px;
+  height: 30px;
+  background: url('/img/2012/action-icons.png') no-repeat 0 0;
+}
+#MyBlog:hover {
+  background: #40ab54;
+}
+#TopBlogs {
+  margin: 10px 0 0 0;
+  padding-bottom: 10px;
+}
+#TopBlogs strong {
+  padding-left: 5px;
+  padding-right: 0;
+}
+#TopBlogs strong a {
+  font-weight: normal;
+  float: right;
+  text-decoration: none;
+  color: #000;
+}
+#TopBlogs ul li {
+  margin: 0 5px 3px 0;
+}
+#TopBlogs ul li .s {
+  font-size: 9pt;
+  color: #999;
+  margin-left: 5px;
+}
+#TopBlogs ul li .d {
+  float: right;
+  font-size: 9pt;
+}
+#TopBlogs ul li a {
+  background: none;
+  padding-left: 10px;
+}
+#UserSkills #UserScore {
+  border-bottom: 1px dashed #eee;
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+#UserSkills #UserScore h1 {
+  font-size: 12pt;
+  font-weight: normal;
+  float: left;
+  text-align: center;
+}
+#UserSkills #UserScore h1 em {
+  font-size: 20pt;
+  color: red;
+  font-style: normal;
+  color: #F00;
+  display: block;
+  margin: 5px 0 0 0;
+}
+#UserSkills #UserScore h1 a {
+  color: #999;
+  text-decoration: none;
+  display: block;
+}
+#UserSkills #UserScore h1 a:hover {
+  color: #000;
+}
+#UserSkills #UserScore h1.best {
+  width: 80px;
+}
+#UserSkills #UserScore h1.score {
+  width: 90px;
+  border-left: 1px solid #eee;
+  padding-left: 10px;
+}
+#UserSkills h1.Title {
+  color: #5cc26f;
+  font-size: 16pt;
+}
+#UserSkills h1.Title a {
+  font-weight: normal;
+  font-size: 10pt;
+  float: right;
+  margin: 3px 2px 0 0;
+}
+#UserSkills ul li {
+  margin: 10px 0 0 0;
+}
+#UserSkills ul li strong {
+  font-size: 10.5pt;
+  margin: 0px;
+  font-weight: bold;
+}
+#UserSkills ul li p {
+  color: #666;
+}
+#UserSkills ul li .more {
+  display: block;
+}
+#UserSkills #OtherScore {
+  border-bottom: 1px dashed #eee;
+  padding: 5px 0 5px 20px;
+  overflow: hidden;
+}
+#UserSkills #OtherScore h1 {
+  font-size: 10pt;
+  font-weight: normal;
+  float: left;
+}
+#UserSkills #OtherScore h1 em {
+  font-size: 10pt;
+  color: red;
+  font-style: normal;
+  color: #F00;
+  margin: 0 15px 0 0px;
+  float: right;
+  width: 50px;
+  text-align: right;
+}
+#UserSkills #OtherScore h1 a {
+  color: #999;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  width: 140px;
+}
+#UserSkills #OtherScore h1 a:hover {
+  color: #000;
+}
+#Profile li {
+  margin: 10px 0 0 0;
+  font-size: 9pt;
+  color: #666666;
+}
+#Profile li b {
+  display: block;
+  color: #333333;
+  margin-bottom: 2px;
+}
+#Profile li b.inline {
+  display: inline;
+}
+#Profile li a {
+  color: #4466bb;
+}
+#Profile li a:hover {
+  color: #0000aa;
+}
+#FavorBox {
+  margin-top: 10px;
+  padding-bottom: 20px;
+}
+#FavorBox ul {
+  margin: 0 0 0 0;
+}
+#FavorBox ul li {
+  float: left;
+  width: 85px;
+  height: 62px;
+  text-align: center;
+  margin: 30px 0 0 5px;
+  overflow: hidden;
+}
+#FavorBox ul li .logo {
+  display: block;
+  margin: 0 0 3px 0;
+}
+#FavorBox ul li img {
+  width: 40px;
+  height: 40px;
+}
+#FavorBox ul li .name {
+  font-weight: bold;
+  font-size: 9pt;
+  height: 20px;
+  line-height: 20px;
+}
+#FavorUpdate {
+  margin-top: 10px;
+}
+#FavorUpdate ul {
+  margin: 20px 0 0 0;
+}
+#FavorUpdate ul li {
+  margin: 0 0 10px 0;
+  color: #999999;
+  font-size: 9pt;
+}
+#FavorUpdate ul li a {
+  font-weight: bold;
+  font-size: 9pt;
+  display: block;
+  margin-bottom: 2px;
+}
+#FavorUpdate ul li .date {
+  font-size: 8pt;
+  -webkit-text-size-adjust: none;
+}
+.AdminNav {
+  background: #5cc26f;
+  padding: 10px;
+  font-size: 14pt;
+}
+.AdminNav a.u {
+  float: left;
+  width: 40px;
+}
+.AdminNav a.u img {
+  width: 36px;
+  height: 36px;
+}
+.AdminNav a.h {
+  float: left;
+  color: #fff;
+  margin: 5px 0 0 10px;
+}
+.AdminNav a.h:hover {
+  color: #eee;
+}
+#AdminMenus {
+  font-size: 10.5pt;
+}
+#AdminMenus li.caption {
+  margin-bottom: 20px;
+}
+#AdminMenus li.caption ol {
+  margin: 10px 0 0 0;
+  line-height: 26px;
+}
+#AdminMenus li.caption ol li {
+  padding-left: 10px;
+}
+#AdminMenus li.caption ol li.active {
+  background: #f6f6f6;
+  font-weight: bold;
+}
+#AdminMenus li.caption ol li.active a {
+  color: #333333;
+}
+#AdminBody {
+  min-height: 600px;
+  color: #333333;
+}
+#AdminBody .AdminHead {
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 20px;
+}
+#AdminBody .AdminHead h1 {
+  color: #666666;
+  margin-bottom: 15px;
+}
+#AdminBody .AdminHead h1 a {
+  text-decoration: none;
+  color: #666666;
+}
+#AdminBody .AdminHead h1 .SubTitle {
+  font-weight: normal;
+  font-size: 10.5pt;
+  margin-left: 10px;
+}
+#AdminBody .AdminHead h1 .SubTitle a {
+  color: #666666;
+}
+#AdminBody .AdminHead h1 .SubTitle a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+#AdminBody .AdminHead .RelativeLinks {
+  float: right;
+  margin: 10px 10px 0 0;
+}
+#AdminBody .AdminHead .RelativeLinks a {
+  margin-left: 10px;
+}
+#AdminBody .AdminHead .Tabs {
+  font-size: 16pt;
+  padding-left: 20px;
+  height: 37px;
+  height: 37px;
+}
+#AdminBody .AdminHead .Tabs li {
+  float: left;
+  margin-right: 10px;
+}
+#AdminBody .AdminHead .Tabs li a {
+  display: block;
+  padding: 5px 10px;
+  color: #666666;
+  text-decoration: none;
+}
+#AdminBody .AdminHead .Tabs li a:hover {
+  color: #000;
+}
+#AdminBody .AdminHead .Tabs li a.active {
+  background: #7798cb;
+  color: #fff;
+}
+#AdminBody .AdminHead .Tabs li a.active:hover {
+  color: #fff;
+}
+#ProfileForms .Langs strong {
+  display: block;
+}
+#ProfileForms .Langs ul li {
+  float: left;
+  width: 160px;
+  height: 25px;
+}
+#ProfileForms .Fields ul li {
+  float: left;
+  width: 220px;
+  height: 25px;
+}
+.Drafts ul li {
+  margin: 0 0 20px 0;
+  border-bottom: 1px dashed #cccccc;
+  padding-bottom: 10px;
+}
+.Drafts ul li h2 {
+  color: #999999;
+}
+.Drafts ul li h2 a.title {
+  font-size: 12pt;
+  color: #333333;
+  text-decoration: none;
+}
+.Drafts ul li h2 .opts {
+  float: right;
+  font-weight: normal;
+  font-size: 10pt;
+}
+.Drafts ul li p {
+  color: #999999;
+  margin: 10px 10px 0 10px;
+  line-height: 24px;
+}
+.BlogCommentList li {
+  margin: 0 0 10px 0;
+  border-bottom: 1px dashed #666666;
+  padding-bottom: 10px;
+}
+.BlogCommentList li .user {
+  width: 50px;
+}
+.BlogCommentList li .user img {
+  width: 36px;
+  height: 36px;
+}
+.BlogCommentList li .body {
+  overflow: hidden;
+}
+.BlogCommentList li .body a {
+  font-weight: bold;
+}
+.BlogCommentList li .body p {
+  color: #666666;
+  margin: 5px 0 0 0;
+  line-height: 22px;
+}
+.BlogCommentList li .opts {
+  width: 100px;
+}
+.BlogCommentList li .opts a {
+  display: block;
+  text-decoration: none;
+}
+.BlogCatalogManage form {
+  margin: 20px 0 0 0;
+}
+.BlogCatalogManage form h3 {
+  font-size: 10.5pt;
+  margin: 0 0 10px 0;
+}
+.BlogCatalogManage form h3 span {
+  font-weight: normal;
+  margin: 0 0 0 10px;
+  color: #666666;
+}
+.BlogCatalogManage form.BlogCatalogs table {
+  background: #cccccc;
+}
+.BlogCatalogManage form.BlogCatalogs table th {
+  background: #999999;
+  color: #333333;
+  padding: 3px 10px;
+  text-align: center;
+  font-weight: bold;
+}
+.BlogCatalogManage form.BlogCatalogs table td {
+  background: #fff;
+  padding: 3px 5px;
+}
+.BlogCatalogManage form.BlogCatalogs table td a {
+  text-decoration: none;
+}
+.BlogCatalogManage form.BlogCatalogs table td.idx,
+.BlogCatalogManage form.BlogCatalogs table td.num {
+  text-align: center;
+  font-size: 8pt;
+  -webkit-text-size-adjust: none;
+}
+.BlogLinkManage form {
+  margin: 20px 0 0 0;
+}
+.BlogLinkManage form h3 {
+  font-size: 10.5pt;
+  margin: 0 0 10px 0;
+}
+.BlogLinkManage form h3 span {
+  font-weight: normal;
+  margin: 0 0 0 10px;
+  color: #666666;
+}
+.BlogLinkManage form li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+.BlogLinkManage form li label {
+  float: left;
+  width: 80px;
+  text-align: right;
+}
+.BlogLinkManage form .submit input.BUTTON {
+  background: #5cc26f;
+  border: none;
+  color: #FFF;
+  font-weight: normal;
+  font-size: 11pt;
+  cursor: pointer;
+  padding: 2px 8px;
+  margin-right: 5px;
+}
+.BlogLinkManage form .submit input.BUTTON:hover {
+  background: #40ab54;
+}
+.BlogLinkManage form.BlogLinks table {
+  background: #cccccc;
+}
+.BlogLinkManage form.BlogLinks table th {
+  background: #5cc26f;
+  color: #FFF;
+  padding: 3px 10px;
+  text-align: center;
+  font-weight: bold;
+}
+.BlogLinkManage form.BlogLinks table td {
+  background: #fff;
+  padding: 3px 5px;
+}
+.BlogLinkManage form.BlogLinks table td a {
+  text-decoration: none;
+}
+.BlogLinkManage form.BlogLinks table td.idx,
+.BlogLinkManage form.BlogLinks table td.num {
+  text-align: center;
+  font-size: 8pt;
+  -webkit-text-size-adjust: none;
+}
+#Logs {
+  margin: 10px 0 0 0;
+  padding: 10px;
+}
+#Logs .UserLogs {
+  margin: 20px 10px;
+}
+ul.LogTabs {
+  border-bottom: 1px solid #7798cb;
+  padding-left: 10px;
+  height: 28px;
+  line-height: 28px;
+}
+ul.LogTabs li {
+  float: left;
+  margin-right: 5px;
+}
+ul.LogTabs li a {
+  display: block;
+  background: #f6f6f6;
+  text-decoration: none;
+  font-size: 10.5pt;
+  padding: 0 10px;
+  color: #999999;
+}
+ul.LogTabs li a:hover {
+  color: #666666;
+}
+ul.LogTabs li.active a {
+  background: #7798cb;
+  color: #fff;
+}
+ul.LogFilter {
+  padding: 0 0 0 10px;
+  margin-top: 10px;
+  height: 20px;
+  line-height: 20px;
+}
+ul.LogFilter li {
+  float: left;
+  margin-right: 15px;
+}
+ul.LogFilter li a {
+  text-decoration: none;
+  display: block;
+  padding: 0 5px;
+}
+ul.LogFilter li a.active {
+  border: 1px solid #7798cb;
+}
+#do_batch_btn {
+  text-decoration: none;
+}
+#FavoriteList {
+  padding-right: 30px;
+}
+#FavoriteTags {
+  width: 170px;
+}
+#FavoriteTags strong {
+  display: block;
+  margin: 0 0 20px 0;
+}
+#FavoriteList ul.FavList {
+  margin: 20px 0 20px 10px;
+}
+#FavoriteList ul.FavList li {
+  padding: 10px 0;
+  border-bottom: 1px dashed #FFF;
+}
+#FavoriteList ul.FavList li.even {
+  background-color: #FFF;
+}
+#FavoriteList ul.FavList li .opts {
+  float: right;
+  font-size: 9pt;
+}
+#FavoriteList ul.FavList li .opts a {
+  color: #666666;
+}
+#FavoriteList ul.FavList li .opts a:hover {
+  color: #000;
+}
+#FavoriteList ul.FavList li a.title {
+  text-decoration: none;
+  font-size: 10.5pt;
+  padding-left: 25px;
+}
+a.tag.success {
+  background-color: #5cc26f;
+}
+#FavoriteList ul.FavList li .tags {
+  margin-left: 25px;
+}
+#FavoriteList ul.FavList li .tags a {
+  padding: 1px 3px;
+  font-size: 8pt;
+  -webkit-text-size-adjust: none;
+}
+#FavoriteList ul.FavList li .tags input[type='text'] {
+  padding: 0 3px;
+}
+#FavoriteList ul.FavList li .tags input[type='checkbox'] {
+  float: right;
+  display: none;
+}
+#FavoriteList ul.FavList li .tags form {
+  margin-top: 5px;
+  color: #666666;
+}
+#FavoriteTags .tag span.count {
+  margin-left: 3px;
+}
+#FavoriteTags .tag:hover span.count {
+  display: none;
+}
+#FavoriteTags .tag span.delete {
+  color: #A00;
+  margin-left: 3px;
+  display: none;
+}
+#FavoriteTags .tag:hover span.delete {
+  display: inline;
+  margin-left: 3px;
+}
+ul#TagSetting {
+  margin-top: 20px;
+}
+ul#TagSetting li input {
+  display: none;
+  height: 18px;
+  line-height: 20px;
+}
+ul#TagSetting li {
+  height: 20px;
+  float: left;
+  width: 47%;
+  padding: 2px;
+  margin: 3px 5px;
+}
+ul#TagSetting li span.tagname {
+  margin-right: 5px;
+  padding: 0 5px;
+  height: 20px;
+}
+ul#TagSetting li:hover {
+  background-color: #CCC;
+}
+ul#TagSetting li:hover a {
+  display: inline;
+}
+ul#TagSetting li a {
+  text-decoration: none;
+  float: right;
+  font-size: 12px;
+  display: none;
+}
+ul#TagSetting li a.remove {
+  margin: 0 10px;
+}
+ul#TagSetting li img {
+  vertical-align: middle;
+}
+.NewsList {
+  margin: 0 0 20px 0;
+}
+.NewsList li {
+  margin-bottom: 5px;
+}
+.NewsList li .title a {
+  text-decoration: none;
+}
+.NewsList li .stat {
+  width: 110px;
+  font-size: 9pt;
+  color: #666666;
+}
+.NewsList li .date {
+  width: 70px;
+  color: #666666;
+  font-size: 9pt;
+}
+.NewsList li .opts {
+  width: 110px;
+  text-align: right;
+  color: #666666;
+}
+.ProjectList li {
+  margin: 0 0 10px 0;
+}
+.ProjectList .head {
+  font-weight: bold;
+  color: #000;
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 10px;
+}
+.ProjectList li .date {
+  width: 150px;
+  color: #666666;
+  font-size: 9pt;
+}
+.ProjectList li .status {
+  width: 100px;
+}
+.ProjectList li .opts {
+  width: 80px;
+  text-align: right;
+}
+.UserList h1 {
+  border-bottom: 1px solid #cccccc;
+  margin: 0 0 10px 0;
+  padding-bottom: 15px;
+  color: #666666;
+}
+.UserList h1 .SubTitle {
+  font-size: 10pt;
+  font-weight: normal;
+  color: #666666;
+  margin-left: 10px;
+}
+.UserList .SortBar {
+  background: #eee;
+  margin-bottom: 20px;
+  padding: 3px 10px;
+}
+.UserList .SortBar a {
+  margin-left: 10px;
+}
+.UserList .SortBar a.active {
+  font-weight: bold;
+}
+.UserList a {
+  text-decoration: none;
+}
+.UserList li {
+  margin: 0 0 10px 0;
+  border-bottom: 1px dashed #cccccc;
+  padding-bottom: 10px;
+}
+.UserList li td {
+  vertical-align: top;
+  padding: 0;
+}
+.UserList li .avatar {
+  width: 45px;
+}
+.UserList li .avatar img {
+  width: 32px;
+  height: 32px;
+  margin-top: 5px;
+}
+.UserList li .update .name {
+  font-weight: bold;
+}
+.UserList li .update .nickname {
+  margin-left: 10px;
+  color: #666666;
+}
+.UserList li .update .set_memo {
+  display: none;
+}
+.UserList li .update .log {
+  color: #666666;
+  margin: 5px 0 0 0;
+  font-size: 9pt;
+}
+.UserList li .update .log .user {
+  display: none;
+}
+.UserList li .update .log .rpost {
+  margin-left: 10px;
+}
+.UserList li .opts {
+  text-align: right;
+  width: 80px;
+}
+.UserList li .opts a {
+  display: block;
+}
+.Msgs a {
+  text-decoration: none;
+}
+.Msgs li {
+  margin: 0 0 10px 0;
+  border-bottom: 1px dashed #cccccc;
+}
+.Msgs li .user {
+  width: 48px;
+}
+.Msgs li .user img {
+  width: 32px;
+  height: 32px;
+  margin-top: 5px;
+}
+.Msgs li .msg {
+  color: #333333;
+  margin-bottom: 10px;
+  line-height: 22px;
+}
+.Msgs li .bottom {
+  height: 20px;
+}
+.Msgs li .date {
+  float: left;
+  width: 120px;
+  font-size: 9pt;
+  color: #666666;
+}
+.Msgs li .opts {
+  float: right;
+  text-align: right;
+  color: #999999;
+}
+.MsgForm {
+  margin: 0 0 20px 48px;
+}
+.MsgForm strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.MsgForm strong span {
+  font-weight: normal;
+  margin-left: 10px;
+}
+.MsgForm textarea {
+  width: 500px;
+  height: 60px;
+  padding: 3px;
+}
+#MyTweetForm {
+  padding: 10px 15px;
+  border: 1px solid #eee;
+  background: #fff;
+}
+#TForm #TFormEditor {
+  border: 2px solid #5cc26f;
+  padding: 2px;
+  margin: 2px 0 0 0;
+  background: #fff;
+}
+#TForm textarea {
+  border: 0;
+  width: 98%;
+  height: 50px;
+  padding: 5px;
+  font-size: 10pt;
+  overflow: auto;
+  scroll: none;
+  background: #fff;
+}
+#TFormTitle {
+  color: #888;
+  position: relative;
+}
+#TFormTitle .r {
+  float: right;
+  margin: 0px 10px 0 0;
+  font-size: 9pt;
+}
+#TFormTitle .r em {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10.5pt;
+  color: #A00;
+  margin: 0 3px 0 0;
+}
+#TForm #TFormOpts {
+  margin: 0 0 0 5px;
+}
+#TForm #TFormOpts ul {
+  float: left;
+  margin: 2px 0 0 0;
+  padding: 1px;
+}
+#TForm #TFormOpts ul li {
+  display: inline;
+  margin-right: 5px;
+}
+#TForm #TFormOpts ul li a {
+  font-size: 9pt;
+  text-decoration: none;
+  color: #666666;
+  border: 1px solid #fff;
+  padding: 1px 2px 1px 18px;
+}
+#TForm #TFormOpts ul li a:hover {
+  border: 1px solid #5cc26f;
+}
+#TForm #TFormOpts ul li.t {
+  color: #666666;
+  margin-right: 0;
+}
+#TForm #TFormOpts ul li.emotion a {
+  background: url('/img/space/emotion.gif') no-repeat left center;
+}
+#TForm #TFormOpts ul li.img a {
+  background: url('/img/space/img.gif') no-repeat 2px center;
+  padding-left: 20px;
+}
+#TForm #TFormOpts ul li.app a {
+  background: url('/img/space/app.gif') no-repeat left center;
+}
+#TForm #TFormOpts ul li.code a {
+  background: url('/img/code.gif') no-repeat left center;
+}
+#TForm #TFormOpts input.B {
+  cursor: pointer;
+  border: 0;
+  float: right;
+  font-size: 12pt;
+  padding: 3px 20px 5px 20px;
+  margin-right: 10px;
+  color: #fff;
+  background: #5cc26f;
+}
+#TweetFormPopupWraper {
+  display: none;
+  position: absolute;
+  z-index: 9999;
+}
+#TweetFormPopupArrow {
+  background-image: url('/img/space/up_arrow.gif');
+  background-repeat: no-repeat;
+  padding-top: 5px;
+}
+#TweetFormPopupWraper .emotions {
+  background-position: 51px 0px;
+}
+#TweetFormPopupWraper .images {
+  background-position: 107px 0px;
+}
+#TweetFormPopupWraper .code {
+  background-position: 165px 0px;
+}
+#TweetFormPopup {
+  width: 392px;
+  border: 2px solid #cccccc;
+  background: #ffc;
+  padding: 5px;
+}
+#TweetFormPopup a.close {
+  float: right;
+  font-size: 8pt;
+  font-weight: bold;
+  -webkit-text-size-adjust: none;
+}
+#TweetFormPopup a.emotion {
+  float: left;
+  width: 24px;
+  height: 24px;
+  background-image: url('/js/ke/plugins/emoticons/qq.gif');
+  background-repeat: no-repeat;
+  margin: 0 2px 4px 0;
+  border: 1px solid #f6f6f6;
+}
+#TweetFormPopup a.emotion:hover {
+  border: 1px solid #5cc26f;
+}
+#TweetFormPopup .TweetPopupTitle {
+  background: #666666;
+  color: #fff;
+  padding: 3px 5px;
+  margin: 0 0 10px 0;
+  font-weight: bold;
+}
+#TweetFormPopup .TweetPopupTitle a {
+  float: right;
+  color: #FFF;
+}
+#TweetImages .l {
+  margin: 0 0 10px 0;
+}
+#TweetImages .tip {
+  color: #666666;
+}
+#TweetCode {
+  padding: 5px;
+}
+#TweetCode textarea {
+  width: 100%;
+  height: 250px;
+  display: block;
+  margin: 10px 0;
+}
+#TweetCode pre {
+  font-size: 9pt;
+  font-family: Courier New,Arial;
+  border: 1px solid #ddd;
+  border-left: 5px solid #6CE26C;
+  background: #f6f6f6;
+  padding: 5px;
+  margin: 0 0 10px 0;
+}
+.Tweet {
+  border-bottom: 1px dashed #cccccc;
+  padding: 0 0 5px 0;
+  margin: 0 0 10px 0;
+}
+.Tweet a {
+  text-decoration: none;
+}
+.Tweet .TweetUser {
+  width: 48px;
+}
+.Tweet .TweetUser img {
+  width: 32px;
+  height: 32px;
+  margin-top: 5px;
+}
+.Tweet .TweetContent {
+  color: #333333;
+}
+.Tweet .TweetContent h5 {
+  font-weight: normal;
+  font-size: 10pt;
+  color: #999999;
+}
+.Tweet .TweetContent .post {
+  font-size: 10.5pt;
+  line-height: 22px;
+  margin: 5px 0 0 0;
+  overflow: hidden;
+}
+.Tweet .TweetContent .ref {
+  font-size: 9pt;
+  margin: 3px 0 0 0;
+  background: url('/img/space/up_arrow.gif') no-repeat 15px 0;
+  padding-top: 5px;
+}
+.Tweet .TweetContent .ref .p {
+  border: 1px solid #cccccc;
+  background: #f6f6f6;
+  padding: 5px;
+  color: #999999;
+}
+.Tweet .TweetContent .ref .rpost {
+  display: block;
+  margin: 3px 0;
+}
+.Tweet .TweetContent .photo {
+  margin: 10px 0;
+}
+.Tweet .TweetContent .photo a[class^="rotate-"] {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+}
+.Tweet .TweetContent .photo .rotate-clockwise {
+  background: url("/img/rotate-clockwise.png") no-repeat;
+  background-size: 14px 14px;
+}
+.Tweet .TweetContent .photo .rotate-anticlockwise {
+  background: url("/img/rotate-anticlockwise.png") no-repeat;
+  background-size: 14px 14px;
+}
+.Tweet .TweetContent .photo img {
+  border: 1px solid #f6f6f6;
+  padding: 1px;
+  max-width: 450px;
+  cursor: pointer;
+}
+.Tweet .TweetContent .photo img:hover {
+  border: 1px solid #5cc26f;
+}
+.Tweet .TweetContent .photo .ImgMenu a {
+  margin: 0 5px 0 0;
+}
+.Tweet .TweetContent embed {
+  margin: 3px 0 0 0;
+}
+.Tweet .TweetContent .video {
+  margin: 10px 0;
+}
+.tweet_video_operation {
+  display: none;
+}
+.tweet_video_description {
+  margin: 0 0 5px 0;
+  font-size: 12px;
+}
+.tweet_thumb_wrapper {
+  display: inline-block;
+  border: 1px solid #D2D2D2;
+  background: white;
+  overflow: hidden;
+  padding: 3px;
+  position: relative;
+  cursor: pointer;
+}
+.tweet_play_video {
+  opacity: 0.7;
+  display: inline-block;
+  width: 37px;
+  height: 37px;
+  background: url('/img/play_video.png') no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -18px;
+  margin-left: -18px;
+}
+.Tweet .TweetContent pre {
+  margin: 5px 0 10px 0;
+}
+.Tweet .TweetContent .bottom {
+  margin: 10px 0 0 0;
+  height: 18px;
+}
+.Tweet .TweetContent .opts {
+  font-size: 8pt;
+  float: right;
+}
+.Tweet .TweetContent .time {
+  font-size: x-small;
+  margin: 0;
+  color: #888;
+  -webkit-text-size-adjust: none;
+}
+.Tweet .LogReplyList {
+  margin: 0px 0 5px 0;
+  display: none;
+  padding: 5px 5px 5px 0;
+}
+.Tweet .LogReplyList .TweetRplsWrapper {
+  background: #f9f9f9;
+  padding: 10px 10px 20px 10px;
+  border: 1px solid #cccccc;
+}
+.Tweet .LogReplyList .TweetRplsWrapper .loading {
+  background: url('/img/loading.gif') no-repeat left center;
+  padding-left: 22px;
+}
+.Tweet .LogReplyList #closeTweetRpls {
+  float: right;
+  font-weight: bold;
+  line-height: 8px;
+  height: 8px;
+}
+.Tweet .LogReplyList form {
+  margin: 5px 0 0 5px;
+}
+.Tweet .LogReplyList form label {
+  font-size: 9pt;
+}
+.Tweet .LogReplyList .TweetReplyOptions {
+  margin: 3px 0 0 0;
+}
+.Tweet .LogReplyList .TweetReplyOptions input {
+  float: left;
+  margin: 2px 0 0 0;
+}
+.Tweet .LogReplyList .TweetReplyOptions label {
+  float: left;
+}
+.Tweet .pager {
+  margin: 20px 0 0 2px;
+}
+.TweetRpls h6 {
+  font-size: 10pt;
+  margin: 10px 0 5px 0;
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 5px;
+}
+.TweetRpls ul {
+  font-size: 9pt;
+}
+.TweetRpls li {
+  border-bottom: 1px dashed #cccccc;
+  padding: 10px 0 5px 0;
+}
+.TweetRpls li .portrait {
+  width: 30px;
+}
+.TweetRpls li .portrait img {
+  width: 24px;
+  height: 24px;
+  margin: 5px 0 0 0;
+}
+.TweetRpls li .TweetReplyBody {
+  overflow: hidden;
+}
+.TweetRpls li .TweetReplyBody .post {
+  line-height: 20px;
+}
+.TweetRpls li .TweetReplyBody .opts {
+  float: none;
+  font-size: 8pt;
+  -webkit-text-size-adjust: none;
+  color: #999999;
+  margin: 10px 0 0 0;
+  height: 18px;
+}
+.TweetRpls li .TweetReplyBody .opts .links {
+  float: right;
+}
+.TweetRpls li .TweetReplyBody .opts a {
+  font-size: 9pt;
+}
+.TweetRpls .all {
+  display: block;
+  margin: 10px 0 0 0 ;
+}
+#TweetReplyPage {
+  width: 600px;
+}
+#TweetReplyPage h1 {
+  font-size: 16pt;
+  margin-bottom: 20px;
+}
+#TweetReplyPage h1 a {
+  text-decoration: none;
+}
+#TweetReplyForm {
+  margin: 0 0 20px 0px;
+}
+#TweetReplyForm textarea {
+  display: block;
+  width: 98%;
+  height: 40px;
+  font-size: 9pt;
+  padding: 2px;
+  margin: 10px 0 5px 0;
+}
+#TweetReplyForm .TweetReplyOptions {
+  float: right;
+}
+#TweetReplyForm #btn_submit {
+  padding: 2px 3px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+#TweetReplyPage #TweetReplies li .TweetReplyBody {
+  width: 450px;
+}
+.gotop {
+  background: url(/img/gotop.gif) no-repeat;
+  display: block;
+  width: 31px;
+  height: 31px;
+}
+#SpaceHomeLayoutSelector {
+  height: 350px;
+}
+#SpaceHomeLayoutSelector a {
+  float: left;
+  width: 48%;
+  text-align: center;
+}
+#SpaceHomeLayoutSelector a em {
+  display: block;
+  font-style: normal;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+}
+#SpaceHomeLayoutSelector a img {
+  border: 3px solid #fff;
+  padding: 5px;
+}
+#SpaceHomeLayoutSelector a.active img {
+  border: 3px solid #7798CB;
+}
+#LayoutSelectorMsg {
+  text-align: center;
+  font-size: 14pt;
+  margin: 20px 0 0 0;
+  color: #000;
+  display: none;
+}
+/* 通用的表单 */
+.error_msg {
+  height: 22px;
+  color: #A00;
+  margin: 10px 0 10px 0;
+  background: url('/img/warning.gif') no-repeat left center;
+  padding-left: 24px;
+}
+.error_msg a {
+  padding: 0 5px 0 5px;
+  font-weight: bold;
+}
+.ok_msg {
+  height: 22px;
+  color: #060;
+  margin: 10px 0 10px 0;
+  background: url('/img/space/tick.png') no-repeat left center;
+  padding-left: 24px;
+}
+.ok_msg a {
+  padding: 0 5px 0 5px;
+  font-weight: bold;
+}
+.MainForm {
+  font-size: 10.5pt;
+}
+.MainForm .Tip {
+  margin: 0 0 10px 0;
+  border: 1px solid #cccccc;
+  background: #ffc;
+  font-size: 9pt;
+  padding: 10px;
+  color: #00A;
+}
+.MainForm .Tip ul {
+  margin: 10px 0 0 10px;
+  line-height: 22px;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+.MainForm form th {
+  text-align: right;
+  padding: 10px;
+  font-weight: normal;
+  color: #666666;
+}
+.MainForm form th.required {
+  font-weight: bold;
+}
+.MainForm form td.t {
+  color: #333333;
+}
+.MainForm form td .tip {
+  color: #5cc26f;
+  font-size: 9pt;
+}
+.MainForm form input.TEXT {
+  padding: 3px;
+}
+.MainForm form select {
+  padding: 3px;
+}
+.MainForm form textarea {
+  padding: 3px;
+  font-size: 12pt;
+}
+.MainForm form textarea#txt_abstracts {
+  width: 600px;
+  height: 80px;
+  font-size: 10.5pt;
+}
+.MainForm form input.BUTTON {
+  font-size: 12pt;
+  padding: 2px 5px;
+}
+.MainForm form input.SUBMIT {
+  font-weight: bold;
+  padding: 2px 10px;
+}
+.MainForm form .submit #error_msg {
+  margin-left: 10px;
+}
+.MainForm .FormSection {
+  margin: 20px 0;
+}
+.MainForm .FormSection ul {
+  margin: 20px 0 0 20px;
+}
+.MainForm .Btn_Save {
+  margin: 20px 0;
+}
+.MainForm .btn_save {
+  background: #5cc26f;
+  color: #fff;
+  text-decoration: none;
+  height: 30px;
+  margin-right: 10px;
+  border: 0px solid #000;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+.MainForm .btn_save:hover {
+  background: #40ab54;
+}
+.MainForm .btn_save:hover span {
+  background: #40ab54;
+  color: #fff;
+}
+.write-blog .section {
+  margin: 10px 0px;
+  padding: 5px 0px;
+  font-size: 12.5px;
+}
+.write-blog .b-input {
+  background-color: #fff;
+  border: 1px solid #D9D9D9;
+  border-top-color: #C0C0C0;
+  border-left-color: #d0d0d0;
+  -webkit-transition: border linear .2s;
+  -moz-transition: border linear .2s;
+  transition: border linear .2s;
+}
+.write-blog .c-input {
+  display: inline-block;
+  height: 22px;
+  padding: 5px 1% 3px 1%;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #111;
+  border-radius: 0;
+  vertical-align: middle;
+  margin-top: 5px;
+}
+.write-blog .d-input {
+  display: inline-block;
+  height: 22px;
+  padding: 5px 0px 3px 0px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #111;
+  border-radius: 0;
+  vertical-align: middle;
+  margin-top: 5px;
+}
+.write-blog .f-input {
+  width: 98%;
+}
+.write-blog .o-input {
+  height: 18px;
+  margin: 0px;
+  padding: 3px 5px;
+}
+.write-blog .t-input {
+  width: 98%;
+  height: 65px;
+}
+.write-blog .m-input {
+  width: 100%;
+  min-height: 450px;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.write-blog .s-button {
+  width: 200px;
+  background: #428BD1;
+  height: 32px;
+  border: none;
+  color: #FFF;
+  margin-right: 10px;
+  font-size: 14px;
+  font-family: '微软雅黑', 'Verdana', 'sans-serif', '宋体';
+  cursor: pointer;
+}
+.write-blog .s-button:hover {
+  background: #3270AC;
+}
+.write-blog .blog-title {
+  position: relative;
+}
+.write-blog .blog-title .catalog {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  overflow: hidden;
+  cursor: pointer;
+  color: #FFF;
+  z-index: 1000;
+}
+.write-blog .blog-title .catalog ul {
+  border: 1px solid #FFF;
+  background: #428BD1;
+}
+.write-blog .blog-title .catalog li {
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  padding: 0px 5px;
+  background: #428BD1;
+}
+.write-blog .blog-title .catalog li:hover {
+  background: #4BA1F3;
+}
+.write-blog .section strong i {
+  display: inline-block;
+  width: 15px;
+  height: 8px;
+  margin-right: 8px;
+}
+.write-blog .section strong {
+  vertical-align: middle;
+}
+.write-blog .check-ico {
+  background: url("/img/selg.jpg") no-repeat right bottom;
+  white-space: nowrap;
+  line-height: 30px;
+  color: #999;
+  border: 2px solid #999;
+  font-size: 9pt;
+  padding: 3px 15px;
+  cursor: pointer;
+  margin: 0px 10px 1px 10px;
+}
+.write-blog .checked,
+.multi-check:hover {
+  background: url("/img/sel-b-type.gif") no-repeat right bottom;
+  border: 2px solid #F00;
+  color: #F00;
+}
+.write-blog .single-check:hover {
+  color: #999;
+}
+.write-blog .checked:hover {
+  color: #F00;
+}
+.write-blog .section .setting-title {
+  color: #777;
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 10px;
+  width: 120px;
+}
+.write-blog .sel-editor span.sel-box {
+  float: right;
+}
+.write-blog .sel-editor .sel-box span {
+  color: #FFF;
+  padding: 2px 8px;
+  background: #E7A940;
+  cursor: pointer;
+  font-size: 12px;
+  float: left;
+}
+.write-blog .sel-editor span.sel-title {
+  background: #FFF;
+  color: #777;
+}
+.write-blog .sel-editor span.editor-item:hover {
+  background: #CF932E;
+}
+.write-blog .sel-editor span.selected-editor {
+  background: #40AA53;
+}
+.write-blog .err-msg {
+  padding: 5px 15px;
+  color: #F00;
+  font-size: 12px;
+}
+.write-blog .ke-container {
+  margin-top: 8px;
+}
+.write-blog .wmd-button .wmd-blog-prev {
+  width: 60px;
+  display: inline-block;
+  background: #FFF;
+  text-align: center;
+}
+.write-blog .wmd-button .wmd-blog-prev:hover {
+  background: #99c0fa;
+}
+.edui-default {
+  text-align: left;
+}
+/*博客分类下拉框*/
+.write-blog .select_box {
+  white-space: nowrap;
+  line-height: 30px;
+  color: #999;
+  border: 2px solid #999;
+  font-size: 9pt;
+  padding: 3px 1px;
+  cursor: pointer;
+  margin: 0px 10px 1px 10px;
+}
+/* end 通用的表单 */
+/* paging */
+.pager {
+  height: 28px;
+  line-height: 28px;
+  margin: 2px 0;
+}
+.pager li {
+  font-size: 14px;
+  text-align: center;
+  margin: 0 2px 0 0;
+  display: inline;
+}
+.pager li a {
+  font-family: Courier New,Arial;
+  color: #58595b;
+  background-color: #f0f0f0;
+  padding: 3px 5px;
+  text-decoration: none;
+}
+.pager li a:hover {
+  color: #000;
+}
+.pager li.prev a {
+  background-color: #cccccc;
+  color: #666666;
+}
+.pager li.next a {
+  background-color: #cccccc;
+  color: #666666;
+}
+.pager li.current a {
+  color: #fff;
+  background: #7798cb;
+}
+/*顶部导航条下拉框*/
+#OSC_Banner .control_select ul.cs_content {
+  border: 1px solid #40aa53;
+}
+#OSC_Banner .control_select ul li a {
+  color: #40aa53;
+}
+/* end pager css */
+/*主站显示team的git推送头像大小限制*/
+span.commit_img img {
+  width: 15px;
+  height: 15px;
+}
+/*点赞的样式设置*/
+.love {
+  padding-left: 15px;
+}
+/*点赞链接演示*/
+.love a {
+  font-size: 14px;
+  color: #9A9A9A;
+}
+.love a:hover {
+  color: #6cabe1;
+}
+/*
+.love a.loved{
+	background-image:url("../../../img/person_space_love.png");
+	background-repeat: no-repeat;
+}
+*/
+.TweetUserPic img {
+  width: 25px;
+  border-radius: 30px;
+}
+.more {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+/*嵌入招聘职位样式*/
+.recruitment-blog .more .link {
+  color: #5cc26f;
+}
+</style>
+  <script type="text/javascript" src="iOS-Storyboard2/scrolltopcontrol.js"></script>
+  <script type="text/javascript" src="iOS-Storyboard2/jquery_003.js"></script>
+  <script type="text/javascript" src="iOS-Storyboard2/angular.js"></script>
+  <script type="text/javascript" src="iOS-Storyboard2/angular-sanitize.js"></script>
+  <script type="text/javascript" src="iOS-Storyboard2/angular-resource.js"></script>
+  <link rel="stylesheet" href="iOS-Storyboard2/font-awesome.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/jquery.css">
+  <link rel="alternate" type="application/rss+xml" title="杨仔最新博客" href="http://my.oschina.net/plumsoft/rss">
+  <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://my.oschina.net/action/xmlrpc/rsd?space=164134">
+  <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://my.oschina.net/action/xmlrpc/wlwmanifest?space=164134"> 
+  <style type="text/css">
+    body,table,input,textarea,select {font-family:Microsoft YaHei,Verdana,sans-serif,宋体;}
+
+      emoji[data-emoji~=emoji] {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          line-height: 24px;
+          vertical-align: top;
+          text-align: center;
+      }
+  </style>
+  <script type="text/javascript">
+  	scrolltotop.offset(100,165);
+	scrolltotop.init();
+  </script>
+<style id="poshytip-css-tip-yellowsimple-medal" type="text/css">div.tip-yellowsimple-medal{visibility:hidden;position:absolute;top:0;left:0;}div.tip-yellowsimple-medal table, div.tip-yellowsimple-medal td{margin:0;font-family:inherit;font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;}div.tip-yellowsimple-medal td.tip-bg-image span{display:block;font:1px/1px sans-serif;height:10px;width:10px;overflow:hidden;}div.tip-yellowsimple-medal td.tip-right{background-position:100% 0;}div.tip-yellowsimple-medal td.tip-bottom{background-position:100% 100%;}div.tip-yellowsimple-medal td.tip-left{background-position:0 100%;}div.tip-yellowsimple-medal div.tip-inner{background-position:-10px -10px;}div.tip-yellowsimple-medal div.tip-arrow{visibility:hidden;position:absolute;overflow:hidden;font:1px/1px sans-serif;}</style></head>
+<body>
+<div id="OSC_Screen"><script type="text/javascript">
+  	g_user = {
+	id:0,
+	name:'',
+	login:false};</script>
+<script type="text/javascript" src="iOS-Storyboard2/utils.js"></script>
+<script type="text/javascript" src="iOS-Storyboard2/channel.js"></script>
+<div id="OSC_Content">
+  <link rel="stylesheet" type="text/css" href="iOS-Storyboard2/thinker-md.css">
+<script src="iOS-Storyboard2/thinker-md.js" type="text/javascript"></script>
+
+
+<div class="SpaceList">
+  <div class="BlogEntity">
+    <div class="BlogTitle">
+        <h1><span class="icon" style="background:#44ac57;" title="原创博客">原</span>			<span class="icon" style="background:#fd9c47;" title="首页推荐过的博客">荐</span>												iOS开发19：Storyboard的简单使用</h1>
+        <div class="BlogStat">
+    		    		发表于4年前(2012-04-17 21:00)&nbsp;&nbsp;
+    		阅读（<span class="g">52517</span>）&nbsp;|&nbsp;评论（<a href="#comments"><span class="g">29</span></a>）
+    					    	    <span class="admin">
+				<style>
+#TagsSwitcher{color:#A00;}
+#RecTags,#MyTags{margin:5px 0;}
+#RecTags a.tag{line-height:24px;}
+#favor_form p:first-child{margin:5px 0;}
+#favor_form{width:200px;}
+#favor_form p {color:#666;}
+#favor_form form{min-height: 85px;width:200px;}
+#favor_form form ._favor_input{display:block;margin:2px 0;width:199px;}
+#favor_form form ._favor_button{float:left;padding:2px 5px;}
+.favor_ok {text-align:center;font-size:10.5pt;width:199px;height:60px;margin-top:10px;}
+#TagsSwitcher{cursor:pointer;float:right;margin-top:10px;}
+#MyTags{display:none;width:199px;}
+#MyTags a.tag {float:left; background-color: #E0EAF1;border-bottom: 1px solid #3E6D8E;border-right: 1px solid #7F9FB6;color: #3E6D8E;font-size: 8pt;line-height: 16px;margin: 2px 2px 2px 0;padding: 2px 4px;text-decoration: none;white-space: nowrap;}
+#MyTags a.tag:hover{background-color: #3E6D8E;color: #FFF;}
+</style>
+
+<em id="p_attention_count">59</em>人收藏此文章,
+<span id="attention_it">
+<a href="javascript:add_to_favor(53886,3)" id="favor_trigger" title="添加到收藏夹">我要收藏</a>
+</span>
+			</span>
+    	  </div>
+		<div class="tvote" onclick="vote(53886)" title="都有6个人赞过了，你也来赞一下吧！不会扣积分哦！"><em class="vote">赞</em><em class="num vote_count">6</em></div>
+      </div>
+	  	  	  
+	  	  <a name="kindeditor"></a>
+	            <div class="BlogAbstracts">
+						           <div class="BlogTags">
+        	        	<a href="http://www.oschina.net/search?scope=blog&amp;q=iOS" class="tag">iOS</a>
+        	        	<a href="http://www.oschina.net/search?scope=blog&amp;q=iPad" class="tag">iPad</a>
+        	        	<a href="http://www.oschina.net/search?scope=blog&amp;q=iPhone" class="tag">iPhone</a>
+        	        	<a href="http://www.oschina.net/search?scope=blog&amp;q=%E5%BC%80%E5%8F%91" class="tag">开发</a>
+        	        	<a href="http://www.oschina.net/search?scope=blog&amp;q=Storyboard" class="tag">Storyboard</a>
+        	        	<a href="http://www.oschina.net/search?scope=blog&amp;q=%E9%9D%99%E6%80%81%E8%A1%A8%E6%A0%BC" class="tag">静态表格</a>
+        	           </div>
+	    </div><br>
+        <div class="BlogContent"><p>之前做的例子，我们经常会用到.xib文件，在其中我们可以进行界面的设计。不过如果想切换视图，我们就得自己写很多代码。自从苹果推出了Storyboard，我们可以在一个编辑区域设计多个视图，并通过可视化的方法进行各个视图之间的切换。如下图：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/171543_zcpZ_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/171543_zcpZ_164134.png"></a></p> 
+<p>上图中有两种箭头：左边的箭头表示程序刚开始运行时加载的控制器；右边的称为Segue，这个表示视图之间的切换，或者表示连接Navigation Controller的Root View Controller。</p> 
+<p>Storyboard功能强大，通过它不仅可以单独设计每一个视图，还能很简单地实现各个视图之间的切换。</p> 
+<p>接下来的例子主要显示Storyboard的功能，顺便用Storyboard实现了静态表格等功能。为了显示Storyboard的功能，我们从Empty Application开始我们的例子。</p> 
+<p>1、运行Xcode 4.2，新建一个Empty Application，名称为Storyboard Test：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/171632_oMXu_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/171632_oMXu_164134.png"></a></p> 
+<p>2、打开AppDelegate.m，找到didFinishLaunchingWithOptions方法，删除其中代码，使得只有return YES;语句。</p> 
+<p>3、创建一个Storyboard：</p> 
+<p>在菜单栏依次选择File — New — New File，在弹出的窗口，左边选择iOS组中的User Interface，右边选择Storyboard：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/171711_sVCW_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/171711_sVCW_164134.png"></a></p> 
+<p>之后单击Next，选择Device Family为iPhone，单击Next，输入名称MainStoryboard，并设好Group：</p> 
+<p>单击Create，这样就创建了一个Storyboard。</p> 
+<p>4、配置程序，使得从MainStoryboard启动：</p> 
+<p>先单击左边带蓝色图标的Storyboard Test，然后选择Summary，接下来在Main Storyboard中选择MainStoryboard：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/171810_MPnC_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/171810_MPnC_164134.png"></a></p> 
+<p>这样，当运行程序时，就从MainStoryboard加载内容了。</p> 
+<p>5、单击MainStoryboard.storyboard，会发现编辑区域是空的。拖一个Navigation Controller到编辑区域：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/171842_1dV0_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/171842_1dV0_164134.png"></a></p> 
+<p>6、选中右边的View Controller，然后按Delete键删除它。之后拖一个Table View Controller到编辑区域：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/171901_PLjD_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/171901_PLjD_164134.png"></a></p> 
+<p>7、我们将在这个Table View Controller中创建静态表格，不过先要将其设置为左边Navigation Controller的Root Controller：</p> 
+<p>选中Navigation Controller，按住Control键，向Table View Controller拉线：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172005_ldw1_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172005_ldw1_164134.png"></a></p> 
+<p>松开鼠标后，在弹出菜单选择Relationship - rootViewController：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172037_h0dh_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172037_h0dh_164134.png"></a></p> 
+<p>之后，两个框之间会出现一个连接线，这个就可以称作是Segue。</p> 
+<p>8、选中Table View Controller中的Table View，之后打开Attribute Inspector，设置其Content属性为Static Cells：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172109_Ta39_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172109_Ta39_164134.png"></a></p> 
+<p>这样你会发现Table View中出现了三行Cell。在上图你可以设置很多熟悉，比如Style、Section数量等。</p> 
+<p>9、设置行数：</p> 
+<p>选中Table View Section，在Attribute Inspector中设置其行数为2：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172142_ryKu_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172142_ryKu_164134.png"></a></p> 
+<p>然后选中每一行，设置其Style为Basic：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172206_mCEn_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172206_mCEn_164134.png"></a></p> 
+<p>设置第一行中Label的值为：Date and Time，第二行中的Label为List；之后选中下方的Navigation Item，在Attribute Inspector设置Title为Root View，Back Button为Root：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172229_TDGT_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172229_TDGT_164134.png"></a></p> 
+<p>10、我们实现单击表格中的Date and Time这一行实现页面转换，在新页面显示切换时的时间。</p> 
+<p>在菜单栏依次选择File — New — New File，在弹出的窗口左边选择iOS中的Cocoa Touch，右边选择UIViewController subclass：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172258_XTb0_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172258_XTb0_164134.png"></a></p> 
+<p>单击Next，输入名称DateAndTimeViewController，但是不要选XIB：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172313_RRSM_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172313_RRSM_164134.png"></a></p> 
+<p>之后，选好位置和Group，完成创建。</p> 
+<p>11、再次打开MainStoryboard.storyboard，拖一个View Controller到编辑区域，然后选中这个View 
+Controller，打开Identity Inspector，设置class属性为DateAndTimeViewController：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172343_jEDm_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172343_jEDm_164134.png"></a></p> 
+<p>这样，我们就可以向DateAndTimeViewController创建映射了。</p> 
+<p>12、向新拖入的View Controller添加控件，如下图：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172404_IcZS_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172404_IcZS_164134.png"></a></p> 
+<p>然后将显示为Label的两个标签向DateAndTimeViewController.h中创建映射，名称分别是dateLabel、timeLabel：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172426_6fss_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172426_6fss_164134.png"></a></p> 
+<p>13、打开DateAndTimeViewController.m，在ViewDidUnload方法之后添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">//每次切换到这个试图，显示切换时的日期和时间
+- (void)viewWillAppear:(BOOL)animated {
+    NSDate *now = [NSDate date];
+    dateLabel.text = [NSDateFormatter
+                      localizedStringFromDate:now
+                      dateStyle:NSDateFormatterLongStyle
+                      timeStyle:NSDateFormatterNoStyle];
+    timeLabel.text = [NSDateFormatter
+                      localizedStringFromDate:now
+                      dateStyle:NSDateFormatterNoStyle
+                      timeStyle:NSDateFormatterLongStyle];
+}</pre> 
+<p> 14、打开MainStoryboard.storyboard，选中表格的行Date and Time，按住Contrl，向View Controller拉线：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172524_SJU9_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172524_SJU9_164134.png"></a></p> 
+<p>在弹出的菜单选择Push：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/172542_pfIh_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/172542_pfIh_164134.png"></a></p> 
+<p>这样，Root View Controller与DateAndTimeViewController之间就出现了箭头，运行时当点击表格中的那一行，视图就会切换到DateAndTimeViewController。</p> 
+<p>15、选中DateAndTimeViewController中的Navigation Item，在Attribute Inspector中设置其Title为Date and Time：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/205123_ruB6_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205123_ruB6_164134.png"></a></p> 
+<p>16、运行一下，首先程序将加载静态表格，表格中有两行：Date and Time以及List，单击Date and 
+Time，视图切换到相应视图，单击左上角的Root按钮，视图回到Root View。每次进入Date and Time视图，显示的时间都会不同：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/205145_myjK_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205145_myjK_164134.png"></a>&nbsp;&nbsp; <a href="http://static.oschina.net/uploads/space/2012/0417/205157_bDNL_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205157_bDNL_164134.png"></a>&nbsp;&nbsp; <a href="http://static.oschina.net/uploads/space/2012/0417/205206_Jv1y_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205206_Jv1y_164134.png"></a></p> 
+<p>17、接下来，我们将要实现，单击List行，显示一个表格，并且单击表格中的某一行，我们可以在新弹出的视图中编辑该行内容。首先创建
+ViewController文件：ListViewController、ListEditViewController，前者继承
+UITableViewController，后者继承UIViewController，参照第10步。都不要创建XIB文件。</p> 
+<p>然后打开MainStoryboard.storyboard，拖一个Table View Controller和View Controller到编辑区域，调整所有视图在编辑区域的位置，如下图：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/205321_EPHu_164134.jpg" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205321_EPHu_164134.jpg"></a></p> 
+<p>设置新拖入的Table View Controller和View Controller的class属性分别是ListViewController和ListEditViewController，参考第11步。</p> 
+<p>18、参照第14步，从Root View Controller中的List那一行向List View 
+Controller拉线，并在弹出菜单也选择Push。然后选中List View Controller的Navigation 
+Item，设置Title及Back Button都为List，可以参照第9步。</p> 
+<p>19、向List View Controller中的表格区域拖入一个Table View 
+Cell，这样其中就有两个Cell了。设置第一个Cell的Identifier属性为GreenIdentifier。向第一个Cell中拖入一个
+Label，设置其字体颜色为绿色。同样对第二个Cell进行设置，Identifier属性为RedIdentifier，往其中拖入Label，设置
+字体颜色为红色。两个Label的Tag属性都设为1。</p> 
+<p>20、打开ListViewController.m，向其中添加代码：</p> 
+<p>20.1 在#import的下一行添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">@interface ListViewController ()
+@property (strong, nonatomic) NSMutableArray *listArray;
+@property (copy, nonatomic) NSDictionary *editedSelection;
+@end</pre> 
+<p> 20.2 在@implementation之后添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">@synthesize listArray;
+@synthesize editedSelection;</pre> 
+<p> 20.3 找到viewDidLoad方法，向其中添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">- (void)viewDidLoad {
+    [super viewDidLoad];
+    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:
+                             @"Horse", @"Sheep", @"Pig", @"Dog",
+                             @"Cat", @"Chicken", @"Duck", @"Goose",
+                             @"Tree", @"Flower", @"Grass", @"Fence",
+                             @"House", @"Table", @"Chair", @"Book",
+                             @"Swing" ,nil];
+    self.listArray = array;
+}</pre> 
+<p> 20.4 找到numberOfSectionsInTableView方法，使其返回1，并删掉#warning。</p> 
+<p>20.5 找到numberOfRowsInSection方法，删掉#warning，使其返回[listArray count]：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return [listArray count];
+}</pre> 
+<p> 20.6 找到cellForRowAtIndexPath方法，修改其中代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSUInteger row = [indexPath row];
+    NSString *identifier = nil;
+    if (row%2 == 0) {
+        identifier = @"GreenIdentifier";
+    }else 
+        identifier = @"RedIdentifier";
+  
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    
+    UILabel *cellLabel = (UILabel *)[cell viewWithTag:1];
+    cellLabel.text = [listArray objectAtIndex:row];
+    
+    return cell;
+}</pre> 
+<p> 21、运行一下，当单击List行时，页面切换到我们List视图：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/205602_PCyV_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205602_PCyV_164134.png"></a>&nbsp;&nbsp; <a href="http://static.oschina.net/uploads/space/2012/0417/205612_JtdN_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205612_JtdN_164134.png"></a></p> 
+<p>22、下面实现单击List表格中的某一行，视图切换，并且视图中的内容与之前选中的行相关，然后可以对其进行编辑，返回后，原来的数据也会发生改变。</p> 
+<p>打开MainStoryboard.storyboard，仿照第14步，从List View Controller中的两行向List 
+Edit View Controller拉线，在弹出菜单选择Push。这样List Edit View 
+Controller视图中就出现了Navigation 
+Item，选中它，设置Title为Edit。这样，单击List表格中的某一行，视图都会切换到List Edit View Controller。</p> 
+<p>23、打开ListViewController.m，在@end之前添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    //获取目的ViewController
+    UIViewController *destination = [segue destinationViewController];
+    if ([destination respondsToSelector:@selector(setPreViewController:)]) {
+        //将自身传递给目的ViewController
+        [destination setValue:self forKey:@"preViewController"];
+    }
+    if ([destination respondsToSelector:@selector(setSelection:)]) {
+        //目的ViewController中的selection属性存储的就是需要编辑的内容及其在表格中的位置
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        id object = [self.listArray objectAtIndex:indexPath.row];
+        NSDictionary *selection = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   indexPath, @"indexPath",
+                                   object, @"object",
+                                   nil];
+        [destination setValue:selection forKey:@"selection"];
+    }
+}</pre> 
+<p> 在ViewDidUnload方法之后添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">- (void)setEditedSelection:(NSDictionary *)dict {
+    if (![dict isEqual:editedSelection]) {
+        editedSelection = dict;
+        NSIndexPath *indexPath = [dict objectForKey:@"indexPath"];
+        id newValue = [dict objectForKey:@"object"];
+        [listArray replaceObjectAtIndex:indexPath.row withObject:newValue];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}</pre> 
+<p> 24、打开MainStoryboard.storyboard，找到Edit视图，向其中拖一个Text Field：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/205740_5A33_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205740_5A33_164134.png"></a></p> 
+<p>然后为这个Text Field向ListEditViewController.h中创建Outlet映射，名称为editText。</p> 
+<p>25、打开ListEditViewController.h，向其中添加属性：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">@property (copy, nonatomic) NSDictionary *selection; 
+@property (weak, nonatomic) id preViewController;</pre> 
+<p> 26、打开ListEditViewController.m，添加代码：</p> 
+<p>26.1 在@implementation的下一行添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">@synthesize preViewController;
+@synthesize selection;</pre> 
+<p> 26.2 找到ViewDidLoad方法，它默认是被注释掉的，去掉其周围注释符，添加代码如下：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    editText.text = [selection objectForKey:@"object"]; 
+    [editText becomeFirstResponder]; 
+}</pre> 
+<p> 26.3 在ViewDidUnload方法之后添加代码：</p> 
+<pre class="brush:; toolbar: true; auto-links: false;">- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated]; 
+    
+    if ([preViewController respondsToSelector:@selector(setEditedSelection:)]) {
+        //结束编辑
+        [editText endEditing:YES];
+        NSIndexPath *indexPath = [selection objectForKey:@"indexPath"];
+        id object = editText.text;
+        NSDictionary *editedSelection = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         indexPath, @"indexPath",
+                                         object, @"object",
+                                         nil];
+        //设置上一个ViewController中的editedSelection，由于设置editedSelection方法
+        //已经重写，从而对应在表格中的数据会发生变化
+        [preViewController setValue:editedSelection forKey:@"editedSelection"];
+    }
+}</pre> 
+<p> 27、运行：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/205919_lybS_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205919_lybS_164134.png"></a>&nbsp;&nbsp; <a href="http://static.oschina.net/uploads/space/2012/0417/205929_aCgs_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205929_aCgs_164134.png"></a></p> 
+<p>单击List行时，视图切换到上面右图所示。然后单击Pig那一行，视图切换到Edit视图，然后编辑内容，之后返回，这样，原来表格中的内容就会发生改变：</p> 
+<p><a href="http://static.oschina.net/uploads/space/2012/0417/205945_QCcI_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205945_QCcI_164134.png"></a>&nbsp;&nbsp; <a href="http://static.oschina.net/uploads/space/2012/0417/205955_9heO_164134.png" target="_blank"><img style="cursor: pointer;" alt="" src="iOS-Storyboard2/205955_9heO_164134.png"></a></p> 
+<p>最终代码：<a href="http://www.oschina.net/code/snippet_164134_10535" target="_blank" rel="nofollow">http://www.oschina.net/code/snippet_164134_10535</a></p> 
+<p>&nbsp;</p></div>
+        <div class="BlogCopyright">
+	  		声明：OSCHINA 博客文章版权属于作者，受法律保护。未经作者同意不得转载。
+  	    </div>
+	  
+
+	</div>
+	       <div style="margin:10px 0;">
+
+<!-- blog-ad -->
+
+
+      </div>
+    </div>
+<style>
+	/*招聘广告位--样式*/
+	.clear{
+		clear:both;
+		font-size:1px;
+		line-height: 0;
+	}
+	.recruitment{
+		font-size: 14px;
+		border:1px solid #eee;
+		color: #333;
+		margin: 20px 0 0 230px;
+		border: 1px solid #eee;
+		background: #fff;
+		word-wrap: break-word;
+	}
+	.recruitment a{
+			text-decoration: none;
+			color: #333;
+		}
+		.recruitment a:hover{
+			text-decoration: none;
+			color: #459120;
+		}
+		.recruitment ul,.recruitment li{
+			list-style-type: none;
+			padding:0;
+			margin:0;
+		}
+		.recruitment h5{
+			font-weight: 400;
+			font-size: 12px;
+			color: #999;
+			margin:0;
+		}
+		.recruitment .recruit-heading{
+			height: 34px;
+			line-height: 34px;
+			border-bottom:1px solid #ddd;
+			margin-bottom: 10px;
+		}
+		.recruitment .recruit-heading .title{
+			float:left;
+		}
+		.recruitment .recruit-heading .more{
+			float:right;
+		}
+		.recruitment .recruit-heading .link{
+			font-size: 12px;
+			font-weight: bold;
+		}
+		.recruitment .recruit-body{
+		}
+		.recruitment .recruit-body li{
+			outline: 0;
+			padding:10px 0;
+			width: 50%;
+			/*width: -webkit-calc(50% - 4px);
+			width: -moz-calc(50% - 4px);
+			width: calc(50% - 4px);
+			display:inline-block;*/
+			height: 50px;
+			margin:0;
+			float: left;
+		}
+		.recruitment .recruit-body li .logo-img{
+			float: left;
+			width: 44px;
+			height: 44px;
+			display: inline-block;
+			padding: 2px;
+			border:1px solid #ccc;
+		}
+		.recruitment .recruit-body li .logo-img img{
+			width: 44px;
+			height: 44px;
+		}
+		.recruitment .recruit-body li .logo-img span{
+			display: block;
+			font-weight: 700;
+			height: 44px;
+			line-height: 44px;
+			font-size: 20px;
+			text-align: center;
+			border-radius: 5px;
+		}
+		.recruitment .recruit-body li .info-list{
+			margin-left:60px;
+		}
+		.recruitment .recruit-body li .info-list div{
+			line-height: 30px;
+		}
+		.recruitment .recruit-body li .info-list div a{
+			margin-right:10px;
+		}
+		.recruitment .recruit-body li .info-list small{
+			color: #666;
+		}
+		.recruitment .font-red{
+			color: #EB6000 !important;
+		}
+		.recruitment-blog{
+			margin-top:20px;
+			border:1px solid #eee;
+		}
+		.recruitment-blog .recruit-heading{
+			padding-top:10px;
+			margin-left:20px;
+			margin-right:20px;
+		}
+		.recruitment-blog .recruit-heading .title{
+			font-size:16px;
+		}
+		.recruitment-blog .recruit-body{
+			margin:0 20px;
+		}
+</style>
+
+<div id="inline_reply_editor" style="display:none;">
+<div class="BlogCommentForm">
+	<form id="form_inline_comment" action="/action/blog/add_comment?blog=53886" method="POST">
+	  <input id="inline_reply_id" name="reply_id" value="" type="hidden">
+      <textarea name="content" id="ccom_content" style="width:650px;height:60px;" onkeydown="if((event.metaKey || event.ctrlKey)&amp;&amp;event.keyCode==13){$('#form_inline_comment').submit();}"></textarea><br>
+	  <p>
+		  <span style="float:right;">
+    	  <input value="关闭" class="blg_submit_btn" id="btn_close_inline_reply" style="background: rgba(255,255,255,0);color: #555;" type="button">
+    	  <input value="回复" id="btn_comment" class="blg_submit_btn" type="submit"> 
+		  </span>
+		  插入：
+				<a href="javascript:;" onclick="javascript:insert_emotions('ccom_content',this);" class="blog_emotion">表情</a>
+				<a href="javascript:insert_projects_c();" class="blog_soft">开源软件</a>
+		 <span class="NoData" id="ficmp_msg" style="color:#F00"></span>
+	  </p>
+    </form>
+</div>
+</div>
+
+<link type="text/css" rel="stylesheet" href="iOS-Storyboard2/shCore.css">
+<link type="text/css" rel="Stylesheet" href="iOS-Storyboard2/shThemeDefault.css">
+
+  </div>
+
+</div>
+</body></html>
+<!-- Generated by OsChina.NET (init:0[ms],page:210[ms],ip:113.233.70.52) -->

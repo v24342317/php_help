@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>$_POST、$GLOBALS['HTTP_RAW_POST_DATA']和file_get_contents('php://input')</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>history命令</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+<p>Linux下History命令主要用于显示历史指令记录内容, 下达历史纪录中的指令Linux下History命令主要用于显示历史指令记录内容, 下达历史纪录中的指令</p>
+
+<p>History命令语法</p>
+
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[www.linuxidc.com@linux]# history [n]
+[www.linuxidc.com@linux]# history [-c]
+[www.linuxidc.com@linux]# history [-raw] histfiles</span></code></li></ol></pre>
+
+<p>参数：<br>n&nbsp; ：数字,要列出最近的 n 笔命令列表<br>-c ：将目前的shell中的所有 history 内容全部消除<br>-a ：将目前新增的history 指令新增入 histfiles 中，若没有加 histfiles,则预设写入 ~/.bash_history<br>-r ：将 histfiles 的内容读到目前这个 shell 的 history 记忆中<br>-w ：将目前的 history 记忆内容写入 histfiles。Linux系统当你在shell(控制台)中输入并执行命令时，shell会自动把你的命令记录到历史列表中，一般保存在用户目录下的.bash_history文件中。默认保存1000条，你也可以更改这个值。如果你键入 history, history会向你显示你所使用的前1000个历史命令，并且给它们编了号，你会看到一个用数字编号的列表快速从屏幕上卷过。你可能不需要查看1000个命令中的所有项目, 当然你也可以加入数字来列出最近的 n 笔命令列表。linux中history命令不仅仅让我们可以查询历史命令而已. 我们还可以利用相关的功能来帮我们执行命令。运行特定的历史命令history会列出bash保存的所有历史命令，并且给它们编了号，我们可以使用“叹号接编号”的方式运行特定的历史命令.</p>
+
+<h2>实例</h2>
+<p>列出所有的历史记录：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[root@servyou_web ~]# export HISTTIMEFORMAT="%F %T `whoami` "  
+[root@servyou_web ~]# history 
+ 1014  2011-06-22 19:17:29 root    15  2011-06-22 19:13:02 root ./test.sh   
+ 1015  2011-06-22 19:17:29 root    16  2011-06-22 19:13:02 root vim test.sh   
+ 1016  2011-06-22 19:17:29 root    17  2011-06-22 19:13:02 root ./test.sh   
+ 1017  2011-06-22 19:17:29 root    18  2011-06-22 19:13:02 root vim test.sh   
+ 1018  2011-06-22 19:17:29 root    19  2011-06-22 19:13:02 root ./test.sh   
+ 1019  2011-06-22 19:17:29 root    20  2011-06-22 19:13:02 root vim test.sh   
+ 1020  2011-06-22 19:17:29 root    21  2011-06-22 19:13:02 root ./test.sh   
+ 1021  2011-06-22 19:17:29 root    22  2011-06-22 19:13:02 root vim test.sh   
+ 1022  2011-06-22 19:25:22 root    22  2011-06-22 19:13:02 root vim test.sh   </span></code></li></ol></pre>
+ 
+ <p>只列出最近10条记录：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[zzs@linux] # history 10 (注,history和10中间有空格)</span></code></li></ol></pre>
+
+<p> 使用命令记录号码执行命令,执行历史清单中的第99条命令</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[zzs@linux] #!99 (!和99中间没有空格)</span></code></li></ol></pre>
+
+<p> 执行最后一次以<span class="wp_keywordlink"><a target="_blank" title="rpm命令" href="http://man.linuxde.net/rpm">rpm</a></span>开头的命令(!? ?代表的是字符串,这个String可以随便输，<span class="wp_keywordlink"><a target="_blank" title="Shell" href="http://www.linuxde.net/tag/shell">Shell</a></span>会从最后一条历史命令向前搜索，最先匹配的一条命令将会得到执行。)</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[zzs@linux] #!rpm</span></code></li></ol></pre>
+
+<p> 逐屏列出所有的历史记录：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[zzs@linux]# history | more</span></code></li></ol></pre>
+
+<p> 立即清空history当前所有历史命令的记录：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">[zzs@linux] #history -c</span></code></li></ol></pre>
+
+<p> 使用 HISTSIZE 控制历史命令记录的总行数<br/>将下面两行内容追加到 .bash_profile 文件并重新登录 bash shell，命令历史的记录数将变成 450 条</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln"># vi ~/.bash_profile
+HISTSIZE=450
+HISTFILESIZE=450</span></code></li></ol></pre>
+
+<p>使用 HISTSIZE 禁用 history<br/>如果你想禁用 history，可以将 HISTSIZE 设置为 0：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln"># export HISTSIZE=0
+# history
+# [Note that history did not display anything]</span></code></li></ol></pre>
+
+<p>使用 HISTIGNORE 忽略历史中的特定命令<br/>下面的例子，将忽略 pwd、ls、ls -ltr 等命令</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln"># export HISTIGNORE=”pwd:ls:ls -ltr:”
+# pwd
+# ls
+# ls -ltr
+# service httpd stop
+# history | tail -3
+79 export HISTIGNORE=”pwd:ls:ls -ltr:”
+80 service httpd stop
+81 history
+[Note that history did not record pwd, ls and ls -ltr]</span></code></li></ol></pre>
+
+      </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

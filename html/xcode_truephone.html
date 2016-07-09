@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Xcode 7真机测试详解</title>
+<link type="text/css" rel="stylesheet" href="xcode_truephone/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="xcode_truephone/bundle-LessIsMore.css?v=0F7NKnmmVYJDCp-KQ2sA7Dn1GREfDmWWyNjiJP9YrzE1"/>
+</head>
+<body>
+<div id="home"><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<h1 class = "postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/lhx2015/p/4849350.html">Xcode 7真机测试详解</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><div class="entry-content">
+<p><strong>1.准备</strong></p>
+<p><strong>注意：一定要让你的真机设备的系统版本和app的系统版本想对应，如果不对应就会出现一个很常见的问题：could not <em>find</em> developer <em>disk</em> <em>image</em></strong></p>
+<p><strong><em>首先，准备好下面的设备机相关软件</em></strong></p>
+<ul>
+<li>MAC版本：OSX10.10.4</li>
+<li>Xcode版本：<span class="name-text-wrapper"><span class="name-text                                                                                " title="Xcode_7_beta_5.dmg" data-name="Xcode_7_beta_5.dmg">Xcode7 beta5（<a href="http://pan.baidu.com/s/1o6Mi5Lo" target="_blank">点击下载</a>）</span></span></li>
+<li class="name-text                                                                                " title="Xcode_7_beta_5.dmg" data-name="Xcode_7_beta_5.dmg"><span class="name-text-wrapper"><span class="name-text                                                                                " title="Xcode_7_beta_5.dmg" data-name="Xcode_7_beta_5.dmg"> 真机设备：iPad Air(iOS 8.1.3)／iphone 6</span></span></li>
+</ul>
+<p>&nbsp;</p>
+<p><strong>2.<strong>首先先安装<span class="name-text-wrapper"><span class="name-text                                                                                " title="Xcode_7_beta_5.dmg" data-name="Xcode_7_beta_5.dmg">Xcode7，并且</span></span></strong>运行Xcode，点击左上角菜单Xcode -&gt; Preferences。</strong></p>
+<p><img src="xcode_truephone/211144272223238.jpg" alt="技术分享" width="556" height="479" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>3.设置好版本</strong></p>
+<p><img src="xcode_truephone/211135567855129.png" alt="技术分享" width="649" height="404" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>4.下载好相应的SDK，也可以网上下了放进去，Xcode太慢了要5小时左右。</strong></p>
+<p><img src="xcode_truephone/212027570505182.png" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>5.点击Accounts，然后点下面的+号，在弹出菜单中点击Add Apple ID。</strong></p>
+<p><img src="xcode_truephone/211148479258915.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>6.在弹框中输入账号和密码，普通账号就行不需要开发者账号，然后点击Add。</strong></p>
+<p><img src="xcode_truephone/211153360036759.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>7.如果账号密码正确的话，会显示如下图。Free表示未付费但可免费调试，双击打开。</strong></p>
+<p><img src="xcode_truephone/211200392067117.png" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>8.在打开的列表中选择 iOS Development-&gt;点击Create。</strong></p>
+<p><img src="xcode_truephone/211214515506379.png" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>9.如下图所示，然后点击Done关闭</strong></p>
+<p><img src="xcode_truephone/211218511916358.png" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>10.点菜单栏上Window-&gt;Devices。同时将iPad接到电脑。</strong></p>
+<p><img src="xcode_truephone/211224411917618.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<p>&nbsp;</p>
+<p><strong>11.在iPad弹出的对话框中选信任，然后出现如下图所示，连上后关闭窗口</strong></p>
+<p><img src="xcode_truephone/211231416919016.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<div>&nbsp;</div>
+<div id="xunlei_com_thunder_helper_plugin_d462f475-c18e-46be-bd10-327458d045bd"><strong>12.打开或者新建一个项目，将项目中iOS Deployment Target中改成iPad对应的系统版本。</strong></div>
+<div><img src="xcode_truephone/211237500973434.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>13.选择真机测试（如果为灰色说明版本不对需降低版本）</strong></div>
+<div><img src="xcode_truephone/211242178635804.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>14.然后点Team。</strong></div>
+<div><img src="xcode_truephone/211245226917370.png" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>15.选择刚刚添加的账号</strong></div>
+<div><img src="xcode_truephone/211247482065192.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>16.然后点击Fix Issue</strong></div>
+<div><img src="xcode_truephone/211333272858029.png" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>17.xcode会自动生成Provisioning profiles</strong></div>
+<div><img src="xcode_truephone/211253154729508.png" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>18.点击菜单Xcode -&gt; Preferences。</strong></div>
+<div><img src="xcode_truephone/211331208003021.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>19.双击进入</strong></div>
+<div><img src="xcode_truephone/211258281281125.png" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>20.选中刚才的项目，右击然后点击Show in Finder。</strong></div>
+<div><img src="xcode_truephone/211300156919120.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>21.然后双击，文件会自动安装，回到原处后点击Done关闭</strong></div>
+<div><img src="xcode_truephone/211303049414760.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>22.点击菜单Window -&gt; Devices。</strong></div>
+<div><img src="xcode_truephone/211305443633965.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>23.选择iPad右击，然后点击Show Provisioning Profiles。</strong></div>
+<div><img src="xcode_truephone/211308309256416.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>24.看到项目后，点击Done关闭</strong></div>
+<div><img src="xcode_truephone/211310549723925.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div><strong>25.点击运行</strong></div>
+<div><img src="xcode_truephone/211312510977168.jpg" alt="技术分享" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div>运行之后就会在真机上显示对应的App界面</div>
+<div>&nbsp;</div>
+<div><img src="http://images0.cnblogs.com/blog2015/742056/201508/250951468438769.png" alt="技术分享" width="522" height="264" data-bd-imgshare-binded="1" /></div>
+<div>&nbsp;</div>
+<div>下面会总结一些关于Xcode7常见错误机各种坑的解决方案！</div>
+</div>
+<div>
+<p>1:我需要安装最新的iOS9 <span id="3_nwp"><a id="3_nwl" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&amp;app_id=0&amp;c=news&amp;cf=1001&amp;ch=0&amp;di=128&amp;fv=17&amp;is_app=0&amp;jk=8ed45d0b1eae50ae&amp;k=beta&amp;k0=beta&amp;kdi0=0&amp;luki=2&amp;n=10&amp;p=baidu&amp;q=65035100_cpr&amp;rb=0&amp;rs=1&amp;seller_id=1&amp;sid=ae50ae1eb5dd48e&amp;ssp2=1&amp;stid=0&amp;t=tpclicked3_hc&amp;td=1836545&amp;tu=u1836545&amp;u=http%3A%2F%2Fwww%2Ebubuko%2Ecom%2Finfodetail%2D982773%2Ehtml&amp;urlid=0" target="_blank">beta</a>/OSX EI Capitan 才能真机调试吗？</span></p>
+<ul>
+<li>
+<ul>
+<li>苹果手机不用升级最新版本，不过好像Xcode7 只能在最新的系统上运行（可能需要升级，根据自己的<span id="2_nwp"><a id="2_nwl" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&amp;app_id=0&amp;c=news&amp;cf=1001&amp;ch=0&amp;di=128&amp;fv=17&amp;is_app=0&amp;jk=8ed45d0b1eae50ae&amp;k=%B0%E6%B1%BE%BA%C5&amp;k0=%B0%E6%B1%BE%BA%C5&amp;kdi0=0&amp;luki=1&amp;n=10&amp;p=baidu&amp;q=65035100_cpr&amp;rb=0&amp;rs=1&amp;seller_id=1&amp;sid=ae50ae1eb5dd48e&amp;ssp2=1&amp;stid=0&amp;t=tpclicked3_hc&amp;td=1836545&amp;tu=u1836545&amp;u=http%3A%2F%2Fwww%2Ebubuko%2Ecom%2Finfodetail%2D982773%2Ehtml&amp;urlid=0" target="_blank">版本号</a>来决定）</span></li>
+</ul>
+</li>
+</ul>
+<p>2：选择好账号后，点击&ldquo;Fix Issue&rdquo;出现入校错误： <img src="https://monosnap.com/image/uwcs6sKd6fWPWyK6GN4NH1fLaRWo7N.png" alt="技术分享" data-bd-imgshare-binded="1" /></p>
+<ul>
+<li>
+<ul>
+<li>需要跟换一个新的<span id="1_nwp"><a id="1_nwl" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&amp;app_id=0&amp;c=news&amp;cf=1001&amp;ch=0&amp;di=128&amp;fv=17&amp;is_app=0&amp;jk=8ed45d0b1eae50ae&amp;k=app&amp;k0=app&amp;kdi0=0&amp;luki=5&amp;n=10&amp;p=baidu&amp;q=65035100_cpr&amp;rb=0&amp;rs=1&amp;seller_id=1&amp;sid=ae50ae1eb5dd48e&amp;ssp2=1&amp;stid=0&amp;t=tpclicked3_hc&amp;td=1836545&amp;tu=u1836545&amp;u=http%3A%2F%2Fwww%2Ebubuko%2Ecom%2Finfodetail%2D982773%2Ehtml&amp;urlid=0" target="_blank">app</a>le ID再试一下，这里是个bug，这是因为你的apple ID有可能和一个（或者多个）公司（团队）开发者账号（付费的）关联（也就是你加入了某个team）；这样的话就只有在申请一个干净的账号了。 找到的方法可以参考国外的<a href="https://twitter.com/kaptin/status/608727199965958144" target="_blank">网站</a>（需要FQ，自备<span id="0_nwp"><a id="0_nwl" href="http://cpro.baidu.com/cpro/ui/uijs.php?adclass=0&amp;app_id=0&amp;c=news&amp;cf=1001&amp;ch=0&amp;di=128&amp;fv=17&amp;is_app=0&amp;jk=8ed45d0b1eae50ae&amp;k=%CC%DD%D7%D3&amp;k0=%CC%DD%D7%D3&amp;kdi0=0&amp;luki=3&amp;n=10&amp;p=baidu&amp;q=65035100_cpr&amp;rb=0&amp;rs=1&amp;seller_id=1&amp;sid=ae50ae1eb5dd48e&amp;ssp2=1&amp;stid=0&amp;t=tpclicked3_hc&amp;td=1836545&amp;tu=u1836545&amp;u=http%3A%2F%2Fwww%2Ebubuko%2Ecom%2Finfodetail%2D982773%2Ehtml&amp;urlid=0" target="_blank">梯子</a>）。</span></span></li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="xunlei_com_thunder_helper_plugin_d462f475-c18e-46be-bd10-327458d045bd">3：连接真机&ldquo;Could not find Developer Disk Image"提示&ldquo;这就是嘴开始的时候提到的一个重要的错误
+<ul>
+<li>
+<ul>
+<li>这是由于xcode7 里面没有 ios 8.4 导致8.4系统下的手机出现该问题</li>
+</ul>
+</li>
+</ul>
+<div>
+<ul>
+<li>
+<ul>
+<li>在&ldquo;/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport&rdquo;里列出了Xcode7.0beta支持的设备</li>
+</ul>
+</li>
+</ul>
+</div>
+<ul>
+<li>
+<ul>
+<li>我们可以下载IOS8.4 将它放在上面的目录中。</li>
+<li>下载地址：<a href="http://download.csdn.net/detail/a892445213/8867693" target="_blank">http://download.csdn.net/detail/a892445213/8867693</a></li>
+</ul>
+</li>
+</ul>
+<div>&nbsp;</div>
+<div>4：友盟或shareSDK中bitcode 报错？</div>
+<div>
+<ul>
+<li>
+<ul>
+<li>可以在 build setting 中，搜索bitcode,并吧 enable bitcode 设置为 NO</li>
+</ul>
+</li>
+</ul>
+</div>
+<div>
+<ul>
+<li>
+<ul>
+<li><img src="http://img.blog.csdn.net/20150720235527851?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="技术分享" width="790" height="144" data-bd-imgshare-binded="1" /></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info">
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"></div>
+</div>
+
+
+		</div>
+		<div class = "postDesc"></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+</div><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+  <div id="comment_nav"></div>
+<div id="comment_form_container"></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="site_nav_under"></div>
+<div id="opt_under_post"></div>
+
+<div id="google_ad_c1" class="c_ad_block"></div>
+<div id="under_post_news"></div>
+<div id="google_ad_c2" class="c_ad_block"></div>
+<div id="under_post_kb"></div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done--></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+</body>
+</html>

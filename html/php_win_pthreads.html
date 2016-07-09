@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>windows下安装php真正的多线程扩展pthreads教程</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>windows下安装php真正的多线程扩展pthreads教程</h1>
+            <div class="description"></div>
+      </header>
+        <section class="content">
+
+          <p>扩展地址：<a href="http://docs.php.net/manual/zh/book.pthreads.php" target="_blank">http://docs.php.net/manual/zh/book.pthreads.php</a></p>
+          <p><br>
+
+            <strong>注意事项</strong><br>
+php5.3或以上，且为线程安全版本。apache和php使用的编译器必须一致。<br>
+通过phpinfo()查看Thread Safety为enabled则为线程安全版。<br>
+通过phpinfo()查看Compiler项可以知道使用的编译器。本人的为：MSVC9 (Visual C++ 2008)。</p>
+          <p><br>
+            
+  <strong>本人使用环境</strong><br>
+            32位windows xp sp3，wampserver2.2d（php5.3.10-vc9 + apache2.2.21-vc9）。</p>
+          <p><br>
+            
+            <strong>一、下载pthreads扩展</strong><br>
+            下载地址：<a href="http://windows.php.net/downloads/pecl/releases/pthreads" target="_blank">http://windows.php.net/downloads/pecl/releases/pthreads</a><br>
+            根据本人环境，我下载的是pthreads-2.0.8-5.3-ts-vc9-x86。<br>
+            2.0.8代表pthreads的版本。<br>
+            5.3代表php的版本。<br>
+            ts表示php要线程安全版本的。<br>
+            vc9表示php要Visual C++ 2008编译器编译的。<br>
+            x86则表示32位的</p>
+          <p><br>
+            
+            <strong>二、安装pthreads扩展</strong><br>
+            复制php_pthreads.dll 到目录 bin\php\ext\ 下面。（本人路径D:\wamp\bin\php\php5.3.10\ext）<br>
+            复制pthreadVC2.dll 到目录 bin\php\ 下面。（本人路径D:\wamp\bin\php\php5.3.10）<br>
+            复制pthreadVC2.dll 到目录 C:\windows\system32 下面。<br>
+            打开php配置文件php.ini。在后面加上extension=php_pthreads.dll<br>
+            提示！Windows系统需要将 pthreadVC2.dll 所在路径加入到 PATH   环境变量中。我的电脑---&gt;鼠标右键---&gt;属性---&gt;高级---&gt;环境变量---&gt;系统变量---&gt;找到名称  为Path的---&gt;编辑---&gt;在变量值最后面加上pthreadVC2.dll的完整路径（本人的为C:\WINDOWS  \system32\pthreadVC2.dll）。</p>
+          <p><strong>64位的系统对应64位dll文件，32位系统对应32位的dll文件，如果64位的系统安装32位的dll文件，请将下面的system32替换为SysWOW64即可</strong></p>
+            <h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">    class AsyncOperation extends Thread {
+        public function __construct($arg){
+            $this->arg = $arg;
+        }
+        public function run(){
+            if($this->arg){
+                printf("Hello %s\n", $this->arg);
+            }
+        }
+    }
+    $thread = new AsyncOperation("World");
+    if($thread->start())
+        $thread->join();
+    ?></span></code></li></ol></pre>
+<p>运行以上代码出现 Hello World，说明pthreads扩展安装成功！</p>
+
+<h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">
+    class test extends Thread {
+        public $url;
+        public $result;
+        
+        public function __construct($url) {
+            $this->url = $url;
+        }
+        
+        public function run() {
+            if ($this->url) {
+                $this->result = model_http_curl_get($this->url);
+            }
+        }
+    }
+    function model_http_curl_get($url) {
+        $curl = curl_init();  
+        curl_setopt($curl, CURLOPT_URL, $url);  
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);  
+        curl_setopt($curl, CURLOPT_TIMEOUT, 5);  
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.2)');  
+        $result = curl_exec($curl);  
+        curl_close($curl);  
+        return $result;  
+    }
+    for ($i = 0; $i < 10; $i++) {
+        $urls[] = 'http://www.baidu.com/s?wd='. rand(10000, 20000);
+    }
+    /* 多线程速度测试 */
+    $t = microtime(true);
+    foreach ($urls as $key=>$url) {
+        $workers[$key] = new test($url);
+        $workers[$key]->start();
+    }
+    foreach ($workers as $key=>$worker) {
+        while($workers[$key]->isRunning()) {
+            usleep(100);  
+        }
+        if ($workers[$key]->join()) {
+            dump($workers[$key]->result);
+        }
+    }
+    $e = microtime(true);
+    echo "多线程耗时：".($e-$t)."秒<br>";  
+    /* 单线程速度测试 */
+    $t = microtime(true);
+    foreach ($urls as $key=>$url) {
+        dump(model_http_curl_get($url));
+    }
+    $e = microtime(true);
+    echo "For循环耗时：".($e-$t)."秒";  </span></code></li></ol></pre>
+
+<p>测试结果如下：</p>
+<p>多线程耗时：2.8371710777282714844秒</p>
+<p>For循环耗时：10.941586017608642578秒 </p>
+      </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

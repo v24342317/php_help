@@ -1,0 +1,19 @@
+.blogTitle{background-color:#848484;border-width:1px;border-color:
+#cccc00;}
+non-use-pre{background: #002b36 url('http://images.cnitblog.com/blog/63184/201312/28104010-dc7b5285c5684e29902c46ac3e50595b.png') top left;
+-webkit-border-radius: 0.4em;
+-moz-border-radius: 0.4em;
+-ms-border-radius: 0.4em;
+-o-border-radius: 0.4em;
+border-radius: 0.4em;
+border: 1px solid #05232b;
+line-height: 1.45em;
+font-size: 13px;
+margin-bottom: 2.1em;
+padding: .8em 1em;
+color: #93a1a1;
+overflow: auto;}
+
+.desc_img{
+   width: 200px;
+}

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>深入理解JavaScript系列（25）：设计模式之单例模式 - 汤姆大叔 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="js_classes/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="js_classes/bundle-Minyx2_Lite.css">
+<link type="text/css" rel="stylesheet" href="js_classes/101461.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/TomXu/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/TomXu/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/TomXu/wlwmanifest.xml">
+
+</head>
+<body>
+<div id="container">
+
+
+
+    <div id="wrapper">
+        <div id="content">
+
+            
+<div id="post_detail">
+<div class="post" id="post">
+  <h2><a id="cb_post_title_url" href="js_classes/深入理解JavaScript系列（25）：设计模式之单例模式 - 汤姆大叔 - 博客园.html">深入理解JavaScript系列（25）：设计模式之单例模式</a></h2>
+    <small>2012-02-20 08:39 by 汤姆大叔, <span id="post_view_count">28470</span> 阅读, <span id="post_comment_count">37</span> 评论, <a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#" onclick="AddToWz(2352817);return false;">收藏</a>,  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=2352817" rel="nofollow">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><h1>介绍</h1>
+<p>从本章开始，我们会逐步介绍在JavaScript里使用的各种设计模式实现，在这里我不会过多地介绍模式本身的理论，而只会关注实现。OK，正式开始。</p>
+<p>在传统开发工程师眼里，单例就是保证一个类只有一个实例，实现的方法一般是先判断实例存在与否，如果存在直接返回，如果不存在就创建了再返回，这就确保了一个类只有一个实例对象。在JavaScript里，单例作为一个命名空间提供者，从全局命名空间里提供一个唯一的访问点来访问该对象。</p>
+<h1>正文</h1>
+<p>在JavaScript里，实现单例的方式有很多种，其中最简单的一个方式是使用对象字面量的方法，其字面量里可以包含大量的属性和方法：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">var</span> mySingleton = {<br>    property1: "something",<br>    property2: "something else",<br>    method1: <span style="color: #0000ff;">function</span> () {<br>        console.log('hello world');<br>    }<br>};</pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>如果以后要扩展该对象，你可以添加自己的私有成员和方法，然后使用闭包在其内部封装这些变量和函数声明。只暴露你想暴露的public成员和方法，样例代码如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">var</span> mySingleton = <span style="color: #0000ff;">function</span> () {<br><br>    <span style="color: #008000;">/*</span><span style="color: #008000;"> 这里声明私有变量和方法 </span><span style="color: #008000;">*/</span><br>    <span style="color: #0000ff;">var</span> privateVariable = 'something private';<br>    <span style="color: #0000ff;">function</span> showPrivate() {<br>        console.log(privateVariable);<br>    }<br><br>    <span style="color: #008000;">/*</span><span style="color: #008000;"> 公有变量和方法（可以访问私有变量和方法） </span><span style="color: #008000;">*/</span><br>    <span style="color: #0000ff;">return</span> {<br>        publicMethod: <span style="color: #0000ff;">function</span> () {<br>            showPrivate();<br>        },<br>        publicVar: 'the public can see this!'<br>    };<br>};<br><br><span style="color: #0000ff;">var</span> single = mySingleton();<br>single.publicMethod();  <span style="color: #008000;">//</span><span style="color: #008000;"> 输出 'something private'</span><span style="color: #008000;"><br></span>console.log(single.publicVar); <span style="color: #008000;">//</span><span style="color: #008000;"> 输出 'the public can see this!'</span></pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>上面的代码很不错了，但如果我们想做到只有在使用的时候才初始化，那该如何做呢？为了节约资源的目的，我们可以另外一个构造函数里来初始化这些代码，如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">var</span> Singleton = (<span style="color: #0000ff;">function</span> () {<br>    <span style="color: #0000ff;">var</span> instantiated;<br>    <span style="color: #0000ff;">function</span> init() {<br>        <span style="color: #008000;">/*</span><span style="color: #008000;">这里定义单例代码</span><span style="color: #008000;">*/</span><br>        <span style="color: #0000ff;">return</span> {<br>            publicMethod: <span style="color: #0000ff;">function</span> () {<br>                console.log('hello world');<br>            },<br>            publicProperty: 'test'<br>        };<br>    }<br><br>    <span style="color: #0000ff;">return</span> {<br>        getInstance: <span style="color: #0000ff;">function</span> () {<br>            <span style="color: #0000ff;">if</span> (!instantiated) {<br>                instantiated = init();<br>            }<br>            <span style="color: #0000ff;">return</span> instantiated;<br>        }<br>    };<br>})();<br><br><span style="color: #008000;">/*</span><span style="color: #008000;">调用公有的方法来获取实例:</span><span style="color: #008000;">*/</span><br>Singleton.getInstance().publicMethod();</pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>知道了单例如何实现了，但单例用在什么样的场景比较好呢？其实单例一般是用在系统间各种模式的通信协调上，下面的代码是一个单例的最佳实践：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">var</span> SingletonTester = (<span style="color: #0000ff;">function</span> () {<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;">参数：传递给单例的一个参数集合</span><span style="color: #008000;"><br></span>    <span style="color: #0000ff;">function</span> Singleton(args) {<br><br>        <span style="color: #008000;">//</span><span style="color: #008000;">设置args变量为接收的参数或者为空（如果没有提供的话）</span><span style="color: #008000;"><br></span>        <span style="color: #0000ff;">var</span> args = args || {};<br>        <span style="color: #008000;">//</span><span style="color: #008000;">设置name参数</span><span style="color: #008000;"><br></span>        <span style="color: #0000ff;">this</span>.name = 'SingletonTester';<br>        <span style="color: #008000;">//</span><span style="color: #008000;">设置pointX的值</span><span style="color: #008000;"><br></span>        <span style="color: #0000ff;">this</span>.pointX = args.pointX || 6; <span style="color: #008000;">//</span><span style="color: #008000;">从接收的参数里获取，或者设置为默认值</span><span style="color: #008000;"><br></span>        <span style="color: #008000;">//</span><span style="color: #008000;">设置pointY的值</span><span style="color: #008000;"><br></span>        <span style="color: #0000ff;">this</span>.pointY = args.pointY || 10;<br><br>    }<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;">实例容器</span><span style="color: #008000;"><br></span>    <span style="color: #0000ff;">var</span> instance;<br><br>    <span style="color: #0000ff;">var</span> _static = {<br>        name: 'SingletonTester',<br><br>        <span style="color: #008000;">//</span><span style="color: #008000;">获取实例的方法</span><span style="color: #008000;"><br></span>        <span style="color: #008000;">//</span><span style="color: #008000;">返回Singleton的实例</span><span style="color: #008000;"><br></span>        getInstance: <span style="color: #0000ff;">function</span> (args) {<br>            <span style="color: #0000ff;">if</span> (instance === undefined) {<br>                instance = <span style="color: #0000ff;">new</span> Singleton(args);<br>            }<br>            <span style="color: #0000ff;">return</span> instance;<br>        }<br>    };<br>    <span style="color: #0000ff;">return</span> _static;<br>})();<br><br><span style="color: #0000ff;">var</span> singletonTest = SingletonTester.getInstance({ pointX: 5 });<br>console.log(singletonTest.pointX); <span style="color: #008000;">//</span><span style="color: #008000;"> 输出 5 </span></pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<h1>其它实现方式</h1>
+<h2><strong>方法1：</strong></h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">function</span> Universe() {<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 判断是否存在实例</span><span style="color: #008000;"><br></span>    <span style="color: #0000ff;">if</span> (<span style="color: #0000ff;">typeof</span> Universe.instance === 'object') {<br>        <span style="color: #0000ff;">return</span> Universe.instance;<br>    }<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 其它内容</span><span style="color: #008000;"><br></span>    <span style="color: #0000ff;">this</span>.start_time = 0;<br>    <span style="color: #0000ff;">this</span>.bang = "Big";<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 缓存</span><span style="color: #008000;"><br></span>    Universe.instance = <span style="color: #0000ff;">this</span>;<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 隐式返回this</span><span style="color: #008000;"><br></span>}<br><br><span style="color: #008000;">//</span><span style="color: #008000;"> 测试</span><span style="color: #008000;"><br></span><span style="color: #0000ff;">var</span> uni = <span style="color: #0000ff;">new</span> Universe();<br><span style="color: #0000ff;">var</span> uni2 = <span style="color: #0000ff;">new</span> Universe();<br>console.log(uni === uni2); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span></pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<h2><strong>方法2：</strong></h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">function</span> Universe() {<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 缓存的实例</span><span style="color: #008000;"><br></span>    <span style="color: #0000ff;">var</span> instance = <span style="color: #0000ff;">this</span>;<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 其它内容</span><span style="color: #008000;"><br></span>    <span style="color: #0000ff;">this</span>.start_time = 0;<br>    <span style="color: #0000ff;">this</span>.bang = "Big";<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 重写构造函数</span><span style="color: #008000;"><br></span>    Universe = <span style="color: #0000ff;">function</span> () {<br>        <span style="color: #0000ff;">return</span> instance;<br>    };<br>}<br><br><span style="color: #008000;">//</span><span style="color: #008000;"> 测试</span><span style="color: #008000;"><br></span><span style="color: #0000ff;">var</span> uni = <span style="color: #0000ff;">new</span> Universe();<br><span style="color: #0000ff;">var</span> uni2 = <span style="color: #0000ff;">new</span> Universe();<br>uni.bang = "123";<br>console.log(uni === uni2); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span><span style="color: #008000;"><br></span>console.log(uni2.bang); <span style="color: #008000;">//</span><span style="color: #008000;"> 123</span></pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<h2><strong>方法3：</strong></h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">function</span> Universe() {<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 缓存实例</span><span style="color: #008000;"><br></span>    <span style="color: #0000ff;">var</span> instance;<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 重新构造函数</span><span style="color: #008000;"><br></span>    Universe = <span style="color: #0000ff;">function</span> Universe() {<br>        <span style="color: #0000ff;">return</span> instance;<br>    };<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 后期处理原型属性</span><span style="color: #008000;"><br></span>    Universe.prototype = <span style="color: #0000ff;">this</span>;<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 实例</span><span style="color: #008000;"><br></span>    instance = <span style="color: #0000ff;">new</span> Universe();<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 重设构造函数指针</span><span style="color: #008000;"><br></span>    instance.constructor = Universe;<br><br>    <span style="color: #008000;">//</span><span style="color: #008000;"> 其它功能</span><span style="color: #008000;"><br></span>    instance.start_time = 0;<br>    instance.bang = "Big";<br><br>    <span style="color: #0000ff;">return</span> instance;<br>}<br><br><br><span style="color: #008000;">//</span><span style="color: #008000;"> 测试</span><span style="color: #008000;"><br></span><span style="color: #0000ff;">var</span> uni = <span style="color: #0000ff;">new</span> Universe();<br><span style="color: #0000ff;">var</span> uni2 = <span style="color: #0000ff;">new</span> Universe();<br>console.log(uni === uni2); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span><span style="color: #008000;"><br></span><br><span style="color: #008000;">//</span><span style="color: #008000;"> 添加原型属性</span><span style="color: #008000;"><br></span>Universe.prototype.nothing = <span style="color: #0000ff;">true</span>;<br><br><span style="color: #0000ff;">var</span> uni = <span style="color: #0000ff;">new</span> Universe();<br><br>Universe.prototype.everything = <span style="color: #0000ff;">true</span>;<br><br><span style="color: #0000ff;">var</span> uni2 = <span style="color: #0000ff;">new</span> Universe();<br><br>console.log(uni.nothing); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span><span style="color: #008000;"><br></span>console.log(uni2.nothing); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span><span style="color: #008000;"><br></span>console.log(uni.everything); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span><span style="color: #008000;"><br></span>console.log(uni2.everything); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span><span style="color: #008000;"><br></span>console.log(uni.constructor === Universe); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span></pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<h2><strong>方式4:</strong></h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">var</span> Universe;<br><br>(<span style="color: #0000ff;">function</span> () {<br><br>    <span style="color: #0000ff;">var</span> instance;<br><br>    Universe = <span style="color: #0000ff;">function</span> Universe() {<br><br>        <span style="color: #0000ff;">if</span> (instance) {<br>            <span style="color: #0000ff;">return</span> instance;<br>        }<br><br>        instance = <span style="color: #0000ff;">this</span>;<br><br>        <span style="color: #008000;">//</span><span style="color: #008000;"> 其它内容</span><span style="color: #008000;"><br></span>        <span style="color: #0000ff;">this</span>.start_time = 0;<br>        <span style="color: #0000ff;">this</span>.bang = "Big";<br>    };<br>} ());<br><br><span style="color: #008000;">//</span><span style="color: #008000;">测试代码</span><span style="color: #008000;"><br></span><span style="color: #0000ff;">var</span> a = <span style="color: #0000ff;">new</span> Universe();<br><span style="color: #0000ff;">var</span> b = <span style="color: #0000ff;">new</span> Universe();<br>alert(a === b); <span style="color: #008000;">//</span><span style="color: #008000;"> true</span><span style="color: #008000;"><br></span>a.bang = "123";<br>alert(b.bang); <span style="color: #008000;">//</span><span style="color: #008000;"> 123</span></pre>
+<div class="cnblogs_code_toolbar" style="display: none;"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="js_classes/copycode.gif" alt="复制代码"></a></span></div></div>
+<h1>参考资料</h1>
+<p>https://github.com/shichuan/javascript-patterns/blob/master/design-patterns/singleton.html</p>
+<p>http://www.addyosmani.com/resources/essentialjsdesignpatterns/book/#singletonpatternjavascript</p>
+<h1>同步与推荐</h1>
+<p>本文已同步至目录索引：<span style="font-size: 14pt;"><a href="http://www.cnblogs.com/TomXu/archive/2011/12/15/2288411.html" target="_blank">深入理解JavaScript系列</a></span></p>
+<p>深入理解JavaScript系列文章，包括了原创，翻译，转载等各类型的文章，如果对你有用，请推荐支持一把，给大叔写作的动力。</p></div><div id="MySignature"></div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+          <div class="clear"></div>
+        <div id="post_next_prev"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/17/2351938.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/TomXu/archive/2012/02/17/2351938.html" title="发布于2012-02-17 09:58">深入理解JavaScript系列（24）：JavaScript与DOM（下）</a><br><a href="http://www.cnblogs.com/TomXu/archive/2012/02/21/2352994.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/TomXu/archive/2012/02/21/2352994.html" title="发布于2012-02-21 08:59">深入理解JavaScript系列（26）：设计模式之构造函数模式</a><br></div>
+    </div>
+</div>
+    <ul class="postmetadata">
+        <li class="icon_cat" id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/TomXu/category/338104.html">[06]JS/jQuery</a>, <a href="http://www.cnblogs.com/TomXu/category/337109.html">[07]Web开发</a></li>
+        <li class="icon_bullet" id="EntryTag">标签: <a href="http://www.cnblogs.com/TomXu/tag/JavaScript/">JavaScript</a>, <a href="http://www.cnblogs.com/TomXu/tag/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>, <a href="http://www.cnblogs.com/TomXu/tag/%E5%8D%95%E4%BE%8B/">单例</a>, <a href="http://www.cnblogs.com/TomXu/tag/Singleton/">Singleton</a></li>
+    </ul>
+</div>
+
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<a class="addcomment" href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#comment_tip">Add your comment</a>
+<h3 id="comments"></h3>
+<div class="feedbackNoItems"></div>
+
+
+<ol class="commentlist" id="commentList">	
+
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312247" class="layer">#1楼</a><a name="2312247" id="comment_anchor_2312247"></a></cite> <a id="a_comment_author_2312247" href="http://home.cnblogs.com/u/192007/" target="_blank">sun_GY</a> <a href="http://msg.cnblogs.com/send/sun_GY" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 09:14</span></small>
+			</h5>
+			<div id="comment_body_2312247" class="blog_comment_body">学习了，没想到，js还可以有私有变量的，哈哈。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312247,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312247,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312282" class="layer">#2楼</a><a name="2312282" id="comment_anchor_2312282"></a></cite> <a id="a_comment_author_2312282" href="http://www.cnblogs.com/xupeihuagudulei/" target="_blank">开国伟人</a> <a href="http://msg.cnblogs.com/send/%E5%BC%80%E5%9B%BD%E4%BC%9F%E4%BA%BA" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 09:41</span></small>
+			</h5>
+			<div id="comment_body_2312282" class="blog_comment_body">跟不上你的脚步，大叔。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312282,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312282,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312282_avatar" style="display:none;">http://pic.cnblogs.com/face/u44612.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312283" class="layer">#3楼</a><a name="2312283" id="comment_anchor_2312283"></a></cite> <a id="a_comment_author_2312283" href="http://www.cnblogs.com/objectboy/" target="_blank">objectboy</a> <a href="http://msg.cnblogs.com/send/objectboy" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 09:43</span></small>
+			</h5>
+			<div id="comment_body_2312283" class="blog_comment_body">大叔  你老是翻译这么牛的文章   要顶</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312283,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312283,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312283_avatar" style="display:none;">http://pic.cnblogs.com/face/u219261.jpg?id=21125218</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312318" class="layer">#4楼</a><a name="2312318" id="comment_anchor_2312318"></a></cite> <a id="a_comment_author_2312318" href="http://www.cnblogs.com/damonlan/" target="_blank">随风浪迹天涯</a> <a href="http://msg.cnblogs.com/send/%E9%9A%8F%E9%A3%8E%E6%B5%AA%E8%BF%B9%E5%A4%A9%E6%B6%AF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 10:07</span></small>
+			</h5>
+			<div id="comment_body_2312318" class="blog_comment_body">大叔 想问你一个很愚笨的问题，你一般写js在哪里写啊？<br><br>那个Console.log();好像vs里面没有把！！！！<br><br>谢谢指教。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312318,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312318,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312318_avatar" style="display:none;">http://pic.cnblogs.com/face/u282564.jpg?id=14170340</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312356" class="layer">#5楼</a><a name="2312356" id="comment_anchor_2312356"></a></cite> <a id="a_comment_author_2312356" href="http://www.cnblogs.com/zhaow/" target="_blank">skybirdzw</a> <a href="http://msg.cnblogs.com/send/skybirdzw" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 10:34</span></small>
+			</h5>
+			<div id="comment_body_2312356" class="blog_comment_body">哥，兄弟对你的崇拜犹如那滔滔江水延绵不绝~~此处省略无数字。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312356,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312356,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312356_avatar" style="display:none;">http://pic.cnblogs.com/face/u322080.jpg?id=03131302</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312360" class="layer">#6楼</a><a name="2312360" id="comment_anchor_2312360"></a></cite> <a id="a_comment_author_2312360" href="http://home.cnblogs.com/u/373399/" target="_blank">无聊VS无奈</a> <a href="http://msg.cnblogs.com/send/%E6%97%A0%E8%81%8AVS%E6%97%A0%E5%A5%88" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 10:38</span></small>
+			</h5>
+			<div id="comment_body_2312360" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312318" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2312318);">@</a>
+随风浪迹天涯<br>Console.log();运行后浏览器控制台（console）显示结果</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312360,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312360,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312386" class="layer">#7楼</a><a name="2312386" id="comment_anchor_2312386"></a></cite> <a id="a_comment_author_2312386" href="http://www.cnblogs.com/rgqancy/" target="_blank">rgqancy</a> <a href="http://msg.cnblogs.com/send/rgqancy" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 11:02</span></small>
+			</h5>
+			<div id="comment_body_2312386" class="blog_comment_body">Javascript的经典示例啊</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312386,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312386,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312386_avatar" style="display:none;">http://pic.cnblogs.com/face/u57438.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312477" class="layer">#8楼</a><a name="2312477" id="comment_anchor_2312477"></a></cite> <a id="a_comment_author_2312477" href="http://www.cnblogs.com/Wenwang/" target="_blank">文旺</a> <a href="http://msg.cnblogs.com/send/%E6%96%87%E6%97%BA" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 12:56</span></small>
+			</h5>
+			<div id="comment_body_2312477" class="blog_comment_body">有时间在公司举行培训哈</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312477,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312477,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312477_avatar" style="display:none;">http://pic.cnblogs.com/face/u175345.png?id=19104136</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312539" class="layer">#9楼</a><a name="2312539" id="comment_anchor_2312539"></a>[<span class="louzhu">楼主</span>]</cite> <a id="a_comment_author_2312539" href="http://www.cnblogs.com/TomXu/" target="_blank">汤姆大叔</a> <a href="http://msg.cnblogs.com/send/%E6%B1%A4%E5%A7%86%E5%A4%A7%E5%8F%94" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 14:01</span></small>
+			</h5>
+			<div id="comment_body_2312539" class="blog_comment_body"><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312477" title="查看引用原文">引用</a></legend>文旺：有时间在公司举行培训哈</fieldset><br>领导不请我，懒得出头哦，嘿嘿</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312539,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312539,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312539_avatar" style="display:none;">http://pic.cnblogs.com/face/u349491.jpg?id=02230504</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312543" class="layer">#10楼</a><a name="2312543" id="comment_anchor_2312543"></a></cite> <a id="a_comment_author_2312543" href="http://www.cnblogs.com/jirigala/" target="_blank">通用C#系统架构</a> <a href="http://msg.cnblogs.com/send/%E9%80%9A%E7%94%A8C%23%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 14:06</span></small>
+			</h5>
+			<div id="comment_body_2312543" class="blog_comment_body">汇总一下可以出书了。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312543,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312543,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312543_avatar" style="display:none;">http://pic.cnblogs.com/face/u35584.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312608" class="layer">#11楼</a><a name="2312608" id="comment_anchor_2312608"></a>[<span class="louzhu">楼主</span>]</cite> <a id="a_comment_author_2312608" href="http://www.cnblogs.com/TomXu/" target="_blank">汤姆大叔</a> <a href="http://msg.cnblogs.com/send/%E6%B1%A4%E5%A7%86%E5%A4%A7%E5%8F%94" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 14:57</span></small>
+			</h5>
+			<div id="comment_body_2312608" class="blog_comment_body"><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312543" title="查看引用原文">引用</a></legend>MVP-通用权限管理：汇总一下可以出书了。</fieldset><br>有些东西不是原创，整理起来让大家看看也就行了，出书还是得有原创才行哇。写原创书毕竟还是很累的。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312608,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312608,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2312608_avatar" style="display:none;">http://pic.cnblogs.com/face/u349491.jpg?id=02230504</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312810" class="layer">#12楼</a><a name="2312810" id="comment_anchor_2312810"></a></cite> <a id="a_comment_author_2312810" href="http://www.cnblogs.com/shaobo/" target="_blank">shinebob</a> <a href="http://msg.cnblogs.com/send/shinebob" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-20 17:44</span></small>
+			</h5>
+			<div id="comment_body_2312810" class="blog_comment_body">大叔，后四种的实现有什么意义吗？或者说有什么特殊的适用场景吗？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2312810,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2312810,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2314873" class="layer">#13楼</a><a name="2314873" id="comment_anchor_2314873"></a></cite> <a id="a_comment_author_2314873" href="http://www.cnblogs.com/leebie/" target="_blank">Jolie-猪莉</a> <a href="http://msg.cnblogs.com/send/Jolie-%E7%8C%AA%E8%8E%89" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-23 09:08</span></small>
+			</h5>
+			<div id="comment_body_2314873" class="blog_comment_body">支持</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2314873,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2314873,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2314873_avatar" style="display:none;">http://pic.cnblogs.com/face/u353460.jpg?id=22172050</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2315444" class="layer">#14楼</a><a name="2315444" id="comment_anchor_2315444"></a></cite> <a id="a_comment_author_2315444" href="http://home.cnblogs.com/u/378511/" target="_blank">520zff</a> <a href="http://msg.cnblogs.com/send/520zff" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-23 17:08</span></small>
+			</h5>
+			<div id="comment_body_2315444" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2312360" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2312360);">@</a>
+无聊VS无奈<br>console.log() 是浏览器一个打印的函数。firefox chrome都有！IE不支持</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2315444,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2315444,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2318067" class="layer">#15楼</a><a name="2318067" id="comment_anchor_2318067"></a></cite> <a id="a_comment_author_2318067" href="http://www.cnblogs.com/lixlib/" target="_blank">十年灯</a> <a href="http://msg.cnblogs.com/send/%E5%8D%81%E5%B9%B4%E7%81%AF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-27 18:08</span></small>
+			</h5>
+			<div id="comment_body_2318067" class="blog_comment_body">虽然大叔的文章很精彩，但你发文的速度比我吸收的速度快多了啊。。特此问大叔一个文章范围外的问题，希望大叔能指点一下啊，我很纠结：<br><br><div class="cnblogs_Highlighter sh-gutter"><div><div id="highlighter_604917" class="syntaxhighlighter  javascript"><div class="toolbar"><span><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="javascript keyword">var</code> <code class="javascript plain">o = </code><code class="javascript string">'left'</code><code class="javascript plain">;</code></div><div class="line number2 index1 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">o1 = {drt:</code><code class="javascript string">'left'</code><code class="javascript plain">};</code></div><div class="line number3 index2 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">o2 = [</code><code class="javascript string">'left'</code><code class="javascript plain">];</code></div><div class="line number4 index3 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number5 index4 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">obj = {o:333};</code></div><div class="line number6 index5 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">obj1 = {o1[drt]:333};</code></div><div class="line number7 index6 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">obj2 = {o2[0]:333};</code></div></div></td></tr></tbody></table></div></div></div><br><br>代码前三行是变量的几个不同声明方式，即普通变量、对象、数组；后三行分别调用了这3个变量并插入新对象。问题来了：<br>1，为什么obj1和obj2声明时就直接报错呢？<br>2，obj没报错，但为什么循环他的属性时，第一个属性直接就叫做“o”，而不是变量o的值"left"呢？<br><br>问题有点长，但希望大叔能帮帮我，谢谢</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2318067,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2318067,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2318067_avatar" style="display:none;">http://pic.cnblogs.com/face/u245859.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2318298" class="layer">#16楼</a><a name="2318298" id="comment_anchor_2318298"></a></cite> <a id="a_comment_author_2318298" href="http://home.cnblogs.com/u/136076/" target="_blank">清風揚諰</a> <a href="http://msg.cnblogs.com/send/%E6%B8%85%E9%A2%A8%E6%8F%9A%E8%AB%B0" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-02-27 23:37</span></small>
+			</h5>
+			<div id="comment_body_2318298" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2318067" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2318067);">@</a>
+十年灯<br>对象直接量语法就是属性名冒号值这样的格式,属性名可以是标识符或字符串，在object 1中则解释器认为o不是一个字符串，应该是一个标识符，所以o就是属性名，而标识符必须是字母数字下划线或美元符号组成，所以object 2和3直接报错</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2318298,&#39;Digg&#39;,this)">支持(3)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2318298,&#39;Bury&#39;,this)">反对(1)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2323306" class="layer">#17楼</a><a name="2323306" id="comment_anchor_2323306"></a></cite> <a id="a_comment_author_2323306" href="http://www.cnblogs.com/monicame/" target="_blank">monicame</a> <a href="http://msg.cnblogs.com/send/monicame" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-03-05 16:48</span></small>
+			</h5>
+			<div id="comment_body_2323306" class="blog_comment_body">学习了啊哈哈..不过和书上讲的不太一样..</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2323306,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2323306,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2332091" class="layer">#18楼</a><a name="2332091" id="comment_anchor_2332091"></a></cite> <a id="a_comment_author_2332091" href="http://www.cnblogs.com/jhti/" target="_blank">jhti</a> <a href="http://msg.cnblogs.com/send/jhti" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-03-16 10:13</span></small>
+			</h5>
+			<div id="comment_body_2332091" class="blog_comment_body">努力学习ing,,,大叔继续努力写好文给大家！！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2332091,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2332091,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2332091_avatar" style="display:none;">http://pic.cnblogs.com/face/u123659.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2453139" class="layer">#19楼</a><a name="2453139" id="comment_anchor_2453139"></a></cite> <a id="a_comment_author_2453139" href="http://www.cnblogs.com/softlover/" target="_blank">下一站永远</a> <a href="http://msg.cnblogs.com/send/%E4%B8%8B%E4%B8%80%E7%AB%99%E6%B0%B8%E8%BF%9C" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-08-21 18:11</span></small>
+			</h5>
+			<div id="comment_body_2453139" class="blog_comment_body">感觉这篇文章没之前的20多篇好。这篇就像是在码代码，理论的东西太少了，不方便理解和记忆。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2453139,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2453139,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2453139_avatar" style="display:none;">http://pic.cnblogs.com/face/u303151.jpg?id=27232321</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2458962" class="layer">#20楼</a><a name="2458962" id="comment_anchor_2458962"></a></cite> <a id="a_comment_author_2458962" href="http://home.cnblogs.com/u/378019/" target="_blank">我嚓的类</a> <a href="http://msg.cnblogs.com/send/%E6%88%91%E5%9A%93%E7%9A%84%E7%B1%BB" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-08-29 13:55</span></small>
+			</h5>
+			<div id="comment_body_2458962" class="blog_comment_body">最近才开始研究JS，没想到这语言的语法很强大。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2458962,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2458962,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2459162" class="layer">#21楼</a><a name="2459162" id="comment_anchor_2459162"></a></cite> <a id="a_comment_author_2459162" href="http://home.cnblogs.com/u/102863/" target="_blank">帕拉丁</a> <a href="http://msg.cnblogs.com/send/%E5%B8%95%E6%8B%89%E4%B8%81" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-08-29 16:31</span></small>
+			</h5>
+			<div id="comment_body_2459162" class="blog_comment_body">大叔，我试了一下你这个例子<br><div class="cnblogs_Highlighter sh-gutter"><div><div id="highlighter_599554" class="syntaxhighlighter  javascript"><div class="toolbar"><span><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="javascript keyword">var</code> <code class="javascript plain">mySingleton = </code><code class="javascript keyword">function</code> <code class="javascript plain">() {</code></div><div class="line number2 index1 alt1">&nbsp;</div><div class="line number3 index2 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript comments">/* 这里声明私有变量和方法 */</code></div><div class="line number4 index3 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">privateVariable = </code><code class="javascript string">'something private'</code><code class="javascript plain">;</code></div><div class="line number5 index4 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">function</code> <code class="javascript plain">showPrivate() {</code></div><div class="line number6 index5 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">console.log(privateVariable);</code></div><div class="line number7 index6 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">}</code></div><div class="line number8 index7 alt1">&nbsp;</div><div class="line number9 index8 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript comments">/* 公有变量和方法（可以访问私有变量和方法） */</code></div><div class="line number10 index9 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">return</code> <code class="javascript plain">{</code></div><div class="line number11 index10 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">publicMethod: </code><code class="javascript keyword">function</code> <code class="javascript plain">() {</code></div><div class="line number12 index11 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">showPrivate();</code></div><div class="line number13 index12 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">},</code></div><div class="line number14 index13 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">publicVar: </code><code class="javascript string">'the public can see this!'</code></div><div class="line number15 index14 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">};</code></div><div class="line number16 index15 alt1"><code class="javascript plain">};</code></div><div class="line number17 index16 alt2">&nbsp;</div><div class="line number18 index17 alt1"><code class="javascript keyword">var</code> <code class="javascript plain">single = mySingleton();</code></div><div class="line number19 index18 alt2"><code class="javascript plain">single.publicMethod();&nbsp; </code><code class="javascript comments">// 输出 'something private'</code></div><div class="line number20 index19 alt1"><code class="javascript plain">console.log(single.publicVar); </code><code class="javascript comments">// 输出 'the public can see this!'</code></div></div></td></tr></tbody></table></div></div></div><br><br>这个并不是单例<br><div class="cnblogs_Highlighter sh-gutter"><div><div id="highlighter_22986" class="syntaxhighlighter  javascript"><div class="toolbar"><span><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="javascript keyword">var</code> <code class="javascript plain">s1 = mySingleton();</code></div><div class="line number2 index1 alt1"><code class="javascript keyword">var</code> <code class="javascript plain">s2 = mySingleton();</code></div><div class="line number3 index2 alt2"><code class="javascript plain">alert(s1 === s2);</code><code class="javascript comments">//false</code></div></div></td></tr></tbody></table></div></div></div><br>接下来那个例子确是单例，我想是不是和自执行有关？并且使用自执行后无法new了，这也模拟了如c#似的单例私有化构造函数</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2459162,&#39;Digg&#39;,this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2459162,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2482271" class="layer">#22楼</a><a name="2482271" id="comment_anchor_2482271"></a></cite> <a id="a_comment_author_2482271" href="http://home.cnblogs.com/u/452174/" target="_blank">何武昌</a> <a href="http://msg.cnblogs.com/send/%E4%BD%95%E6%AD%A6%E6%98%8C" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-09-26 23:40</span></small>
+			</h5>
+			<div id="comment_body_2482271" class="blog_comment_body">虽然，有些看不懂，但是还是看了好几遍。继续学习中，谢谢大叔的分享</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2482271,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2482271,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2524640" class="layer">#23楼</a><a name="2524640" id="comment_anchor_2524640"></a></cite> <a id="a_comment_author_2524640" href="http://www.cnblogs.com/maifute/" target="_blank">maifute</a> <a href="http://msg.cnblogs.com/send/maifute" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-11-05 17:17</span></small>
+			</h5>
+			<div id="comment_body_2524640" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2318067" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2318067);">@</a>
+十年灯<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2318067" title="查看引用原文">引用</a></legend>虽然大叔的文章很精彩，但你发文的速度比我吸收的速度快多了啊。。特此问大叔一个文章范围外的问题，希望大叔能指点一下啊，我很纠结：<br><br><br><br>代码前三行是变量的几个不同声明方式，即普通变量、对象、数组；后三行分别调用了这3个变量并插入新对象。问题来了：<br>1，为什么obj1和obj2声明时就直接报错呢？<br>2，obj没报错，但为什么循环他的属性时，第一个属性直接就叫做“o”，而不是变量o的值"left"呢？<br><br>问题有点长，但希望大叔能帮帮我，谢谢</fieldset><br>obj = {o : 333}, o是obj的属性名，是一个变量，'left'是一个变量的值。后面两个定义属性时语法错误。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2524640,&#39;Digg&#39;,this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2524640,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2531420" class="layer">#24楼</a><a name="2531420" id="comment_anchor_2531420"></a></cite> <a id="a_comment_author_2531420" href="http://www.cnblogs.com/liujb/" target="_blank">liujb</a> <a href="http://msg.cnblogs.com/send/liujb" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-11-13 18:01</span></small>
+			</h5>
+			<div id="comment_body_2531420" class="blog_comment_body">大叔你好，第二种实现<div class="cnblogs_Highlighter sh-gutter"><div><div id="highlighter_489606" class="syntaxhighlighter  javascript"><div class="toolbar"><span><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="javascript keyword">var</code> <code class="javascript plain">mySingleton2=</code><code class="javascript keyword">function</code><code class="javascript plain">(){</code><code class="javascript comments">//使用闭包</code></div><div class="line number2 index1 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">privateVar=</code><code class="javascript string">'this is private variable'</code><code class="javascript plain">;</code></div><div class="line number3 index2 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">function</code> <code class="javascript plain">showVar(){</code></div><div class="line number4 index3 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">alert(privateVar);</code></div><div class="line number5 index4 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">};</code></div><div class="line number6 index5 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number7 index6 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript comments">//公有变量和方法，可以访问私有变量</code></div><div class="line number8 index7 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">return</code> <code class="javascript plain">{</code><code class="javascript comments">//返回对象</code></div><div class="line number9 index8 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">publicMethod:</code><code class="javascript keyword">function</code><code class="javascript plain">(){</code></div><div class="line number10 index9 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">showVar();</code></div><div class="line number11 index10 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">},</code></div><div class="line number12 index11 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">publicProp:</code><code class="javascript string">'this is public property'</code></div><div class="line number13 index12 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">};</code></div><div class="line number14 index13 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">};</code></div><div class="line number15 index14 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number16 index15 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">single2=mySingleton2();</code></div><div class="line number17 index16 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">var</code> <code class="javascript plain">otherSingle2=mySingleton2();</code></div><div class="line number18 index17 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div><div class="line number19 index18 alt2"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript plain">alert(single2==otherSingle2);</code><code class="javascript comments">//false 这真的是单例吗？？</code></div></div></td></tr></tbody></table></div></div></div><br>貌似单例不单，请问是我理解得问题还是代码问题。还有其余四种实现单例的方式有什么特别之处，望回复！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2531420,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2531420,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2531420_avatar" style="display:none;">http://pic.cnblogs.com/face/u195219.jpg?id=25201241</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2585156" class="layer">#25楼</a><a name="2585156" id="comment_anchor_2585156"></a></cite> <a id="a_comment_author_2585156" href="http://www.cnblogs.com/lpandnn/" target="_blank">flyfish1986</a> <a href="http://msg.cnblogs.com/send/flyfish1986" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2012-12-24 15:22</span></small>
+			</h5>
+			<div id="comment_body_2585156" class="blog_comment_body">总结了一下，大的原理都是使用了执行上下文变量中的一个变量对象（或者是函数对象的一个属性）作为状态或者单例值对象</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2585156,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2585156,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2671987" class="layer">#26楼</a><a name="2671987" id="comment_anchor_2671987"></a></cite> <a id="a_comment_author_2671987" href="http://www.cnblogs.com/zjfc-math/" target="_blank">.NET技术员</a> <a href="http://msg.cnblogs.com/send/.NET%E6%8A%80%E6%9C%AF%E5%91%98" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-05-03 17:22</span></small>
+			</h5>
+			<div id="comment_body_2671987" class="blog_comment_body">大叔 顶级 困难啊 我前面看了很多 还是无法解释 <br>为什么 以下单例 却异常呢<br><br>(function a() {<br>            a = function () { };<br>            alert(a);<br>});<br>这是一个函数表达式  ，a 值无法被更改 <br><br>function Verify(){<br>	var instance;// 缓存实例<br>    	Verify=function() {return instance;}<br>    	this.i++;<br>    	Verify.prototype = this;//后期处理原型属性<br>    	//Verify.prototype.constructor=Verify;//理应不改父级原型 构造函数 应该改子级<br>    	instance=new Verify();<br>    	instance.constructor=Verify;//理应不改父级原型 构造函数 应该改子级<br>    	return instance;<br>};<br><br>想不懂 为什么要重新定义Verify=function() {return instance;}<br><br>如果是new 是调用构造函数的话 有没有其他办法 修改其构造函数，在new的时候 执行 "function() {return instance;}"这句呢，而并非通过修改Verify 值呢？<br><br>是否存在 Verify.constructor=function() {return instance;};有没有这样的方式呢</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2671987,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2671987,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2671987_avatar" style="display:none;">http://pic.cnblogs.com/face/u72319.jpg?id=07204217</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2701087" class="layer">#27楼</a><a name="2701087" id="comment_anchor_2701087"></a></cite> <a id="a_comment_author_2701087" href="http://home.cnblogs.com/u/490534/" target="_blank">南极洲</a> <a href="http://msg.cnblogs.com/send/%E5%8D%97%E6%9E%81%E6%B4%B2" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-06-08 15:16</span></small>
+			</h5>
+			<div id="comment_body_2701087" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2318067" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2318067);">@</a>
+十年灯<br>我稍稍有点无语了，，，你这是要做什么<br> var obj1 = {o1[drt]:333};<br>这句帮你翻译下 声明一个对象并赋值 obj1.o1[drt]=333;<br>这样肯定会报错啊。。。。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2701087,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2701087,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2732497" class="layer">#28楼</a><a name="2732497" id="comment_anchor_2732497"></a></cite> <a id="a_comment_author_2732497" href="http://www.cnblogs.com/buy360/" target="_blank">每天都是新的起点</a> <a href="http://msg.cnblogs.com/send/%E6%AF%8F%E5%A4%A9%E9%83%BD%E6%98%AF%E6%96%B0%E7%9A%84%E8%B5%B7%E7%82%B9" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-07-22 13:04</span></small>
+			</h5>
+			<div id="comment_body_2732497" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2318067" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2318067);">@</a>
+十年灯<br> var obj1 = {<br>        //你的变量的名字 是要直接写出来的，比如，你可以这样 var a = xxxx,但是你不可以这样 var a&gt;b?a:b = xxxx;变量的名字不能动态获取。<br>        //value就不同了，，<br>        "xxx": o1['drt']//动态得到值  可以!<br>        //动态命名不可以<br><br>    };<br>    alert(obj1.xxx);</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2732497,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2732497,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2732497_avatar" style="display:none;">http://pic.cnblogs.com/face/540214/20130807165554.png</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2755945" class="layer">#29楼</a><a name="2755945" id="comment_anchor_2755945"></a></cite> <a id="a_comment_author_2755945" href="http://home.cnblogs.com/u/551513/" target="_blank">叶随风动</a> <a href="http://msg.cnblogs.com/send/%E5%8F%B6%E9%9A%8F%E9%A3%8E%E5%8A%A8" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-08-20 14:16</span></small>
+			</h5>
+			<div id="comment_body_2755945" class="blog_comment_body">进阶javascript中，大叔的博客对我太有帮助了，多谢大叔的分享。每天必看哟~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2755945,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2755945,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2772532" class="layer">#30楼</a><a name="2772532" id="comment_anchor_2772532"></a></cite> <a id="a_comment_author_2772532" href="http://home.cnblogs.com/u/559017/" target="_blank">4号幽灵</a> <a href="http://msg.cnblogs.com/send/4%E5%8F%B7%E5%B9%BD%E7%81%B5" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-09-10 15:43</span></small>
+			</h5>
+			<div id="comment_body_2772532" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2671987" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2671987);">@</a>
+.NET技术员<br>我也是看了好几遍才想通，最初定义的Verify只会在第一次定义时执行并创建单例，之后被重定义的Verify重定义，之后每次得到都是重定义的<br><div class="cnblogs_Highlighter sh-gutter"><div><div id="highlighter_377241" class="syntaxhighlighter  javascript"><div class="toolbar"><span><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="javascript plain">Verify = </code><code class="javascript keyword">function</code> <code class="javascript plain">Verify() {</code></div><div class="line number2 index1 alt1"><code class="javascript spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="javascript keyword">return</code> <code class="javascript plain">instance;</code><code class="javascript comments">// 之后每次创建都返回这个单例</code></div><div class="line number3 index2 alt2"><code class="javascript plain">}</code></div></div></td></tr></tbody></table></div></div></div></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2772532,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2772532,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2807302" class="layer">#31楼</a><a name="2807302" id="comment_anchor_2807302"></a></cite> <a id="a_comment_author_2807302" href="http://www.cnblogs.com/ghostcode/" target="_blank">GhostCode</a> <a href="http://msg.cnblogs.com/send/GhostCode" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-11-01 13:59</span></small>
+			</h5>
+			<div id="comment_body_2807302" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2459162" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2459162);">@</a>
+帕拉丁<br>返回的是对象，var demo1 = Singleton，var demo2 = Singleton；<br>demo1 == demo2</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2807302,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2807302,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2807302_avatar" style="display:none;">http://pic.cnblogs.com/face/u163019.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2825508" class="layer">#32楼</a><a name="2825508" id="comment_anchor_2825508"></a></cite> <a id="a_comment_author_2825508" href="http://www.cnblogs.com/w3develop/" target="_blank">Janking丶琅琊</a> <a href="http://msg.cnblogs.com/send/Janking%E4%B8%B6%E7%90%85%E7%90%8A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-11-27 16:35</span></small>
+			</h5>
+			<div id="comment_body_2825508" class="blog_comment_body"><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2531420" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2531420);">@</a>
+刘江北<br>这明显不是单例……</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2825508,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2825508,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2825508_avatar" style="display:none;">http://pic.cnblogs.com/face/443455/20130427115417.png</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#2910562" class="layer">#33楼</a><a name="2910562" id="comment_anchor_2910562"></a></cite> <a id="a_comment_author_2910562" href="http://www.cnblogs.com/jia58960/" target="_blank">jia58960</a> <a href="http://msg.cnblogs.com/send/jia58960" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2014-04-03 13:15</span></small>
+			</h5>
+			<div id="comment_body_2910562" class="blog_comment_body">汤姆大叔 要是早点看到你的系列文章就好了！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2910562,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2910562,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#3000183" class="layer">#34楼</a><a name="3000183" id="comment_anchor_3000183"></a></cite> <a id="a_comment_author_3000183" href="http://www.cnblogs.com/michaellwb/" target="_blank">michael_yqs</a> <a href="http://msg.cnblogs.com/send/michael_yqs" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2014-08-04 14:34</span></small>
+			</h5>
+			<div id="comment_body_3000183" class="blog_comment_body">我对比看了module模式和单例模式，觉得挺相似的，单例是不是可以理解为只有一个实例的module模式？看了几遍，觉得自己在这两个之间有些疑惑</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3000183,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3000183,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#3002642" class="layer">#35楼</a><a name="3002642" id="comment_anchor_3002642"></a></cite> <a id="a_comment_author_3002642" href="http://www.cnblogs.com/andypeker/" target="_blank">FranklinYang</a> <a href="http://msg.cnblogs.com/send/FranklinYang" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2014-08-07 15:23</span></small>
+			</h5>
+			<div id="comment_body_3002642" class="blog_comment_body">重新构造函数的那个方式，吓我一跳~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3002642,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3002642,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#3308074" class="layer">#36楼</a><a name="3308074" id="comment_anchor_3308074"></a></cite> <a id="a_comment_author_3308074" href="http://home.cnblogs.com/u/838947/" target="_blank">爱吃土豆丝</a> <a href="http://msg.cnblogs.com/send/%E7%88%B1%E5%90%83%E5%9C%9F%E8%B1%86%E4%B8%9D" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2015-11-17 10:50</span></small>
+			</h5>
+			<div id="comment_body_3308074" class="blog_comment_body">隐式返回this怎么回事？请指教~~~</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3308074,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3308074,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#3397952" class="layer">#37楼</a><a name="3397952" id="comment_anchor_3397952"></a><span id="comment-maxId" style="display:none;">3397952</span><span id="comment-maxDate" style="display:none;">2016/4/1 15:08:21</span></cite> <a id="a_comment_author_3397952" href="http://home.cnblogs.com/u/814390/" target="_blank">openour</a> <a href="http://msg.cnblogs.com/send/openour" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2016-04-01 15:08</span></small>
+			</h5>
+			<div id="comment_body_3397952" class="blog_comment_body">感觉最后一种最简洁好用</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3397952,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3397952,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+</ol>
+
+<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html#top">返回顶部</a></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"></div>
+<div id="ad_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/543110/" target="_blank">架构漫谈（九）：理清技术、业务和架构的关系</a><br> ·  <a href="http://kb.cnblogs.com/page/542725/" target="_blank">架构漫谈（八）：从架构的角度看如何写好代码</a><br> ·  <a href="http://kb.cnblogs.com/page/542257/" target="_blank">架构漫谈（七）：不要空设架构师这个职位，给他实权</a><br> ·  <a href="http://kb.cnblogs.com/page/541740/" target="_blank">架构漫谈（六）：软件架构到底是要解决什么问题？</a><br> ·  <a href="http://kb.cnblogs.com/page/541188/" target="_blank">架构漫谈（五）：什么是软件</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+
+</div>
+
+
+        </div>
+
+
+
+        <div id="footer">
+            
+<p id="logoFoot">
+    <a href="http://www.spiga.com.mx/" title="Agencia Interactiva Spiga">www.spiga.com.mx</a>
+</p>
+<div class="footText">
+<p>
+Copyright ©2016 汤姆大叔
+</p>
+<p>
+<a href="http://www.cnblogs.com/">博客园</a>
+</p>
+</div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+</body></html>

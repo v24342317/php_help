@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>js 判断页面是否加载完成</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>js 判断页面是否加载完成</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        
+            <h2><a name="sql_queries"></a>代码</h2>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">document.onreadystatechange = subSomething;    　　　 //当页面加载状态改变的时候执行这个方法
+ 
+function subSomething()
+{
+    if(document.readyState == “complete”)            //判断页面加载状态
+        myform.submit();
+}</span></code></li></ol></pre>
+<p>说明如下：</p>
+<div>
+  <p>Document.readyState属性描述了文档的加载状况，一个文档的readyState可能是以下的其中一个：</p>
+  <p>loading</p>
+  <p>文档仍然在加载</p>
+  <p>interactive</p>
+  <p>文档已经加载完毕而且已经被解析，但是一些子资源，例如图像，样式表和框架还在加载。这个状态表明DOMContentLoaded事件已经被触发。</p>
+  <p>complete</p>
+  <p>文档和全部的子资源已经加载完毕。这个状态表名load事件已经被触发。</p>
+  <p>当readyState属性值改变的时候，document对象的readystatechange时间被触发。</p>
+</div>
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

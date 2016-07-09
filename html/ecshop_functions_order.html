@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>ecshop订单函数</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>ecshop订单函数</h1>
+   
+          <div class="description"></div>
+      </header>
+        <section class="content">
+		
+<h2>处理序列化的支付、配送的配置参数,返回一个以name为索引的数组 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">unserialize_config($cfg)</span></code></li></ol></pre>
+
+<h2>取得已安装的配送方式 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">shipping_list()</span></code></li></ol></pre>
+
+<h2>取得配送方式信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">shipping_info($shipping_id)</span></code></li></ol></pre>
+
+<h2>取得可用的配送方式列表 /includes/lib_order.php</h2> 
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">available_shipping_list($region_id_list)</span></code></li></ol></pre>
+
+<h2>取得某配送方式对应于某收货地址的区域信息 /includes/lib_order.php</h2> 
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">shipping_area_info($shipping_id, $region_id_list)</span></code></li></ol></pre>
+
+<h2>计算运费 /includes/lib_order.php</h2> 
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">shipping_fee($shipping_code, $shipping_config, $goods_weight, $goods_amount, $goods_number='')</span></code></li></ol></pre>
+
+<h2>获取指定配送的保价费用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">shipping_insure_fee($shipping_code, $goods_amount, $insure)</span></code></li></ol></pre>
+
+<h2>取得已安装的支付方式列表 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">payment_list()</span></code></li></ol></pre>
+
+<h2>取得支付方式信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">payment_info($pay_id)</span></code></li></ol></pre>
+
+<h2>获得订单需要支付的支付费用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">pay_fee($payment_id, $order_amount, $cod_fee=null)</span></code></li></ol></pre>
+
+<h2>取得可用的支付方式列表 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">available_payment_list($support_cod, $cod_fee = 0, $is_online = false)</span></code></li></ol></pre>
+
+<h2>取得包装列表 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">pack_list()</span></code></li></ol></pre>
+
+<h2>取得包装信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">pack_info($pack_id)</span></code></li></ol></pre>
+
+<h2>根据订单中的商品总额来获得包装的费用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">pack_fee($pack_id, $goods_amount)</span></code></li></ol></pre>
+
+<h2>取得贺卡列表 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">card_list()</span></code></li></ol></pre>
+
+<h2>取得贺卡信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">card_info($card_id)</span></code></li></ol></pre>
+
+<h2>根据订单中商品总额获得需要支付的贺卡费用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">card_fee($card_id, $goods_amount)</span></code></li></ol></pre>
+
+<h2>取得订单信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">order_info($order_id, $order_sn = '')</span></code></li></ol></pre>
+
+<h2>判断订单是否已完成 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">order_finished($order)</span></code></li></ol></pre>
+
+<h2>取得订单商品 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">order_goods($order_id)</span></code></li></ol></pre>
+
+<h2>取得订单商品(分出子订单) /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">order_info_goods($order_id,$goods_field)</span></code></li></ol></pre>
+
+<h2>取得订单总金额 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">order_amount($order_id, $include_gift = true)</span></code></li></ol></pre>
+
+<h2>取得某订单商品总重量和总金额（对应 cart_weight_price） /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">order_weight_price($order_id)</span></code></li></ol></pre>
+
+<h2>获得订单中的费用信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">order_fee($order, $goods, $consignee)</span></code></li></ol></pre>
+
+<h2>修改订单(order_info 和 order_info2) /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">update_order($order_id, $order)</span></code></li></ol></pre>
+
+<h2>修改订单(order_info2) /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">update_order2($order_id, $order)</span></code></li></ol></pre>
+
+<h2>得到新订单号 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">get_order_sn()</span></code></li></ol></pre>
+
+<h2>取得购物车商品 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">cart_goods($type = CART_GENERAL_GOODS)</span></code></li></ol></pre>
+
+<h2>取得购物车商品(按仓库) /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">cart_goods_chai($type = CART_GENERAL_GOODS,$l_id)</span></code></li></ol></pre>
+
+<h2>取得购物车总金额 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function cart_amount($include_gift = true, $type = CART_GENERAL_GOODS)</span></code></li></ol></pre>
+
+<h2>检查某商品是否已经存在于购物车 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function cart_goods_exists($id, $spec, $type = CART_GENERAL_GOODS)</span></code></li></ol></pre>
+
+<h2>获得购物车中商品的总重量、总价格、总数量 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function cart_weight_price($type = CART_GENERAL_GOODS)</span></code></li></ol></pre>
+
+<h2>添加商品到购物车 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)</span></code></li></ol></pre>
+
+<h2>清空购物车 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function clear_cart($type = CART_GENERAL_GOODS)</span></code></li></ol></pre>
+
+<h2>获得指定的商品属性 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_goods_attr_info($arr, $type = 'pice')</span></code></li></ol></pre>
+
+<h2>取得用户信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">user_info($user_id)</span></code></li></ol></pre>
+
+<h2>修改用户 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function update_user($user_id, $user)</span></code></li></ol></pre>
+
+<h2>取得用户地址列表 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function address_list($user_id)</span></code></li></ol></pre>
+
+<h2>取得用户地址信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function address_info($address_id)</span></code></li></ol></pre>
+
+<h2>取得用户当前可用红包 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function user_bonus($user_id, $goods_amount = 0)</span></code></li></ol></pre>
+
+<h2>取得红包信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function bonus_info($bonus_id, $bonus_sn = '')</span></code></li></ol></pre>
+
+<h2>检查红包是否已使用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function bonus_used($bonus_id)</span></code></li></ol></pre>
+
+<h2>设置红包为已使用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function use_bonus($bonus_id, $order_id)</span></code></li></ol></pre>
+
+<h2>设置红包为未使用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function unuse_bonus($bonus_id)</span></code></li></ol></pre>
+
+<h2>计算积分的价值（能抵多少钱） /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function value_of_integral($integral)</span></code></li></ol></pre>
+
+<h2>计算指定的金额需要多少积分 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function integral_of_value($value)</span></code></li></ol></pre>
+
+<h2>订单退款 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function order_refund($order, $refund_type, $refund_note, $refund_amount = 0)</span></code></li></ol></pre>
+
+<h2>获得购物车中的商品 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_cart_goods()</span></code></li></ol></pre>
+
+<h2>取得收货人信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_consignee($user_id)</span></code></li></ol></pre>
+
+<h2>取得订单收货人和地址信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_address($order)</span></code></li></ol></pre>
+
+<h2>查询购物车（订单id为0）或订单中是否有实体商品 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS)</span></code></li></ol></pre>
+
+<h2>检查收货人信息是否完整 /includes/lib_order .php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function check_consignee_info($consignee, $flow_type)</span></code></li></ol></pre>
+
+<h2>获得上一次用户采用的支付和配送方式 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function last_shipping_and_payment()</span></code></li></ol></pre>
+
+<h2>取得当前用户应该得到的红包总额 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_total_bonus()</span></code></li></ol></pre>
+
+<h2>处理红包（下订单时设为使用，取消（无效，退货）订单时设为未使用 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function change_user_bonus($bonus_id, $order_id, $is_used = true)function change_user_bonus($bonus_id, $order_id, $is_used = true)</span></code></li></ol></pre>
+
+<h2>获得订单信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function flow_order_info()</span></code></li></ol></pre>
+
+<h2>合并订单 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function merge_order($from_order_sn, $to_order_sn)</span></code></li></ol></pre>
+
+<h2>合并订单 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function merge_order($from_order_sn, $to_order_sn)</span></code></li></ol></pre>
+
+<h2>查询配送区域属于哪个办事处管辖 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_agency_by_regions($regions)</span></code></li></ol></pre>
+
+<h2>获取配送插件的实例 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function &amp;get_shipping_object($shipping_id)</span></code></li></ol></pre>
+
+<h2>改变订单中商品库存 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function change_order_goods_storage($order_id, $is_dec = true, $storage = 0)</span></code></li></ol></pre>
+
+<h2>商品库存增与减 货品库存增与减 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function change_goods_storage($good_id, $product_id, $number = 0)</span></code></li></ol></pre>
+
+<h2>取得支付方式id列表 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function payment_id_list($is_cod)</span></code></li></ol></pre>
+
+<h2>生成查询订单的sql /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function order_query_sql($type = 'finished', $alias = '')</span></code></li></ol></pre>
+
+<h2>生成查询订单总金额的字段 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function order_amount_field($alias = '')</span></code></li></ol></pre>
+
+<h2>生成计算应付款金额的字段 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function order_due_field($alias = '')</span></code></li></ol></pre>
+
+<h2>判断商品是否符合限时抢购 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function cmtt_compute_snapping($goods_id=0,$goods_number=0,$update_number=FALSE)</span></code></li></ol></pre>
+
+<h2>计算折扣：根据购物车和优惠活动 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function compute_discount()</span></code></li></ol></pre>
+
+<h2>取得购物车该赠送的积分数 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_give_integral()</span></code></li></ol></pre>
+
+<h2>取得某订单应该赠送的积分数 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function integral_to_give($order)</span></code></li></ol></pre>
+
+<h2>发红包：发货时发红包 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function send_order_bonus($order_id)</span></code></li></ol></pre>
+
+<h2>返回订单发放的红包 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function return_order_bonus($order_id)</span></code></li></ol></pre>
+
+<h2>取得订单应该发放的红包 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function order_bonus($order_id)</span></code></li></ol></pre>
+
+<h2>计算购物车中的商品能享受红包支付的总额 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function compute_discount_amount()</span></code></li></ol></pre>
+
+<h2>添加礼包到购物车 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function add_package_to_cart($package_id, $num = 1)</span></code></li></ol></pre>
+
+
+<h2>得到新发货单号 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_delivery_sn()</span></code></li></ol></pre>
+
+<h2>检查礼包内商品的库存 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function judge_package_stock($package_id, $package_num = 1)</span></code></li></ol></pre>
+
+<h2>检查礼包内商品的库存 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function judge_package_stock($package_id, $package_num = 1)</span></code></li></ol></pre>
+
+<h2>取得订单商品 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function order_info_goods($order_id,$goods_field)</span></code></li></ol></pre>
+
+<h2>查询子订单信息 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function order_info_kuaidi($order_id)</span></code></li></ol></pre>
+
+<h2>获得购物车里是否有在销售 /includes/lib_order.php</h2>
+<pre style="" class="prettyprint linenums prettyprinted"><ol class="linenums"><li class=""><code><span class="pln">function get_goods_sale($sale)</span></code></li></ol></pre>
+
+
+      </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+
+
+</head>
+
+<body>
+
+<div id="container">
+
+  <div id="wrapper">
+        <div id="content">
+
+<div id="post_detail">
+<div id="post" class="post">
+    <a name="top"></a>
+    <h2><a href="http://www.cnblogs.com/kenshincui/p/3856543.html" id="cb_post_title_url">iOS开发系列--C语言之构造类型</a></h2>
+    <small>2014-07-20 18:59 by KenshinCui, <span id="post_view_count">19685</span> 阅读, <span id="post_comment_count">2</span> 评论, <a onclick="AddToWz(3856543);return false;" href="#">收藏</a>,  <a rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?postid=3856543">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><h1 id="autoid-0-0-0">概述</h1> <p>在第一节中我们就提到C语言的构造类型，分为：数组、结构体、枚举、共用体，当然前面数组的内容已经说了很多了，这一节将会重点说一下其他三种类型。</p> <ol> <li><a href="#struct">结构体</a>  </li><li><a href="#enum">枚举</a>  </li><li><a href="#union">共用体</a></li></ol> <h1 id="struct">结构体</h1> <p>数组中存储的是一系列相同的数据类型，那么如果想让一个变量存储不同的数据类型就要使用结构体，结构体定义类似于C++、C#、Java等高级语言中类的定义，但事实上它们又有着很大的区别。结构体是一种类型，并非一个变量，只是这种类型可以由其他C语言基本类型共同组成。</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+</span><span style="color: green;">//结构体类型Date
+</span><span style="color: blue;">struct </span><span style="color: black;">Date{
+    </span><span style="color: blue;">int </span><span style="color: black;">year;
+    </span><span style="color: blue;">int </span><span style="color: black;">month;
+    </span><span style="color: blue;">int </span><span style="color: black;">day;
+};
+
+</span><span style="color: blue;">struct </span><span style="color: black;">Person{
+    </span><span style="color: blue;">char </span><span style="color: black;">*name;
+    </span><span style="color: blue;">int </span><span style="color: black;">age;
+    </span><span style="color: blue;">struct </span><span style="color: black;">Date birthday;</span><span style="color: green;">//一个结构体中使用了另一个结构体类型，结构体类型变量声明前必须加上struct关键字
+    </span><span style="color: blue;">float </span><span style="color: black;">height;
+};
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">struct </span><span style="color: black;">Person p={</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">,28,{1986,8,8},1.72};
+    </span><span style="color: green;">//定义结构体变量并初始化,不允许先定义再直接初始化，例如：struct Person p;p={"Kenshin",28,{1986,8,8},1.72};是错误的，但是可以分别赋值，例如p.name="Kenshin"
+    
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n"</span><span style="color: black;">,p.name,p.age,p.birthday.year,p.birthday.month,p.birthday.day,p.height); 
+    </span><span style="color: green;">//结果：name=Kenshin,age=28,birthday=1986-8-8,height=1.72，结构体的引用是通过"结构体变量.成员名称"(注意和结构体指针访问结构体成员变量区分，结构体指针使用p-&gt;a的形式访问)
+    
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"len(Date)=%lu,len(Person)=%lu\n"</span><span style="color: black;">,</span><span style="color: blue;">sizeof</span><span style="color: black;">(</span><span style="color: blue;">struct </span><span style="color: black;">Date),</span><span style="color: blue;">sizeof</span><span style="color: black;">(</span><span style="color: blue;">struct </span><span style="color: black;">Person)); 
+    </span><span style="color: green;">//结果：len(Date)=12,len(Person)=32
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<p>对于上面的例子需要做出如下说明：</p>
+<ol>
+<li>可以在定义结构体类型的同时声明结构体变量； 
+</li><li>如果定义结构体类型的同时声明结构体变量，此时结构体名称可以省略； 
+</li><li>定义结构体类型并不会分配内存，在定义结构体变量的时候才进行内存分配（同基本类型时类似的）； 
+</li><li>结构体类型的所占用内存大型等于所有成员占用内存大小之和（如果不考虑内存对齐的前提下）；</li></ol>
+<p>对第4点需要进行说明，例如上面代码是在64位编译器下运行的结果（int长度4，char长度1，float类型4），Date=4+4+4=12。但是对于Person却没有那么简单了，因为按照正常方式计算Person=8+4+12+4=28，但是从上面代码中给出的结果是32，为什么呢？这里不得不引入一个概念“<a href="http://baike.baidu.com/view/4786260.htm">内存对齐</a>”，关于内存对齐的概念在这里不做详细说明，大家需要了解的是：在Mac OS X中对齐参数默认为8（可以通过在代码中添加#pragma pack(8)改变对齐参数），如果结构体中的类型不大于8，那么结构体长度就是其成员类型之和，但是如果成员变量的长度大于这个对齐参数那么得到的结果就不一定是各个成员变量之和了。Person类型的长度之所以是32，其实主要原因是因为Date类型长度12在存储时其偏移量12不是8的倍数，考虑到内存对齐的原因需要添加4个补齐长度，这里使用表格的形式列出了具体原因：</p>
+<p><a href="http://images.cnitblog.com/blog/62046/201407/201858560376210.png"><img width="770" height="181" border="0" src="ios_helloworld/201858572569036.png" alt="memoryAlign" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="memoryAlign"></a> </p>
+<p>表格具体来源请观看下面的视频（注意由于录制软件的原因前几秒不清晰但是不影响分析）：</p>
+<div style="float: none; padding-bottom: 0px; padding-top: 0px; padding-left: 0px; margin: 0px; display: inline; padding-right: 0px" class="wlWriterSmartContent" id="scid:5737277B-5D6D-4f48-ABFC-DD9C333F4C5D:074f5d7c-b3fb-45e2-ad9f-32a58f191773">
+<div><embed width="480" height="400" align="middle" allowscriptaccess="always" quality="high" allowfullscreen="true" src="http://player.youku.com/player.php/sid/XNzQyODQ3MjMy/v.swf" type="application/x-shockwave-flash"></div></div>
+<p>接下来看一下结构体数组、指向结构体的指针：</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+</span><span style="color: blue;">struct </span><span style="color: black;">Date{
+    </span><span style="color: blue;">int </span><span style="color: black;">year;
+    </span><span style="color: blue;">int </span><span style="color: black;">month;
+    </span><span style="color: blue;">int </span><span style="color: black;">day;
+};
+
+</span><span style="color: blue;">struct </span><span style="color: black;">Person{
+    </span><span style="color: blue;">char </span><span style="color: black;">*name;
+    </span><span style="color: blue;">int </span><span style="color: black;">age;
+    </span><span style="color: blue;">struct </span><span style="color: black;">Date birthday;
+    </span><span style="color: blue;">float </span><span style="color: black;">height;
+};
+
+</span><span style="color: blue;">void </span><span style="color: black;">changeValue(</span><span style="color: blue;">struct </span><span style="color: black;">Person person){
+    person.height=1.80;
+}
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">struct </span><span style="color: black;">Person persons[]={
+        {</span><span style="color: rgb(163, 21, 21);">"Kenshin"</span><span style="color: black;">,28,{1986,8,8},1.72},
+        {</span><span style="color: rgb(163, 21, 21);">"Kaoru"</span><span style="color: black;">,27,{1987,8,8},1.60},
+        {</span><span style="color: rgb(163, 21, 21);">"Rosa"</span><span style="color: black;">,29,{1985,8,8},1.60}
+    };
+    </span><span style="color: blue;">for </span><span style="color: black;">(</span><span style="color: blue;">int </span><span style="color: black;">i=0; i&lt;3; ++i) {
+        printf(</span><span style="color: rgb(163, 21, 21);">"name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n"</span><span style="color: black;">,
+               persons[i].name,
+               persons[i].age,
+               persons[i].birthday.year,
+               persons[i].birthday.month,
+               persons[i].birthday.day,
+               persons[i].height);
+    }
+    </span><span style="color: green;">/*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     name=Kaoru,age=27,birthday=1987-8-8,height=1.60
+     name=Rosa,age=29,birthday=1985-8-8,height=1.60
+     */
+    
+    
+    
+    </span><span style="color: blue;">struct </span><span style="color: black;">Person person=persons[0];
+    changeValue(person);
+    printf(</span><span style="color: rgb(163, 21, 21);">"name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n"</span><span style="color: black;">,
+           persons[0].name,
+           persons[0].age,
+           persons[0].birthday.year,
+           persons[0].birthday.month,
+           persons[0].birthday.day,
+           persons[0].height);
+    </span><span style="color: green;">/*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     */
+    
+    
+    </span><span style="color: blue;">struct </span><span style="color: black;">Person *p=&amp;person;
+    printf(</span><span style="color: rgb(163, 21, 21);">"name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n"</span><span style="color: black;">,
+           (*p).name,
+           (*p).age,
+           (*p).birthday.year,
+           (*p).birthday.month,
+           (*p).birthday.day,
+           (*p).height);
+    </span><span style="color: green;">/*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     */
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n"</span><span style="color: black;">,
+           p-&gt;name,
+           p-&gt;age,
+           p-&gt;birthday.year,
+           p-&gt;birthday.month,
+           p-&gt;birthday.day,
+           p-&gt;height);
+    </span><span style="color: green;">/*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     */
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>结构体作为函数参数传递的是成员的值（值传递而不是引用传递），对于结构体指针而言可以通过”-&gt;”操作符进行访问。</p>
+<h1 id="enum">枚举</h1>
+<p>枚举类型是比较简单的一种数据类型，事实上在C语言中枚举类型是作为整形常量进行处理的，通常称为“枚举常量”。</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+</span><span style="color: blue;">enum </span><span style="color: black;">Season{ </span><span style="color: green;">//默认情况下spring=0，summer=1,autumn=2,winter=3
+    </span><span style="color: black;">spring,
+    summer,
+    autumn,
+    winter
+};
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">enum </span><span style="color: black;">Season season=summer; </span><span style="color: green;">//枚举赋值,等价于season=1
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"summer=%d\n"</span><span style="color: black;">,season); </span><span style="color: green;">//结果：summer=1
+    
+    </span><span style="color: blue;">for</span><span style="color: black;">(season=spring;season&lt;=winter;++season){
+        printf(</span><span style="color: rgb(163, 21, 21);">"element value=%d\n"</span><span style="color: black;">,season);
+    }
+    </span><span style="color: green;">/*结果：
+     element value=0
+     element value=1
+     element value=2
+     element value=3
+     */
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>需要注意的是枚举成员默认值从0开始，如果给其中一个成员赋值，其它后面的成员将依次赋值，例如上面如果summer手动指定为8，则autumn=9，winter=10，而sprint还是0。</p>
+<h1 id="union">共用体</h1>
+<p>共用体又叫联合，因为它的关键字是union（貌似数据库操作经常使用这个关键字），它的使用不像枚举和结构体那么频繁，但是作为C语言中的一种数据类型我们也有必要弄清它的用法。从前面的分析我们知道结构体的总长度等于所有成员的和（当然此时还可能遇到对齐问题），但是和结构体不同的是共用体所有成员共用一块内存，顺序从低地址开始存放，一次只能使用其中一个成员，union最终大小由共用体中最大的成员决定，对某一成员赋值可能会覆盖另一个成员。</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-20.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+
+</span><span style="color: blue;">union </span><span style="color: black;">Type{
+    </span><span style="color: blue;">char </span><span style="color: black;">a;
+    </span><span style="color: blue;">short int </span><span style="color: black;">b;
+    </span><span style="color: blue;">int </span><span style="color: black;">c;
+};
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">union </span><span style="color: black;">Type t;
+    t.a=</span><span style="color: rgb(163, 21, 21);">'a'</span><span style="color: black;">;
+    t.b=10;
+    t.c=65796;
+    
+    printf(</span><span style="color: rgb(163, 21, 21);">"address(Type)=%x,address(t.a)=%x,address(t.b)=%x,address(t.c)=%x\n"</span><span style="color: black;">,&amp;t,&amp;t.a,&amp;t.b,&amp;t.c);
+    </span><span style="color: green;">//结果：address(Type)=5fbff7b8,address(t.a)=5fbff7b8,address(t.b)=5fbff7b8,address(t.c)=5fbff7b8
+    
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"len(Type)=%d\n"</span><span style="color: black;">,</span><span style="color: blue;">sizeof</span><span style="color: black;">(</span><span style="color: blue;">union </span><span style="color: black;">Type));
+    </span><span style="color: green;">//结果：len(Type)=4
+    
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"t.a=%d,t.b=%d,t.c=%d\n"</span><span style="color: black;">,t.a,t.b,t.c);
+    </span><span style="color: green;">//结果:t.a=4,t.b=260,t.c=65796
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<p>&nbsp;</p>
+<p>这里需要重点解释一个问题：为什么t.a、t.b、t.c输出结果分别是4、260、65796，当然t.c等于65796并不奇怪，但是t.a前面赋值为’a’不应该是97吗，而t.b不应该是10吗？其实如果弄清这个问题共用体的概念基本就清楚了。</p>
+<p>根据前面提到的，共用体其实每次只能使用其中一个成员，对于上面的代码经过三次赋值最终使用的其实就是t.c,而通过上面的输出结果我们也确实看到c是有效的。共用体有一个特点就是它的成员存储在同一块内存区域，这块区域的大小需要根据它的成员中长度最大的成员长度而定。由于上面的代码是在64位编译器下编译的，具体长度：char=1，short int=2，int=4，所以得出结论，Type的长度为4，又根据上面输出的地址，可以得到下面的存储信息(注意数据的存储方式：高地址存储高位，低地址存储地位)：</p>
+<p><a href="http://images.cnitblog.com/blog/62046/201407/201858575218722.png"><img width="582" height="81" border="0" src="ios_helloworld/201858577878409.png" alt="union" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="union"></a> </p>
+<p>当读取c的时候，它的二进制是“00000000&nbsp; 00000001&nbsp; 00000001&nbsp; 00000100”，换算成十进制就是65796；而经过三次赋值后，此时b的存储就已经被c成员的低位数据覆盖，b的长度是二，所以从起始地址取两个字节得到的二进制数据此时是“00000001&nbsp; 00000100”（b原来的数据已经被c低2位数据覆盖，其实此时就是c的低2位数据），换算成十进制就是260；类似的a此时的数据就是c的低一位数据”00000100”,换算成十进制就是4。</p></div><div id="MySignature" style="display: block;"></div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+        <div id="blog_post_info">
+          <div id="author_profile">
+            <div class="clear"></div>
+<div id="author_profile_follow"></div>
+</div>
+        </div>
+        <div class="clear"></div>
+        <div id="post_next_prev"></div>
+        </div>
+    </div>
+</div>
+</div>
+  </div>
+</div>
+</div>
+</body>
+</html>

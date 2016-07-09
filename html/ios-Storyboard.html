@@ -1,0 +1,667 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>【ios】Storyboard教程 - 丛子 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="ios-Storyboard/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios-Storyboard/bundle-Banlieue13.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/GeekHacker/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/GeekHacker/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/GeekHacker/wlwmanifest.xml">
+</head>
+<body>
+
+<!--done-->
+<div id="home">
+
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow"><!--end: navigator 博客导航栏 -->
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/GeekHacker/archive/2012/07/08/2581808.html">【ios】Storyboard教程</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>（Storyboard）是一个能够节省你很多设计手机App界面时间的新特性，下面，为了简明的说明Storyboard的效果，我贴上本教程所完成的Storyboard的截图： <br><img src="ios-Storyboard/b8e7f63f-5edb-36d7-ac3e-7926acd21ba0.png" alt=""> <br>现
+在，你就可以清楚的看到这个应用究竟是干些什么的，也可以清楚的看到其中的各种关系，这就是Storyboard的强大之处了。如果你要制作一个页面很多
+很复杂的App，Storyboard可以帮助你解决写很多重复的跳转方法的麻烦，节省很多时间，以便你能够完全的专注于核心功能的实现上。 <br><br><br><br>开始 <br><br><br><br>首先启动Xcode，新建一个工程，我们在这里使用Single View App Template，这个模板会提供一个类和一个Storyboard，免去我们自己创建的麻烦。 <br><img src="ios-Storyboard/6f63b731-1435-3d66-b1fd-03b37f0a711d.png" alt=""> <br>创建完成之后，Xcode的界面大概是这样的： <br><img src="ios-Storyboard/f7ecc9c7-9357-39b9-b954-ff9e87f22613.png" alt=""> <br>这
+个新的工程由两个类：AppDelegate和ViewController以及一个Storyboard组成（如果你选择了两个设备会有两个
+Storyboard），注意这个项目没有xib文件，让我们首先看看Storyboard是什么样的，双击Storyboard打开他： <br><img src="ios-Storyboard/539b3b98-57cc-3625-9dfa-202298e53add.png" alt=""> <br>Storyboard
+的样子和工作方式都和Interface 
+Builder（以下简称为IB）像极了，你可以从左下方的控件库中拖动控件到你的View之中并且组织他们的排放顺序，唯一不同的地方就
+是，Storyboard不止是包含一个视图控件，而是所有的视图控件以及他们之间的关系。 <br><br><br>Storyboard对一个视图的官方术语是一个场景，但是一个场景其实就是一个ViewController，在iPhone中一次只能够展示一个场景，而在iPad中一次可以展示多个场景，比如Mail应用程序。 <br><br>通过尝试添加一些控件，你可以感受一下Storyboard的工作方式。 <br><img src="ios-Storyboard/26fdcd96-64da-3bb7-a4bf-7013469bf9dd.png" alt=""> <br>这个是数据显示器，显示所有场景及其控件的结构。 <br><img src="ios-Storyboard/7c5bb9bb-42f4-30fb-be4d-a40e3aa6c9e7.png" alt=""> <br>在IB中，这个位置显示的是你的NIB文件中的文件，而在Storyboard中这里显示的是ViewController，目前这里只有一个ViewController，我们接下来可能会增加一些。 <br><br>这是一个文档管理器的缩小版，叫做dock。 <br><img src="ios-Storyboard/40615115-d0c1-3395-a063-d9fb6b77c889.png" alt=""> <br>Dock
+展示场景中第一级的控件，每个场景至少有一个ViewController和一个FirstReponder，但是也可以有其他的控件，Dock还用来简
+单的连接控件，如果你需要向ViewController传递一个关系时，只需要将其按住Ctrl键拖到ViewController上就可以了。 <br><br>Note:你大概不会太长使用FirstResponder，因为它只是一个代理控件，代表着当前你所使用的控件。 <br><br>现在运行这个应用，他会向我们设计的界面一样。 <br><img src="ios-Storyboard/54a037d9-196c-37df-8fe2-aec1aa2b21cf.png" alt=""> <br>如果你以前制作过NIB型的应用的话，你也许回去寻找MainWindow.xib ，这个文件包括所有的ViewController，Appdelegate等等，但是在Storyboard中这个特性已经被废止了。 <br><img src="ios-Storyboard/f3b7e167-6d7b-316b-baf0-cc13565a2b15.png" alt=""> <br>那么，没有这个文件，应用从那里起始呢？ <br><br>让我们打开AppDelegate文件，看看那上面是怎么说的： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;&lt;UIKit/UIKit.h&gt; &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="keyword">@interface</span><span>&nbsp;AppDelegate&nbsp;:&nbsp;UIResponder&nbsp;&lt;UIApplicationDelegate&gt; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(strong,&nbsp;nonatomic)&nbsp;UIWindow&nbsp;*window; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@end</span><span>&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">#import &lt;UIKit/UIKit.h&gt;
+
+@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;
+
+@property (strong, nonatomic) UIWindow *window;
+
+@end
+</pre>
+<p><br>如果要使用Storyboard特性，那么AppDelegate必须继承自UIResponder类， 之前则是继承自NSObject类的，而且必须有一个不是UIOutlet类的Window属性声明才可以。 <br><br>如
+果你再去看AppDelegate的执行文件，里面大概什么都没有，甚至连 
+application:didFinishLaunchingWithOptions: 也只是返回了一个 
+YES，而之前，这里则需声明一个ViewController并且将他设置成起始页面，但是现在这些都没有了。 <br><br>秘密就在info.plist文件中， 打开Ratings-Info.plist (在 Supporting Files group里) 你就会看到这些： <br><img src="ios-Storyboard/f85da68e-d08b-3e53-8ac3-34082d2d7ee9.png" alt=""> <br>在
+NIB为UI的应用里，info.plist文件中有一个键兼做NSMainNibFile，或者叫做Main nib file base 
+name，他用来指示UIApplication载入MainWindow.xib，并且将他与应用链接起来，而现在这个键值消失了。 <br><br>而
+Storyboard应用则利用 UIMainStoryboardFile，或者 “Main storyboard file base name”
+ 
+键值来表示当App初始化时的Storyboard名称，当程序运行时，UIApplication会使用
+MainStoryboard.sotryboard作为第一加载项，并且将他的UIWindow展示在屏幕上，不需要任何编程工作。 <br><br>在项目总结面板上，你也可以看到并且编辑这些信息： <br><img src="ios-Storyboard/7ae11938-2efb-3694-9292-4a2bcb53cf33.png" alt=""> <br>如果你还想设置nib文件的话，另外有地方去设置的。 <br><br>为了完成这个实验性的小程序，我们打开main.m，加入 </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;&lt;UIKit/UIKit.h&gt; &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"AppDelegate.h"</span><span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="keyword">int</span><span>&nbsp;main(</span><span class="keyword">int</span><span>&nbsp;argc,&nbsp;</span><span class="keyword">char</span><span>&nbsp;*argv[]) &nbsp;&nbsp;</span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="annotation">@autoreleasepool</span><span>&nbsp;{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;UIApplicationMain(argc,&nbsp;argv,&nbsp;nil, &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NSStringFromClass([AppDelegate&nbsp;</span><span class="keyword">class</span><span>])); &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">#import &lt;UIKit/UIKit.h&gt;
+
+#import "AppDelegate.h"
+
+int main(int argc, char *argv[])
+{
+	@autoreleasepool {
+		return UIApplicationMain(argc, argv, nil,
+			NSStringFromClass([AppDelegate class]));
+    }
+}
+</pre>
+<p><br>之前是UIApplicationMain()的函数现在是空的， 变成了 NSStringFromClass([AppDelegate class]). <br><br>与
+之前使用MainWindow.xib的一个最大的不同是：现在app delegate已经不是Storyboard的一部分了，这是因为app 
+delegate不再从nib文件中，而侍从Storyboard中加载了，我们必须告诉 UIApplicationMain 我们的app 
+delegate类的名字是什么，否则他将无法找到。 <br><br><br><br><br><br><strong>制作一个Tab类型的应用</strong> <br><br>本教程中的Rating App拥有两个Tab，在Storyboard中，很轻松就能够做出一个Tab视图。 <br><br>回到MainStoryboard.storyboard中，直接从左边的Library拖进来一个TabViewController就可以了。 <br><img src="ios-Storyboard/3f54b33c-841f-37a9-a07c-dc1eb48b1b92.png" alt=""> <br>新
+的Tab Bar Controller附带了两个View 
+controller，分别作为Tab的视图使用，UITabBarController被称为包含视图，因为他包含这其他一些View，其他常见的包含
+视图还有那vi嘎提鸥鸟 Controller和SplitView Controller。 <br><br>在iOS 5中，你还可以自己写一个自定义的Controller，这在以前是做不到的。 <br><br>包含关系在Storyboard中用一下这种箭头表示。 <br><img src="ios-Storyboard/047ff714-e3f1-32bf-9ab1-3df6678e1b8a.png" alt=""> <br>拉一个Label控件到第一个子试图中，命名为“First Tab”，再在第二个子视图中添加一个Label，命名为“Second Tab”。 <br><br>注意：当屏幕的缩放大于100%时，你无法在单个场景中添加控件。 <br><br>选中Tab Bar Controller，进入属性检查器，选中“作为起始场景”，如下图： <br><img src="ios-Storyboard/9081612b-80ef-3027-b74a-9670110f0276.png" alt=""> <br>现在那个没有头的虚虚的小箭头指向了Tab Bar Controller，说明他是起始场景。 <br><img src="ios-Storyboard/9895e3d0-a3be-3e7f-9b51-ece0ee188e51.png" alt=""> <br>这意味着，当你启动这个应用的时候，UIApplication将会将这个场景作为应用的主屏幕。 <br><br>Storyboard一定要有一个场景是起始场景才行。 <br><br>现在运行试试吧 <br><img src="ios-Storyboard/3d839ffa-3b2e-3ec0-8d28-9a52933d4beb.png" alt=""> <br>code专门为创造这种Tab Bar的应用准备了一个模板，我们也可以使用他，但是自己有能力不用模板自己做一个Tab Bar也是不错的事。 <br><br>如果你添加了多于五个子视图到一个TabBarcontroller的话，并不会创造五个Tab，第四个tab会自动变成More标签，不错吧 <br><br><br><br><br><strong>制作一个表格视图</strong> <br><br>目前连接到Tab bar Controller的视图都是普通的View Controller，现在，我要用一个TableViewController来代替其中的一个ViewController。 <br><br>单击第一个视图并删除，从Library中拖出一个TableViewController。 <br><img src="ios-Storyboard/49a6b255-6022-304c-bb6c-705df7f0b0bc.png" alt=""> <br>在选中这个TableViewController的前提下，从Library中拖出一个NavController，将会直接附着在上面。 <br><img src="ios-Storyboard/c7b378f6-6795-3443-86f1-4cbdf5243c16.png" alt=""> <br>当然也可以调换顺序，我完全没意见。 <br><br>由于NavController和TabBarController一样也是一个包含控制器视图，所以他也必须包含另一个视图，你可以看到同样的箭头连接者这两个View。 <br><img src="ios-Storyboard/fae95ab2-960d-3976-b82e-d20fbcca2662.png" alt=""> <br>请注意所有嵌套在NavController下的View都会有一个Navigation Bar，你无法移除它，因为他是一个虚拟的Bar。 <br><br>如果你检视属性检测器，你就会发现所有bar的属性都在一起： <br><img src="ios-Storyboard/8c732c2b-3e8c-3497-9476-356b4d2334d4.png" alt=""> <br>“Inferred”是Storyboard中的默认设置，他意味着继承的关系，但是你也可以改变他。但是请注意这些设置都是为了让你更好的进行设计和这样设置的，随意修改默认设置会带来不可遇见的后果，施主自重。 <br><br>现在让我们把这个新的场景连接到Tab Bar Controller中，按住Ctrl拖动，或者右键。 <br><img src="ios-Storyboard/4ad39655-c2a8-3761-8aa1-757881ec3dbd.png" alt=""> <br>当你放手的时候，一个提示框会出现。 <br><img src="ios-Storyboard/629c135b-08fe-3f1b-a586-7c54aed85b4c.png" alt=""> <br>当然是选第一个了，Relationship – viewControllers ，这将自动创建两个场景之间的关系。 <br><img src="ios-Storyboard/27e3cf0f-86d2-3fd5-9eb4-cb0f9fc2b0a9.png" alt=""> <br><img src="ios-Storyboard/f82797b4-5639-3444-8424-f1324f748aa4.png" alt=""> <br>直接拖动就可以改变Tab Item的顺序，同时也会改变显示Tab的顺序，放在最左边的Tab会第一个显示。 <br><br>现在运行试试看吧 <br><img src="ios-Storyboard/4a93488e-775b-3049-8ca3-f04da588ecd0.png" alt=""> <br>在我们在这个应用中加入任何实质性的功能之前，我们先来清理一下Storyboard，你不需要改变TabBarController中的任何内容而只需要改变他的子视图就可以了。 <br><br>每当你连接一个新的视图到TabBarController中的时候，他就会自动增加一个Tab Item，你可以使用他的子视图来修改该Item的图片和名称。 <br><br>在NavController中选中Tab Item并且在属性编辑其中将其修改为Player。 <br><img src="ios-Storyboard/79196a21-87db-3cef-b6b9-67843a9044b9.png" alt=""> <br>将第二个Tab Item命名为“Gesture” <br><br>我们接下来把自定义的图片加入到这些item中， 源码 中包含一个名为“Image”的文件夹，在那里你可以找到我们用到的资源。 <br><br>接下来，将NavController的title改为Player，也可以使用代码·· <br><img src="ios-Storyboard/a41e7d86-81b8-3f0c-9bd6-bcad101e1141.png" alt=""> <br>运行看一看，难以置信吧，你到现在也没写一条代码。 <br><img src="ios-Storyboard/8463aa07-2dc8-3003-8291-ee16ed42ba2a.png" alt=""> <br><br><br><br><br><br><strong>原型表格单元</strong> <br><br>你也许已经注意到了，自从我们加入了Table View Controller之后，Xcode便会现实下面这样一条警告。 <br><img src="ios-Storyboard/75f6ec45-044f-37b4-858d-6c487dedb885.png" alt=""> <br>这条警告是：“Unsupported Configuration: Prototype table cells must have reuse identifiers”意思是，原型表格单元必须有一个身份证（意译啦） <br><br>原
+型单元格是另一个Storyboard的好特性之一。在之前，如果你想要自定义一个Table 
+Cell，那么你就不得不用代码来实现，要么就要单独创建一个Nib文件来表示单元格内容，现在你也可以这样做，不过原型单元格可以帮你把这一过程大大的
+简化，你现在可以直接在Storyboard设计器中完成这一过程。 <br><br>Table View现在默认的会带有一个空白的原型单元格，选中他，在属性控制器中将他的Style改为subtitle，这样的话，每一格就会有两行字。 <br><img src="ios-Storyboard/9cce992f-018c-37b9-ae0c-db73d7d75a32.png" alt=""> <br><img src="ios-Storyboard/0bc94d23-8e6a-3a38-980c-e6c11adbaa4f.png" alt=""> <br>将附件设置为Disclosure Indicator并且将这个原型单元格的Reuse Identifier 设置喂“PlayerCell”，这将会解决Xcode所警告的问题。 <br><br>试着运行一个，发现什么都没变，这并不奇怪，因为我们还没有给这个表格设置一个数据来源（DataSource），用以显示。 <br><br>新建一个文件，使用UIViewContoller模板，命名为 PlayersViewController ，设置喂UITableViewController的子类，不要勾选建立XIB文件。 <br><br>回到Storyboard编辑器，选择Table View Controller，在身份控制器中，把他的类设置为PlayerViewController，这对于把Storyboard中的场景和你自定义的子类挂钩是十分重要的。要是不这么做，你的子类根本没用。 <br><img src="ios-Storyboard/68b042b5-994f-3af1-9b1a-2790fc93c43a.png" alt=""> <br>现在起，当你运行这个应用时，table view controller其实是PlayersViewContoller的一个实例。 <br><br>在 PlayersViewController.h 中声明一个MutableArray（可变数组） </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;&lt;UIKit/UIKit.h&gt; &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="keyword">@interface</span><span>&nbsp;PlayersViewController&nbsp;:&nbsp;UITableViewController &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(nonatomic,&nbsp;strong)&nbsp;NSMutableArray&nbsp;*players; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@end</span><span>&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">#import &lt;UIKit/UIKit.h&gt;
+
+@interface PlayersViewController : UITableViewController
+
+@property (nonatomic, strong) NSMutableArray *players;
+
+@end
+</pre>
+<p><br>这个数组将会包含我们的应用的主要数据模型。我们现在加一些东西到这个数组之中，新建一个使用Obj-c模板的文件，命名为player，设置喂NSObject的子类，这将会作为数组的数据容器。 <br><br>编写Player.h如下： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span class="keyword">@interface</span><span>&nbsp;Player&nbsp;:&nbsp;NSObject &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(nonatomic,&nbsp;copy)&nbsp;NSString&nbsp;*name; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(nonatomic,&nbsp;copy)&nbsp;NSString&nbsp;*game; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(nonatomic,&nbsp;assign)&nbsp;</span><span class="keyword">int</span><span>&nbsp;rating; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@end</span><span>&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">@interface Player : NSObject
+
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *game;
+@property (nonatomic, assign) int rating;
+
+@end
+</pre>
+<p><br>编写Player.m如下： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"Player.h"</span><span>&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@implementation</span><span>&nbsp;Player &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@synthesize</span><span>&nbsp;name; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@synthesize</span><span>&nbsp;game; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@synthesize</span><span>&nbsp;rating; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@end</span><span>&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">#import "Player.h"
+
+@implementation Player
+
+@synthesize name;
+@synthesize game;
+@synthesize rating;
+
+@end
+</pre>
+<p><br>这里没有什么复杂的，Player类只是一个容器罢了，包含三个内容：选手的名字、项目和他的评级。 <br><br>接下来我们在App Delegate中声明数组和一些Player对象，并把他们分配给PlayerViewController的players属性。 <br><br>在AppDelegate.m中，分别引入（import）Player和PlayerViewController这两个类，之后新增一个名叫players的可变数组。 </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"AppDelegate.h"</span><span>&nbsp;&nbsp;</span></span></li>
+<li><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"Player.h"</span><span>&nbsp;&nbsp;</span></li>
+<li><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"PlayersViewController.h"</span><span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@implementation</span><span>&nbsp;AppDelegate&nbsp;{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;NSMutableArray&nbsp;*players; &nbsp;&nbsp;</span></li>
+<li><span>} &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="comment">//&nbsp;Rest&nbsp;of&nbsp;file...</span><span>&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">#import "AppDelegate.h"
+#import "Player.h"
+#import "PlayersViewController.h"
+
+@implementation AppDelegate {
+	NSMutableArray *players;
+}
+
+// Rest of file...
+</pre>
+<p><br>修改didFinishLaunchingWithOptions方法如下： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(BOOL)application:(UIApplication&nbsp;*)application&nbsp;didFinishLaunchingWithOptions:(NSDictionary&nbsp;*)launchOptions
+ &nbsp;&nbsp;</span></span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;players&nbsp;=&nbsp;[NSMutableArray&nbsp;arrayWithCapacity:</span><span class="number">20</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;Player&nbsp;*player&nbsp;=&nbsp;[[Player&nbsp;alloc]&nbsp;init]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.name&nbsp;=&nbsp;@</span><span class="string">"Bill&nbsp;Evans"</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.game&nbsp;=&nbsp;@</span><span class="string">"Tic-Tac-Toe"</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.rating&nbsp;=&nbsp;</span><span class="number">4</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;[players&nbsp;addObject:player]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player&nbsp;=&nbsp;[[Player&nbsp;alloc]&nbsp;init]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.name&nbsp;=&nbsp;@</span><span class="string">"Oscar&nbsp;Peterson"</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.game&nbsp;=&nbsp;@</span><span class="string">"Spin&nbsp;the&nbsp;Bottle"</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.rating&nbsp;=&nbsp;</span><span class="number">5</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;[players&nbsp;addObject:player]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player&nbsp;=&nbsp;[[Player&nbsp;alloc]&nbsp;init]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.name&nbsp;=&nbsp;@</span><span class="string">"Dave&nbsp;Brubeck"</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.game&nbsp;=&nbsp;@</span><span class="string">"Texas&nbsp;Hold’em&nbsp;Poker"</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;player.rating&nbsp;=&nbsp;</span><span class="number">2</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;[players&nbsp;addObject:player]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UITabBarController&nbsp;*tabBarController&nbsp;= &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(UITabBarController&nbsp;*)self.window.rootViewController; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UINavigationController&nbsp;*navigationController&nbsp;= &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[tabBarController&nbsp;viewControllers]&nbsp;objectAtIndex:</span><span class="number">0</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;PlayersViewController&nbsp;*playersViewController&nbsp;= &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[navigationController&nbsp;viewControllers]&nbsp;objectAtIndex:</span><span class="number">0</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;playersViewController.players&nbsp;=&nbsp;players; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;YES; &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+	players = [NSMutableArray arrayWithCapacity:20];
+	Player *player = [[Player alloc] init];
+	player.name = @"Bill Evans";
+	player.game = @"Tic-Tac-Toe";
+	player.rating = 4;
+	[players addObject:player];
+	player = [[Player alloc] init];
+	player.name = @"Oscar Peterson";
+	player.game = @"Spin the Bottle";
+	player.rating = 5;
+	[players addObject:player];
+	player = [[Player alloc] init];
+	player.name = @"Dave Brubeck";
+	player.game = @"Texas Hold’em Poker";
+	player.rating = 2;
+	[players addObject:player];
+	UITabBarController *tabBarController =
+     (UITabBarController *)self.window.rootViewController;
+	UINavigationController *navigationController =
+     [[tabBarController viewControllers] objectAtIndex:0];
+	PlayersViewController *playersViewController =
+     [[navigationController viewControllers] objectAtIndex:0];
+	playersViewController.players = players;
+    return YES;
+}
+</pre>
+<p><br>这将会创造一些Player对象并把他们加到数组中去。之后在加入： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>UITabBarController&nbsp;*tabBarController&nbsp;=&nbsp;(UITabBarController&nbsp;*) &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;self.window.rootViewController; &nbsp;&nbsp;</span></li>
+<li><span>UINavigationController&nbsp;*navigationController&nbsp;= &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;[[tabBarController&nbsp;viewControllers]&nbsp;objectAtIndex:</span><span class="number">0</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>PlayersViewController&nbsp;*playersViewController&nbsp;= &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;[[navigationController&nbsp;viewControllers]&nbsp;objectAtIndex:</span><span class="number">0</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>playersViewController.players&nbsp;=&nbsp;players;&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">UITabBarController *tabBarController = (UITabBarController *)
+  self.window.rootViewController;
+UINavigationController *navigationController =
+  [[tabBarController viewControllers] objectAtIndex:0];
+PlayersViewController *playersViewController =
+  [[navigationController viewControllers] objectAtIndex:0];
+playersViewController.players = players;
+</pre>
+<p><br>咦，这是什么？目前的情况是：我们希望能够将players数组连接到PlayersViewController的players属性之
+中以便让这个VC能够用做数据来源。但是app 
+delegate根本不了解PlayerViewController究竟是什么，他将需要在storyboard中寻找它。 <br><br>这是一个
+我不是很喜欢storyboard特性，在IB中，你在MainWindow.xib中总是会有一个指向App 
+delegate的选项，在那里你可以在顶级的ViewController中向Appdelegate设置输出口，但是在Storyboard中目前这
+还不可能，目前只能通过代码来做这样的事情。 </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>UITabBarController&nbsp;*tabBarController&nbsp;=&nbsp;(UITabBarController&nbsp;*) &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;self.window.rootViewController;&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">UITabBarController *tabBarController = (UITabBarController *)
+  self.window.rootViewController;
+</pre>
+<p><br>我们知道storyboard的起始场景是Tab Bar Controller，所以我们可以直接到这个场景的第一个子场景来设置数据源。 <br><br>PlayersViewController 在一个NavController的框架之中，所以我们先看一看UINavigationController类： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>UINavigationController&nbsp;*navigationController&nbsp;=&nbsp;[[tabBarController &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;viewControllers]&nbsp;objectAtIndex:</span><span class="number">0</span><span>];&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">UINavigationController *navigationController = [[tabBarController
+  viewControllers] objectAtIndex:0];
+</pre>
+<p><br>然后询问它的根试图控制器，哪一个是我们要找的PlayersViewController： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>PlayersViewController&nbsp;*playersViewController&nbsp;= &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;[[navigationController&nbsp;viewControllers]&nbsp;objectAtIndex:</span><span class="number">0</span><span>];&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">PlayersViewController *playersViewController =
+  [[navigationController viewControllers] objectAtIndex:0];
+</pre>
+<p><br>但是，UIViewController根本就没有一个rootViewController属性，所以我们不能把数组加入进去，他又一个topViewController但是指向最上层的视图，与我们这里的意图没有关系。 <br><br>现在我们有了一个装在了players物体合集的数组，我们继续为PlayersViewController设置数据源。 <br><br>打开PlayersViewController.m，加入以下数据源方法： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(NSInteger)numberOfSectionsInTableView:(UITableView&nbsp;*)tableView &nbsp;&nbsp;</span></span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;</span><span class="number">1</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>} &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span>-&nbsp;(NSInteger)tableView:(UITableView&nbsp;*)tableView &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;numberOfRowsInSection:(NSInteger)section &nbsp;&nbsp;</span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;[self.players&nbsp;count]; &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView
+  numberOfRowsInSection:(NSInteger)section
+{
+	return [self.players count];
+}
+</pre>
+<p><br>真正起作用的代码在cellForRowAtIndexPath方法里，默认的模板是如下这样的： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(UITableViewCell&nbsp;*)tableView:(UITableView&nbsp;*)tableView &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;cellForRowAtIndexPath:(NSIndexPath&nbsp;*)indexPath &nbsp;&nbsp;</span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">static</span><span>&nbsp;NSString&nbsp;*CellIdentifier&nbsp;=&nbsp;@</span><span class="string">"Cell"</span><span>; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UITableViewCell&nbsp;*cell&nbsp;=&nbsp;[tableView &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dequeueReusableCellWithIdentifier:CellIdentifier]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">if</span><span>&nbsp;(cell&nbsp;==&nbsp;nil)&nbsp;{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cell&nbsp;=&nbsp;[[UITableViewCell&nbsp;alloc] &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initWithStyle:UITableViewCellStyleDefault &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reuseIdentifier:CellIdentifier]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">//&nbsp;Configure&nbsp;the&nbsp;cell... </span><span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;cell; &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (UITableViewCell *)tableView:(UITableView *)tableView
+  cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+
+    UITableViewCell *cell = [tableView
+      dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]
+          initWithStyle:UITableViewCellStyleDefault
+          reuseIdentifier:CellIdentifier];
+    }
+
+    // Configure the cell...
+    return cell;
+}
+</pre>
+<p><br>无疑这就是以前设置一个表格视图的方法，不过现在已经革新了，把这些代码修改如下： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(UITableViewCell&nbsp;*)tableView:(UITableView&nbsp;*)tableView&nbsp;cellForRowAtIndexPath:(NSIndexPath&nbsp;*)indexPath
+ &nbsp;&nbsp;</span></span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UITableViewCell&nbsp;*cell&nbsp;=&nbsp;[tableView &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dequeueReusableCellWithIdentifier:@</span><span class="string">"PlayerCell"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;Player&nbsp;*player&nbsp;=&nbsp;[self.players&nbsp;objectAtIndex:indexPath.row]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;cell.textLabel.text&nbsp;=&nbsp;player.name; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;cell.detailTextLabel.text&nbsp;=&nbsp;player.game; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;cell; &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	UITableViewCell *cell = [tableView
+      dequeueReusableCellWithIdentifier:@"PlayerCell"];
+	Player *player = [self.players objectAtIndex:indexPath.row];
+	cell.textLabel.text = player.name;
+	cell.detailTextLabel.text = player.game;
+    return cell;
+}
+</pre>
+<p><br>这看上去简单多了，为了新建单元格，你只需使用如下代码： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>UITableViewCell&nbsp;*cell&nbsp;=&nbsp;[tableView &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;dequeueReusableCellWithIdentifier:@</span><span class="string">"PlayerCell"</span><span>];&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">UITableViewCell *cell = [tableView
+  dequeueReusableCellWithIdentifier:@"PlayerCell"];
+</pre>
+<p><br>如果没有现存的单元格可以回收，程序会自动创造一个原型单元格的复制品之后返回给你，你只需要提供你之前在Storyboard编辑视图中设置的身份证就可以的，在这里就是“PlayerCell”，如果不设置这个，这个程序就无法工作。 <br><br>由于这个类对于Player容器目前一无所知，所以我们需要在文件的开头加入一个引入来源 </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"Player.h"</span><span>&nbsp;&nbsp;</span></span></li>
+</ol></div>
+<pre name="code" class="java">#import "Player.h"
+</pre>
+<p><br>记得要创建synthesize语句哦亲 </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span class="annotation">@synthesize</span><span>&nbsp;players;&nbsp;&nbsp;</span></span></li>
+</ol></div>
+<pre name="code" class="java">@synthesize players;
+</pre>
+<p><br>现在运行应用，会看到Table里有着players容器。 <br><img src="ios-Storyboard/fb30c597-5063-31a7-849b-f9161357e685.png" alt=""> <br>请注意：我们这里只使用一种单元格原型，如果你需要使用不同类型的单元格的话，只需要在storyboard中另外加入一个单元格原型就可以了，不过不要忘记给他们指派不同的身份证。 <br><br><br><br><br><strong>设计自定义的原型单元格</strong> <br><br>对于很多应用来说，使用默认的单元格风格就OK了，但是我偏偏要在每一个单元格的右边加上一个一个图片来表示选手的评级，但是添加图片对于默认类型的单元格来说并不支持，我们需要自定义一个设计。 <br><br>让我们转回MainStoryboard.storyboard，选中table view中的prototype cell，把它的Style attribute改为Custom，所有默认的标签都会消失。 <br><br>首先把单元格变得更高一些，你可以直接拉它，也可以在大小控制器中修改数字，我在这里使用55点的高度。 <br><br>从 Objects Library中拖出两个标签物体，按照之前的样式安插到单元格里，记得设置label的Highlighted颜色为白色，那样的话当单元格被选中的时候会看起来更好看一些。 <br><br>之后添加一个Image View对象，将它放置在单元格的右边，设置他的宽度为81点，高度并不重要，在属性检查器中设置模式为置中。 <br><br>我把标签设置为210点长以确保他不会和ImageView重合，最后整体的设计会看起来象下面这样： <br><img src="ios-Storyboard/2ccb8a25-2999-3108-9ed6-04f8df092f0f.png" alt=""> <br>由于这是一个自定义的单元格，所以我们不能够使用UITableView默认的textLabel和detailLabel来设置数据，这些属性也不再指向我们的单元格了，我们使用标签（tags）来指定标签。 <br><br>将Name标签的tag设置为100，Game的设置喂101，image的设置喂102，在属性检查器里设置哦亲。 <br><br>之后打开 PlayersViewController.m ，在PlayersViewcontroller中将cellForRowatIndexPath修改为： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(UITableViewCell&nbsp;*)tableView:(UITableView&nbsp;*)tableView &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;cellForRowAtIndexPath:(NSIndexPath&nbsp;*)indexPath &nbsp;&nbsp;</span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UITableViewCell&nbsp;*cell&nbsp;=&nbsp;[tableView &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dequeueReusableCellWithIdentifier:@</span><span class="string">"PlayerCell"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;Player&nbsp;*player&nbsp;=&nbsp;[self.players&nbsp;objectAtIndex:indexPath.row]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UILabel&nbsp;*nameLabel&nbsp;=&nbsp;(UILabel&nbsp;*)[cell&nbsp;viewWithTag:</span><span class="number">100</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;nameLabel.text&nbsp;=&nbsp;player.name; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UILabel&nbsp;*gameLabel&nbsp;=&nbsp;(UILabel&nbsp;*)[cell&nbsp;viewWithTag:</span><span class="number">101</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;gameLabel.text&nbsp;=&nbsp;player.name; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;UIImageView&nbsp;*&nbsp;ratingImageView&nbsp;=&nbsp;(UIImageView&nbsp;*) &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[cell&nbsp;viewWithTag:</span><span class="number">102</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;ratingImageView.image&nbsp;=&nbsp;[self&nbsp;imageForRating:player.rating]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;cell; &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (UITableViewCell *)tableView:(UITableView *)tableView
+  cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	UITableViewCell *cell = [tableView
+      dequeueReusableCellWithIdentifier:@"PlayerCell"];
+	Player *player = [self.players objectAtIndex:indexPath.row];
+	UILabel *nameLabel = (UILabel *)[cell viewWithTag:100];
+	nameLabel.text = player.name;
+	UILabel *gameLabel = (UILabel *)[cell viewWithTag:101];
+	gameLabel.text = player.name;
+	UIImageView * ratingImageView = (UIImageView *)
+      [cell viewWithTag:102];
+	ratingImageView.image = [self imageForRating:player.rating];
+    return cell;
+}
+</pre>
+<p><br>这里是用了一个新的方法，叫做ImageRating，在 cellForRowAtIndexPath方法之前加入这个方法： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(UIImage&nbsp;*)imageForRating:(</span><span class="keyword">int</span><span>)rating &nbsp;&nbsp;</span></span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">switch</span><span>&nbsp;(rating) &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">case</span><span>&nbsp;</span><span class="number">1</span><span>:&nbsp;</span><span class="keyword">return</span><span>&nbsp;[UIImage&nbsp;imageNamed:@</span><span class="string">"1StarSmall.png"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">case</span><span>&nbsp;</span><span class="number">2</span><span>:&nbsp;</span><span class="keyword">return</span><span>&nbsp;[UIImage&nbsp;imageNamed:@</span><span class="string">"2StarsSmall.png"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">case</span><span>&nbsp;</span><span class="number">3</span><span>:&nbsp;</span><span class="keyword">return</span><span>&nbsp;[UIImage&nbsp;imageNamed:@</span><span class="string">"3StarsSmall.png"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">case</span><span>&nbsp;</span><span class="number">4</span><span>:&nbsp;</span><span class="keyword">return</span><span>&nbsp;[UIImage&nbsp;imageNamed:@</span><span class="string">"4StarsSmall.png"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">case</span><span>&nbsp;</span><span class="number">5</span><span>:&nbsp;</span><span class="keyword">return</span><span>&nbsp;[UIImage&nbsp;imageNamed:@</span><span class="string">"5StarsSmall.png"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;nil; &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (UIImage *)imageForRating:(int)rating
+{
+	switch (rating)
+	{
+		case 1: return [UIImage imageNamed:@"1StarSmall.png"];
+		case 2: return [UIImage imageNamed:@"2StarsSmall.png"];
+		case 3: return [UIImage imageNamed:@"3StarsSmall.png"];
+		case 4: return [UIImage imageNamed:@"4StarsSmall.png"];
+		case 5: return [UIImage imageNamed:@"5StarsSmall.png"];
+	}
+	return nil;
+}
+</pre>
+<p><br>这就完成了，运行看看： <br><img src="ios-Storyboard/36cdbf46-3de7-3661-b798-4cb5dec93b0b.png" alt=""> <br>这
+和我们想象的结果并不是很符合，我们修改了原型单元格的属性和高度，但是table 
+view却没有考虑进去，有两种方法可以修复它，我们可以改变table view的行高或者加入 heightForRowAtIndexPath 
+方法来修改，地一种方法更简单，我们就用他。 <br><br>注意：在一下两种情况下，你应该使用 heightForRowAtIndexPath 方法：一是，你不能预先知道你的单元格的高度，二是不同的单元格会有不同的高度。 <br><br>回到MainStoryboard.storyboard,在大小检查器中将高度设置为55: <br><img src="ios-Storyboard/3d77b32e-e748-3043-b3e0-1007cf3647fa.png" alt=""> <br>通过这种方式的话，如果之前你是使用拖动而不是键入数值的方式改变高度的属性的话，则table view的数值也会自动改变。 <br><br>现在运行看看，好多了吧 <br><br><br><br><br><br><strong>为原型单元格设置子类</strong> <br><br>我们的表格视图已经相当像模像样了，但是我并不是很喜欢使用tag来访问label，要是我们能够把这些lable连接到输出口，之后在回应属性中使用他们，该多好，而且不出所料，我们可以这样做。 <br><br>使用 Objective-C class模板新建一个文件，命名为PlayerCell，继承UITableViewCell。 <br><br>修改PlayerCell.h </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span class="keyword">@interface</span><span>&nbsp;PlayerCell&nbsp;:&nbsp;UITableViewCell &nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(nonatomic,&nbsp;strong)&nbsp;IBOutlet&nbsp;UILabel&nbsp;*nameLabel; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(nonatomic,&nbsp;strong)&nbsp;IBOutlet&nbsp;UILabel&nbsp;*gameLabel; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@property</span><span>&nbsp;(nonatomic,&nbsp;strong)&nbsp;IBOutlet&nbsp;UIImageView &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;*ratingImageView; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@end</span><span>&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">@interface PlayerCell : UITableViewCell
+
+@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *gameLabel;
+@property (nonatomic, strong) IBOutlet UIImageView
+  *ratingImageView;
+
+@end
+</pre>
+<p><br>修改PlayerCell.m </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"PlayerCell.h"</span><span>&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@implementation</span><span>&nbsp;PlayerCell &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@synthesize</span><span>&nbsp;nameLabel; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@synthesize</span><span>&nbsp;gameLabel; &nbsp;&nbsp;</span></li>
+<li><span class="annotation">@synthesize</span><span>&nbsp;ratingImageView; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;</span></li>
+<li><span class="annotation">@end</span><span>&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">#import "PlayerCell.h"
+
+@implementation PlayerCell
+
+@synthesize nameLabel;
+@synthesize gameLabel;
+@synthesize ratingImageView;
+
+@end
+</pre>
+<p><br>这个类本身并不其很大的作用，只是为nameLabel、gameLabel和ratingImageView声明了属性。 <br><br>回
+到MainStoryboard.storyboard选中原型单元格，将他的class属性修改为“PlayerCell”，现在当你向table 
+view请求dequeueReusableCellWithIdentifier，他会返回一个PlayerCell实例而不是一个普通的
+UITableViewCell实例。 <br><br>请注意我将这个类和reuse Indetifier的名字命名的一样，只是营卫我喜欢这样哦亲，这两个之间其实没啥关系。 <br><br>现在你可以将标签和image view连接到输出口去了，选中或者将他从链接检查器拖动到table view cell。 <br><img src="ios-Storyboard/098e4b79-4f16-315e-8b16-5a24963bc71d.png" alt=""> <br>请注意：要把这个control连接到table view cell而不是view controller哦亲，别选错了。 <br><br>现在我们把一切都链接好了，只需要加入数据源的代码就可以了。 </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(UITableViewCell&nbsp;*)tableView:(UITableView&nbsp;*)tableView&nbsp;cellForRowAtIndexPath:(NSIndexPath&nbsp;*)indexPath
+ &nbsp;&nbsp;</span></span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;PlayerCell&nbsp;*cell&nbsp;=&nbsp;(PlayerCell&nbsp;*)[tableView &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dequeueReusableCellWithIdentifier:@</span><span class="string">"PlayerCell"</span><span>]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;Player&nbsp;*player&nbsp;=&nbsp;[self.players&nbsp;objectAtIndex:indexPath.row]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;cell.nameLabel.text&nbsp;=&nbsp;player.name; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;cell.gameLabel.text&nbsp;=&nbsp;player.game; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;cell.ratingImageView.image&nbsp;=&nbsp;[self &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imageForRating:player.rating]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span>&nbsp;cell; &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	PlayerCell *cell = (PlayerCell *)[tableView
+     dequeueReusableCellWithIdentifier:@"PlayerCell"];
+	Player *player = [self.players objectAtIndex:indexPath.row];
+	cell.nameLabel.text = player.name;
+	cell.gameLabel.text = player.game;
+	cell.ratingImageView.image = [self
+      imageForRating:player.rating];
+    return cell;
+}
+</pre>
+<p><br>我们现在将接收到 dequeueReusableCellWithIdentifier 的控件指派到PlayerCell，只需要简单的使用已经链接labels和image view到设置好的属性上就可以了，这会让这个设计看上去更加好控制，更加简明。 <br><br>当然，在PlayerCell前要引入资源： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>#</span><span class="keyword">import</span><span>&nbsp;</span><span class="string">"PlayerCell.h"</span><span>&nbsp;&nbsp;</span></span></li>
+</ol></div>
+<pre name="code" class="java">#import "PlayerCell.h"
+</pre>
+<p><br>试着运行，你会发现其实什么都没有变化，可是我们都知道，内部已经有了变化。 <br><br>在这相同的场景下面，我们可是在使用子类呢。 <br><br>这里还有一些设计小窍门：第一点：一定要设置标签被选中时的颜色。 <br><img src="ios-Storyboard/4d3e2c4c-9f5b-3b57-9776-66f54f29e18e.png" alt=""> <br>第二点，确保你加入单元格的字符大小是可以变化的，这样，当单元格大小变化时，他的内容的大小也会跟着变化，比如说： <br><br>在PlayersViewController.m中加入如下方法： </p>
+<div class="dp-highlighter">
+<div class="bar">
+<div class="tools">Java代码 <a title="复制代码" href="http://www.iteye.com/topic/1122979"><img src="ios-Storyboard/icon_copy.htm" alt="复制代码"></a>&nbsp;<a title="收藏这段代码" href="javascript:void()"><img class="star" src="ios-Storyboard/icon_star.htm" alt="收藏代码"><img class="spinner" style="display: none;" src="ios-Storyboard/spinner.htm" alt=""></a></div>
+</div>
+<ol class="dp-j">
+<li><span><span>-&nbsp;(</span><span class="keyword">void</span><span>)tableView:(UITableView&nbsp;*)tableView&nbsp;commitEditingStyle:(UITableViewCellEditingStyle)editingStyle&nbsp;forRowAtIndexPath:(NSIndexPath&nbsp;*)indexPath
+ &nbsp;&nbsp;</span></span></li>
+<li><span>{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">if</span><span>&nbsp;(editingStyle&nbsp;==&nbsp;UITableViewCellEditingStyleDelete) &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;{ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[self.players&nbsp;removeObjectAtIndex:indexPath.row]; &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[tableView&nbsp;deleteRowsAtIndexPaths:[NSArray&nbsp;arrayWithObject:indexPath]&nbsp;withRowAnimation:UITableViewRowAnimationFade];
+ &nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;</span></li>
+</ol></div>
+<pre name="code" class="java">- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (editingStyle == UITableViewCellEditingStyleDelete)
+	{
+		[self.players removeObjectAtIndex:indexPath.row];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+	}
+}
+</pre>
+<p><br>这个方法加入好了之后，用手指轻扫一行单元格，会出现一个删除键，试试看 <br><img src="ios-Storyboard/32a0cc54-8d9e-3eda-8deb-a4723ff52e0b.png" alt=""> <br>Delete按钮出现在右边，遮住了一部分评级图片，怎么解决呢？ <br><br>打开MainStoryBoard.storyboard，选中table view cell中的image view，在大小检查器中修改Autosizing属性，是它能够跟随上级view的边缘。 <br><img src="ios-Storyboard/7188e047-de40-3886-90b1-57ebc3475cc6.png" alt=""> <br>为labels设置同样的属性。 <br><img src="ios-Storyboard/7cddb6d4-f1dc-3a24-b2f0-873e4a9060e4.png" alt=""> <br>加入了这些变动之后，删除按钮如我们意料的出现了： <br><img src="ios-Storyboard/0ed43111-dcac-3355-9f29-6dbc1f0c907f.png" alt=""> <br>其实，最好的做法是让这些星星在出现delete按钮的时候消失，不过这只是一个练习，不要太较真哦亲</p>
+<p>文章来源：<a href="http://www.iteye.com/topic/1122979">http://www.iteye.com/topic/1122979</a></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+		</div>
+	</div>
+
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div></div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

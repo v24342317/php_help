@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>loadrunner调试</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>loadrunner调试</h1>
+            <div class="description"></div>
+        </header>
+<section class="content">
+  右键单击工具栏区域，然后选择&ldquo;调试(Debug)&rdquo;。&ldquo;调试(Debug)&rdquo;工具栏将显示在工具栏区域中&quot;分步运行(F10)&rdquo;命令&ldquo;分步运行(F10)&rdquo;命令在运行脚本时一次运行一行。通过该命令，可以依次查看脚本每一行的执行情况。<br>
+  <br>
+    要分步运行脚本，请执行下列操作：<br>
+    1 依次选择&ldquo;Vuser&rdquo; &gt; &ldquo;分步运行(Run step by step)&rdquo;，或者单击&ldquo;调试&rdquo;工具栏上的&ldquo;步骤&rdquo;按钮。
+      VuGen 将执行脚本的第一行。<br>
+  2 继续单击&ldquo;步骤&rdquo;按钮来执行该脚本，直到脚本运行完成为止。</p>
+
+    <h2>断点</h2>
+    通过断点可以使脚本在特定位置暂停执行。它可用于在执行期间的预定点处检查<br>
+    要设置断点，请执行下列操作：<br>
+
+    1 将光标置于脚本中要停止执行的行上。<br>
+
+    2 依次选择&ldquo;插入&rdquo; &gt; &ldquo;切换断点&rdquo;，或者单击&ldquo;调试&rdquo;工具栏上的&ldquo;断点&rdquo;按钮。也可以按键盘上的 F9 键。将在脚本的左边距显示&ldquo;断点&rdquo;符号 ( )。<br>
+
+    3 要禁用断点，请将光标置于包含断点符号的行上，然后单击&ldquo;调试&rdquo;工具栏上的&ldquo;启用 / 禁用断点&rdquo;按钮。&ldquo;断点&rdquo;符号中将会显示一个白点 ( )。禁用一个断点后，执行将在下一个断点处暂停。再次单击该按钮可以启用断点。要删除断点，请将光标置于包含断点符号的行上，然后单击&ldquo;断点&rdquo;按钮或者按F9 键。<br>
+
+    要运行包含断点的脚本，请执行下列操作：<br>
+  <br>
+    1 照常运行脚本。
+    到达断点时， VuGen 将暂停脚本的执行。可以检查脚本运行到断点时的效果，并进行必要的更改，然后从断点处重新启动脚本。
+  <br>
+    2 要继续执行，请依次选择&ldquo;Vuser&rdquo; &gt; &ldquo;运行&rdquo;。 
+    重新启动后，脚本将继续执行，直到遇到下一个断点或脚本完成。
+  <br>
+    <h2>断点管理器</h2>
+  <br>
+    可以使用断点管理器来查看和管理断点。通过断点管理器您可以
+    有断点。   要打开断点管理器，请选择&ldquo;编辑&rdquo; &gt; &ldquo;断点&rdquo;。
+  <br>
+    要跳至脚本中的断点处，请执行下列操作：<br>
+  <br>
+    1 从列表中选择一个断点。<br>
+
+    2 单击&ldquo;在脚本中突出显示&rdquo;。则将在脚本中突出显示该行。<br>
+
+    <a>注意，每次只能突出显示一个断点。</a>
+<br><br>
+    管理断点
+  <br>
+    可以通过断点管理器添加、删除、禁用断点或者为断点设置条件<br>
+  <br>
+    要添加断点，请执行下列操作：<br>
+ 
+    1 单击&ldquo;添加&rdquo;。将打开&ldquo;添加断点&rdquo;对话框。<br>
+
+    2 选择&ldquo;操作&rdquo;，并指定要添加断点的行号。<br>
+
+    3 单击&ldquo;确定&rdquo;。该断点将被添加到断点列表中。<br>
+  <br>
+    要删除断点，请执行下列操作：<br>
+
+    1 要删除单个断点，请选择该断点并单击&ldquo;删除&rdquo;。<br>
+
+    2 要立即删除所有断点，请单击&ldquo;全部删除&rdquo;。<br>
+<br>
+    要启用 / 禁用断点，请执行下列操作：<br>
+
+    1 要启用断点，请在&ldquo;操作&rdquo;列内选中操作的复选框。<br>
+
+    2 要禁用断点，请在&ldquo;操作&rdquo;列内清除操作的复选框。<br>
+  <br>
+    <a>通过断点管理器您可以将断点设置为在某些条件下暂停执行。</a><br>
+
+    要为断点设置条件，请执行下列操作：<br>
+
+    1 要在特定的迭代次数后暂停运行脚本，请选择&ldquo;当迭代次数为下值时暂停&rdquo;并输
+    入所需的数字。<br>
+
+    2 要在参数 X 具有特定值时暂停脚本，请选择&ldquo;当参数 X 值为下值时暂停&rdquo;并输
+    入所需的值。有关参数的详细信息，请参阅第 8 章&ldquo;使用 VuGen 参数&rdquo;。<br>
+  <br>
+    <h2>书签</h2>
+
+    当使用脚本视图时， VuGen 使您可以在脚本中各个不同的置放置书签。您可以
+    在书签之间导航来分析和调试代码。<br>
+  <br>
+    要创建书签，请执行下列操作：<br>
+    1 将光标置于所需的位置，然后按 Ctrl + F2 组合键。VuGen 会在脚本的左边距放
+    置一个图标。<br>
+
+    2 要删除书签，请单击要删除的标签，然后按 Ctrl + F2 组合键。VuGen 将删除左
+    边距处的图标。<br>
+
+    3 要在书签之间移动，请执行下列操作：
+    要移动到下一个书签，请按 F2 键。
+    要导航到上一个书签，请按 Shift + F2 组合键,您还可以通过&ldquo;编辑&rdquo; &gt; &ldquo;书签&rdquo;菜单项来创建书签和在书签之间进行导航。<br>
+    <a>注意： 只能在当前操作中的书签之间导航。要导航到另一操作中的书签，请在左窗格中选择该操作然后按 F2 键。  &ldquo;转至&rdquo;命令,要不使用书签在脚本中进行导航，可以使用&ldquo;转至&rdquo;命令。请依次选择&ldquo;编辑&rdquo;&gt; &ldquo;转至行&rdquo;并指定脚本的行号。在树视图中也支持此种导航。</a><br>
+  <br>
+
+    如果要检查特定步骤或函数的&ldquo;回放日志&rdquo;消息，请在 VuGen 中选择该步骤，
+    然后依次选择&ldquo;编辑&rdquo; &gt; &ldquo;转至回放日志中的步骤&rdquo;。VuGen 将把光标放置在
+  &ldquo;输出&rdquo;窗口的&ldquo;回放日志&rdquo;选项卡中的相应步骤处。<br>
+  </p>
+
+</section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+
+</section>
+</body>
+</html>

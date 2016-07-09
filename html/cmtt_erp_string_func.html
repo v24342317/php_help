@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>字符串函数</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>字符串函数</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+
+        
+            <h2>例子:</h2>
+            <p>相关帮助在:<a>thinkphp手册->架构->相关加载</a></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">\Org\Util\String::uuid();</span></code></li></ol></pre>
+
+<h2>函数</h2>
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 生成UUID 单机使用
+* @access public
+* @return string
+*/
+<span style="color:blue">static public function uuid()</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 生成Guid主键
+* @return Boolean
+*/
+<span style="color:blue">static public function keyGen()</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 检查字符串是否是UTF8编码
+* @param string $string 字符串
+* @return Boolean
+*/
+<span style="color:blue">static public function isUtf8($str)</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 字符串截取，支持中文和其他编码
+* @static
+* @access public
+* @param string $str 需要转换的字符串
+* @param string $start 开始位置
+* @param string $length 截取长度
+* @param string $charset 编码格式
+* @param string $suffix 截断显示字符
+* @return string
+*/
+<span style="color:blue">static public function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true)</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 产生随机字串，可用来自动生成密码
+* 默认长度6位 字母和数字混合 支持中文
+* @param string $len 长度
+* @param string $type 字串类型
+* 0 字母 1 数字 其它 混合
+* @param string $addChars 额外字符
+* @return string
+*/
+<span style="color:blue">static public function randString($len=6,$type='',$addChars='')</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 生成一定数量的随机数，并且不重复
+* @param integer $number 数量
+* @param string $len 长度
+* @param string $type 字串类型
+* 0 字母 1 数字 其它 混合
+* @return string
+*/
+<span style="color:blue">static public function buildCountRand ($number,$length=4,$mode=1)</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+*  带格式生成随机字符 支持批量生成
+*  但可能存在重复
+* @param string $format 字符格式
+*     # 表示数字 * 表示字母和数字 $ 表示字母
+* @param integer $number 生成数量
+* @return string | array
+*/
+<span style="color:blue">static public function buildFormatRand($format,$number=1)</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 获取一定范围内的随机数字 位数不足补零
+* @param integer $min 最小值
+* @param integer $max 最大值
+* @return string
+*/
+<span style="color:blue">static public function randNumber ($min, $max)</span></span></code></li></ol></pre>
+
+<p></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">/**
+* 自动转换字符集 支持数组转换
+*
+* @param string $string  字符串
+* @param string $from 字符串
+* @param string $to 字符串
+* @return string
+*/
+<span style="color:blue">static public function autoCharset($string, $from='gbk', $to='utf-8')</span></span></code></li></ol></pre>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

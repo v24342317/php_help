@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>smartcrop.js智能图片裁剪库 - 破狼 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="smartcrop/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="smartcrop/bundle-Minyx2_Lite.css">
+<link type="text/css" rel="stylesheet" href="smartcrop/58921.css">
+</head>
+<body>
+
+<!--PageBeginHtml Block Begin-->
+<link type="text/css" rel="stylesheet" href="smartcrop/screen.css">
+<!--PageBeginHtml Block End-->
+
+
+<div id="container">
+  <ul id="topMnu">
+      <!-- 统计数据 -->
+      <li>
+            
+                
+Posts - 260, 
+Articles - 0, 
+Comments - 1873
+<!---->
+            
+        </li></ul>
+
+
+    <div id="wrapper">
+      <div id="content">
+
+            
+<div id="post_detail">
+<div class="post" id="post">
+  <h2>&nbsp;</h2>
+  <div class="entry">
+    <div id="cnblogs_post_body"><div id="main">
+<div class="entry-content">
+<p>今天将为大家介绍一款近期github上很不错的开源库 – <a href="https://github.com/jwagner/smartcrop.js">smartcrop.js</a>。
+它是一款图片处理的智能裁剪库。在很多项目开发中，经常会遇见上传图片的场景，它可能是用户照片信息，也可能是商品图片等。然而在网页布局中，为了更好的
+用户体验，它们往往都需要一些宽度和高度的限制。对于不合适的图片，常常需要为用户提供一种裁剪方式，以此来满足网站更好的用户体验。但是图片默认的裁剪
+区域往往被显示在一个固定的位置，而这个位置却往往又不是精准的用户裁剪位置。因此今天为大家介绍的这一款开源库，就是为了解决这类问题，并为用户提供更
+好的用户体验的。</p>
+<p>首先我们可以使用<code>npm install smartcrop</code>或者<code>bower install smartcrop</code>来下载它。然后像如下方式使用它：</p>
+<pre class="green"><code>SmartCrop.crop(image, {
+        width: 100,
+        height: 100
+    }, 
+    function(result){
+        console.log(result); // {topCrop: {x: 300, y: 200, height: 200, width: 200}}
+    });
+</code></pre>
+<p>它会输出一个比较好的最佳图片裁剪位置，如<code>{topCrop: {x: 300, y: 200, height: 200, width: 200}}</code>的数据。</p>
+<p>下面是一副来自它的展示网站的案例，请欣赏：</p>
+<p><img src="smartcrop/smartcrop--.png" alt="smartcrop-图片裁剪-案例"></p>
+<p>更多案例：</p>
+<ol>
+<li><a href="http://29a.ch/sandbox/2014/smartcrop/examples/testsuite.html">http://29a.ch/sandbox/2014/smartcrop/examples/testsuite.html</a>：这里拥有超过1000个图片效果的展示（流量用户请谨慎点击，图片众多）；</li>
+<li><a href="http://29a.ch/sandbox/2014/smartcrop/examples/testbed.html">http://29a.ch/sandbox/2014/smartcrop/examples/testbed.html</a>：这里允许上传本地的图片，并体验其效果；</li>
+<li><a href="http://29a.ch/sandbox/2014/smartcrop/examples/slideshow.html">http://29a.ch/sandbox/2014/smartcrop/examples/slideshow.html</a>：在这里可以尝试用它创建幻灯片。</li>
+</ol>
+<p>最后，更多关于smartcrop.js的信息，请参见其github：<a href="https://github.com/jwagner/smartcrop.js">https://github.com/jwagner/smartcrop.js</a>。</p>
+</div>
+</div></div>
+        <div class="clear"></div>
+  </div>
+
+</div>
+
+</div><div id="blog-comments-placeholder"></div></div>
+
+
+
+        <div id="footer">
+            
+<p id="logoFoot">
+    <a href="http://www.spiga.com.mx/" title="Agencia Interactiva Spiga">www.spiga.com.mx</a>
+</p>
+<div class="footText">
+<p>
+Copyright ©2015 破狼
+</p>
+<p>
+<a href="http://www.cnblogs.com/">博客园</a>
+</p>
+</div>
+        </div>
+    </div>
+
+</div>
+
+
+
+</body></html>

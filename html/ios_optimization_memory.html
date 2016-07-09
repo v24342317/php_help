@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>iOS性能优化之内存管理：Analyze、Leaks、Allocations的使用和案例代码 - 半尺尘 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="ios_optimization_memory/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_optimization_memory/bundle-red_autumnal_leaves.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/tanzhenblog/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/tanzhenblog/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/tanzhenblog/wlwmanifest.xml">
+
+</head>
+<body>
+
+<!--done-->
+<div id="home"><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/tanzhenblog/p/5001344.html">iOS性能优化之内存管理：Analyze、Leaks、Allocations的使用和案例代码</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>&nbsp;</p>
+<p><span style="font-size: 15px;">最近接了个小任务，和公司的iOS小伙伴们分享下instruments的具体使用，于是有了这篇博客...性能优化是一个很大的话题，这里讨论的主要是内存泄露部分。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18pt;">一. 一些相关概念</span></p>
+<p><span style="font-size: 15px;">很多人应该比较了解这块内容了...可以权当复习复习...</span></p>
+<p><span style="font-size: 15px;"><span style="color: #008000;">1.内存空间的划分:</span> 我们知道，一个进程占用的内存空间，包含5种不同的数据区：（1）BSS段：通常是存放未初始化的全局变量；（2）数据段：通常是存放已初始化的全局变量。（3）代码段：通常是存放程序执行代码。（4）堆：通常是用于存放进程运行中被动态分配的内存段<strong>，</strong>OC对象（所有继承自NSObject的对象）就存放在堆里。（5）栈：由编译器自动分配释放，存放函数的参数值，局部变量等值。</span></p>
+<p><span style="font-size: 15px;">栈内存是系统来管理的，因此我们常说的内存管理，指的是堆内存的管理，也就是所有
+OC对象的创建和销毁的管理。伴随着iOS5的到来，苹果推出了ARC（自动引用计数）技术，此模式下编译器会自动在合适的地方插入retain、
+release、autorelease语句，也就是说编译器会自动生成内存管理的代码，解放了广大程序猿的双手，也基本上避免了内存泄露问题，但是
+呢...</span></p>
+<p><span style="font-size: 15px; color: #008000;">2.内存泄露：<span style="font-size: 15px; color: #008000;"><span style="font-size: 15px; color: #000000;">百
+度百科给的定义是："内存泄漏也称作'存储渗漏'，用动态存储分配函数动态开辟的空间，在使用完毕后未释放，结果导致一直占据该内存单元。直到程序结束。
+（其实说白了就是该内存空间使用完毕之后未回收）即所谓内存泄漏"。在iOS应用中的内存泄露，原因一般有循环引用、错用Strong/copy等。</span></span></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;">二. Analyze—静态分析</span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">顾名思义，静态分析不需要运行程序，就能检查到存在内存泄露的地方。</span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">1. 使用方法：打开Xcode，command + shift + B；或者Xcode - Product - Analyze；</span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">2. 常见的三种泄露情形：</span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">（1）创建了一个对象，但是并没有使用。Xcode提示信息：<span style="color: #999999;"><em>Value Stored to 'number' is never read</em></span>。翻译一下：存储在'number'里的值从未被读取过。</span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">（2）创建了一个（指针可变的）对象，且初始化了，但是初始化的值一直没读取过。Xcode提示信息：<span style="color: #999999;"><em>Value Stored to 'str' during its initialization is never read</em></span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">（3）调用了让某个对象引用计数加1的函数，但没有调用相应让其引用计数减1的函数。Xcode提示信息：<span style="color: #999999;"><em>Potential leak of an object stored into 'subImageRef'</em></span>。 翻译一下：subImageRef对象的内存单元有潜在的泄露风险。</span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">3. 贴上Demo代码：</span></span></span></p>
+<div class="cnblogs_code" onclick="cnblogs_code_show('3341cbc0-2a81-4cb4-92ec-b4de4f5fc3a1')"><img style="display: none;" id="code_img_closed_3341cbc0-2a81-4cb4-92ec-b4de4f5fc3a1" class="code_img_closed" src="ios_optimization_memory/ContractedBlock.gif" alt=""><img id="code_img_opened_3341cbc0-2a81-4cb4-92ec-b4de4f5fc3a1" class="code_img_opened" style="" onclick="cnblogs_code_hide('3341cbc0-2a81-4cb4-92ec-b4de4f5fc3a1',event)" src="ios_optimization_memory/ExpandedBlockStart.gif" alt="">
+<div style="display: block;" id="cnblogs_code_open_3341cbc0-2a81-4cb4-92ec-b4de4f5fc3a1" class="cnblogs_code_hide"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="ios_optimization_memory/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008000;">/*</span><span style="color: #008000;">*
+ * 情 形 一：创建了一个对象，但是并没有使用。
+ * 提示信息：Value Stored to 'number' is never read
+ * 翻译一下：存储在'number'里的值从未被读取过，
+ </span><span style="color: #008000;">*/</span>
+- (<span style="color: #0000ff;">void</span><span style="color: #000000;">)leakOne {
+    NSString </span>*str1 = [NSString <span style="color: #0000ff;">string</span><span style="color: #000000;">];
+    NSNumber </span>*<span style="color: #000000;">number;
+    number </span>=<span style="color: #000000;"> @(str1.length);
+    </span><span style="color: #008000;">/*</span><span style="color: #008000;">
+     说我们没有读取过它，那就读取一下，比如打开下面这句代码，对它发送class消息，就不再会有这个提示了。
+     当然最好的方法还是将有关number的代码都删掉，因为，你只对number赋值，又不使用，那干嘛创建出来呢。
+     这是一个比较常见和典型的错误，也很容易检查出来
+     </span><span style="color: #008000;">*/</span>
+    <span style="color: #008000;">//</span><span style="color: #008000;"> [number class];</span>
+<span style="color: #000000;">}
+
+</span><span style="color: #008000;">/*</span><span style="color: #008000;">*
+ * 情 形 二：创建了一个（指针可变的）对象，且初始化了，但是初始化的值一直没读取过。
+ * 提示信息：Value Stored to 'str' during its initialization is never read
+ </span><span style="color: #008000;">*/</span>
+- (<span style="color: #0000ff;">void</span><span style="color: #000000;">)leakTwo {
+    NSString </span>*str = [NSString <span style="color: #0000ff;">string</span>]; <span style="color: #008000;">//</span><span style="color: #008000;"> 创建并初始化str，此时已经有一个内存单元保存str初始化的值
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> NSString *str; </span><span style="color: #008000;">//</span><span style="color: #008000;"> 这样就内存不泄露，因为str是可变的，只需要先声明就行。
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> printf("str前 = %p\n",str);</span>
+    str = <span style="color: #800000;">@"</span><span style="color: #800000;">ceshi</span><span style="color: #800000;">"</span>;             <span style="color: #008000;">//</span><span style="color: #008000;"> str被改变了，指向了"ceshi"所在的地址，指针改变了，但之前保存初始化值的内存空间还未释放，保存str初始化值的内存单元泄露了。
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> printf("str后 = %p\n",str); </span><span style="color: #008000;">//</span><span style="color: #008000;"> 指针改变了</span>
+    [str <span style="color: #0000ff;">class</span><span style="color: #000000;">];
+    
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 再举两个例子，同理</span>
+<span style="color: #000000;">    
+    NSArray </span>*arr =<span style="color: #000000;"> [NSArray array];
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> printf("arr前 = %p\n",arr);
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> NSArray *arr;            </span><span style="color: #008000;">//</span><span style="color: #008000;"> 这样就内存不泄露</span>
+    arr = @[<span style="color: #800000;">@"</span><span style="color: #800000;">1</span><span style="color: #800000;">"</span>,<span style="color: #800000;">@"</span><span style="color: #800000;">2</span><span style="color: #800000;">"</span><span style="color: #000000;">];
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> printf("arr后 = %p\n",arr); </span><span style="color: #008000;">//</span><span style="color: #008000;"> 指针改变了</span>
+    [arr <span style="color: #0000ff;">class</span><span style="color: #000000;">];
+    
+    CGRect rect </span>=<span style="color: #000000;"> self.view.frame;
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> CGRect rect = CGRectZero; </span><span style="color: #008000;">//</span><span style="color: #008000;"> 这样就内存不泄露</span>
+    rect = CGRectMake(<span style="color: #800080;">0</span>, <span style="color: #800080;">0</span>, <span style="color: #800080;">0</span>, <span style="color: #800080;">0</span><span style="color: #000000;">);
+    NSLog(</span><span style="color: #800000;">@"</span><span style="color: #800000;">rect = %@</span><span style="color: #800000;">"</span><span style="color: #000000;">,NSStringFromCGRect(rect));
+}
+
+</span><span style="color: #008000;">/*</span><span style="color: #008000;">*
+ * 情 形 三：调用了让某个对象引用计数加1的函数，但没有调用相应让其引用计数减1的函数。
+ * 提示信息：Potential leak of an object stored into 'subImageRef'
+ * 翻译一下：subImageRef对象的内存单元有潜在的泄露风险
+ </span><span style="color: #008000;">*/</span>
+- (<span style="color: #0000ff;">void</span><span style="color: #000000;">)leakThree {
+    CGRect rect </span>= CGRectMake(<span style="color: #800080;">0</span>, <span style="color: #800080;">0</span>, <span style="color: #800080;">50</span>, <span style="color: #800080;">50</span><span style="color: #000000;">);
+    UIImage </span>*<span style="color: #000000;">image;
+    CGImageRef subImageRef </span>= CGImageCreateWithImageInRect(image.CGImage, rect); <span style="color: #008000;">//</span><span style="color: #008000;"> subImageRef 引用计数 + 1;</span>
+<span style="color: #000000;">    
+    UIImage</span>* smallImage =<span style="color: #000000;"> [UIImage imageWithCGImage:subImageRef];
+    
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 应该调用对应的函数，让subImageRef的引用计数减1,就不会泄露了
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> CGImageRelease(subImageRef);</span>
+<span style="color: #000000;">    
+    [smallImage </span><span style="color: #0000ff;">class</span><span style="color: #000000;">];
+    UIGraphicsEndImageContext();
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="ios_optimization_memory/copycode.gif" alt="复制代码"></a></span></div></div>
+<span style="display: none;" class="cnblogs_code_collapse">View Code</span></div>
+<p>贴上照片:</p>
+<p><img src="ios_optimization_memory/778485-20151127174006374-694645604.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;">三. Leaks—内存泄露</span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">Leaks是动态的内存泄露检查工具，需要一边运行程序，一边检测。</span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">1.使用方法: 进入Xcode，command + control + i<span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">；或者Xcode - Xcode - Open Developer Tool - Instruments; 或者Xcode - Product - Profile。选择Leaks。</span></span></span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">2.界面详情如下，这是运行时的界面<br></span></span></span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><img style="width: 978px;" src="ios_optimization_memory/778485-20151130183914937-786657396.jpg" alt=""></span></span></span></span></span></span></p>
+<p>&nbsp;<span style="font-size: 15px;">测试了好几个项目，发现用静态分析检查过的代码，内存泄露都比较少。有2个项目能点的按钮都点了，能进的页面都进的，Leaks也没检测到泄露。</span> </p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;">四. Allocations—内存分配</span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">Allocations是检测程序运行过程中的内存分配情况的，也需要同时运行着程序。1.打开方法：同上。2.界面情况如下：</span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><img style="width: 978px;" src="ios_optimization_memory/778485-20151130193100968-197579777.png" alt=""></span></span></span></p>
+<p><span style="font-size: 15px;">截图二：</span></p>
+<p><img style="width: 978px;" src="ios_optimization_memory/778485-20151130193332374-631656997.jpg" alt=""></p>
+<p>&nbsp;<span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">双击某一个方法，同样会跳转到代码里，会有每一句代码对应的内存分配情况，根据这些信息，可以对程序里不同代码的内存占用情况有一些认识，并进行针对性的优化。<br></span></span></span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;">五. 平时写代码的一些tip</span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;">说到底呢，<span style="font-size: 15px;">instruments只是一组工具，帮助我们分析代码的工具，可能检查的出的内存问题和性能问题，肯定还是由代码造成的。养成良好的代码习惯，才是根本的解决方法。首先是避免出现静态分析里提到的三种常见内存泄露问题，我测试的好几个项目里，都有出现这个问题。</span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px;">tip1：哪些情况会增加App的内存占用？「非完整版」</span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px;">(1) 创建对象，定义变量。（2）调用一个函数或方法。</span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px;">tip2：哪些情况会增加CPU的消耗？「搬运自YYKit的作者的博客（强烈推荐）：<span style="color: #0000ff;"><a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/#more-41893" target="_blank"><span style="color: #0000ff;">ibireme</span></a></span>」</span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px;">(1) 创建对象、调整对象属性、销毁对象。（2）布局计算和Autolayout。（3）文本的计算和渲染。（4）图片的解码和绘制。<span style="color: #808080;">「用Time Profiler分析一下，可以更直观地感受到哪些操作比较耗时，使用方法同上。」</span></span></span></span></span></p>
+<p><span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px;">小结：做好cell等可复用对象的重用；可以只创建一次的对象，不要创建多次（比如页面的某个功能弹窗）；<span style="font-size: 15px; color: #000000;"><span style="font-size: 18pt;"><span style="font-size: 15px;"><span style="font-size: 15px;">用较少的对象和方法调用去实现功能；将耗时的操作放在子线程等可以对内存和性能做一些优化</span></span></span></span>。</span></span></span></span></p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+		</div>
+	</div>
+
+	
+</div><!--end: topics 文章、评论容器-->
+</div><div id="blog-comments-placeholder"></div></div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

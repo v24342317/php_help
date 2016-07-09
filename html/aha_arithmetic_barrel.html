@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>【坐在马桶上看算法】算法1：最快最简单的排序——桶排序 - 啊哈磊 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/bundle-ThinkInside.css">
+<link type="text/css" rel="stylesheet" href="aha_arithmetic_barrel/161710.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/ahalei/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/ahalei/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/ahalei/wlwmanifest.xml">
+
+
+</head>
+<body>
+
+<!--done-->
+<div id="home">
+<!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/ahalei/p/3561919.html">【坐在马桶上看算法】算法1：最快最简单的排序——桶排序</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><div align="left"><span style="font-size: large;">【啊哈！算法】</span></div>
+<p>&nbsp;</p>
+<div align="left">　　在我们生活的这个世界中到处都是被排序过的。站队的时候会按照身高排序，考试的名次需要按照分数排序，网上购物的时候会按照价格排序，电子邮箱中的邮件按照时间排序……总之很多东西都需要排序，可以说排序是无处不在。现在我们举个具体的例子来介绍一下排序算法。</div>
+<div align="left">
+<div align="center"><img id="aimg_1778" class="zoom" src="aha_arithmetic_barrel/120852kg1dvagi0b1ijtlv.png" alt="" width="396">&nbsp;</div>
+<div align="center">&nbsp;</div>
+</div>
+<div align="left">　　首先出场的我们的主人公小哼，上面这个可爱的娃就是啦。期末考试完了老师要将同学们的分数按照从高到低排序。小
+哼的班上只有5个同学，这5个同学分别考了5分、3分、5分、2分和8分，哎考的真是惨不忍睹（满分是10分）。接下来将分数进行从大到小排序，排序后是
+8 5 5 3 
+2。你有没有什么好方法编写一段程序，让计算机随机读入5个数然后将这5个数从大到小输出？请先想一想，至少想15分钟再往下看吧(*^__^*) 。</div>
+<div align="center"><img id="aimg_1769" class="zoom" src="aha_arithmetic_barrel/113320k0qonzwpnzmt5gpb.png" alt="" width="548"></div>
+<div align="center">&nbsp;</div>
+<div align="left">　　我们这里只需借助一个一维数组就可以解决这个问题。请确定你真的仔细想过再往下看哦。</div>
+<div align="left">&nbsp;</div>
+<div align="left">　　首先我们需要申请一个大小为11的数组int 
+a[11]。OK现在你已经有了11个变量，编号从a[0]~a[10]。刚开始的时候，我们将a[0]~a[10]都初始化为0，表示这些分数还都没有
+人得过。例如a[0]等于0就表示目前还没有人得过0分，同理a[1]等于0就表示目前还没有人得过1分……a[10]等于0就表示目前还没有人得过10
+分。</div>
+<div align="center"><img id="aimg_1770" class="zoom" src="aha_arithmetic_barrel/113320lz09fp0o7ff7h8xf.png" alt="" width="377"></div>
+<p>&nbsp;</p>
+<div align="left">　　下面开始处理每一个人的分数，第一个人的分数是5分，我们就将相对应a[5]的值在原来的基础增加1，即将a[5]的值从0改为1，表示5分出现过了一次。</div>
+<div align="center"><img id="aimg_1771" class="zoom" src="aha_arithmetic_barrel/113321w4iew2smzki8kmec.png" alt="" width="367"></div>
+<p>&nbsp;</p>
+<div align="left">　　第二个人的分数是3分，我们就把相对应a[3]的值在原来的基础上增加1，即将a[3]的值从0改为1，表示3分出现过了一次。</div>
+<div align="center"><img id="aimg_1772" class="zoom" src="aha_arithmetic_barrel/113321rmecknx06n92ppu7.png" alt="" width="367"></div>
+<p>&nbsp;</p>
+<div align="left">　　注意啦！第三个人的分数也是“5分”，所以a[5]的值需要在此基础上再增加1，即将a[5]的值从1改为2。表示5分出现过了两次。</div>
+<div align="center"><img id="aimg_1773" class="zoom" src="aha_arithmetic_barrel/113321a4euiehmeehcgpeb.png" alt="" width="367"></div>
+<p>&nbsp;</p>
+<div align="left">　　按照刚才的方法处理第四个和第五个人的分数。最终结果就是下面这个图啦。</div>
+<div align="center"><img id="aimg_1774" class="zoom" src="aha_arithmetic_barrel/113321k7vs6474q39bo517.png" alt="" width="367"></div>
+<div align="center">&nbsp;</div>
+<div align="left">　　你发现没有，a[0]~a[10]中的数值其实就是0分到10分每个分数出现的次数。接下来，我们只需要将出现过的分数打印出来就可以了，出现几次就打印几次，具体如下。</div>
+<div align="left">　　a[0]为0，表示“0”没有出现过，不打印。</div>
+<div align="left">　　a[1]为0，表示“1”没有出现过，不打印。</div>
+<div align="left">　　a[2]为1，表示“2”出现过1次，打印2。</div>
+<div align="left">　　a[3]为1，表示“3”出现过1次，打印3。</div>
+<div align="left">　　a[4]为0，表示“4”没有出现过，不打印。</div>
+<div align="left">　　a[5]为2，表示“5”出现过2次，打印5 5。</div>
+<div align="left">　　a[6]为0，表示“6”没有出现过，不打印。</div>
+<div align="left">　　a[7]为0，表示“7”没有出现过，不打印。</div>
+<div align="left">　　a[8]为1，表示“8”出现过1次，打印8。</div>
+<div align="left">　　a[9]为0，表示“9”没有出现过，不打印。</div>
+<div align="left">　　a[10]为0，表示“10”没有出现过，不打印。</div>
+<div align="left">　　最终屏幕输出“2 3 5 5 8”，完整的代码如下。
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="aha_arithmetic_barrel/copycode.gif" alt="复制代码"></a></span></div>
+<pre>#include &lt;stdio.h&gt;
+<span style="color: #0000ff;">int</span><span style="color: #000000;"> main()
+{
+    </span><span style="color: #0000ff;">int</span> a[<span style="color: #800080;">11</span><span style="color: #000000;">],i,j,t;
+    </span><span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">0</span>;i&lt;=<span style="color: #800080;">10</span>;i++<span style="color: #000000;">)
+        a[i]</span>=<span style="color: #800080;">0</span>;  <span style="color: #008000;">//</span><span style="color: #008000;">初始化为0</span>
+    
+    <span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=<span style="color: #800080;">5</span>;i++)  <span style="color: #008000;">//</span><span style="color: #008000;">循环读入5个数</span>
+<span style="color: #000000;">    {
+        scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;t);  <span style="color: #008000;">//</span><span style="color: #008000;">把每一个数读到变量t中</span>
+        a[t]++;  <span style="color: #008000;">//</span><span style="color: #008000;">进行计数</span>
+<span style="color: #000000;">    }
+
+    </span><span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">0</span>;i&lt;=<span style="color: #800080;">10</span>;i++)  <span style="color: #008000;">//</span><span style="color: #008000;">依次判断a[0]~a[10]</span>
+        <span style="color: #0000ff;">for</span>(j=<span style="color: #800080;">1</span>;j&lt;=a[i];j++)  <span style="color: #008000;">//</span><span style="color: #008000;">出现了几次就打印几次</span>
+            printf(<span style="color: #800000;">"</span><span style="color: #800000;">%d </span><span style="color: #800000;">"</span><span style="color: #000000;">,i);
+
+    getchar();getchar(); 
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">这里的getchar();用来暂停程序，以便查看程序输出的内容
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">也可以用system("pause");等来代替</span>
+    <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="aha_arithmetic_barrel/copycode.gif" alt="复制代码"></a></span></div></div>
+</div>
+<div align="left">输入数据为</div>
+<div align="left">
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">5</span> <span style="color: #800080;">3</span> <span style="color: #800080;">5</span> <span style="color: #800080;">2</span> <span style="color: #800080;">8</span></pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div align="left">&nbsp; &nbsp; &nbsp; 仔细观察的同学会发现，刚才实现的是从小到大排序。但是我们要求是从大到小排序，这该怎么办呢？还是先自己想一想再往下看哦。</div>
+<div align="left">&nbsp;</div>
+<div align="left">　　其实很简单。只需要将for(i=0;i&lt;=10;i++)改为for(i=10;i&gt;=0;i--)就OK啦，快去试一试吧。</div>
+<div align="left">&nbsp;</div>
+<div align="left">　　这种排序方法我们暂且叫他“桶排序”。因为其实真正的桶排序要比这个复杂一些，以后再详细讨论，目前此算法已经能够满足我们的需求了。</div>
+<div align="left">&nbsp;</div>
+<div align="left">　　这个算法就好比有11个桶，编号从0~10。每出现一个数，就将对应编号的桶中的放一个小旗子，最后只要数数每
+个桶中有几个小旗子就OK了。例如2号桶中有1个小旗子，表示2出现了一次；3号桶中有1个小旗子，表示3出现了一次；5号桶中有2个小旗子，表示5出现
+了两次；8号桶中有1个小旗子，表示8出现了一次。</div>
+<div align="left">
+<div align="center"><img id="aimg_1775" class="zoom" src="aha_arithmetic_barrel/113324mbblb83a3ij09lqf.png" alt="" width="598">&nbsp;</div>
+<div align="center">&nbsp;</div>
+</div>
+<div align="left">　　现在你可以请尝试一下输入n个0~1000之间的整数，将他们从大到小排序。提醒一下如果需要对数据范围在
+0~1000之间的整数进行排序，我们需要1001个桶，来表示0~1000之间每一个数出现的次数，这一点一定要注意。另外此处的每一个桶的作用其实就
+是“标记”每个数出现的次数，因此我喜欢将之前的数组a换个更贴切的名字book（book这个单词有记录、标记的意思），代码实现如下。</div>
+<div align="left">
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="aha_arithmetic_barrel/copycode.gif" alt="复制代码"></a></span></div>
+<pre>#include &lt;stdio.h&gt;
+<span style="color: #0000ff;">int</span><span style="color: #000000;"> main()
+{
+    </span><span style="color: #0000ff;">int</span> book[<span style="color: #800080;">1001</span><span style="color: #000000;">],i,j,t,n;
+    </span><span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">0</span>;i&lt;=<span style="color: #800080;">1000</span>;i++<span style="color: #000000;">)
+        book[i]</span>=<span style="color: #800080;">0</span><span style="color: #000000;">; 
+    scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;n);<span style="color: #008000;">//</span><span style="color: #008000;">输入一个数n，表示接下来有n个数</span>
+    <span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1</span>;i&lt;=n;i++)<span style="color: #008000;">//</span><span style="color: #008000;">循环读入n个数，并进行桶排序</span>
+<span style="color: #000000;">    {
+        scanf(</span><span style="color: #800000;">"</span><span style="color: #800000;">%d</span><span style="color: #800000;">"</span>,&amp;t);  <span style="color: #008000;">//</span><span style="color: #008000;">把每一个数读到变量t中</span>
+        book[t]++;  <span style="color: #008000;">//</span><span style="color: #008000;">进行计数，对编号为t的桶放一个小旗子</span>
+<span style="color: #000000;">    }
+    </span><span style="color: #0000ff;">for</span>(i=<span style="color: #800080;">1000</span>;i&gt;=<span style="color: #800080;">0</span>;i--)  <span style="color: #008000;">//</span><span style="color: #008000;">依次判断编号1000~0的桶</span>
+        <span style="color: #0000ff;">for</span>(j=<span style="color: #800080;">1</span>;j&lt;=book[i];j++)  <span style="color: #008000;">//</span><span style="color: #008000;">出现了几次就将桶的编号打印几次</span>
+             printf(<span style="color: #800000;">"</span><span style="color: #800000;">%d </span><span style="color: #800000;">"</span><span style="color: #000000;">,i);
+
+    getchar();getchar();
+    </span><span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+}</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="aha_arithmetic_barrel/copycode.gif" alt="复制代码"></a></span></div></div>
+</div>
+<div align="left">　　可以输入以下数据进行验证</div>
+<div class="blockcode">
+<div id="code_Z35">
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">10</span>
+<span style="color: #800080;">8</span> <span style="color: #800080;">100</span> <span style="color: #800080;">50</span> <span style="color: #800080;">22</span> <span style="color: #800080;">15</span> <span style="color: #800080;">6</span> <span style="color: #800080;">1</span> <span style="color: #800080;">1000</span> <span style="color: #800080;">999</span> <span style="color: #800080;">0</span></pre>
+</div>
+</div>
+</div>
+<div align="left">　　运行结果是</div>
+<div align="left">
+<div class="cnblogs_code">
+<pre><span style="color: #800080;">1000 999 100 50 22 15 8 6 1 0<br></span></pre>
+</div>
+</div>
+<div align="left">　　最后来说下时间复杂度的问题。代码中第6行的循环一共循环了m次（m为桶的个数），第9行的代码循环了n次（n为待排序数的个数），第14和15行一共循环了m+n次。所以整个排序算法一共执行了m+n+m+n次。我们用大写字母O来表示时间复杂度，因此该算法的时间复杂度是O(m+n+m+n)即O(2*(m+n))。我们在说时间复杂度时候可以忽略较小的常数，最终桶排序的时间复杂度为O(m+n)。还有一点，在表示时间复杂度的时候，n和m通常用大写字母即O(M+N)。</div>
+<p>&nbsp;</p>
+<div align="left">　　这是一个非常快的排序算法。桶排序从1956年就开始被使用，该算法的基本思想是由E.J.Issac和R.C.Singleton提出来。之前我有说过，其实这并不是真正的桶排序算法，真正的桶排序算法要比这个更加复杂。但是考虑到此处是算法讲解的第一篇，我想还是越简单易懂越好，真正的桶排序留在以后再聊吧。需要说明一点的是：我们目前学习的简化版桶排序算法其本质上还不能算是一个真正意义上的排序算法。为什么呢？例如遇到下面这个例子就没辙了。</div>
+<p>&nbsp;</p>
+<div align="left"><span>　　</span>现在分别有5个人的名字和分数：huhu 5分、haha 3分、xixi 5分、hengheng 2分和gaoshou 8分。请按照分数从高到低，输出他们的名字。即应该输出gaoshou、huhu、xixi、haha、hengheng。发现问题了没有？如果使用我们刚才简化版的桶排序算法仅仅是把分数进行了排序。最终输出的也仅仅是分数，但没有对人本身进行排序。也就是说，我们现在并不知道排序后的分数原本对应着哪一个人！这该怎么办呢？不要着急请看下节——<a href="http://www.cnblogs.com/ahalei/p/3561945.html">冒泡排序</a>。</div>
+<div align="left">&nbsp;</div>
+<div align="left">码字不容易啊，转载请标明出处^_^</div>
+<div align="left"><span style="font-size: 14px; line-height: 1.5;">【一周一算法】算法1：最快最简单的排序——桶排序</span></div>
+<div align="left"><a class="gj_safe_a" href="http://bbs.ahalei.com/thread-4399-1-1.html" target="_blank">http://bbs.ahalei.com/thread-4399-1-1.html</a><em id="__mceDel">(出处: 啊哈磊_编程从这里起步)</em></div></div><div id="MySignature"></div>
+<div class="clear"></div>
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-02-23 14:38</span> <a href="http://www.cnblogs.com/ahalei/">啊哈磊</a> 阅读(<span id="post_view_count">2081</span>) 评论(<span id="post_comment_count">23</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3561919" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(3561919);return false;">收藏</a></div>
+	</div>
+
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+
+	</div><!--end: main -->
+<!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>timestamp类型字段的CURRENT_TIMESTAMP与ON UPDATE CURRENT_TIMESTAMP属性 </title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>提高网站访问速度的方法汇总</h1>
+   
+          <div class="description"></div>
+      </header>
+        <section class="content">
+<p>以下方法都有在公司实际项目中应用，的确能够提升客户端体验和访问速度。</p>
+<p><strong>1、建议客户端使用Chrome或高版本IE浏览器；</strong></p>
+<p><strong>2、能够实现静态化的页面尽量在服务器端保存静态页面，访问动态页面肯定会比静态页面慢。</strong></p>
+<p><strong>3、减少HTTP请求</strong></p>
+<p>&nbsp; &nbsp; &nbsp;1）合并压缩js、css，可以使用前端自动化构建工具。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 例如：grunt（使用说明：http://www.cnblogs.com/wangfupeng1988/p/4561993.html）、gulp 、</p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 很不错的google在线js压缩工具：http://closure-compiler.appspot.com/home</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" src="../img/html_quick/211334339566764.png"></span></p>
+<p>&nbsp; &nbsp; 2） 使用精灵图，将一些小图标做成一张图片，再使用CSS进行定位。</p>
+<p>&nbsp; &nbsp; 3） 使用Iconfont，优点占用资源小，可以和字体一样设置大小和颜色。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 推荐两个免费的iconfont下载地址：http://www.flaticon.com &nbsp;<span style="line-height: 1.5;">&nbsp;</span><span style="line-height: 1.5;">http://www.iconfont.cn</span><span style="line-height: 1.5;">&nbsp;</span></p>
+<p><span style="line-height: 1.5;">&nbsp; &nbsp; 4） 移动端页面利用CSS3(圆角、阴影、渐变、透明等)替换不必要图片。</span></p>
+<p><strong><span style="line-height: 1.5;">4、使用内容发布系统CDN</span></strong></p>
+<p>&nbsp; &nbsp; &nbsp; 将一些访问量较大的静态资源放在CDN服务上，另外国内各大互联网公司都有免费提供常用JS框架。</p>
+<p>&nbsp; &nbsp; &nbsp; 例如：http://cdn.code.baidu.com/</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;http://www.bootcdn.cn/</p>
+<div class="cnblogs_code">
+<pre>&lt;script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;window.jQuery || document.write('&lt;script src="js/vendor/jquery-1.9.0.min.js"&gt;&lt;\/script&gt;')&lt;/script&gt;</pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>5、静态资源客户端缓存</strong></p>
+<p>&nbsp; &nbsp; &nbsp;将静态资源（例如：图片、js、css）在客户端进行缓存，该效果非常明显，性能可以提升50%以上。</p>
+<p>&nbsp; &nbsp; &nbsp;<img alt="" src="../img/html_quick/211358215357798.png"></p>
+<p>&nbsp; &nbsp; &nbsp;<strong>IIS中设置方法：</strong></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;1）打开“HTTP响应标头”</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" src="../img/html_quick/211402373163575.png"></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;2）设置常用标头</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" src="../img/html_quick/211403071282982.png"></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;3）设置静态内容缓存时间</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" src="../img/html_quick/211403464563497.png"></p>
+<p>&nbsp; &nbsp;&nbsp;<strong>Apache 设置方法：</strong></p>
+<p><strong>&nbsp; &nbsp; </strong><em>具体设置方法可以参照：http://www.maixj.net/wangzhan/shezhiwangyejingtaineironghuancunshijian-1187</em></p>
+<p><strong>&nbsp; &nbsp;&nbsp;</strong>开启LoadModule expires_module modules/mod_expires.so模块</p>
+<p>&nbsp; &nbsp; 然后，在httpd.conf中添加如下内容：</p>
+<div class="cnblogs_code">
+  <div class="cnblogs_code_toolbar"></div>
+<pre>&lt;IfModule mod_expires.c&gt;
+<span style="color: #008000;">#</span><span style="color: #008000;"> enable expirations</span>
+<span style="color: #000000;">ExpiresActive On
+ExpiresDefault A2592000
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> expire images after a month in the client's cache</span>
+ExpiresByType image/<span style="color: #000000;">gif A2592000
+ExpiresByType image</span>/<span style="color: #000000;">jpg A2592000
+ExpiresByType image</span>/<span style="color: #000000;">jpeg A2592000
+ExpiresByType image</span>/<span style="color: #000000;">png A2592000
+</span><span style="color: #008000;">#</span><span style="color: #008000;"> css/js</span>
+ExpiresByType text/css "access plus 4 weeks"<span style="color: #000000;">
+ExpiresByType text</span>/javascript "access plus 4 weeks"
+<span style="color: #008000;">#</span><span style="color: #008000;"> html</span>
+ExpiresByType text/html "access plus 2 days"
+&lt;/IfModule&gt;</pre>
+<div class="cnblogs_code_toolbar"></div></div>
+<p>&nbsp;</p>
+<p><strong>6、Link样式标签应放在Head标签中，否则IE浏览器可能加载时会白屏</strong></p>
+<p><strong>7、<strong>js文件</strong>引用放在页面底部&lt;/body&gt;标签内</strong></p>
+<p><strong>8、将js和css放到外部文件中，这样通过静态文件缓存，可以有效减少html页面的大小</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p>&nbsp;</p>
+
+
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+
+
+</head>
+
+<body>
+
+<div id="container">
+
+  <div id="wrapper">
+        <div id="content">
+
+<div id="post_detail">
+<div id="post" class="post">
+    <a name="top"></a>
+    <h2><a href="http://www.cnblogs.com/kenshincui/p/3861300.html" id="cb_post_title_url">iOS开发系列&mdash;Objective-C之基础概览</a></h2>
+    <small>2014-07-22 20:22 by KenshinCui, <span id="post_view_count">24232</span> 阅读, <span id="post_comment_count">8</span> 评论, <a onclick="AddToWz(3861300);return false;" href="#">收藏</a>,  <a rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?postid=3861300">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><h1 id="autoid-0-0-0">概览</h1> <p>前面我们已经用了几章内容进行C语言介绍，当然要通过几篇文章完整的介绍C语言的知识是不太现实的，例如C语言的文件操作、内存申请等我们都没有重点介绍，当然核心知识点基本都已经提到了，后面有时间我们会继续扩充。今天我们正式开始学习Objective-C，以后简称“ObjC”，ObjC是在C语言的基础上加上了一层面向对象的特性，它完全兼容C语言，甚至可以混写C++。它是Mac OS X和IOS的主要开发语言，从IOS发布之后可以说ObjC的地位呈直线上升趋势，当前ObjC已经是仅次于C语言、Java的第三大编程语言。今天我们先简单的看一下C语言的一些基础内容：</p> <ol> <li><a href="#firstOC">第一个ObjC程序</a>  </li><li><a href="#dataType">基本数据类型</a></li></ol> <h1 id="firstOC">第一个ObjC程序</h1> <p>打开Xcode，创建一个新项目</p> <p><a href="ios_helloworld/222021429328099.png"><img width="802" height="470" border="0" src="ios_helloworld/222021439001171.png" alt="Xcode" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Xcode"></a> </p> <p>选择命令行程序</p> <p><a href="ios_helloworld/222021444166313.png"><img width="730" height="430" border="0" src="ios_helloworld/222021449634214.png" alt="CommandLine" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="CommandLine"></a> </p> <p>选择程序语言为Ojbective-C并输入项目名称</p> <p><a href="ios_helloworld/222021453853683.png"><img width="730" height="430" border="0" src="ios_helloworld/222021457602869.png" alt="ProjectName" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="ProjectName"></a> </p> <p>选择保存目录</p> <p><a href="ios_helloworld/222021461827039.png"><img width="712" height="554" border="0" src="ios_helloworld/222021466353968.png" alt="SelectFolder" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="SelectFolder"></a> </p> <p>默认生成一个基本的项目结构</p> <p><a href="ios_helloworld/222021475571053.png"><img width="960" height="613" border="0" src="ios_helloworld/222021479948453.png" alt="Program" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="Program"></a> </p> <p>程序源代码</p><pre class="code"><span style="color: green;">//
+//  main.m
+//  Basics
+//
+//  Created by Kenshin Cui on 14-2-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    @autoreleasepool {
+        </span><span style="color: green;">// insert code here...
+        </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"Hello, World!"</span><span style="color: black;">);
+    }
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<p>上面是通过Xcode创建的第一个ObjC程序，这是一个经典的“Hello,World！”。运行结果如下：</p>
+<p><a href="ios_helloworld/222021484475382.png"><img width="595" height="141" border="0" src="ios_helloworld/222021487446824.png" alt="RunResult" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="RunResult"></a> </p>
+<p>下面对上面的代码做一下简单解释：</p>
+<ol>
+<li>首先#import是一个导入命令，类似于C语言的#include命令，但是相对于#include而言，#import有效的处理了重复导入的问题，在C语言中也提到过如何通过条件编译解决重复导入，而在ObjC中你不需要处理了，#import已经自动进行了重复处理；与#include类似，导入系统类库使用&lt;&gt;，导入自定义类库使用””； 
+</li><li>Foundation.h是Foundation框架中的头文件，这是ObjC中的一个基础类库，基本上后面我们用到的所有ObjC的代码都需要引入这个类库； 
+</li><li>@autoreleasepool是ObjC的关键字，它的作用是对包含在这个关键字后面大包括内的程序会自动进行内存回收，不需要开发人员手动释放无用的对象；当然表面上看起来这有点类似于C#和Java的内存垃圾回收机制，但是事实上他们的原理完全不同，以后再做具体解释。 
+</li><li>NSLog是标准输出函数，类似于C语言中的printf()函数，但是它会自动换行，当然它同样支持格式输出（例如%i表示输出整形数据，%f输出浮点型数据），这个函数在Fundation.h中声明； 
+</li><li>@”Hello,World!”,是一个字符串常量，在ObjC中字符串前需要使用@符号；</li></ol>
+<p>&nbsp;</p>
+<h2 id="autoid-2-0-0">扩展--OjbC语法特点</h2>
+<ul>
+<li>ObjC中没有命名空间(C#)或包（Java）的概念，那也就是说在同一个应用中不能同时存在两个完全相同的类名，通常情况下我们通过前缀加以区分，例如在ObjC中的NSString、NSLog中的NS就是前缀。 </li></ul>
+
+<blockquote>
+<p>NS其实是NeXTSTEP缩写，是乔布斯离开苹果后在NeXT公司所开发的系统，这个操作系统在当时虽然没有获得广泛认同，但是却为后面Mac OX奠定了基础。</p></blockquote>
+
+<ul>
+<li>ObjC中很多关键字都是以@开头（例如@autoreleasepool、@interface、@protocol），另外需要注意的是为了区分C语言中的字符串，ObjC中的字符串也必须加上@。 </li></ul>
+<h1 id="dataType">基本数据类型</h1>
+<p>在ObjC中的基本数据类型除了C语言中的char、int、float、double之外还有：</p>
+<ol>
+<li>BOOL类型，包含两个值YES和NO，其实ObjC中的布尔类型就是整数1和0； 
+</li><li>id类型，是一个对象类型，可以表示所有对象； 
+</li><li>NSString是Fundation框架中定义的字符串类型；</li></ol><pre class="code"><span style="color: green;">//
+//  main.m
+//  Basics
+//
+//  Created by Kenshin Cui on 14-2-1.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#import </span><span style="color: rgb(163, 21, 21);">&lt;Foundation/Foundation.h&gt;
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    @autoreleasepool {
+        </span><span style="color: blue;">char </span><span style="color: black;">a=</span><span style="color: rgb(163, 21, 21);">'a'</span><span style="color: black;">;
+        </span><span style="color: blue;">int </span><span style="color: black;">b=1;
+        </span><span style="color: blue;">float </span><span style="color: black;">c=8.5;
+        </span><span style="color: blue;">double </span><span style="color: black;">d=8.5e+12;
+        </span><span style="color: blue;">char </span><span style="color: black;">e=</span><span style="color: rgb(163, 21, 21);">'a'</span><span style="color: black;">;
+        BOOL f=YES,g=NO;
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"a=%c,b=%i,c=%f,d=%f,e=%c,f=%i,g=%i"</span><span style="color: black;">,a,b,c,d,e,f,g);
+        </span><span style="color: green;">//结果：a=a,b=1,c=8.500000,d=8500000000000.000000,e=a,f=1,g=0
+        
+        </span><span style="color: black;">NSString *str=@</span><span style="color: rgb(163, 21, 21);">"Hello,World!"</span><span style="color: black;">;
+        NSLog(@</span><span style="color: rgb(163, 21, 21);">"str=%@"</span><span style="color: black;">,str); </span><span style="color: green;">//结果：str=Hello,World!
+        
+        </span><span style="color: black;">NSLog(@</span><span style="color: rgb(163, 21, 21);">"object=%p"</span><span style="color: black;">,nil);</span><span style="color: green;">//结果：object=0x0
+    </span><span style="color: black;">}
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}
+</span></pre>
+<p>关于上面id类型在这里不做过多的解释，后面我们会专门说到，下面列出常用格式符：</p>
+<p><a href="ios_helloworld/222021491661996.png"><img width="909" height="372" border="0" src="ios_helloworld/222021496356451.png" alt="格式化输出" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="格式化输出"></a></p>
+<p>&nbsp;</p>
+<blockquote>
+<p>注意</p>
+<p>1.在C或者ObjC中整形可以使用%i也可以使用%d来格式化，只有使用scanf()输入的时候二者才有区别（由于%d始终被编译器解释为decimal intergeer所以即使输入010会被认为是整形10，而%i则会将前面的0或者0x认为此输入是八进制或十六进制整数）;</p>
+<p>2.%p本质就是输出指针地址，在32位编译器下对于一个指针类型使用%x输出和%p输出其实是一样的，只是后者会在前面加上“ox”（注意在64位编译器下由于指针长度8byte，而整形只有4byte所以%x输出的内容只是%p的低位数据）；</p></blockquote></div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+        <div id="blog_post_info">
+          <div id="author_profile">
+            <div class="clear"></div>
+            <div id="author_profile_follow"></div>
+</div>
+        </div>
+        <div class="clear"></div>
+        
+    </div>
+</div>
+
+</div>
+
+</div>
+  </div>
+</div>
+</div>
+</body>
+</html>

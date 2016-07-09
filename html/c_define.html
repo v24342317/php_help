@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+
+
+</head>
+<body style="text-align:left">
+
+<div id="post_detail">
+<div id="post" class="post">
+    <a name="top"></a>
+    <h2><a href="http://www.cnblogs.com/kenshincui/p/3854242.html" id="cb_post_title_url">iOS开发系列--C语言之预处理</a></h2>
+    <small>2014-07-18 20:36 by KenshinCui, <span id="post_view_count">20168</span> 阅读, <span id="post_comment_count">6</span> 评论, <a onclick="AddToWz(3854242);return false;" href="#">收藏</a>,  <a rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?postid=3854242">编辑</a></small>
+    <div class="entry">
+      <div id="cnblogs_post_body"><h1 id="autoid-0-0-0">概述</h1> <p>大家都知道一个C程序的运行包括编译和链接两个阶段，其实在编译之前预处理器首先要进行预处理操作，将处理完产生的一个新的源文件进行编译。由于预处理指令是在编译之前就进行了，因此很多时候它要比在程序运行时进行操作效率高。在C语言中包括三类预处理指令，今天将一一介绍：</p> <ol> <li><a href="#macro">宏定义</a>  </li><li><a href="#conditional">条件编译</a>  </li><li><a href="#include">文件包含</a></li></ol> <h1 id="macro">宏定义</h1> <p>对于程序中经常用到的一些常量或者简短的函数我们通常使用宏定义来处理，这样做的好处是对于程序中所有的配置我们可以统一在宏定义中进行管理，而且由于宏定义是在程序编译之前进行替换相比定义成全局变量或函数效率更高。</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  Pretreatment
+//
+//  Created by Kenshin Cui on 14-6-28.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+</span><span style="color: blue;">#define </span><span style="color: black;">PI 3.14 </span><span style="color: green;">//宏定义一般大写
+</span><span style="color: blue;">#define </span><span style="color: black;">R 10
+</span><span style="color: blue;">#define </span><span style="color: black;">S 2*PI*R </span><span style="color: green;">//在另一个宏里面引用了上面的宏
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    </span><span style="color: blue;">float </span><span style="color: black;">r=10.5;
+    </span><span style="color: blue;">double </span><span style="color: black;">area=PI*r*r;
+    printf(</span><span style="color: rgb(163, 21, 21);">"area=%.2f\n"</span><span style="color: black;">,area);
+    
+    </span><span style="color: blue;">double </span><span style="color: black;">a=S;
+    printf(</span><span style="color: rgb(163, 21, 21);">"a=%.2f\n"</span><span style="color: black;">,a);
+    printf(</span><span style="color: rgb(163, 21, 21);">"PI=3.14\n"</span><span style="color: black;">);</span><span style="color: green;">//注意输出结果不是3.14=3.14而是PI=3.14，字符串中的PI并不会被替换
+</span><span style="color: blue;">#undef </span><span style="color: black;">PI </span><span style="color: green;">//强制终止宏定义，否则它的范围一直到文件结束
+    </span><span style="color: blue;">int </span><span style="color: black;">PI=3.1415926;
+    </span><span style="color: blue;">double </span><span style="color: black;">area2=PI*r*r;
+    printf(</span><span style="color: rgb(163, 21, 21);">"area2=%.2f\n"</span><span style="color: black;">,area2);
+    
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>
+<p>宏定义实际的操作就是在预处理时进行对应替换，这个阶段不管语法是否正确，而且对于字符串中出现的宏名不会进行替换。宏定义的功能事实上是非常强大的，除了简单的常量替换还可以传入参数：</p><pre class="code"><span style="color: green;">//
+//  1.2.c
+//  Pretreatment
+//
+//  Created by Kenshin Cui on 14-7-17.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+</span><span style="color: blue;">#define </span><span style="color: black;">SUM(a,b) a+b
+</span><span style="color: blue;">#define </span><span style="color: black;">SUB(a,b) (a-b)
+</span><span style="color: blue;">#define </span><span style="color: black;">MUL (a,b) (a*b) </span><span style="color: green;">//这么定义是错误的，预处理器会认为宏名为”MUL“,替换内容为”(a,b) (a*b)“
+
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    
+    </span><span style="color: blue;">int </span><span style="color: black;">a=2,b=3,c,d;
+    c=SUM(a, b);
+    printf(</span><span style="color: rgb(163, 21, 21);">"c=%d\n"</span><span style="color: black;">,c); </span><span style="color: green;">//结果：c=5
+    </span><span style="color: black;">d=SUM(a, b)*2;
+    printf(</span><span style="color: rgb(163, 21, 21);">"d=%d\n"</span><span style="color: black;">); </span><span style="color: green;">//结果：8,为什么不是10呢？因为替换后：d=a+b*2也就是2+3*2=8
+    
+    </span><span style="color: blue;">int </span><span style="color: black;">e=SUB(b, a)*2;
+    printf(</span><span style="color: rgb(163, 21, 21);">"(b-a)*2=%d\n"</span><span style="color: black;">,e); </span><span style="color: green;">//结果：2,如果SUB定义时不加括号这里应该是-1
+    
+    </span><span style="color: blue;">return </span><span style="color: black;">0;
+}</span></pre>上面我们可以看出带参数的宏功能很强大，有点类似于函数，同函数不同的是它只是简单的替换，不涉及存储空间分配，参数、返回值等问题，但是由于它在预处理阶段展开，所以一般效率较高。使用带参数的宏需要注意的就是结果最好用括号括起来否则很容易出现问题（在上面的SUM例子中我们应该已经看到了）；还有一点就是带参数的宏定义时名称和参数之间不要有空格。 
+<h1 id="conditional">条件编译</h1>
+<p>条件编译其实就是在编译之前预处理器根据预处理指令判断对应的条件，如果条件满足就将对应的代码编译进去，否则代码就根本不进入编译环节（相当于根本就没有这段代码）。</p><pre class="code"><span style="color: green;">//
+//  main.c
+//  Pretreatment
+//
+//  Created by Kenshin Cui on 14-06-28.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="color: blue;">#include </span><span style="color: rgb(163, 21, 21);">&lt;stdio.h&gt;
+</span><span style="color: blue;">#define </span><span style="color: black;">COUNT 1
+
+</span><span style="color: blue;">int </span><span style="color: black;">main(</span><span style="color: blue;">int </span><span style="color: black;">argc, </span><span style="color: blue;">const char </span><span style="color: black;">* argv[]) {
+    
+</span><span style="color: green;">//判断是否定义了 COUNT 宏
+</span><span style="color: blue;">#if defined</span><span style="color: black;">(COUNT) </span><span style="color: green;">//等价于：#ifdef COUNT,相反如果判断没有定义过则可以通过#if !defined(COUNT)或者#ifndef COUNT
+    </span><span style="color: black;">printf(</span><span style="color: rgb(163, 21, 21);">"COUNT defined\n"</span><span style="color: black;">);
+</span><span style="color: blue;">#endif
+    
+</span><span style="color: green;">//判断宏定义COUNT是否等于1
+</span><span style="color: blue;">#if </span><span style="color: black;">COUNT==1
+    showMessage(</span><span style="color: rgb(163, 21, 21);">"hello,world!\n"</span><span style="color: black;">);
+</span><span style="color: blue;">#else
+    </span><span style="color: black;">say();
+</span><span style="color: blue;">#endif
+    
+    return </span><span style="color: black;">0;
+}
+</span></pre>
+<h1 id="include">文件包含</h1>
+<p>文件包含指令#include在前面也多次使用过，这里再次强调一下。首先使用#include“xxx”包含和使用#include &lt;xxx&gt;包含的不同之处就是使用&lt;&gt;包含时，预处理器会搜索C函数库头文件路径下的文件，而使用“”包含时首先搜索程序所在目录，其次搜索系统Path定义目录，如果还是找不到才会搜索C函数库头文件所在目录。</p>
+<p>另外在使用#include的时候我们需要注意包含文件的时候是不能递归包含的，例如a.h文件包含b.h，而b.h就不能再包含a.h了；还有就是重复包含虽然是允许的（这里指的是重复包含头文件）但是这会降低编译性能，不妨看一下下面的例子：</p>
+<p><a href="ios_helloworld/182035388189767.png"><img width="800" height="930" border="0" src="ios_helloworld/182035394435409.png" alt="includeRepeat" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="includeRepeat"></a> </p>
+<p>上面有三段代码，在main.c和person.h中都包含了message.h而main.c自身又包含了person.h,这样程序在预处理阶段会对包含内容进行替换，替换后mian.c中包含了两个#include “message.h”虽然没有报错，但这会影响编译的性能，正确的做法应该是这样的：</p>
+<p><a href="ios_helloworld/182035402567293.png"><img width="800" height="550" border="0" src="ios_helloworld/182035408654409.png" alt="correctInclude" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" title="correctInclude"></a> </p>
+
+
+<p>其实就是用宏定义判断一个宏是否定义了，如果没有定义则会定义这个宏，这样以来如果已经包含过则这个宏定义肯定已经定义过了，即使再包含也不会重新定义了，下面的代码也就不会包含进去。</p></div>
+    </div>
+</div>
+
+
+</div>
+
+</body>
+</html>

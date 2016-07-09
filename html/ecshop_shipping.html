@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>判断请求类型</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>ecshop添加配送方式</h1>
+            <div class="description"></div>
+        </header>
+        <section class="content">
+          <p>&nbsp;</p>
+          <p>步骤1.打开includes\modules\shipping文件夹，把sto_express.php复制多一份，重名为tt_express.php；</p>
+          <p>步骤2.打开tt_express.php，ctrl+F调出&ldquo;查找替换框&rdquo;将所有&ldquo;sto_express.php&rdquo;替换成&ldquo;tt_express.php&rdquo; ，所有&ldquo;申通快递&rdquo;替换成&ldquo;天天快递&rdquo;；；（有图片在第二部修改）</p>
+          <p>步骤3.打开languages\zh_cn\shipping文件夹，把sto_express.php复制多一份，重命名为tt_express.php；</p>
+          <p>
+            骤4.再将打开我们重命名好的tt_express.php，ctrl+F调出&ldquo;查找替换框&rdquo;将所有&ldquo;sto_express.php&rdquo;替换成<br>
+            &ldquo;tt_express.php&rdquo; ，所有&ldquo;申通快递&rdquo;替换成&ldquo;天天快递&rdquo;；；（说明：步骤3.4是创建中文语言包，如果需要创建英文和繁体的语言包，请<br>
+            自行打开languages\en_us\shipping和languages\zh_tw\shipping进行步骤3.4的操作）</p>
+          <p>还需再修改：第16行：$_LANG['sto_express']            = '申通快递';</p>
+          <p>改为：$_LANG['tt_express']            = '韵达快递';</p>
+          <p>步骤5.Includes/inc_constant.php第237行加上相应如&ldquo; |tt_express   &rdquo;</p>
+          <p>==原程序为：</p>
+          <p>/* 配送方式 */</p>
+          
+                              <pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">define('SHIP_LIST', 'cac|city_express|ems|flat|fpd|post_express|post_mail|presswork|sf_express|sto_express|yto|zto');</span></code></li></ol></pre>
+                              
+          <p>==修改后程序为：</p>
+          
+                    <pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">define('SHIP_LIST', 'cac|city_express|ems|flat|fpd|post_express|post_mail|presswork|sf_express|sto_express| tt_express|yto|zto');</span></code></li></ol></pre>
+          
+          <p>步骤6. useradmin\templates\shipping_area_info.ht第12行加上相应如&ldquo; || $shipping_area.shipping_code =='tt_express'  &rdquo;</p>
+          <p>==原程序为：</p>
+ 
+          <pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">{if $shipping_area.shipping_code =='ems' || $shipping_area.shipping_code =='yto' || $shipping_area.shipping_code =='zto' || $shipping_area.shipping_code =='sto_express' || $shipping_area.shipping_code =='post_mail' || $shipping_area.shipping_code =='sf_express' || $shipping_area.shipping_code =='post_express' }</span></code></li></ol></pre>
+          
+          <p>==修改后程序为：</p>
+          
+                    <pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">{if $shipping_area.shipping_code =='ems' || $shipping_area.shipping_code =='yto' || $shipping_area.shipping_code =='zto' || $shipping_area.shipping_code =='sto_express' || $shipping_area.shipping_code =='post_mail' || $shipping_area.shipping_code =='sf_express' || $shipping_area.shipping_code =='tt_express' ||$shipping_area.shipping_code =='post_express' }</span></code></li></ol></pre>
+          
+          <p>步骤7. 进入后台更新网站缓存，完成插件添加。</p>
+        </section>
+    </article>
+</section> 
+</body>
+</html>

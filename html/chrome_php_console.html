@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html><head>
+<title>PHP Console工具使用分享  - OPEN 开发经验库</title>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<meta name="robots" content="index,follow">
+<meta name="keywords" content="PHP Console,PHP开发">
+<meta name="description" content="PHP Console工具使用分享 ">
+<link rel="shortcut icon" href="http://www.open-open.com/lib/favicon.ico">
+<link rel="copyright" href="http://www.open-open.com/">
+
+
+
+<link type="text/css" rel="stylesheet" href="chrome_php_console/shCore.css">
+<link type="text/css" rel="stylesheet" href="chrome_php_console/shCoreRDark.css">
+ 
+
+<style type="text/css">
+ 
+.search {
+	margin: 8px 0 0 0;
+	overflow: hidden;
+}
+.search .TXT {
+	float: left;
+}
+
+.search .BTN {
+	float: left;
+	font-size: 10.5pt;
+	color: #999;
+	background: #3385FF;
+	border: 0;
+	color: #fff;
+	height: 32px;
+	padding: 0 10px;
+	cursor: pointer;
+	border-bottom: 1px solid #2D78F4;
+}
+
+.search .BTN:hover {
+	background:#2D78F4;
+	color:#fff;
+}
+  </style>
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="chrome_php_console/bdsstyle.css"></head>
+<body id="view"></div>
+<!--end top nav-->
+<div id="head">
+  <div id="head-ad">
+    
+</div>
+
+</div>
+<!-- end head -->
+
+<div id="content">
+  <div id="view-main">
+    
+    
+  <div id="view-titleh">
+<div id="view-title">
+	<h3>PHP Console工具使用分享 </h3>
+</div>
+<div id="view-summary"></div>
+
+</div>
+
+
+<div id="readercontainer"><a name="_labelTop"></a><div id="navCategory" style="border-bottom:1px #dfdfdf solid;margin-bottom:5px"><p style="font-size:18px;margin:0"><b>阅读目录</b></p><ul><li><a href="#_label0">功能介绍</a></li><li><a href="#_label1">Demo</a></li><li><a href="#_label2">原理介绍</a></li><li><a href="#_label3">附录</a></li></ul></div>
+
+<!-- openlibview -->
+<div id="toc"></div>
+<!-- google_ad_section_start -->
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">PHP Console：<a style="outline-style:none;outline-color:invert;outline-width:medium;color:#2b73b7;text-decoration:none;" class="urlextern" title="https://github.com/barbushin/php-console#php-console-server-library" href="https://github.com/barbushin/php-console#php-console-server-library" rel="nofollow" target="_blank">https://github.com/barbushin/php-console#php-console-server-library</a></p>
+<div style="text-align: right"><a name="_label0"></a></div><h2 style="padding-bottom:0px;line-height:1.2;margin:0px 0px 0.66em;padding-left:0px;padding-right:0px;font-family:Arial,sans-serif;color:#333333;clear:left;padding-top:0px;" id="功能介绍" class="sectionedit2"><a name="t0"></a>功能介绍</h2>
+<div style="padding-bottom:0px;line-height:19px;margin:0px;padding-left:0px;padding-right:0px;font-family:Arial,sans-serif;font-size:14px;padding-top:0px;" class="level2">
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;"><strong><span style="color:#ff0000;">PHP Console工具和FirePHP功能相似</span></strong><span style="color:#333333;">，提供以下功能：</span></p>
+<blockquote style="border-bottom:#cccccc 0px solid;border-left:#cccccc 0.25em solid;padding-bottom:0px;margin:0px 0px 1.4em;padding-left:0.5em;padding-right:0.5em;color:#333333;border-top:#cccccc 0px solid;border-right:#cccccc 0px solid;padding-top:0px;">
+<div style="padding-bottom:0px;margin:0px;padding-left:0px;padding-right:0px;display:inline;padding-top:0px;" class="no">Handle PHP errors, dump variables, execute PHP code remotely in Google Chrome</div>
+</blockquote>
+</div>
+<div style="text-align: right"><a href="#_labelTop">回到顶部</a><a name="_label1"></a></div><h2 style="padding-bottom:0px;line-height:1.2;margin:0px 0px 0.66em;padding-left:0px;padding-right:0px;font-family:Arial,sans-serif;color:#333333;clear:left;padding-top:0px;" id="demo" class="sectionedit3"><a name="t1"></a>Demo</h2>
+<div style="padding-bottom:0px;line-height:19px;margin:0px;padding-left:0px;padding-right:0px;font-family:Arial,sans-serif;color:#333333;font-size:14px;padding-top:0px;" class="level2">
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">首先在Chrome中安装PHP Console插件:</p>
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;"><a style="outline-style:none;outline-color:invert;outline-width:medium;color:#2b73b7;text-decoration:none;" class="urlextern" title="https://chrome.google.com/webstore/detail/php-console/nfhmhhlpfleoednkpnnnkolmclajemef" href="chrome_php_console/console.zip" rel="nofollow" target="_blank">下载zip包</a></p>
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">其次在PHP代码中引入PHP Console库，然后调用输出相应调试信息：</p>
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">如下例index2.php：</p>
+<div><div id="highlighter_580274" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php plain">&lt;?php</code></div><div class="line number2 index1 alt1"><code class="php spaces">&nbsp;</code>&nbsp;</div><div class="line number3 index2 alt2"><code class="php keyword">require_once</code><code class="php plain">(__DIR__ . </code><code class="php string">'/../src/PhpConsole/__autoload.php'</code><code class="php plain">);</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;</code>&nbsp;</div><div class="line number5 index4 alt2"><code class="php comments">// Call debug from PhpConsole\Handler</code></div><div class="line number6 index5 alt1"><code class="php variable">$handler</code> <code class="php plain">= PhpConsole\Handler::getInstance();</code></div><div class="line number7 index6 alt2"><code class="php variable">$handler</code><code class="php plain">-&gt;start();</code></div><div class="line number8 index7 alt1"><code class="php variable">$handler</code><code class="php plain">-&gt;debug(</code><code class="php string">'called from handler debug'</code><code class="php plain">, </code><code class="php string">'some.three.tags'</code><code class="php plain">);</code></div><div class="line number9 index8 alt2"><code class="php spaces">&nbsp;</code>&nbsp;</div><div class="line number10 index9 alt1"><code class="php variable">$array</code> <code class="php plain">= </code><code class="php keyword">array</code><code class="php plain">(</code></div><div class="line number11 index10 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php string">'test'</code> <code class="php plain">=&gt; 1,</code></div><div class="line number12 index11 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php string">'test2'</code> <code class="php plain">=&gt; 1,</code></div><div class="line number13 index12 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php string">'key'</code> <code class="php plain">=&gt; </code><code class="php keyword">array</code><code class="php plain">(</code></div><div class="line number14 index13 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">1, 2, 3, 4,</code></div><div class="line number15 index14 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">),&nbsp; </code></div><div class="line number16 index15 alt1"><code class="php plain">);</code></div><div class="line number17 index16 alt2"><code class="php variable">$handler</code><code class="php plain">-&gt;debug(</code><code class="php variable">$array</code><code class="php plain">, </code><code class="php string">'test.wiki.wade.zhan'</code><code class="php plain">);</code></div></div></td></tr></tbody></table></div></div> <p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">输出调试信息到控制台，如下图：</p>
+<p style="text-align:center;padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;"><img title="20141028202013805.png" alt="20141028202013805.png" src="chrome_php_console/20141117110608_711.png" height="556" border="0" width="839"></p>
+</div>
+<div style="text-align: right"><a href="#_labelTop">回到顶部</a><a name="_label2"></a></div><h2 style="padding-bottom:0px;line-height:1.2;margin:0px 0px 0.66em;padding-left:0px;padding-right:0px;font-family:Arial,sans-serif;color:#333333;clear:left;padding-top:0px;" id="原理介绍" class="sectionedit4"><a name="t2"></a>原理介绍</h2>
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">PHP Console工具通过将调试信息输出到http响应头PHP-Console，<span style="line-height:19px;font-family:Arial,sans-serif;color:#333333;font-size:14px;">然后PHP Console插件分析响应头PHP-Console字符串输出相应调试信息。</span></p>
+<p style="text-align:center;padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;"><img title="20141028202101906.png" alt="20141028202101906.png" src="chrome_php_console/20141117110616_323.png" height="433" border="0" width="1890"></p>
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;"></p>
+<div style="text-align: right"><a href="#_labelTop">回到顶部</a><a name="_label3"></a></div><h2 style="padding-bottom:0px;line-height:1.2;margin:0px 0px 0.66em;padding-left:0px;padding-right:0px;font-family:Arial,sans-serif;color:#333333;clear:left;padding-top:0px;" id="附录" class="sectionedit5"><a name="t3"></a>附录</h2>
+<div style="padding-bottom:0px;line-height:19px;margin:0px;padding-left:0px;padding-right:0px;font-family:Arial,sans-serif;color:#333333;font-size:14px;padding-top:0px;" class="level2">
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">PHP Console提供了通过密码来保护调试信息的功能，如下例，在服务器端设置密码：</p>
+<div><div id="highlighter_285734" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php plain">&lt;?php</code></div><div class="line number2 index1 alt1"><code class="php spaces">&nbsp;</code>&nbsp;</div><div class="line number3 index2 alt2"><code class="php keyword">require_once</code><code class="php plain">(__DIR__ . </code><code class="php string">'/../src/PhpConsole/__autoload.php'</code><code class="php plain">);</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;</code>&nbsp;</div><div class="line number5 index4 alt2"><code class="php variable">$password</code> <code class="php plain">= </code><code class="php string">'test'</code><code class="php plain">;</code></div><div class="line number6 index5 alt1"><code class="php variable">$connector</code> <code class="php plain">= PhpConsole\Connector::getInstance();</code></div><div class="line number7 index6 alt2"><code class="php variable">$connector</code><code class="php plain">-&gt;setPassword(</code><code class="php variable">$password</code><code class="php plain">);</code></div><div class="line number8 index7 alt1"><code class="php spaces">&nbsp;</code>&nbsp;</div><div class="line number9 index8 alt2"><code class="php comments">// Call debug from PhpConsole\Handler</code></div><div class="line number10 index9 alt1"><code class="php variable">$handler</code> <code class="php plain">= PhpConsole\Handler::getInstance();</code></div><div class="line number11 index10 alt2"><code class="php variable">$handler</code><code class="php plain">-&gt;start();</code></div><div class="line number12 index11 alt1"><code class="php variable">$handler</code><code class="php plain">-&gt;debug(</code><code class="php string">'called from handler debug'</code><code class="php plain">, </code><code class="php string">'some.three.tags'</code><code class="php plain">);</code></div><div class="line number13 index12 alt2"><code class="php spaces">&nbsp;</code>&nbsp;</div><div class="line number14 index13 alt1"><code class="php variable">$array</code> <code class="php plain">= </code><code class="php keyword">array</code><code class="php plain">(</code></div><div class="line number15 index14 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php string">'test'</code> <code class="php plain">=&gt; 1,</code></div><div class="line number16 index15 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php string">'test2'</code> <code class="php plain">=&gt; 1,</code></div><div class="line number17 index16 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php string">'key'</code> <code class="php plain">=&gt; </code><code class="php keyword">array</code><code class="php plain">(</code></div><div class="line number18 index17 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">1, 2, 3, 4,</code></div><div class="line number19 index18 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">),&nbsp; </code></div><div class="line number20 index19 alt1"><code class="php plain">);</code></div><div class="line number21 index20 alt2"><code class="php variable">$handler</code><code class="php plain">-&gt;debug(</code><code class="php variable">$array</code><code class="php plain">, </code><code class="php string">'test.wiki.wade.zhan'</code><code class="php plain">);</code></div></div></td></tr></tbody></table></div></div> <p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">此时可以看到只有当客户端输入正确的密码：</p>
+<p style="text-align:center;padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;"><img title="20141028204037953.png" alt="20141028204037953.png" src="chrome_php_console/20141117110623_410.png" height="436" border="0" width="500"></p>
+<p style="padding-bottom:0px;margin-top:0px;margin-bottom:1.4em;padding-top:0px;">此时响应头部才会输出相应的调试信息：</p>
+<div><div id="highlighter_714237" class="syntaxhighlighter  shell"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="shell plain">HTTP</code><code class="shell plain">/1</code><code class="shell plain">.1 200 OK</code></div><div class="line number2 index1 alt1"><code class="shell plain">Server: Tengine</code><code class="shell plain">/2</code><code class="shell plain">.0.3</code></div><div class="line number3 index2 alt2"><code class="shell plain">Date: Tue, 28 Oct 2014 12:36:04 GMT</code></div><div class="line number4 index3 alt1"><code class="shell plain">Content-Type: text</code><code class="shell plain">/html</code></div><div class="line number5 index4 alt2"><code class="shell plain">Connection: keep-alive</code></div><div class="line number6 index5 alt1"><code class="shell plain">X-Powered-By: PHP</code><code class="shell plain">/5</code><code class="shell plain">.3.29</code></div><div class="line number7 index6 alt2"><code class="shell plain">PHP-Console-Postpone: {</code><code class="shell string">"protocol"</code><code class="shell plain">:5,</code><code class="shell string">"isPostponed"</code><code class="shell plain">:</code><code class="shell functions">true</code><code class="shell plain">,</code><code class="shell string">"id"</code><code class="shell plain">:</code><code class="shell string">"6957661441226218549514727634"</code><code class="shell plain">}</code></div><div class="line number8 index7 alt1"><code class="shell plain">PHP-Console: {</code><code class="shell string">"protocol"</code><code class="shell plain">:5,</code><code class="shell string">"auth"</code><code class="shell plain">:{</code><code class="shell string">"publicKey"</code><code class="shell plain">:</code><code class="shell string">"bf802ef9f6d61a5d4a720892a79bf8285d92c31c2a99be2931b504dc54eeb209"</code><code class="shell plain">,</code><code class="shell string">"isSuccess"</code><code class="shell plain">:</code><code class="shell functions">true</code><code class="shell plain">},</code><code class="shell string">"docRoot"</code><code class="shell plain">:</code><code class="shell string">"\/usr\/local\/wwwroot\/dokuwiki"</code><code class="shell plain">,</code><code class="shell string">"sourcesBasePath"</code><code class="shell plain">:null,</code><code class="shell string">"getBackData"</code><code class="shell plain">:null,</code><code class="shell string">"isLocal"</code><code class="shell plain">:</code><code class="shell functions">false</code><code class="shell plain">,</code><code class="shell string">"isSslOnlyMode"</code><code class="shell plain">:</code><code class="shell functions">false</code><code class="shell plain">,</code><code class="shell string">"isEvalEnabled"</code><code class="shell plain">:</code><code class="shell functions">false</code><code class="shell plain">,</code><code class="shell string">"messages"</code><code class="shell plain">:[{</code><code class="shell string">"type"</code><code class="shell plain">:</code><code class="shell string">"debug"</code><code class="shell plain">,</code><code class="shell string">"tags"</code><code class="shell plain">:[</code><code class="shell string">"some"</code><code class="shell plain">,</code><code class="shell string">"three"</code><code class="shell plain">,</code><code class="shell string">"tags"</code><code class="shell plain">],</code><code class="shell string">"data"</code><code class="shell plain">:</code><code class="shell string">"called from handler debug"</code><code class="shell plain">,</code><code class="shell string">"file"</code><code class="shell plain">:null,</code><code class="shell string">"line"</code><code class="shell plain">:null,</code><code class="shell string">"trace"</code><code class="shell plain">:null},{</code><code class="shell string">"type"</code><code class="shell plain">:</code><code class="shell string">"debug"</code><code class="shell plain">,</code><code class="shell string">"tags"</code><code class="shell plain">:[</code><code class="shell string">"test"</code><code class="shell plain">,</code><code class="shell string">"wiki"</code><code class="shell plain">,</code><code class="shell string">"wade"</code><code class="shell plain">,</code><code class="shell string">"zhan"</code><code class="shell plain">],</code><code class="shell string">"data"</code><code class="shell plain">:{</code><code class="shell string">"test"</code><code class="shell plain">:1,</code><code class="shell string">"test2"</code><code class="shell plain">:1,</code><code class="shell string">"key"</code><code class="shell plain">:[1,2,3,4]},</code><code class="shell string">"file"</code><code class="shell plain">:null,</code><code class="shell string">"line"</code><code class="shell plain">:null,</code><code class="shell string">"trace"</code><code class="shell plain">:null}]}</code></div><div class="line number9 index8 alt2"><code class="shell plain">Content-Length: 0</code></div></div></td></tr></tbody></table></div></div>来自：http://blog.csdn.net/billfeller/article/details/40554625</div>
+
+
+</div>
+
+<div style="margin-top: 10px;margin-bottom: 2px;">
+</div>
+<div style="margin-top: 10px;margin-bottom: 10px;">
+  <div id="baiduad1" style="margin-bottom: 5px;">
+</div>	
+
+</div>
+
+
+
+<div style="margin-top: 10px;margin-bottom: 10px;">
+</div>	
+	
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div aria-labelledby="ui-dialog-title-favorite-box" role="dialog" tabindex="-1" class="ui-dialog ui-widget ui-widget-content ui-corner-all  ui-draggable" style="display: none; z-index: 1000; outline: 0px none;"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix"><span id="ui-dialog-title-favorite-box" class="ui-dialog-title">收藏提示</span><a role="button" class="ui-dialog-titlebar-close ui-corner-all" href="#"><span class="ui-icon ui-icon-closethick">close</span></a></div><div class="ui-dialog-content ui-widget-content" style="display: block;" id="favorite-box">
+<table>
+		<tbody>
+				<tr>
+						<td align="right" width="70">文件夹</td>
+						<td><select id="fav_folderlist" name="folder">
+								<option selected="selected" value="0">请选择...</option>
+								<option id="newfolder-sp" disabled="disabled" value="">-------------</option>
+								<option value="-1">新增文件夹...</option>
+						</select></td>
+				</tr>
+				<tr style="display: none" id="newfolder-input">
+						<td align="right">新增文件夹</td>
+						<td><input id="fav_newfolder" maxlength="50" name="newfolder" type="text"></td>
+				</tr>
+				<tr>
+						<td align="right">标签</td>
+						<td><input id="fav_tags" maxlength="135" size="20" name="tags" type="text"></td>
+				</tr>
+				<tr>
+						<td></td>
+						<td colspan="2">(多个标签用逗号分隔)</td>
+				</tr>
+		</tbody>
+</table>
+</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button aria-disabled="false" role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button"><span class="ui-button-text">取消</span></button><button aria-disabled="false" role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button"><span class="ui-button-text">确认</span></button></div></div></div><div title="回到顶部" style="position: fixed; bottom: 165px; right: 95px; cursor: pointer; display: none;" id="topcontrol"><img src="chrome_php_console/gotop.gif" style="width:35px; height:35px;"></div></body></html>

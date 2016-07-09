@@ -1,0 +1,95 @@
+* {
+    word-break: break-all;
+}
+* {
+    word-break: break-all;
+}
+body, ul, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset {
+    margin: 0;
+    padding: 0;
+    text-align:center;
+
+}
+h2, h3 {
+    font-size: 14px;
+}
+
+body, td, input, textarea, select, button {
+    color: #444;
+    font: 14px "微软雅黑","宋体",Trebuchet MS,Helvetica,Arial,sans-serif;
+}
+.main {
+    background: #fff none repeat scroll 0 0;
+}
+
+.main h2 {
+    font-weight: 400;
+    line-height: 30px;
+}
+table {
+    background: #efefef none repeat scroll 0 0;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0 auto 30px auto;
+    /*margin-bottom: 30px;*/
+}
+
+table th {
+    background: #4f81bd none repeat scroll 0 0;
+    border: 1pt solid #4f81bd;
+    font-size: 12px;
+    font-weight: bold;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+}
+td, th {
+    display: table-cell;
+}
+table th span {
+    color: white;
+}
+
+.c1 {
+    border-left: 1pt solid #4f81bd;
+    width: 120px;
+}
+.td1 {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #b8cce4;
+    /*border-color: -moz-use-text-color #4f81bd #4f81bd #ccc;*/
+    border-image: none;
+    border-style: none solid solid;
+    border-width: medium 1pt 1pt 1px;
+    font-size: 12px;
+    height: 20px;
+}
+.td2 {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: white;
+    /*border-color: -moz-use-text-color #4f81bd #4f81bd #ccc;*/
+    border-image: none;
+    border-style: none solid solid;
+    border-width: medium 1pt 1pt 1px;
+    font-size: 12px;
+    height: 20px;
+}
+
+.content .nvtitle {
+    background-color: #f0f6fb;
+    line-height: 33px;
+    padding-left: 10px;
+    /*text-align: left;*/
+}
+.nvtitle {
+    background: #f0f6fb none repeat scroll 0 0;
+    border-bottom: 3px solid #a9cde4;
+    line-height: 30px;
+    text-align: center;
+}

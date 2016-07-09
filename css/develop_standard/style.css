@@ -1,0 +1,286 @@
+
+.icon {
+    background: rgba(0, 0, 0, 0) url("../../img/bg.png") no-repeat scroll 0 0;
+    display: inline-block;
+    height: 16px;
+    margin: 0 2px 2px 0;
+    vertical-align: middle;
+    width: 16px;
+}
+.icon-copy {
+    background-position: 0 0;
+}
+.icon-file-pdf {
+    background-position: -20px 0;
+}
+.icon-file-chm {
+    background-position: -40px 0;
+}
+.header hgroup {
+    float: left;
+    margin: 15px 20px 0 22px;
+}
+.header hgroup h1 {
+    color: #fff;
+    font-size: 32px;
+    line-height: 1;
+    text-shadow: 1px 1px 0 #000, 1px 1px 5px rgba(255, 255, 255, 0.8);
+}
+.header hgroup h2 {
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3), 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+.header ul.operation {
+    float: right;
+    padding: 46px 10px 0 0;
+}
+.header ul.operation li {
+    float: left;
+    padding: 0 6px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+.header ul.operation li a {
+    color: #fff;
+}
+.header ul.operation li a:hover {
+    text-decoration: underline;
+}
+.search input {
+    border: 1px solid #ccc;
+    border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset;
+    box-sizing: border-box;
+    font-size: 12px;
+    height: 28px;
+    line-height: 18px;
+    padding: 0 8px;
+    transition: all 0.15s ease-in 0s;
+    width: 100%;
+}
+.search input:focus {
+    border-color: #51a7e8;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075) inset, 0 0 5px rgba(81, 167, 232, 0.5);
+}
+.thinktree-search li a, .thinktree-search li span {
+    color: #ccc;
+}
+.thinktree-search li.searched > div a, .thinktree-search li.searched > div span {
+    color: #0382ad;
+    font-weight: bold;
+}
+article {
+    font-size: 16px;
+    margin: 5px 16px 16px;
+}
+article a {
+    color: #008000;
+}
+article a.hover, article a:hover {
+    color: #c30;
+    text-decoration: underline;
+}
+article .zclip embed {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+article header h1 {
+    color: #0382ad;
+    float: left;
+    font-size: 25px;
+    text-shadow: 1px 1px 0 #ffffff, 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+article header .copylink {
+    float: left;
+    margin: 10px 0 0 10px;
+    position: relative;
+}
+article header .copylink a {
+    vertical-align: middle;
+}
+article header .description {
+    background-color: #c3e1ff;
+    border-top: 1px solid #4e6b33;
+    clear: both;
+    font-family: "宋体";
+    font-size: 12px;
+    line-height: 1.8;
+    padding: 2px 6px;
+}
+article section.content {
+}
+article section.content h1, article section.content h2 {
+    border-bottom: 1px solid #eee;
+    font-size: 20px;
+    margin-top: 16px;
+}
+article section.content h3, article section.content h4, article section.content h5, article section.content h6 {
+    font-size: 16px;
+    margin-top: 14px;
+}
+article section.content p {
+    padding: 8px 0;
+}
+article section.content ul {
+    list-style: outside none circle;
+    padding-left: 20px;
+}
+article section.content ol {
+    list-style: outside none decimal;
+    padding-left: 20px;
+}
+article section.content blockquote {
+    background-color: #f0f7fd;
+    border-left: 5px solid #d0e3f0;
+    color: #0382ad;
+    margin: 8px 0;
+    padding: 8px 16px;
+}
+article section.content table {
+    border: 1px solid #ddd;
+    border-collapse: separate;
+    border-radius: 3px;
+    border-spacing: 0;
+    margin: 0;
+}
+article section.content tbody tr:nth-child(2n+1) {
+    background-color: #f9f9f9;
+}
+article section.content th {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color -moz-use-text-color #ddd #ddd;
+    border-image: none;
+    border-style: none none solid solid;
+    border-width: 0 0 1px 1px;
+    padding: 6px;
+    text-align: left;
+}
+article section.content td {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #ddd -moz-use-text-color -moz-use-text-color #ddd;
+    border-image: none;
+    border-style: solid none none solid;
+    border-width: 1px 0 0 1px;
+    padding: 6px;
+    text-align: left;
+}
+article section.content th:first-child, article section.content td:first-child {
+    border-left: 0 none;
+}
+article section.content tbody tr:hover td {
+    background-color: #f1f4ff;
+}
+article section.content code {
+    background-color: #f9f2f4;
+    border-radius: 3px;
+    color: #c7254e;
+    font-family: Consolas,"Liberation Mono",Courier,"微软雅黑";
+    margin: 0 2px;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+article section.content pre {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #333;
+    display: block;
+    font-family: Consolas,"Liberation Mono",Courier,"微软雅黑";
+    margin: 0;
+    padding: 6px;
+    position: relative;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+article section.content pre ol {
+    color: #2ba5d8;
+    padding-left: 36px;
+}
+article section.content pre.webkit ol {
+    padding-left: 42px;
+}
+article section.content pre li {
+    border-left: 1px solid #ddd;
+}
+article section.content pre code {
+    background-color: transparent;
+    border-left: 1px solid #fff;
+    border-radius: 0;
+    color: #333;
+    display: inline-block;
+    height: 100%;
+    margin: 0;
+    padding: 0 0 0 2px;
+    vertical-align: top;
+    white-space: pre-wrap;
+}
+article section.content pre .copycode {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-bottom-left-radius: 3px;
+    border-color: -moz-use-text-color -moz-use-text-color #ddd #ddd;
+    border-image: none;
+    border-style: none none solid solid;
+    border-width: 0 0 1px 1px;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+article section.content pre .copycode a {
+    display: inline-block;
+    font-size: 12px;
+    line-height: 24px;
+    padding: 0 10px;
+}
+article section.content pre .copycode.hover, article section.content pre:hover .copycode {
+    display: block;
+}
+article section.content h1 + table, article section.content h2 + table, article section.content h1 + pre, article section.content h2 + pre {
+    margin-top: 8px;
+}
+.editable {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #c30 #c30 transparent transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 16px;
+    cursor: pointer;
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+}
+.editor {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.editor textarea {
+    line-height: 22px;
+}
+.editor + article {
+    display: none;
+}
+.copyright {
+    line-height: 36px;
+    text-align: center;
+}
+

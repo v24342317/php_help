@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<title>iOS开发系列--IOS程序开发概览 - KenshinCui - 博客园</title>
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=TdLMZRHMQfitXmNZ7SFinI4hbzrT2-_1PvIqhhWnsbI1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="ios_helloworld/bundle-Minyx2_Lite.css?v=box8Dmmj5G0VFMZyypCbLIqNJsuu5lz6TpJ4OOK0WkE1"/>
+<link type="text/css" rel="stylesheet" href="ios_helloworld/79371.css?v=4BOS7GwZRdR90pbkyc4n7q%2fEblE%3d"/>
+
+
+</head>
+<body>
+
+
+
+
+<div id="container"> 
+
+  <div id="wrapper">
+        <div id="content">
+
+            
+<div id="post_detail">
+<div class="post" id="post">
+  <h2><a id="cb_post_title_url" href="http://www.cnblogs.com/kenshincui/p/3890880.html">iOS开发系列--IOS程序开发概览</a></h2>
+  <div class="entry">
+    <div id="cnblogs_post_body"><h1>概览</h1> <p>终于到了真正接触IOS应用程序的时刻了，之前我们花了很多时间去讨论C语言、ObjC等知识，对于很多朋友而言开发IOS第一天就想直接看到成果，看到可以运行的IOS程序。但是这里我想强调一下，前面的知识是你日后开发IOS的基础，没有那些知识你开发IOS会很痛苦，现在很多开发人员做开发都是一知半解，程序质量确实令人担忧，所以还是希望大家能够熟练掌握前面的内容，开发过程中多思考，彻底理解程序运行的原理、机制。好了言归正传，不管怎么样正式进入IOS开发还是令人兴奋的，今天的内容虽然说是开发预览，其实还是有大量内容要说的：</p> <ol> <li><a href="#firstIOS">第一个iOS程序</a>  <li><a href="#runProcess">iOS程序运行过程</a>  <li><a href="#fileStructure">文件结构</a>  <li><a href="#storyboard">Storyboard</a>  <li><a href="#pureCode">纯代码实现iOS开发</a>  <li><a href="#additional">补充知识点</a></li></ol> <h1 id="firstIOS">第一个iOS程序</h1> <p>首先打开Xcode—Create a new Xcode project—Single View Application--输入项目名称，同时选择使用Objective-C语言，设备选择iPhone--接下来系统默认生成一个IOS项目模板。项目目录结构如下：</p> <p><a href="ios_helloworld/041940226154011.png"><img title="firstios" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="firstios" src="ios_helloworld/041940238971970.png"></a></p> <p>此时什么也不用做，直接运行看一下（注意这里已经切换模拟器为iPhone5），没错我们看到了一个iOS应用程序：</p> <p><a href="ios_helloworld/041940245226327.png"><img title="firstIOS-iPhone5" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="firstIOS-iPhone5" src="ios_helloworld/041940248815669.png" width="324" height="594"></a> </p> <h1 id="runProcess">程序的运行过程</h1> <p>在几乎所有的程序开发中程序一般都是从main函数开始运行的，那么IOS程序也不例外，在上图中我们可以看到Xcode为我们生成了一个main.m文件：</p><pre class="code"><span style="background: white; color: green">//
+//  main.m
+//  FirstIOS
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">&lt;UIKit/UIKit.h&gt;
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">"AppDelegate.h"
+
+</span><span style="background: white; color: blue">int </span><span style="background: white; color: black">main(</span><span style="background: white; color: blue">int </span><span style="background: white; color: black">argc, </span><span style="background: white; color: blue">char </span><span style="background: white; color: black">* argv[]) {
+    @autoreleasepool {
+        </span><span style="background: white; color: blue">return </span><span style="background: white; color: black">UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate </span><span style="background: white; color: blue">class</span><span style="background: white; color: black">]));
+    }
+}</span></pre>
+<p>这个默认的iOS程序就是从main函数开始执行的，但是在main函数中我们其实只能看到一个方法，这个方法内部是一个消息循环（相当于一个死循环），因此运行到这个方法UIApplicationMain之后程序不会自动退出，而只有当用户手动关闭程序这个循环才结束。这个方法有四个参数：</p>
+<ul>
+<li>第一个参数和第二个参数其实就是main函数的参数，分别代表：参数个数、参数内容； 
+<li>第三个参数代表UIApplication类（或子类）字符串，这个参数默认为nil则代表默认为UIApplication类，用户可以自定义一个类继承于这个类；如果为nil则等价于NSStringFromClass([UIApplication class])，大家可以自己试验，效果完全一样；UIApplication是单例模式，一个应用程序只有一个UIApplication对象或子对象； 
+<li>第四个参数是UIApplication的代理类字符串，默认生成的是AppDelegate类，这个类主要用于监听整个应用程序生命周期的各个事件（其实类似于之前我们文章中提到的事件监听代理），当UIApplication运行过程中引发了某个事件之后会调用代理中对应的方法；</li></ul>
+<blockquote>
+<p>小技巧：</p>
+<p>其实在Xcode中如果要看一些系统方法的解释或者参数说明，可以直接鼠标放到这个方法上，在Xcode右侧面板中就会给出帮助提示，如下图当我们放到UIApplicationMain上之后：</p>
+<p><a href="ios_helloworld/041940252874727.png"><img title="quickHelp" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="quickHelp" src="ios_helloworld/041940256933785.png" width="258" height="376"></a> </p></blockquote>
+<p>也就是说当执行UIApplicationMain方法后这个方法会根据第三个参数创建对应的UIApplication对象，这个对象会根据第四个参数AppDelegate创建并指定此对象为UIApplication的代理；同时UIApplication会开启一个消息循环不断监听应用程序的各个活动，当应用程序生命周期发生改变UIApplication就会调用代理对应的方法。</p>
+<p>既然应用程序UIApplication是通过代理和外部交互的，那么我们就有必要清楚AppDelegate的操作细节，下面是UIApplication详细的代码：</p>
+<p>AppDelegate.h</p><pre class="code"><span style="background: white; color: green">//
+//  AppDelegate.h
+//  
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">&lt;UIKit/UIKit.h&gt;
+
+</span><span style="background: white; color: black">@</span><span style="background: white; color: blue">interface </span><span style="background: white; color: black">AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;
+
+@</span><span style="background: white; color: blue">property </span><span style="background: white; color: black">(strong, nonatomic) UIWindow *window;
+
+@end</span></pre>
+<p>AppDelegate.m</p><pre class="code"><span style="background: white; color: green">//
+//  AppDelegate.m
+//  
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">"AppDelegate.h"
+
+</span><span style="background: white; color: black">@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+</span><span style="background: white; color: black">    </span><span style="background: white; color: blue">return </span><span style="background: white; color: black">YES;
+}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillResignActive:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationDidEnterBackground:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillEnterForeground:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationDidBecomeActive:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillTerminate:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+</span><span style="background: white; color: black">}
+
+@end</span></pre>
+<p>这个类中定义了应用程序生命周期中各个事件的执行方法：</p>
+<p><strong>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;</strong>程序启动之后执行，只有在第一次程序启动后才执行，以后不再执行；</p>
+<p><strong>- (void)applicationWillResignActive:(UIApplication *)application;</strong>程序将要被激活时（获得焦点）执行，程序激活用户才能操作；</p>
+<p><strong>- (void)applicationDidEnterBackground:(UIApplication *)application;</strong>程序进入后台后执行，注意进入后台时会先失去焦点再进入后台；</p>
+<p><strong>- (void)applicationWillEnterForeground:(UIApplication *)application;</strong>程序将要进入前台时执行；</p>
+<p><strong>- (void)applicationDidBecomeActive:(UIApplication *)application;</strong>程序被激活（获得焦点）后执行，注意程序被激活时会先进入前台再被激活；</p>
+<p><strong>- (void)applicationWillTerminate:(UIApplication *)application;</strong>程序在终止时执行，包括正常终止或异常终止，例如说一个应用程序在后太运行（例如音乐播放软件、社交软件等）占用太多内存这时会意外终止调用此方法；</p>
+<p>为了演示程序的生命周期，不妨在每个事件中都输出一段内容，简单调整上面的代码：</p>
+<p>AppDelegate.m</p><pre class="code"><span style="background: white; color: green">//
+//  AppDelegate.m
+//  FirstIOS
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">"AppDelegate.h"
+
+</span><span style="background: white; color: black">@</span><span style="background: white; color: blue">interface </span><span style="background: white; color: black">AppDelegate ()
+
+@end
+
+@implementation AppDelegate
+            
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSLog(@</span><span style="background: white; color: #a31515">"程序已经启动..."</span><span style="background: white; color: black">);
+    </span><span style="background: white; color: blue">return </span><span style="background: white; color: black">YES;
+}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillResignActive:(UIApplication *)application {
+    NSLog(@</span><span style="background: white; color: #a31515">"程序将要失去焦点..."</span><span style="background: white; color: black">);
+    </span><span style="background: white; color: green">// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationDidEnterBackground:(UIApplication *)application {
+    NSLog(@</span><span style="background: white; color: #a31515">"程序已经进入后台..."</span><span style="background: white; color: black">);
+    </span><span style="background: white; color: green">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillEnterForeground:(UIApplication *)application {
+    NSLog(@</span><span style="background: white; color: #a31515">"程序将要进入前台..."</span><span style="background: white; color: black">);
+    </span><span style="background: white; color: green">// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationDidBecomeActive:(UIApplication *)application {
+    NSLog(@</span><span style="background: white; color: #a31515">"程序已经获得焦点..."</span><span style="background: white; color: black">);
+    </span><span style="background: white; color: green">// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillTerminate:(UIApplication *)application {
+    NSLog(@</span><span style="background: white; color: #a31515">"程序将要终止..."</span><span style="background: white; color: black">);
+    </span><span style="background: white; color: green">// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+</span><span style="background: white; color: black">}
+
+-(</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationDidReceiveMemoryWarning:(UIApplication *)application{
+    
+}
+
+@end</span></pre>
+<p>下面是各个不同操作的运行结果：</p>
+<p><a href="ios_helloworld/041940298349515.png"><img title="runProgress" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="runProgress" src="ios_helloworld/041940332871105.png" width="846" height="673"></a> </p>
+<p>相信通过上面运行过程大家会对整个运行周期有个大概了解。比较容易混淆的地方就是应用程序进入前台、激活、失去焦点、进入后台，这几个方法大家要清楚。如果一个应用程序失去焦点那么意味着用户当前无法进行交互操作，因此一般会先失去焦点再进入后台防止进入后台过程中用户误操作；如果一个应用程序进入前台也是类似的，会先进入前台再获得焦点，这样进入前台过程中未完全准备好的情况下用户无法操作。另外一般如果应用程序要保存用户数据会在注销激活中进行（而不是在进入后台方法中进行），因为如果用户双击Home不会进入后台只会注销激活；如果用户恢复应用状态一般在进入激活状态时处理（而不是在进入前台方法中进行），因为用户可能是从任务栏直接返回应用，此时不会执行进入前台操作。 </p>
+<p>当然，上面的事件并不是所有AppDelegate事件，而是最常用的一些事件，其他事件大家可以查阅官方文档，例如-(void)applicationDidReceiveMemoryWarning:(UIApplication *)application;用于在内存占用过多发出内存警告时调用并通知对应的ViewController调用其内存回收方法。这里简单以图形方式描述一下应用程序的调用过程：</p>
+<p>&nbsp;<a href="ios_helloworld/041940343341291.png"><img title="image" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="image" src="ios_helloworld/041940347874363.png" width="668" height="634"></a> </p>
+<h1 id="fileStructure">文件结构</h1>
+<p>这里对于Xcode默认为我们生产的项目结果文件做一下简单介绍：</p>
+<ol>
+<li>AppDelegate（.h/.m）：应用程序代理，主要用于监听整个应用程序生命周期中各个阶段的事件； 
+<li>ViewController（.h/.m）：视图控制器，主要负责管理UIView的生命周期、负责UIView之间的切换、对UIView事件进行监听等； 
+<li>Main.storyboard：界面布局文件，承载对应UIView的视图控件； 
+<li>Images.xcassets：应用程序图像资源文件； 
+<li>Info.plist：应用程序配置文件； 
+<li>main.m：应用程序入口函数文件； 
+<li>xxx-prefix.pch:项目公共头文件，此文件中的导入语句在编译时会应用到所有的类文件中，相当于公共引入文件（注意在Xcode6中没有提供此文件）</li></ol>
+<h2>Images.xcassets</h2>
+<p>关于AppDelegate、main.m前面已经介绍过了，ViewController和Main.storyboard在后面介绍，这里先说一下Image.xcassets文件。在Xcode中打开这个文件会发现里面有两个设置项：AppIcon和LaunchImage</p>
+<p><a href="ios_helloworld/041940351316934.png"><img title="AppIcon" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="AppIcon" src="ios_helloworld/041940363978121.png"></a> </p>
+<h3>AppIcon</h3>
+<p>在AppIcon中可以看到三个图标设置，当我们勾选了右侧ios6.1 and Prior Sizes或者其他选项这个图标会自动增多，也就是说可以设计的图标跟应用程序准备支持的设备系统有关，这里我们就以默认的ios7为例（现在基本上设备都升级到ios7了）：</p>
+<p><strong>a.</strong>iPhone Spotlight-iOS5,6 Settings-iOS 5-7 29pt：用于设置iOS5或者iOS6的搜索图标以及iOS5、iOS6、iOS7的设置图标，大小是58*58。</p>
+<p>iOS搜索图标：</p>
+<p>&nbsp;<a href="ios_helloworld/041940367728936.png"><img title="Spotlight" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="Spotlight" src="ios_helloworld/041940371787994.png" width="300" height="38"></a> </p>
+<p>iOS设置图标：</p>
+<p><a href="ios_helloworld/041940377871879.png"><img title="settingicon" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="settingicon" src="ios_helloworld/041940383652223.png" width="300" height="128"></a> </p>
+<p><strong>b.</strong>iPhone Spootlight iOS 7 40pt：设置iOS7的搜索图标，大小是80*80。具体参见上图。</p>
+<p><strong>c.</strong>iPhone App iOS7 60pt：设置iOS7的应用图标，大小是120*120。</p>
+<p>iOS应用图标：</p>
+<p>&nbsp;<a href="ios_helloworld/041940388185295.png"><img title="IconSettings" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="IconSettings" src="ios_helloworld/041940391319622.png" width="80" height="81"></a> </p>
+<h3>LaunchImage</h3>
+<p>在LaunchImage中两个图标设计主要用于竖屏启动图</p>
+<p><a href="ios_helloworld/041940396005167.png"><img title="LaunchImage" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="LaunchImage" src="ios_helloworld/041940402563066.png" width="1106" height="379"></a> </p>
+<p><strong>a.</strong>iPhone Portraint iOS7 2x:大小为640*1136的启动图片；</p>
+<p><strong>b.</strong>iPhone Portraint iOS7 R4:大小为640*960的启动图片；</p>
+<p>其实上面的图片并不是所有图片都必须设置，具体要求可以直接查看苹果官方要求，例如这里我们设置应用图标和R4启动图片后具体效果如下（这里使用的图标取材来自微信）：</p>
+<p><a href="ios_helloworld/041940407257610.png"><img title="appico" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="appico" src="ios_helloworld/041940414906011.png" width="320" height="590"></a> </p>
+<p><a href="ios_helloworld/041940422251869.png"><img title="launch" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="launch" src="ios_helloworld/041940453818198.png" width="320" height="590"></a> </p>
+<p>上面我们添加了一个应用图标和一个启动图片，在Images.xcassets上右键在Fiddler中查看文件内容并进入Images.xcassets文件夹，可以看到两个子文件夹：AppIcon.appiconset和LaunchImage.launchimage,如下图：</p>
+<p><a href="ios_helloworld/041940477257816.png"><img title="ImagesXcassets" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="ImagesXcassets" src="ios_helloworld/041940495068158.png" width="770" height="520"></a> </p>
+<p>两个文件夹中分别存放了我们前面设置的图片资源，除此之外还各有一个Contents.json文件，在这个文件中记录的资源信息，例如AppIcon.appiconset文件夹中的Contents.json内容如下,这里记录了每个图标的大小名称等信息：</p>
+<p><a href="ios_helloworld/041940501939003.png"><img title="ContentsJson" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="ContentsJson" src="ios_helloworld/041940505846588.png" width="655" height="405"></a>&nbsp;</p>
+<h2>Info.plist</h2>
+<p>Info.plist文件记录了应用程序的配置信息，如下图：</p>
+<p><a href="ios_helloworld/041940515221976.png"><img title="InfoPlist" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="InfoPlist" src="ios_helloworld/041940523652633.png" width="846" height="464"></a> </p>
+<p>其实这些信息我们可以在项目属性中进行配置，效果和编辑这个文档是一样的，大家可以对照查看：</p>
+<p><a href="ios_helloworld/041940529432977.png"><img title="GeneralSetting" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="GeneralSetting" src="ios_helloworld/041940533037020.png" width="846" height="435"></a>&nbsp;</p>
+<h1 id="storyboard">Storyboard</h1>
+<p>到目前为止我们还没有解释我们的程序是如何显示默认视图界面的。做过WinForm程序的朋友都知道每个Window窗口界面都有一个设计器（对应一个设计文件），其实在IOS中也可以通过设计工具设计界面不用编写代码，这个工具就是Interface Builder。用Interface Builder编辑的文件在iOS5之前是一个“.xib”文件，从IOS5开始进行了改进，使用“.storyboard”文件进行设计。其实在上面我们已经看到这个文件，这里重点说明一下Storyboard文件的使用。</p>
+<p>首先我们打开Main.storyboard，此时可以看到一个Interface Builder界面设计器出现在我们眼前：</p>
+<p><a href="ios_helloworld/041940543653977.png"><img title="storyboard" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="storyboard" src="ios_helloworld/041940560378521.png"></a> </p>
+<p>在这个界面中整个核心就是右侧视图控制器ViewController，在ViewController中有一个视图UIView，这个视图用来放置其他用户操作控件。视图控制器左侧的箭头表示这个视图控制器是个主视图控制器，程序启动之后默认就会直接显示这个视图控制器的视图。我们可以在项目属性中通过修改“Main Interface”属性来修改主视图控制器。</p>
+<p>这里我们不妨从Xcode右侧工具栏Object Library中拖放一些组件在上面简单完成一个登录布局。</p>
+<p><a href="ios_helloworld/041940565068364.png"><img title="layout" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="layout" src="ios_helloworld/041940571783438.png" width="324" height="594"></a></p>
+<p>要实现这个登录，那么接下来就是事件和属性绑定的问题，大家应该可以猜到登录的逻辑代码肯定在ViewController.m中编写，那么storyboard文件是如何关联到这个类的呢？如果我们在storyboard界面选中ViewController在Xcode右侧切换到Identity Inspector视图就会发现里面当前设置的是ViewController类，通过这个设置Main.storyboard和ViewController关联在一起。</p>
+<p>那么如何在代码中读取两个TextField的值并通过点击按钮触发相关事件验证登录合法性呢？要想在代码中使用UITextField，并且添加按钮点击事件，则必须在ViewController.h中定义两个UITextField属性和一个登录方法。</p>
+<p><a href="ios_helloworld/041940586151210.png"><img title="ViewController" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="ViewController" src="ios_helloworld/041941002567509.png" width="760" height="520"></a> </p>
+<p>上面代码我们需要解释一下IBOutlet、IBAction，其余代码和我们之前写的ObjC没有任何区别。</p>
+<ul>
+<li>IBOutlet:IBOutlet没有做任何操作，它的唯一作用就是告诉Interface Builder这个属性可以被关联到其中某个控件（在代码中可以看到代码前面多了空心圆点）。 
+<li>IBAction:其实就是void，只是当你定义为IBAction在Interface Builder中可以关联到某个控件的事件方法（后面的关联操作将会看到，而且我们在代码中也可以看到代码前面多了空心圆点）；</li></ul>
+<p>下面看一下storyboard中的控件和代码中定义的属性和事件如何关联。Xcode为我们提供了几种方式来实现代码和storyboard控件的关联：</p>
+<p>1.拖拽控件到代码中（首先点击Xcode右上方“Show the Assistant editor”切换对应视图，然后在代码中打开.h文件，同时打开Interface Builder，按住ctrl键拖拽控件到代码中相应的位置进行关联)，关联后属性或方法前的空心圆变成实心表示已经关联到具体控件(注意：事实上，从控件拖拽到代码时如果代码中没有定义对应的属性和方法Interface Builder会自动生成代码)。</p>
+<p><a href="ios_helloworld/041941008509325.gif"><img title="controlToCode" style="display: inline" alt="controlToCode" src="ios_helloworld/041941070689658.gif"></a> </p>
+<p>2.从控件场景中拖拽控件到代码，关联后属性或方法前的空心圆变成实心表示已经关联到具体控件。(在Interface Builder中点击左下角“Show Document outline”显示控件结构树，选中相应的控件按住Ctrl键拖拽到代码中的属性或方法上)</p>
+<p><a href="ios_helloworld/041941083654388.gif"><img title="controlSceneToCode" style="display: inline" alt="controlSceneToCode" src="ios_helloworld/041941182723082.gif"></a></p>
+<p>3. 在控件上右键找到对应的属性或方法关联到代码中对应的属性或方法即可，关联后属性或方法前的空心圆变成实心表示已经关联到具体控件。</p>
+<p><a href="ios_helloworld/041941203819224.gif"><img title="propertyToCode.gif" style="display: inline" alt="propertyToCode.gif" src="ios_helloworld/041941501787562.gif"></a> </p>
+<p>4.与方法3类似，不再截图，只是通过View Control Scene中的控件右键来关联，关联后属性或方法前的空心圆变成实心表示已经关联到具体控件。（在Interface Builder中点击左下角Show Document outline显示控件结构树，选中相应的控件右键拖拽到代码中的属性或方法上）</p>
+<p>5.对于前面几种方法其实我们还可以直接从代码拖拽到控件上面，这里简单演示一种,其他情况大家可以自己试验。</p>
+<p><a href="ios_helloworld/041941538504451.gif"><img title="codeToControl.gif" style="display: inline" alt="codeToControl.gif" src="ios_helloworld/041941547565893.gif"></a> </p>
+<p>&nbsp;</p>
+<blockquote>
+<p>如果要删除关联，可以采用第三、第四种方式在控件上右键，在关联菜单中找到对应的关联删除即可。此外需要注意对于一个控件而言可能有多个事件，当我们使用第三种或第四种方式直接选择具体某个事件关联到login:方法自然没有问题，但是第一、第二、第五种方式没有提示我们关联到哪个事件而是使用一个控件的默认事件（对于UIButton就是Touch Up Inside事件）。</p></blockquote>
+<p>既然控件和代码属性或方法已经做了关联，这里我们看一下具体效果，这里简单修改一下ViewController.m</p><pre class="code"><span style="background: white; color: green">//
+//  ViewController.m
+//  FirstIOS
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">"ViewController.h"
+
+</span><span style="background: white; color: black">@</span><span style="background: white; color: blue">interface </span><span style="background: white; color: black">ViewController ()
+
+@end
+
+@implementation ViewController
+            
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)viewDidLoad {
+    [super viewDidLoad];
+    </span><span style="background: white; color: green">// Do any additional setup after loading the view, typically from a nib.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    </span><span style="background: white; color: green">// Dispose of any resources that can be recreated.
+</span><span style="background: white; color: black">}
+
+-(</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)login:(UIButton *)btn{
+    </span><span style="background: white; color: blue">if </span><span style="background: white; color: black">([_phoneNumber.text isEqual:@</span><span style="background: white; color: #a31515">"123"</span><span style="background: white; color: black">]&amp;&amp;[_password.text isEqual:@</span><span style="background: white; color: #a31515">"456"</span><span style="background: white; color: black">]) {
+        NSLog(@</span><span style="background: white; color: #a31515">"登录成功！"</span><span style="background: white; color: black">);
+    }
+}
+
+@end</span></pre>
+<p>这里实现了login:方法模拟登录的过程，可以发现当在手机号码中输入“123”，在密码中输入“456”点击登录会输出”登录成功！“。</p>
+<h1 id="pureCode">纯代码实现iOS开发</h1>
+<p>storyboard进行界面设计固然不错，特别是对于初学者经常会使用设计器进行界面设计，但是实际开发过程中我们很多情况下会直接使用代码进行界面布局，特别是对于复杂的界面布局更是如此。下面我们就从一个空项目建立一个类似于前面的登录界面。</p>
+<p>直接在Xcode中创建“Empty Application”（注意在Xcode6中这个选项已经没有了，这里采用Xcode5.1），此时会发现已经没有ViewController和storyboard文件，我们需要手动创建一个视图控制器（在项目中右键选择Objective-c class，默认继承自UIViewController，输入类名：KCMainViewController即可）。</p>
+<p>新建的视图控制器默认情况下是无法加载到程序运行界面上的，此时需要在应用程序代理的程序加载完毕事件中手动加载并显示我们的视图。修改之前KCAppDelegate.m代码如下：</p><pre class="code"><span style="background: white; color: green">//  KCAppDelegate.m
+//  IOSByCode
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">"KCAppDelegate.h"
+
+</span><span style="background: white; color: black">@implementation KCAppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    </span><span style="background: white; color: green">// Override point for customization after application launch.
+    </span><span style="background: white; color: black">self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    </span><span style="background: white; color: blue">return </span><span style="background: white; color: black">YES;
+}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillResignActive:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationDidEnterBackground:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillEnterForeground:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationDidBecomeActive:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+</span><span style="background: white; color: black">}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)applicationWillTerminate:(UIApplication *)application
+{
+    </span><span style="background: white; color: green">// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+</span><span style="background: white; color: black">}
+
+@end</span></pre>
+<p>我们修改上面<strong>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</strong>的代码如下：</p><pre class="code"><span style="background: white; color: black">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    </span><span style="background: white; color: green">//设置window属性（在KCAppDelegate中定义的window属性），初始化windows的大小和位置
+    </span><span style="background: white; color: black">self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    </span><span style="background: white; color: green">// Override point for customization after application launch.
+    //设置window的背景
+    </span><span style="background: white; color: black">self.window.backgroundColor = [UIColor whiteColor];
+    
+    </span><span style="background: white; color: green">//初始化KCMainViewController
+    </span><span style="background: white; color: black">KCMainViewController *mainController=[[KCMainViewController alloc]init];
+    </span><span style="background: white; color: green">//设置自定义控制器的大小和window相同，位置为（0，0）
+    </span><span style="background: white; color: black">mainController.view.frame=self.window.bounds;
+    </span><span style="background: white; color: green">//设置此控制器为window的根控制器
+    </span><span style="background: white; color: black">self.window.rootViewController=mainController;
+    
+    </span><span style="background: white; color: green">//设置window为应用程序主窗口并设为可见
+    </span><span style="background: white; color: black">[self.window makeKeyAndVisible];
+    </span><span style="background: white; color: blue">return </span><span style="background: white; color: black">YES;
+}</span></pre>
+<p>然后在我们自定义的KCMainViewController.m中添加一个UIImageView、两个控件UITextField和一个UIButton控件，并且实现具体的登录方法。</p>
+<p>KCMainViewController.h</p><pre class="code"><span style="background: white; color: green">//
+//  KCMainViewController.h
+//  IOSByCode
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">&lt;UIKit/UIKit.h&gt;
+
+</span><span style="background: white; color: black">@</span><span style="background: white; color: blue">interface </span><span style="background: white; color: black">KCMainViewController : UIViewController
+
+</span><span style="background: white; color: blue">#pragma </span><span style="background: white; color: black">mark logo
+@</span><span style="background: white; color: blue">property </span><span style="background: white; color: black">(nonatomic,strong) UIImageView *logo;
+</span><span style="background: white; color: blue">#pragma </span><span style="background: white; color: black">mark 手机号码
+@</span><span style="background: white; color: blue">property </span><span style="background: white; color: black">(nonatomic,strong) UITextField *phoneNumber;
+</span><span style="background: white; color: blue">#pragma </span><span style="background: white; color: black">mark 密码
+@</span><span style="background: white; color: blue">property </span><span style="background: white; color: black">(nonatomic,strong) UITextField *password;
+</span><span style="background: white; color: blue">#pragma </span><span style="background: white; color: black">mark 登录按钮
+@</span><span style="background: white; color: blue">property </span><span style="background: white; color: black">(nonatomic,strong) UIButton *loginButton;
+
+</span><span style="background: white; color: blue">#pragma </span><span style="background: white; color: black">mark 点击事件
+-(</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)login:(UIButton *)btn;
+
+@end</span></pre>
+<p>KCMainViewController.m</p><pre class="code"><span style="background: white; color: green">//
+//  KCMainViewController.m
+//  IOSByCode
+//
+//  Created by Kenshin Cui on 14-2-23.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+</span><span style="background: white; color: blue">#import </span><span style="background: white; color: #a31515">"KCMainViewController.h"
+
+</span><span style="background: white; color: black">@</span><span style="background: white; color: blue">interface </span><span style="background: white; color: black">KCMainViewController ()
+
+@end
+
+@implementation KCMainViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    </span><span style="background: white; color: blue">if </span><span style="background: white; color: black">(self) {
+        </span><span style="background: white; color: green">// Custom initialization
+    </span><span style="background: white; color: black">}
+    </span><span style="background: white; color: blue">return </span><span style="background: white; color: black">self;
+}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)viewDidLoad
+{
+    [super viewDidLoad];
+    </span><span style="background: white; color: green">// Do any additional setup after loading the view.
+    //self.view.backgroundColor=[UIColor redColor];
+    
+    //添加图片
+    </span><span style="background: white; color: black">CGRect logoRect=CGRectMake(100, 50, 100, 200);
+    _logo=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@</span><span style="background: white; color: #a31515">"LoginBackground.png"</span><span style="background: white; color: black">]];</span><span style="background: white; color: green">//设置图片
+    </span><span style="background: white; color: black">_logo.contentMode=UIViewContentModeScaleAspectFit;</span><span style="background: white; color: green">//设置内容填充模式
+    </span><span style="background: white; color: black">_logo.frame=logoRect;</span><span style="background: white; color: green">//设置控件大小和位置（相对于父控件的位置）
+    </span><span style="background: white; color: black">[self.view addSubview:_logo];</span><span style="background: white; color: green">//添加到KCMainViewController的View中
+    
+    //添加手机号码输入框
+    </span><span style="background: white; color: black">CGRect phoneNumberRect=CGRectMake(20, 320, 280, 30);
+    _phoneNumber=[[UITextField alloc]initWithFrame:phoneNumberRect];
+    _phoneNumber.borderStyle=UITextBorderStyleRoundedRect;</span><span style="background: white; color: green">//设置文本框的边框样式
+    </span><span style="background: white; color: black">[self.view addSubview:_phoneNumber];
+    
+    </span><span style="background: white; color: green">//添加密码输入框
+    </span><span style="background: white; color: black">CGRect passwordRect=CGRectMake(20, 380, 280, 30);
+    _password=[[UITextField alloc]initWithFrame:passwordRect];
+    _password.borderStyle=UITextBorderStyleRoundedRect;
+    [self.view addSubview:_password];
+    
+    </span><span style="background: white; color: green">//添加登录按钮
+    </span><span style="background: white; color: black">CGRect loginButtonRect=CGRectMake(10, 440, 300, 25);
+    _loginButton=[[UIButton alloc]initWithFrame:loginButtonRect];
+    [_loginButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];</span><span style="background: white; color: green">//设置标题内容颜色
+    </span><span style="background: white; color: black">[_loginButton setTitle:@</span><span style="background: white; color: #a31515">"登录" </span><span style="background: white; color: black">forState:UIControlStateNormal];</span><span style="background: white; color: green">//设置按钮标题
+    </span><span style="background: white; color: black">[_loginButton addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];</span><span style="background: white; color: green">//添加点击事件
+    </span><span style="background: white; color: black">[self.view addSubview:_loginButton];
+}
+
+- (</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    </span><span style="background: white; color: green">// Dispose of any resources that can be recreated.
+</span><span style="background: white; color: black">}
+
+-(</span><span style="background: white; color: blue">void</span><span style="background: white; color: black">)login:(UIButton *)btn{
+    </span><span style="background: white; color: blue">if </span><span style="background: white; color: black">([_phoneNumber.text isEqual:@</span><span style="background: white; color: #a31515">"123"</span><span style="background: white; color: black">]&amp;&amp;[_password.text isEqual:@</span><span style="background: white; color: #a31515">"456"</span><span style="background: white; color: black">]) {
+        NSLog(@</span><span style="background: white; color: #a31515">"登录成功！"</span><span style="background: white; color: black">);
+    }</span><span style="background: white; color: blue">else</span><span style="background: white; color: black">{
+        NSLog(@</span><span style="background: white; color: #a31515">"登录失败！"</span><span style="background: white; color: black">);
+    }
+}
+
+
+@end</span></pre>
+<p>运行效果如下，与之前使用storyboard创建的界面类似，同时也能点击登录：</p>
+<p><a href="ios_helloworld/041941576932625.png"><img title="runUI" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="runUI" src="ios_helloworld/041941582878739.png" width="324" height="594"></a> </p>
+<h2>UIView</h2>
+<p>在这里我们需要对上面的代码一样解释，在弄清上面的代码之前我们不得不熟悉一个UIKit中最重要的类UIView。</p>
+<ol>
+<li>UIView就是指界面可见的控件元素，所有的控件最终都继承自UIView，UIView中还可以添加其他UIView(通过addSubView方法)； 
+<li>在一个iOS应用中必须有一个主窗口UIWindow（理论上也可以有多个UIWindow但是只有一个是主Window，而且只有主Window可以和用户交互），UIWindow也是继承自UIView，它拥有UIView的所有属性、方法； 
+<li>在UIWindow中必须有一个根控制器，这个控制器距离UIWindow是最近的；设置一个控制器为根控制器和直接通过addSubView添加控制器的视图（view属性）到window并不完全一样（例如如果仅仅添加控制器视图那么应用虽然可以显示但是不支持旋转）； 
+<li>UIViewController是视图控制器，主要用来控制UIView，在UIViewController内部有一个UIView（view属性）；</li></ol>
+<p>在上面的代码中我们首先在应用程序加载完毕之后加载一个UIWindow对象，同时把我们的视图控制器KCMainController设置为UIWindow的根视图控制器，然后设置这个UIWindow为主窗口并可见。当主窗口设置为可见过程中会调用视图控制器的loadView方法来加载视图（注意视图控制器的loadView方法是延迟加载的，第一次调用视图控制器的view属性才会调用此方法；由于makeKeyAndVisible方法中会使用视图控制器的view属性所以此时会调用视图控制器的loadView方法），视图加载完之后调用viewDidLoad方法，在这个方法中我们添加登录相关控件并将这些控件加载到视图控制器KCMainViewController的视图view中。</p>
+<p>下面我们看一下应用程序最终的布局,相信通过这张图大家对于iOS的布局会有一个大致了解：</p>
+<p><a href="ios_helloworld/041941590063125.png"><img title="iOSLayout" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="iOSLayout" src="ios_helloworld/041941598181241.png"></a> </p>
+<h1 id="additional">补充知识点</h1>
+<p>1.iOS尺寸设置--在iOS中尺寸的单位是点不是像素，在retina屏幕中一个点有两个像素。此外在retina屏幕中图片一般采用<a href="mailto:&rdquo;xxx@2x.png">”xxx@2x.png</a>”命名，在代码中使用时只需要写成“xxx.png”程序会自动根据屏幕类型在retain屏幕下使用<a href="mailto:&rdquo;xxx@2x.png">”xxx@2x.png</a>”图片，在非retain屏幕下采用”xxx.png”图片。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p><a href="ios_helloworld/080836049754357.png"><img title="ScreenSize" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="ScreenSize" src="ios_helloworld/080836086788489.png"></a> </p>
+<p>2.应用程序图像资源尺寸--其实关于图片尺寸规定我们可以直接查看Xcode自带帮助文档，例如可以查看“Icon and Image Sizes”一节获得图片大小说明：</p>
+<p><a href="ios_helloworld/041942045842329.png"><img title="IconSize" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="IconSize" src="ios_helloworld/041942056473988.png"></a> </p>
+<p>关于iOS图标命名这里不再赘述，苹果官方也给出了具体的代码示例：<a href="https://developer.apple.com/library/ios/samplecode/Icons/Introduction/Intro.html">Application Icons and Launch Images for iOS</a></p>
+<p>3.模拟器文件存储的位置--模拟器中为什么可以运行我们的程序，程序到底在什么位置？ 
+<p>这些文件其实在Mac中 OS X中是隐藏的，首先通过“<font color="#ff0000"><strong>defaults write com.apple.finder AppleShowAllFiles -bool true</strong></font>”命令显示隐藏文件(关闭隐藏文件显示通过“defaults write com.apple.finder AppleShowAllFiles -bool false”命令)，然后到“/Users/kenshincui/Library/Application Support/iPhone Simulator/7.1/Applications”文件夹中会看到很多GUID命名的文件夹，只要一个一个查看就可以找到我们的程序。模拟器运行时会加载这个文件夹中的应用程序包显示到模拟器中。</p>
+<p><a href="ios_helloworld/041942065843674.png"><img title="bundle" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="bundle" src="ios_helloworld/041942076622103.png"></a> </p>
+<p>可以看到在上图中有一个IOSByCode的应用程序包，我们可以通过“显示包内容”查看具体程序资源：</p>
+<p><a href="ios_helloworld/041942084431976.png"><img title="bundleContent" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="bundleContent" src="ios_helloworld/041942089121819.png"></a> </p>
+<p>4.UIApplication--前面一直提到UIApplication对象，这个对象在iOS中是一个单例，我们通过[UIApplication sharedApplication]获得（注意在iOS开发中一般以shared开头的对象都是单例）。这里列举一些UIApplication的常用方法：</p>
+<p><a href="ios_helloworld/051434267874588.png"><img title="UIApplicationMethods" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="UIApplicationMethods" src="ios_helloworld/051434294903548.png"></a> </p>
+<p>例如调用applicationIconBadgeNumber方法之后效果如下：</p>
+<p><a href="ios_helloworld/041942104125077.png"><img title="badgeNumber" style="border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px; display: inline; border-top-width: 0px" border="0" alt="badgeNumber" src="ios_helloworld/041942109284635.png" width="320" height="590"></a> </p>
+<p>5.组织标示--前面我们在新建项目中有一个“Organization Identifier”是做什么的呢？它是组织唯一标示，一般我们会使用公司的域名形式（这个域名一般会倒序书写，例如公司域名为：<a href="http://www.cmjstudio.com">www.cmjstudio.com</a>，我们这里就写成com.cmjstudio），和项目名称共同组成一个程序的唯一标示“Bundle Identifier”，这个标示在整个App Store中是唯一的，如果两个应用程序标示完全一样，那么安装时会先卸载前面的程序再安装新程序。</p></div><div id="MySignature"></div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+        <div id="blog_post_info">
+        </div>
+        <div class="clear"></div>
+        <div id="post_next_prev"></div>
+    </div>
+</div>
+
+</div>
+</div><div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+  <div id="divCommentShow"></div>
+<div id="comment_form_container"></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="site_nav_under"></div>
+<div id="opt_under_post"></div>
+
+<div id="google_ad_c1" class="c_ad_block"></div>
+<div id="under_post_news"></div>
+<div id="google_ad_c2" class="c_ad_block"></div>
+<div id="under_post_kb"></div>
+<div id="google_ad_c3" class="c_ad_block">
+
+<!-- C3_BlogPost -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-4210569241504288"
+     data-ad-slot="3239908880"></ins>
+
+</div>
+<div id="HistoryToday" class="c_ad_block"></div>
+
+</div>
+
+        </div>
+
+      <div id="footer">
+        <div class="footText">
+    <p>&nbsp;</p>
+</div>
+    </div>
+    </div>
+
+
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>loadrunner手动关联</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>loadrunner手动关联</h1>
+            <div class="description"></div>
+        </header>
+      <section class="content">
+          手动关联的过程大致如下：<br>
+            第一步：录制测试脚本，录制二遍<br>
+            第二步：使用WinDiff工具找出两次脚本的不同，判断是否需要进行关联<br>
+            第三步：确定插入关联的位置<br>
+            第四步：在VIEW TREE中使用web_reg_save_param函数手动建立关联<br>
+            第五步：将脚本中有用到关联的数据，用参数代替<br>
+            第六步：验证关联的正确性</p>
+          <p><br>
+            下面详细介绍：<br>
+            第一步：录制测试脚本，录制二遍<br>
+          这一步就不用多说了，相同的操作，录制两份，分别保存          
+          <p><br>
+            第二步：使用WinDiff工具协助找出需要关联的数据<br>
+            1. 在第二份脚本中，点选VuGen的【Tools】&gt;【Compare with Vuser…】，并选择第一份脚本。<br>
+            2.   接着WinDiff会开启，同时显示二份脚本，并显示有差异的地方。WinDiff会以一整行黄色标示有差异的脚本，并且以红色的字体显示真正差异的文  字。（假如没看到红色字体，请点选【Options】&gt;【View】&gt;【Show Inline Differences】）。<br>
+            查看二份脚本中差异的部份，每一个差异都可能是需要做关联的地方。<br>
+            注意：lr_thik_time部分的差异可以忽略<br>
+            找到不同的部分后，复制，然后打开Recording Log或是Generation Log，按Ctrl+F，在查找窗口中粘贴差异部分的内容，点击查找找到后，查看该部分的信息，确认是客户端的请求信息还是服务器回应的信息<br/>
+            如果出现在 
+          <pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">RequestHeaderForTransactionWithId3Ended<br></span></code></li></ol></pre>
+          <p>这个部分，那证明是客户端发出的请求，这里是不需要做关联的<br>
+            一般做的关联都是出现在****** Response Header For Transaction With Id 7 ******和****** Response Body For Transaction With Id 7 ******中的部分。<br>
+            在找到这个信息后，需要记录如下信息：<br>
+            a、记录这个不同数据之前的内容和之后的内容<br>
+          b、记录这个不同数据出现的位置，是Header还是Body</p>
+          <p><br>
+            第三步：确认插入关联的位置<br>
+            我们在<a ><u>日志</u></a>中找到了两次脚本的不同点的位置，根据这个位置，我们再确定是在哪个请求之后产生的，也就是说要定位发生不同点的response是由哪个request产生的，找到了这个请求的函数位置，我们就知道要往哪里做关联了。<br>
+          一般情况下关联函数写到发出请求的函数之前就可以了。</p>
+          <p><br>
+            第四步：插入关联函数<br>
+            在插入关联函数前，我们先介绍关联函数web_reg_save_param<br>
+            一个web_reg_save_param函数的例子：<br>
+            
+          </p>
+          <pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">web_reg_save_param ("sessionid",
+　　"LB=Session_id:",
+　　"RB=;",
+　　"Search=Body",
+　　LAST);<br></span></code></li></ol></pre>
+        
+　　在这里我们只介绍几个常用参数的含义<br>
+　　语法：int web_reg_save_param(const char *ParamName, &lt;list of Attributes&gt;, LAST);<br>
+　　参数说明:<br>
+　　ParamName: 存放得到的动态内容的参数名称<br>
+　　list of Attributes: 其它属性，包括：Notfound, LB, RB, RelFrameID, Search, ORD, SaveOffset, Convert, SaveLen。属性值不分大小写<br>
+　　LB( Left Boundary ) : 返回信息的左边界字串。该属性必须有，并且区分大小写。<br>
+　　RB( Right Boundary ): 返回信息的右边界字串。该属性必须有，并且区分大小写。<br>
+　　Search : 返回信息的查找范围。可以是Headers，Body，Noresource，All(缺省)。该属性质可有可无。<br>
+　　那么如何插入该关联函数呢？<br>
+　　1.将vugun切换到 view tree 模式下<br>
+　　2.在左边的列表中，找到在上一步发出请求的函数，点击&ldquo;右键&rdquo;<br>
+　　选择&ldquo;insert before&rdquo;<br>
+　　3.在弹出的&ldquo;add step&rdquo;对话框的&ldquo;find function&rdquo;中输入&ldquo;web_reg_save_param&rdquo;，点击&ldquo;ok&rdquo;<br>
+　　在&ldquo;parameter name&rdquo;中输入,关联函数的名称，这里最好有含义，&ldquo;sessionid&rdquo;<br>
+　　在&ldquo;left boundary&rdquo;中输入，刚才记录下的不同点字符串的左面的几个字符，定义左边界，Session_id:<br>
+　　在&ldquo;right boundary&rdquo;中输入，刚才记录下的不同点字符串的右面的几个字符，定义右边界，;<br>
+　　在&ldquo;search in &rdquo;中，选择&ldquo;body&rdquo;<br>
+　　点击&ldquo;ok&rdquo;<br>
+　　4.回到脚本编辑模式下，查看该函数插入是否正确<br>
+　　在发出请求的函数前应该看到：<br>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">web_reg_save_param ("sessionid",
+　　"LB=Session_id:",
+　　"RB=;",
+　　"Search=Body",
+　　LAST);<br></span></code></li></ol></pre>
+
+　　
+<p>&nbsp;</p>
+<p>第五步：将脚本中有用到关联的数据，用参数代替<br>
+  如发出请求的参数如下，那么将原来服务器返回的动态值使用{ sessionid } 来替换：<br>
+  
+</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">web_submit_form("login.php_2",
+　　"Snapshot=t2.inf",
+　　ITEMDATA,
+　　"Name=login", "Value=wangjin", ENDITEM,
+　　"Name=password", "Value=wangjin", ENDITEM,
+　　"Name=Session_id","Value={ sessionid } ", ENDITEM,
+　　"Name=Submit", "Value=Login", ENDITEM,
+　　EXTRARES,
+　　"URL=/media/images/border_bg_l.gif", ENDITEM,
+　　"URL=/media/images/header_bg.gif", ENDITEM,
+　　"URL=/media/images/th.gif", ENDITEM,
+　　LAST);<br>;<br></span></code></li></ol></pre>
+
+　　
+<p>&nbsp;</p>
+<p>第六步：验证关联的正确性<br>
+  回放脚本，验证关联的正确性。
+  
+</p>
+      </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+　</section>
+</body>
+</html>

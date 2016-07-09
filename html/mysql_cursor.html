@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="../css/develop_standard/layout.css" type="text/css" />
+    <link rel="StyleSheet" href="../css/develop_standard/style.css" type="text/css" />
+    <style type="text/css">
+        .pun, .opn, .clo {
+            color: #660;
+        }
+    </style>
+    <title>mysql存储过程之游标遍历数据表</title>
+</head>
+<body>
+<section class="layout">
+    <article  data-name="preface" class="book">
+        <header>
+            <h1>mysql存储过程之游标遍历数据表</h1>
+   
+          <div class="description"></div>
+      </header>
+        <section class="content">
+<p>今天写一个mysql存储过程，根据自己的需求要遍历一个数据表，因为对存储过程用的不多，语法不甚熟悉，加之存储过程没有调试环境，花了不少时间才慢慢弄好，故留个痕迹。</p>
+
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class=""><code><span class="pln">BEGIN
+       DECLARE Done INT DEFAULT 0;
+      
+       DECLARE CurrentLingQi INT;
+      
+       DECLARE ShizuName VARCHAR(30);
+       /* 声明游标 */
+       DECLARE rs CURSOR FOR SELECT NodeName, LingQi FROM socialrelation;
+       /* 异常处理 */
+      DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET Done = 1;
+     
+      /* 打开游标 */
+      OPEN rs;  
+     
+      /* 逐个取出当前记录LingQi字段的值，需要进行最大值的判断 */
+      FETCH NEXT FROM rs INTO ShizuName, CurrentLingQi;     
+      /* 遍历数据表 */
+      REPEAT
+            IF NOT Done THEN
+               SET CurrentLingQi = CurrentLingQi + 60;
+               /* 如果更新后灵气值大于允许的最大值，则就设置为最大值 */
+              IF CurrentLingQi >= 1800 THEN
+                  UPDATE socialrelation SET LingQi = 1800 WHERE NodeName = ShizuName;
+               ELSE
+              /* 否则，正常更新 */
+                  UPDATE socialrelation SET LingQi = LingQi + 60 WHERE NodeName = ShizuName;
+               END IF;
+            END IF;
+           
+      FETCH NEXT FROM rs INTO ShizuName, CurrentLingQi;
+ 
+      UNTIL Done END REPEAT;
+     
+      /* 关闭游标 */
+      CLOSE rs;
+ END
+ </span></code></li></ol></pre>
+
+        </section>
+        <footer>
+
+        </footer>
+    </article>
+
+
+</section>
+</body>
+</html>
