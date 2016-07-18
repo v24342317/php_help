@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html><head lang="cn">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>简单使用Git和Github来管理自己的代码和读书笔记 - OPEN 开发经验库</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="keywords" content="Git,Git">
+	<meta name="description" content="以前不知道使用代码管理工具，最后写的一些东西都没有了，由于硬盘坏了或者不小心格式化了之类的，后来使用了Git 
+
+和Github来托管自己的代码和读书笔记方便了不少，到哪里只要有网就可以把自己的东西拷贝下来继续使用。 
+
+我这里简单的记录一下我使用的过程，最简单的使用都是，高级的功能我一直没有使用到，虽然买一本《Git权威指南》 
+
+但是很多东西用不到就不能够真的会。下面开始简单介绍我使用的方法，我这个是在windows上使用的。我使用分两种情况
+">
+	<link rel="shortcut icon" href="http://www.open-open.com/lib/favicon.ico">
+	<link rel="copyright" href="http://www.open-open.com/">
+
+	<link href="git_init/idea.css" rel="stylesheet">
+	<link href="git_init/jquery-ui.css" rel="stylesheet">
+	
+	<link href="git_init/bootstrap.css" rel="stylesheet">
+	<link href="git_init/font-awesome.css" rel="stylesheet">
+	<link href="git_init/jquery-confirm.css" rel="stylesheet">
+	<link href="git_init/styles.css" rel="stylesheet">
+
+	<style type="text/css" media="screen, projection">
+		/*<![CDATA[*/
+		@import "/lib/css/common.css";
+		@import "/lib/css/main.css";
+		@import "/lib/css/jGrowl.css";
+		/*]]>*/
+		.articleIndex li.active a {
+			color: #0099ff;
+		}
+	</style>
+	<style type="text/css">
+		.topheader h1{font-size: 24px;margin: 0;}
+		.crumbs{padding-bottom: 5px;font-size: 11px;}.crumbs,.crumbs a,.meta{color: #bbb;}
+		#tag-list{margin-top: 10px;}
+		#tag-list a{background: #fff;padding: 2px 10px;text-decoration: none;}
+		#tag-list a:hover{background: #c5e2ff;color: #0099ff;}
+		.crumbs a:hover{color: #0099ff;}
+		#readercontainer{background: #fff;padding: 40px 89px;}
+
+		.post-nav ul{
+			margin: 0;
+		}
+		.post-nav>ul>li a{
+			padding-left: 10px;
+		}
+		.post-nav>ul>li>ul>li a{
+			padding-left: 30px;
+		}
+		.post-nav>ul>li>ul>li>ul>li a{
+			padding-left: 50px;
+		}
+		.post-nav ul li.active a{
+			border-left: 2px solid #0099ff;
+		}
+
+		.aside-fixed {
+			left: 50%;
+			margin-left: 310px;
+			position: fixed;
+			top: 65px;
+			width: 260px;
+		}
+		.bdsharebuttonbox {
+			background: #eee none repeat scroll 0 0;
+			margin-top: 10px;
+			padding: 10px;
+			width: 100%;
+		}
+
+	</style>
+
+
+
+
+
+
+
+
+
+<link href="git_init/share_style0_16.css" rel="stylesheet"></head>
+<body id="view"><div style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;" id="BAIDU_DUP_fp_wrapper"><iframe style="width: 0px; height: 0px; visibility: hidden; display: none;" src="git_init/o.htm" id="BAIDU_DUP_fp_iframe"></iframe></div>
+
+
+<style>
+	.global-tags{background: #333;color: #ababab;height: 30px;line-height: 30px;width: 100%;}
+	.global-tags .container{position: relative;}
+	.global-tags ul{ height: 30px; margin: 0; overflow: hidden;}
+	.global-tags a{color:#ababab;padding: 5px; }
+	.global-tags a:hover{color:#e0e0e0; }
+	.global-tags li { display: inline-block; padding: 0; }
+	.global-tags  .more { background-color: #333; height: 30px; position: absolute; right: 0; top: 0; width: 30px; }
+	.global-tags  .more:before { background-image: linear-gradient(90deg, rgba(0, 95, 60, 0), #333); background-size: 100% auto; content: ""; height: 100%; left: -20px; position: absolute; top: 0; width: 20px; }
+
+	/* menu */
+	.all-sort{z-index: 100;position: absolute;left: 15px;top: 30px;display: none;}
+	.all-sort-head{background: #ff3c00; color: #fff; margin-right: 20px; text-align: center; width: 160px;float: left;}
+	.all-sort-head a{color: #fff;}
+	.item-list .subitem{float:left;padding:20px;}
+	.all-sort-list{position:relative;width:160px;border:2px solid #393939;border-top:none;background:#393939;float: left;z-index: 100;}
+	.all-sort-list .item .parent{font-weight: 700;border: none;width: 120px;text-align: right;margin-right: 2px;}
+	.all-sort-list .item .parent i{font: 400 9px/14px consolas; height: 14px; margin-left: 10px; width: 4px;}
+	.all-sort-list .item.bo{border-top:none;}
+	.all-sort-list .item h3{height:40px;line-height:40px;font-size:14px;font-weight:normal;width:158px;overflow:hidden; color:#ffffff;margin: 0;}
+	.all-sort-list .item h3 a{color: #ffffff;}
+	.all-sort-list .item:hover h3,.all-sort-list .item:hover span,.all-sort-list .item:hover h3 a,.all-sort-list .item .active ,.all-sort-list .item .active a,.all-sort-list .item .active span{color:#E4393C;}
+	.all-sort-list .item span{padding:0px 5px;color:#ffffff;font-family:"\5B8B\4F53";}
+	.all-sort-list .item a{text-decoration:none;}
+	.all-sort-list .subitem a{ float: left;  margin:5px 20px 5px 0;border-left:1px solid #eee;line-height: 14px;height: 20px;}
+	.all-sort-list .item a:hover{color:#E4393C;}
+	.all-sort-list .item:hover h3,.all-sort-list .item .active{position:relative;z-index:13;background:#FFF;border-color:#DDD;border-width:1px 0px;border-style:solid;}
+	.all-sort-list .item-list{ display:none; position:absolute; width:705px; min-height:360px; _height:360px; background:#FFF; left:157px;  border:1px solid #DDD; top:0; z-index:10; }
+
+</style>
+
+
+
+
+
+
+<div class="topheader" style="background: #eee;padding: 10px 0 30px;">
+	<div class="container">
+		<div class="row"></div>
+	</div>
+</div>
+<div class="container">
+<div class="row">
+
+		<div id="readercontainer" class="col-md-9">
+				<article>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 以前不知道使用代码管理工具，最后写的一些东西都没有了，由于硬盘坏了或者不小心格式化了之类的，后来使用了Git </p>
+<p>和Github来托管自己的代码和读书笔记方便了不少，到哪里只要有网就可以把自己的东西拷贝下来继续使用。 </p>
+<p>我这里简单的记录一下我使用的过程，最简单的使用都是，高级的功能我一直没有使用到，虽然买一本《Git权威指南》 </p>
+<p>但是很多东西用不到就不能够真的会。下面开始简单介绍我使用的方法，我这个是在windows上使用的。我使用分两种情况， </p>
+<p>因为我的代码都是在Linux下写的，所以在linux下主要是托管代码用，在windows下主要是托管笔记使用的，比如一些PDF </p>
+<p>文档，我在看的时候会加入自己的注释，这样使用托管功能，在哪里都可以接着注释，不用总是拷贝或者总是需要复制。 </p>
+<ol>
+<li>
+<p>先注册github.com的账号<span style="font-family:宋体;">官方网站</span>: <a href="https://github.com/" target="_blank">https://github.com/</a> </p>
+</li>
+</ol>
+<p><span style="font-family:宋体;font-weight:bold;">注册界面，第一个用户名，以后会用到，我的是</span><span style="font-weight:bold;">bxxfighting</span> </p>
+<p><span style="font-weight:bold;"><br>
+</span></p>
+<p><span style="font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144905_517.jpg" height="315" width="725"></span> </p>
+<p><span style="font-weight:bold;">2.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">登录界面</span> </p>
+<p><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144905_684.jpg" height="309" width="711"></span> </p>
+<p><span style="font-family:宋体;"><span style="font-weight:bold;">3.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">登录成功后界面</span></span> </p>
+<p><span style="font-family:宋体;"><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144905_197.jpg" height="308" width="709"></span></span> </p>
+<p><span style="font-family:宋体;"><span style="font-family:宋体;">4.<span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">创建仓库</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">我现在想使用</span><span style="font-weight:bold;">github</span><span style="font-family:宋体;font-weight:bold;">来托管自己的</span><span style="font-weight:bold;">NowToDo</span><span style="font-family:宋体;font-weight:bold;">项目的代码</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">因此先要创建一个仓库</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">仓库分公开的和私有的</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">公开的是免费的</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">私有的是收费的</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">我使用的是公开的仓库</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">如下创建方式</span></span></span> </p>
+<p><span style="font-family:宋体;"><span style="font-family:宋体;"><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144906_181.jpg" height="319" width="734"></span></span></span> </p>
+<p><span style="font-family:宋体;"><span style="font-family:宋体;"><span style="font-family:宋体;"><span style="font-family:宋体;">点击</span>New repository<span style="font-family:宋体;">按钮</span>,<span style="font-family:宋体;">弹出如下界面</span>,<span style="font-family:宋体;">第一行填仓库名</span>,<span style="font-family:宋体;">这里就随便叫</span>Test<span style="font-family:宋体;">了</span>,<span style="font-family:宋体;">第二行是对这个仓库的描述</span>,<span style="font-family:宋体;">之后那个</span>Public<span style="font-family:宋体;">就是公共仓库的意思</span>,<span style="font-family:宋体;">接下来的</span>README<span style="font-family:宋体;">就是在仓库里创建一个</span>README<span style="font-family:宋体;">文件</span>,<span style="font-family:宋体;">可以往里写一些介绍你这个项目的功能之类的东西</span>,<span style="font-family:宋体;">再下面那个</span>Add gitignore<span style="font-family:宋体;">按钮</span>,<span style="font-family:宋体;">可以选择你这个项目是用什么语言之类的</span>,<span style="font-family:宋体;">我这里选择了</span>Qt,<span style="font-family:宋体;">后面那个</span>License<span style="font-family:宋体;">我没有选</span>,<span style="font-family:宋体;">点击</span>”Create repository”</span></span></span> </p>
+<p><span style="font-family:宋体;"><span style="font-family:宋体;"><span style="font-family:宋体;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144907_48.jpg" height="408" width="722"></span></span></span> </p>
+<p><br>
+</p>
+<p><span style="font-weight:bold;">5.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">创建仓库成功后</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">界面如下显示</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">可以点击</span><span style="font-weight:bold;">README.md</span><span style="font-family:宋体;font-weight:bold;">来编译这个文件</span> </p>
+<p><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144907_23.jpg" height="315" width="725"></span> </p>
+<p><br>
+</p>
+<p><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144907_945.jpg" height="267" width="733"></span> </p>
+<p><br>
+</p>
+<span style="font-family:宋体;"> <h1 id="articleHeader0"><span style="font-family:宋体;">在</span>windows<span style="font-family:宋体;">下安装</span>Git </h1>
+<div>
+<p style="margin-left:18pt;text-indent:-18pt;"><span style="font-weight:bold;">1.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">下载网址</span><span style="font-weight:bold;">: http://code.google.com/p/msysgit/downloads/list</span> </p>
+<p style="margin-left:18pt;text-indent:-18pt;"><span style="font-weight:bold;">2.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">下载完毕</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">打开安装</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">点击</span><span style="font-weight:bold;">”next”</span> </p>
+</div>
+</span> <p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144907_341.jpg" height="388" width="503"> </p>
+<p><span style="font-weight:bold;">3.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">点击</span><span style="font-weight:bold;">”next”</span> </p>
+<p><span style="font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144907_653.jpg" height="388" width="503"></span> </p>
+<p><br>
+</p>
+<p><span style="font-family:宋体;"><span style="font-weight:bold;">4.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">可以更改安装路径后</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">点击</span><span style="font-weight:bold;">”next”</span></span> </p>
+<p><span style="font-family:宋体;"><span style="font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144908_992.jpg" height="388" width="503"></span></span> </p>
+<p><span style="font-weight:bold;">5.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">按照默认的就可以</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">我这里更改了一处</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">可以不改，这个最好还是用默认配置好，不要改了，我第二次装就没有改这里，要不然可以有不一致的地方，推荐不要改了，使用默认</span> </p>
+<p><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144908_466.jpg" height="388" width="503"></span> </p>
+<p><span style="font-weight:bold;">6.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">直接点</span><span style="font-weight:bold;">”next”</span> </p>
+<p><span style="font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144908_128.jpg" height="388" width="503"></span> </p>
+<p><span style="font-weight:bold;">7.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">默认设置就可以</span> </p>
+<p><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144908_684.jpg" height="388" width="503"></span> </p>
+<p><span style="font-family:宋体;"><span style="font-weight:bold;">8.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">默认设置就可以，如果你的机器装了</span><span style="font-weight:bold;">SVN</span><span style="font-family:宋体;font-weight:bold;">的话，这里可能还会有一步，就是让你选择</span><span style="font-weight:bold;">SSH</span><span style="font-family:宋体;font-weight:bold;">的，也不要更改，就直接默认就好，也就是说安装这个软件的时候，其实只有安装路径想改的话，更改一下就好了，其它的都保持默认就</span><span style="font-weight:bold;">OK</span><span style="font-family:宋体;font-weight:bold;">了</span></span> </p>
+<p><span style="font-family:宋体;"><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144908_646.jpg" height="388" width="503"></span></span> </p>
+<p><span style="font-weight:bold;">9.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">点击</span><span style="font-weight:bold;">”next”</span> </p>
+<p><span style="font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144909_90.jpg" height="388" width="503"></span> </p>
+<p><br>
+</p>
+ <h1 id="articleHeader1"><span style="font-family:宋体;">使用</span>git<span style="font-family:宋体;">和</span>github<span style="font-family:宋体;">托管项目代码</span> </h1>
+<div>
+<p style="margin-left:18pt;text-indent:-18pt;"><span style="font-weight:bold;">1.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">双击图标</span><span style="font-weight:bold;">”Git Bash”</span> </p>
+</div>
+<p><span style="font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144909_271.jpg" height="109" width="290"></span> </p>
+<p><span style="font-weight:bold;">2.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">打开界面如下</span> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144909_176.jpg" height="392" width="677"> </p>
+<p><br>
+</p>
+<p style="margin-left:18pt;text-indent:-18pt;"><span style="font-weight:bold;">3.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">配置</span><span style="font-weight:bold;">Git,</span><span style="font-family:宋体;font-weight:bold;">图示如下</span><span style="font-weight:bold;">:</span> </p>
+<p style="margin-left:42pt;text-indent:-21pt;">a)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">先输入</span>ssh-keygen –t rsa –C “<span style="font-family:宋体;">邮箱地址</span>”,<span style="font-family:宋体;">注意</span>ssh-keygen<span style="font-family:宋体;">之间是没有空格的</span>,<span style="font-family:宋体;">其他的之间是有空格的</span> </p>
+<p style="margin-left:42pt;text-indent:-21pt;">b)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">回车之后</span>,<span style="font-family:宋体;">会出现一行</span>,<span style="font-family:宋体;">让你输入一个保存密钥的地方</span>,<span style="font-family:宋体;">括号里面是它默认的位置</span>,<span style="font-family:宋体;">可以在冒号后面自己写一个位置保存</span>,<span style="font-family:宋体;">我这个是在</span>E<span style="font-family:宋体;">盘下创建了一个目录叫</span>Hello,<span style="font-family:宋体;">后面那个</span>id_rsa<span style="font-family:宋体;">就是密钥要保存的文件名</span>,<span style="font-family:宋体;">这个文件是自动生成的</span>,<span style="font-family:宋体;">后生成两个一个叫</span>id_rsa,<span style="font-family:宋体;">一个叫</span>id_rsa.pub<span style="font-family:宋体;">，我这么做了之后，发现生成的密钥目录里少了一个文件</span>known_hosts<span style="font-family:宋体;">，如果按照默认的目录的话是有这个文件的，如果没有这个文件，后序出现了问题，因此，建议还是直接用他的默认路径就好，这里就不要自己填路径了，直接回车</span> </p>
+<p style="margin-left:42pt;text-indent:-21pt;">c)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">回车之后</span>,<span style="font-family:宋体;">会设置密码</span>,<span style="font-family:宋体;">我这里没有设置</span>,<span style="font-family:宋体;">直接点了回车两次</span>,<span style="font-family:宋体;">这样密钥就生成了</span>,<span style="font-family:宋体;">可以打开</span>id_rsa.pub<span style="font-family:宋体;">来查看</span>,<span style="font-family:宋体;">我使用的是记事本直接打开的这个文件</span>,<span style="font-family:宋体;">里面的所有内容就是这个密钥</span>,<span style="font-family:宋体;">一会需要使用的时候</span>,<span style="font-family:宋体;">就直接全选复制就可以了</span> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144909_108.jpg" height="166" width="534"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144909_200.jpg" height="97" width="600"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144910_797.jpg" height="392" width="677"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144910_382.jpg" height="119" width="600"> </p>
+<p><span style="font-weight:bold;">d)</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">现在转到</span><span style="font-weight:bold;">github</span><span style="font-family:宋体;font-weight:bold;">网站上去配置一下</span><span style="font-weight:bold;">ssh key,</span><span style="font-family:宋体;font-weight:bold;">点击箭头指示图标</span><span style="font-weight:bold;">Account settings</span><span style="font-family:宋体;font-weight:bold;">，然后点击左侧的</span><span style="font-weight:bold;">SSH Keys</span><span style="font-family:宋体;font-weight:bold;">，之后点击右侧的</span><span style="font-weight:bold;">Add SSH Key</span><span style="font-family:宋体;font-weight:bold;">，这样就会出现添加</span><span style="font-weight:bold;">SSH Key</span><span style="font-family:宋体;font-weight:bold;">的界面，在</span><span style="font-weight:bold;">Title</span><span style="font-family:宋体;font-weight:bold;">这一栏填一个名字，名字随意起，之后打开刚才生成的那个文件</span><span style="font-weight:bold;">id_rsa.pub</span><span style="font-family:宋体;font-weight:bold;">，全选复制里面的内容到</span><span style="font-weight:bold;">Key</span><span style="font-family:宋体;font-weight:bold;">这一栏中，点击</span><span style="font-weight:bold;">Add Key</span><span style="font-family:宋体;font-weight:bold;">按钮完成操作，这时你填的邮箱会收到一封确认的邮件，不用管它</span> </p>
+<p><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144910_587.jpg" height="80" width="741"></span> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144910_278.jpg" height="371" width="705"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144910_274.jpg" height="419" width="713"> </p>
+<p><br>
+</p>
+<p style="margin-left:42pt;text-indent:-21pt;"><span style="font-weight:bold;">e)</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">验证一下是否设置成功</span><span style="font-weight:bold;">,</span><span style="font-family:宋体;font-weight:bold;">在</span><span style="font-weight:bold;">git bash</span><span style="font-family:宋体;font-weight:bold;">下输入如下命令：</span> </p>
+<p style="text-indent:57.75pt;">ssh –T git@github.com </p>
+<p style="margin-left:57.75pt;"><span style="font-family:宋体;">出现如下图示，因为我不是第一次设置了，所以是这样的，如果你是第一次，会让你输入</span>yes<span style="font-family:宋体;">或</span>no,<span style="font-family:宋体;">这时输入</span>yes<span style="font-family:宋体;">就可以了，其它显示就和我这个是一样的。如果你的是出现不是这些内容，有可能是显示权限问题什么的，就应该是我上面提到的那种情况，你看一下你生成密钥时是否操作正确，目录下是否有那个</span>known_hosts<span style="font-family:宋体;">这个文件</span> </p>
+<p><span style="font-family:宋体;font-weight:bold;"><br>
+</span></p>
+<p><span style="font-family:宋体;font-weight:bold;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144910_467.jpg" height="97" width="646"></span> </p>
+<p style="margin-left:42pt;text-indent:-21pt;"><span style="font-weight:bold;">f)</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">现在配置一下用户名和邮箱：</span> </p>
+<p style="text-indent:57.75pt;">git config –global user.name “<span style="font-family:宋体;">用户名</span>” </p>
+<p style="text-indent:57.75pt;">git config –global user.email “<span style="font-family:宋体;">邮箱</span>” </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_61.jpg" height="126" width="440"> </p>
+<p><span style="font-weight:bold;">4.</span><span style="font-family:" font-size:7pt;font-weight:bold;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;font-weight:bold;">到现在为止，我们就算把</span><span style="font-weight:bold;">Git</span><span style="font-family:宋体;font-weight:bold;">和</span><span style="font-weight:bold;">github</span><span style="font-family:宋体;font-weight:bold;">配置完了，我现在要做的事情是把自己的</span><span style="font-weight:bold;">QT</span><span style="font-family:宋体;font-weight:bold;">项目</span><span style="font-weight:bold;">NowToDo</span><span style="font-family:宋体;font-weight:bold;">托管到</span><span style="font-weight:bold;">github</span><span style="font-family:宋体;font-weight:bold;">上，那么就开始操作吧</span> </p>
+<p><span style="font-family:宋体;">a)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">随意创建了一个目录叫</span>git_project</span> </p>
+<p><span style="font-family:宋体;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_729.jpg" height="74" width="586"></span> </p>
+<p>b)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">右击目录，出现的菜单中有</span>Git Init Here<span style="font-family:宋体;">，点击它，这时在这个目录下会出现一个隐藏目录</span>.git<span style="font-family:宋体;">，这个是有关配置等功能的，不用管，我的项目</span>NowToDo<span style="font-family:宋体;">在这个</span>NowToDo<span style="font-family:宋体;">目录下，包括</span>.cpp<span style="font-family:宋体;">等文件</span> </p>
+<p><span style="font-family:宋体;"><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_836.jpg" height="86" width="596"></span> </p>
+<p><br>
+</p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_934.jpg" height="213" width="606"> </p>
+<p><br>
+</p>
+<p style="margin-left:42pt;text-indent:-21pt;">c)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">现在回到</span>git_project<span style="font-family:宋体;">那里，在这个目录上继续右击，点击</span>Git Bash<span style="font-family:宋体;">，现在就出现一个和开始使用那个</span>Git Bash<span style="font-family:宋体;">一样的窗口，不过现在是在</span>git_project<span style="font-family:宋体;">目录下使用了，其实如果知道</span>Shell<span style="font-family:宋体;">命令，可以直接使用刚才的那个窗口直接使用</span>cd<span style="font-family:宋体;">命令进入这个目录下，效果是一样的，现在输入如下命令：</span> </p>
+<p style="text-indent:57.75pt;">git remote add origin <a href="mailto:git@github.com:bxxfighting/NowToDo.git" target="_blank">git@github.com:bxxfighting/NowToDo.git</a> </p>
+<p style="margin-left:57.75pt;"><span style="font-family:宋体;">其中</span>bxxfighting<span style="font-family:宋体;">是我在网站上注册时使用的用户名，</span>NowToDo.git<span style="font-family:宋体;">是我为这个项目建立的另一个仓库名，在网站上显示是这样的</span> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_840.jpg" height="116" width="711"> </p>
+<p><br>
+</p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_901.jpg" height="442" width="677"> </p>
+<p><br>
+</p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_192.jpg" height="101" width="642"> </p>
+<p><br>
+</p>
+<p style="margin-left:42pt;text-indent:-21pt;">d)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">由于我建立仓库的时候创建</span>README.md<span style="font-family:宋体;">之时，已经算一次提交了，我需要先在本地同步一下仓库的内容</span>,<span style="font-family:宋体;">命令如下：</span> </p>
+<p style="text-indent:63pt;">git pull <a href="mailto:git@github.com:bxxfighting/NowToDo.git" target="_blank">git@github.com:bxxfighting/NowToDo.git</a> </p>
+<p style="margin-left:63pt;"><span style="font-family:宋体;">完成的效果如下图，并且本地目录下多出了两个文件，这是原本在</span>github<span style="font-family:宋体;">上的两个文件</span> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_349.jpg" height="188" width="641"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_828.jpg" height="118" width="595"> </p>
+<p><br>
+</p>
+<p style="margin-left:42pt;text-indent:-21pt;">e)<span style="font-family:" font-size:7pt;"="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-family:宋体;">下面就要把我们本地的上传到仓库上去了，首先执行增加命令，如下：</span> </p>
+<p style="text-indent:63pt;">git add . </p>
+<p style="margin-left:63pt;">add<span style="font-family:宋体;">后面加了一个点，是想要提交所有文件，如果想提交指定的文件，可以写文件名，执行完增加命令后，要执行提交命令，如下：</span> </p>
+<p style="margin-left:63pt;">git commit –m “NowToDo_v1.0<span style="font-family:宋体;">版本</span>” </p>
+<p style="margin-left:63pt;">-m<span style="font-family:宋体;">后面跟提示信息，这个提示信息是一定要写的，不仅是规则，同时也方便我们记录我们提交的过程，写清晰为什么提交或修改了什么是非常有用的，提交完成后，我们就要把它推送到远程仓库上去了，命令如下：</span> </p>
+<p style="margin-left:63pt;">git push <a href="mailto:git@github.com:bxxfighting/NowToDo.git" target="_blank">git@github.com:bxxfighting/NowToDo.git</a> </p>
+<p style="margin-left:63pt;"><span style="font-family:宋体;">这样就完成了我们要做的所有任务</span> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_743.jpg" height="87" width="649"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144911_750.jpg" height="291" width="647"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144912_34.jpg" height="442" width="677"> </p>
+<p><img alt="简单使用Git和Github来管理自己的代码和读书笔记" src="git_init/20150213144912_890.jpg" height="239" width="689"> </p>
+<p>到这就差不多了，我每次用其实都来看看，不是总是用，有点记不住，第一次这样就过就记下了，方便以后使用。其实 </p>
+<p>这真是非常方便的，可以使用熟练，管理自己的代码和笔记很好的东西，以前管理代码，最近发现每次看电子书，里面写上笔记，但是同步费劲，现在决定用它来管理了，回去在自己的笔记本上也这样来用，就可以同步自己看的进度了。<br>
+<br>
+来自：http://my.oschina.net/bxxfighting/blog/378196 </p>
+				</article>
+
+
+
+
+		
+
+
+
+		</div>
+
+
+
+	<div class="col-md-3">
+
+
+		<div class=" side-box" style="margin-top: 20px;">
+				<div class="title"><h3>同类热门经验</h3></div>
+				<ol class="hot">
+					
+						<li>
+							<a title="Git详解之三" git分支="" href="http://www.open-open.com/lib/view/open1328069889514.html"><span class="title">Git详解之三 Git分支 </span></a>
+						</li>
+					
+						<li>
+							<a title="Git详解之一" git起步="" href="http://www.open-open.com/lib/view/open1328069609436.html"><span class="title">Git详解之一 Git起步 </span></a>
+						</li>
+					
+						<li>
+							<a title="Git详解之二" git基础="" href="http://www.open-open.com/lib/view/open1328069733264.html"><span class="title">Git详解之二 Git基础 </span></a>
+						</li>
+					
+						<li>
+							<a title="Git使用基础篇" href="http://www.open-open.com/lib/view/open1332904495999.html"><span class="title">Git使用基础篇 </span></a>
+						</li>
+					
+						<li>
+							<a title="Git详解之四" 服务器上的git="" href="http://www.open-open.com/lib/view/open1328069988843.html"><span class="title">Git详解之四 服务器上的Git </span></a>
+						</li>
+					
+						<li>
+							<a title="Git详解之五" 分布式git="" href="http://www.open-open.com/lib/view/open1328070090108.html"><span class="title">Git详解之五 分布式Git </span></a>
+						</li>
+					
+
+				</ol>
+			</div>
+		<p class="aiBar"></p>
+		<div class="side-box post-nav" style="margin-top: 20px;">
+			<div class="title"><h3>阅读目录</h3></div>
+			<ul class="articleIndex"><li class=""><a href="#articleHeader0">在windows下安装Git</a></li><li class="active"><a href="#articleHeader1">使用git和github托管项目代码</a></li></ul>
+		</div>
+	</div>
+
+
+
+</div>
+	</div>
+
+<div class="container">
+
+
+	<div class="row">
+		<div class="col-md-9">
+			<table width="100%"><tbody><tr>
+				<td class="Relatedb" valign="top" width="33%">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关文档</strong> 　—　<a href="http://www.open-open.com/doc" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li><a href="http://www.open-open.com/doc/view/c07d806ed96f4f73be16e24eb332db52" rel="nofollow" target="_blank" title="GitLab 使用手册.docx">GitLab 使用手册.docx</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/fe03ccbe3663476a88b98c2036608d3f" rel="nofollow" target="_blank" title="Django搭建简易博客教程.pdf">Django搭建简易博客教程.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/4ad27d7b386e4b3795be65f03e8a622a" rel="nofollow" target="_blank" title="《Git版本控制管理（第2版）》迷你书.pdf">《Git版本控制管理（第2版）》迷你书.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/6835d437b53147998644f70b07292b81" rel="nofollow" target="_blank" title="Git版本控制管理(第2版).pdf">Git版本控制管理(第2版).pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/d86e409fc96647e19fdffa870449185c" rel="nofollow" target="_blank" title="Pro Git 英文版.pdf">Pro Git 英文版.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/baff736a1cf24cfbb8cae3ab991f5310" rel="nofollow" target="_blank" title="Git 中文教程.pdf">Git 中文教程.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/80341142f07d40fea5ffba48886c38a7" rel="nofollow" target="_blank" title="Git内部培训资料.pptx">Git内部培训资料.pptx</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/8174703a87164898a5444abd95fc3e4b" rel="nofollow" target="_blank" title="Pro Git中文版.pdf">Pro Git中文版.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/6721745bd173489cbff443e5acb73594" rel="nofollow" target="_blank" title="活灵活现用Git-基础篇活灵活现用Git-基础篇.doc">活灵活现用Git-基础篇活灵活现用Git-基础篇.doc</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/d7952086df3346149aed01862a9ce0e8" rel="nofollow" target="_blank" title="gitHub 托管项目与持续集成Jenkins入门.pdf">gitHub 托管项目与持续集成Jenkins入门.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/b28bfd836c2b4a9f85b0bc6d8a470c49" rel="nofollow" target="_blank" title="git使用方法.doc">git使用方法.doc</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/7df86a3bad894c5fa3d29a093fe021d0" rel="nofollow" target="_blank" title="Git实践性的指导.pdf">Git实践性的指导.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/385506d24d9c4670871e41d4c2dbd2b5" rel="nofollow" target="_blank" title="Git技巧.pdf">Git技巧.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/8aba273f7f2c424fb03d45718c648489" rel="nofollow" target="_blank" title="Android 系统核心或驱动的开发之Android repo 魔法.doc">Android 系统核心或驱动的开发之Android repo 魔法.doc</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/738aaf0a9fc04b05a56106d22ff29622" rel="nofollow" target="_blank" title="Git使用指南(中文).pdf">Git使用指南(中文).pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/995ffcef1e164696beabffc669ab89f1" rel="nofollow" target="_blank" title="Git基本使用总结.docx">Git基本使用总结.docx</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/289efe62664d4d308008a2cf53428e45" rel="nofollow" target="_blank" title="Using the EGit Eclipse Plugin with GitHub.pdf">Using the EGit Eclipse Plugin with GitHub.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/046e08afd33f4b9cbd348049ea770228" rel="nofollow" target="_blank" title="Git的深入理解与GitHub托管服务的使用.pdf">Git的深入理解与GitHub托管服务的使用.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/ed28df982b33430796a919485259d748" rel="nofollow" target="_blank" title="git 使用简介.pdf">git 使用简介.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/6581f247c57540a8857387b02239d24b" rel="nofollow" target="_blank" title="git 使用简介.pdf">git 使用简介.pdf</a></li>
+						
+					</ul>
+				</td>
+				<td class="Relatedb" valign="top" width="33%">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关经验</strong> 　—　<a href="http://www.open-open.com/lib" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li>
+								<a title="以开发者的视角整理编排的前端开发所使用语言的主流学习资源" href="http://www.open-open.com/lib/view/open1456802317250.html" target="_blank"><span class="title">以开发者的视角整理编排的前端开发所使用语言的主流学习资源</span></a>
+
+							</li>
+						
+							<li>
+								<a title="结合个人经历总结的前端入门方法" href="http://www.open-open.com/lib/view/open1449542023941.html" target="_blank"><span class="title"> 结合个人经历总结的前端入门方法 </span></a>
+
+							</li>
+						
+							<li>
+								<a title="iOS开发者必备：自己总结的iOS、mac开源项目及库" href="http://www.open-open.com/lib/view/open1442458724383.html" target="_blank"><span class="title">iOS开发者必备：自己总结的iOS、mac开源项目及库</span></a>
+
+							</li>
+						
+							<li>
+								<a title="使用git和github管理自己的项目---真实开发环境的策略" href="http://www.open-open.com/lib/view/open1442147493986.html" target="_blank"><span class="title">使用git和github管理自己的项目---真实开发环境的策略</span></a>
+
+							</li>
+						
+							<li>
+								<a title="iOS及Mac开源项目和学习资料【超级全面】" href="http://www.open-open.com/lib/view/open1442664670352.html" target="_blank"><span class="title">iOS及Mac开源项目和学习资料【超级全面】</span></a>
+
+							</li>
+						
+							<li>
+								<a title="如何使用Git上传项目代码到github" href="http://www.open-open.com/lib/view/open1432467505264.html" target="_blank"><span class="title">如何使用Git上传项目代码到github </span></a>
+
+							</li>
+						
+							<li>
+								<a title="git使用总结" href="http://www.open-open.com/lib/view/open1426989432021.html" target="_blank"><span class="title">git使用总结</span></a>
+
+							</li>
+						
+							<li>
+								<a title="GIT命令" href="http://www.open-open.com/lib/view/open1392641428788.html" target="_blank"><span class="title">GIT命令</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Git" 命令参数及用法详解="" href="http://www.open-open.com/lib/view/open1335879873983.html" target="_blank"><span class="title">Git 命令参数及用法详解</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Git超级简明手册" href="http://www.open-open.com/lib/view/open1449824900082.html" target="_blank"><span class="title">Git超级简明手册</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Git/Github的使用并与Eclipse整合" href="http://www.open-open.com/lib/view/open1369361562766.html" target="_blank"><span class="title">Git/Github的使用并与Eclipse整合 </span></a>
+
+							</li>
+						
+							<li>
+								<a title="版本控制使用Git比svn更有优势" href="http://www.open-open.com/lib/view/open1415888122055.html" target="_blank"><span class="title">版本控制使用Git比svn更有优势</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Git" 基础知识="" href="http://www.open-open.com/lib/view/open1327827323139.html" target="_blank"><span class="title">Git 基础知识</span></a>
+
+							</li>
+						
+							<li>
+								<a title="GIT使用基础" href="http://www.open-open.com/lib/view/open1385427657588.html" target="_blank"><span class="title">GIT使用基础</span></a>
+
+							</li>
+						
+					</ul>
+				</td>
+				<td class="Relatedb" valign="top" width="33%">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关讨论</strong> 　—　<a href="http://www.open-open.com/solution" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li>
+								<a title="RESTful架构详解" href="http://www.open-open.com/solution/view/1437528859537" rel="nofollow" target="_blank"><span class="title">RESTful架构详解</span></a>
+							</li>
+						
+							<li>
+								<a title="招聘[上海" 外滩]云视链="" video++="" 不论风吹雨打，依旧向前，人生路何尝不是这样="" href="http://www.open-open.com/solution/view/1439373571614" rel="nofollow" target="_blank"><span class="title">招聘[上海 外滩]云视链 Video++ 不论风吹雨打，依旧向前，人生路何尝不是这样</span></a>
+							</li>
+						
+							<li>
+								<a title="Android自动化测试解决方案" href="http://www.open-open.com/solution/view/1323318989780" rel="nofollow" target="_blank"><span class="title">Android自动化测试解决方案</span></a>
+							</li>
+						
+							<li>
+								<a title="10个步骤让你成为高效的Web开发者" href="http://www.open-open.com/solution/view/1320713162249" rel="nofollow" target="_blank"><span class="title">10个步骤让你成为高效的Web开发者</span></a>
+							</li>
+						
+							<li>
+								<a title="写给即将入行的" 程序员="" 的一封信="" href="http://www.open-open.com/solution/view/1380205769726" rel="nofollow" target="_blank"><span class="title">写给即将入行的 程序员 的一封信</span></a>
+							</li>
+						
+							<li>
+								<a title="一个Java程序员对2011年的回顾" href="http://www.open-open.com/solution/view/1326095640687" rel="nofollow" target="_blank"><span class="title">一个Java程序员对2011年的回顾</span></a>
+							</li>
+						
+							<li>
+								<a title="程序猿的鄙视链" href="http://www.open-open.com/solution/view/1418862629417" rel="nofollow" target="_blank"><span class="title">程序猿的鄙视链</span></a>
+							</li>
+						
+					</ul>
+				</td>
+			</tr></tbody></table>
+		</div>
+
+	</div>
+
+</div>
+
+
+
+
+
+<style>
+	footer{background-color: #fff;
+		border-top: 1px solid rgba(230, 230, 230, 0.75);
+		margin-top: 20px;
+		padding: 20px 0;}
+</style>
+
+
+
+<div aria-labelledby="ui-id-1" aria-describedby="favorite-box" role="dialog" tabindex="-1" style="display: none;" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle"><span class="ui-dialog-title" id="ui-id-1">收藏提示</span><button title="Close" role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" type="button"><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">Close</span></button></div><div class="ui-dialog-content ui-widget-content" style="display: block;" id="favorite-box">
+						<table>
+							<tbody>
+							<tr>
+								<td align="right" width="70">文件夹</td>
+								<td><select id="fav_folderlist" name="folder">
+									<option selected="selected" value="0">请选择...</option>
+									<option id="newfolder-sp" disabled="disabled" value="">-------------</option>
+									<option value="-1">新增文件夹...</option>
+								</select></td>
+							</tr>
+							<tr style="display: none" id="newfolder-input">
+								<td align="right">新增文件夹</td>
+								<td><input id="fav_newfolder" maxlength="50" name="newfolder" type="text"></td>
+							</tr>
+							<tr>
+								<td align="right">标签</td>
+								<td><input id="fav_tags" maxlength="135" size="20" name="tags" type="text"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2">(多个标签用逗号分隔)</td>
+							</tr>
+							</tbody>
+						</table>
+					</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button"><span class="ui-button-text">取消</span></button><button role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button"><span class="ui-button-text">确认</span></button></div></div></div><div title="回到顶部" style="position: fixed; bottom: 165px; right: 95px; cursor: pointer; display: none;" id="topcontrol"><img src="git_init/gotop.gif" style="width:35px; height:35px;"></div></body></html>
