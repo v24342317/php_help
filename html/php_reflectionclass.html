@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="gb2312" />
+<meta name="applicable-device" content="pc">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<title>PHP的反射类ReflectionClass、ReflectionMethod使用实例_php实例_脚本之家</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<meta name="keywords" content="PHP,反射类,ReflectionClass,ReflectionMethod,使用实例" />
+<meta name="description" content="这篇文章主要介绍了PHP的反射类ReflectionClass、ReflectionMethod使用实例,本文同时介绍了反射是什么、反射可以做哪些事情,并给出一个具体例子,是一篇不错的入门文章,需要的朋友可以参考下" />
+
+
+<link type="text/css" href="php_reflectionclass/base.css" rel="stylesheet" />
+<link type="text/css" href="php_reflectionclass/common.css" rel="stylesheet" />
+
+</head>
+<body>
+<!--head Star -->
+<div id="head">
+
+<!--head End --><!--content Star -->
+<div id="contents">
+ <div class="main clearfix">
+      <div class="w690 fl">
+      <div class="article-content border">
+      <div class="title">
+            <h1 class="YaHei">PHP的反射类ReflectionClass、ReflectionMethod使用实例</h1>
+            <p>投稿：junjie  字体：[<a href="javascript:turnbig()">增加</a> <a href="javascript:turnsmall()">减小</a>] 类型：转载 时间：2014-08-05<a href="#comments"> 我要评论</a></p>
+        </div>
+        <div class="art_desc mt10"><div id="art_demo">这篇文章主要介绍了PHP的反射类ReflectionClass、ReflectionMethod使用实例,本文同时介绍了反射是什么、反射可以做哪些事情,并给出一个具体例子,是一篇不错的入门文章,需要的朋友可以参考下</div></div>
+        <div class="lbd clearfix"><span id="art_up" class="jbTestPos"></span></div>
+        <div id="content">
+<p>PHP5 具有完整的反射API，添加对类、接口、函数、方法和扩展进行反向工程的能力。</p>
+<p><strong>反射是什么？</strong></p>
+<p>它是指在PHP运行状态中，扩展分析PHP程序，导出或提取出关于类、方法、属性、参数等的详细信息，包括注释。这种动态获取的信息以及动态调用对象的方法的功能称为反射API。反射是操纵面向对象范型中元模型的API，其功能十分强大，可帮助我们构建复杂，可扩展的应用。</p>
+<p>其用途如：自动加载插件，自动生成文档，甚至可用来扩充PHP语言。</p>
+<p>PHP反射api由若干类组成，可帮助我们用来访问程序的元数据或者同相关的注释交互。借助反射我们可以获取诸如类实现了那些方法，创建一个类的实例（不同于用new创建），调用一个方法（也不同于常规调用），传递参数，动态调用类的静态方法。<br />
+反射api是PHP内建的OOP技术扩展，包括一些类，异常和接口，综合使用他们可用来帮助我们分析其它类，接口，方法，属性，方法和扩展。这些OOP扩展被称为反射。</p>
+<p>平常我们用的比较多的是 ReflectionClass类 和 ReflectionMethod类，例如：<br />
+<div class="codetitle"><span><a style="CURSOR: pointer" data="7250" class="copybut" id="copybut7250" onclick="doCopy('code7250')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code7250"><br />
+&lt;&#63;php<br />
+class Person {</p>
+<p>&nbsp;/**<br />
+&nbsp; * For the sake of demonstration, we"re setting this private<br />
+&nbsp; */<br />
+&nbsp;private $_allowDynamicAttributes = false;</p>
+<p>&nbsp;/**<br />
+&nbsp; * type=primary_autoincrement<br />
+&nbsp; */<br />
+&nbsp;protected $id = 0;</p>
+<p>&nbsp;/**<br />
+&nbsp; * type=varchar length=255 null<br />
+&nbsp; */<br />
+&nbsp;protected $name;</p>
+<p>&nbsp;/**<br />
+&nbsp; * type=text null<br />
+&nbsp; */<br />
+&nbsp;protected $biography;</p>
+<p>&nbsp;public function getId() {<br />
+&nbsp;&nbsp;return $this-&gt;id;<br />
+&nbsp;}</p>
+<p>&nbsp;public function setId($v) {<br />
+&nbsp;&nbsp;$this-&gt;id = $v;<br />
+&nbsp;}</p>
+<p>&nbsp;public function getName() {<br />
+&nbsp;&nbsp;return $this-&gt;name;<br />
+&nbsp;}</p>
+<p>&nbsp;public function setName($v) {<br />
+&nbsp;&nbsp;$this-&gt;name = $v;<br />
+&nbsp;}</p>
+<p>&nbsp;public function getBiography() {<br />
+&nbsp;&nbsp;return $this-&gt;biography;<br />
+&nbsp;}</p>
+<p>&nbsp;public function setBiography($v) {<br />
+&nbsp;&nbsp;$this-&gt;biography = $v;<br />
+&nbsp;}<br />
+}<br />
+</div></p>
+<p><strong>一、通过ReflectionClass，我们可以得到Person类的以下信息：</strong></p>
+<p>1.常量 Contants<br />
+2.属性 Property Names<br />
+3.方法 Method Names静态<br />
+4.属性 Static Properties<br />
+5.命名空间 Namespace<br />
+6.Person类是否为final或者abstract<br />
+7.Person类是否有某个方法</p>
+<p>接下来反射它，只要把类名"Person"传递给ReflectionClass就可以了：<br />
+<div class="codetitle"><span><a style="CURSOR: pointer" data="98964" class="copybut" id="copybut98964" onclick="doCopy('code98964')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code98964"><br />
+$class = new ReflectionClass('Person'); // 建立 Person这个类的反射类&nbsp; <br />
+$instance&nbsp; = $class-&gt;newInstanceArgs($args); // 相当于实例化Person 类&nbsp; <br />
+</div></p>
+<p><strong>1）获取属性(Properties)：</strong></p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="76938" class="copybut" id="copybut76938" onclick="doCopy('code76938')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code76938"><br />
+$properties = $class-&gt;getProperties();<br />
+foreach ($properties as $property) {<br />
+&nbsp;echo $property-&gt;getName() . "\n";<br />
+}<br />
+// 输出:<br />
+// _allowDynamicAttributes<br />
+// id<br />
+// name<br />
+// biography<br />
+</div></p>
+<p>默认情况下，ReflectionClass会获取到所有的属性，private 和 protected的也可以。如果只想获取到private属性，就要额外传个参数：</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="16459" class="copybut" id="copybut16459" onclick="doCopy('code16459')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code16459"><br />
+$private_properties = $class-&gt;getProperties(ReflectionProperty::IS_PRIVATE);<br />
+</div></p>
+<p>可用参数列表：</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="97896" class="copybut" id="copybut97896" onclick="doCopy('code97896')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code97896"><br />
+ReflectionProperty::IS_STATIC<br />
+ReflectionProperty::IS_PUBLIC<br />
+ReflectionProperty::IS_PROTECTED<br />
+ReflectionProperty::IS_PRIVATE<br />
+</div><br />
+通过$property-&gt;getName()可以得到属性名。</p>
+<p><strong>2）获取注释：</strong></p>
+<p>通过getDocComment可以得到写给property的注释。</p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="80142" class="copybut" id="copybut80142" onclick="doCopy('code80142')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code80142"><br />
+foreach ($properties as $property) {<br />
+&nbsp;if ($property-&gt;isProtected()) {<br />
+&nbsp;&nbsp;$docblock = $property-&gt;getDocComment();<br />
+&nbsp;&nbsp;preg_match('/ type\=([a-z_]*) /', $property-&gt;getDocComment(), $matches);<br />
+&nbsp;&nbsp;echo $matches[1] . "\n";<br />
+&nbsp;}<br />
+}<br />
+// Output:<br />
+// primary_autoincrement<br />
+// varchar<br />
+// text<br />
+</div></p>
+<p><strong>3）获取类的方法</strong></p>
+<p><div class="codetitle"><span><a style="CURSOR: pointer" data="6846" class="copybut" id="copybut6846" onclick="doCopy('code6846')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code6846"><br />
+getMethods()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 来获取到类的所有methods。<br />
+hasMethod(string)&nbsp; 是否存在某个方法<br />
+getMethod(string)&nbsp; 获取方法<br />
+</div></p>
+<p><strong>4）执行类的方法：<br />
+</strong><div class="codetitle"><span><a style="CURSOR: pointer" data="26736" class="copybut" id="copybut26736" onclick="doCopy('code26736')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code26736"><br />
+$instance-&gt;getName(); // 执行Person 里的方法getName<br />
+// 或者：<br />
+$method = $class-&gt;getmethod('getName');&nbsp;// 获取Person 类中的getName方法<br />
+$method-&gt;invoke($instance);&nbsp;&nbsp;&nbsp;&nbsp;// 执行getName 方法<br />
+// 或者：<br />
+$method = $class-&gt;getmethod('setName');&nbsp;// 获取Person 类中的setName方法<br />
+$method-&gt;invokeArgs($instance, array('snsgou.com'));<br />
+</div></p>
+<p><strong>二、通过ReflectionMethod，我们可以得到Person类的某个方法的信息：</strong></p>
+<p>1.是否“public”、“protected”、“private” 、“static”类型<br />
+2.方法的参数列表<br />
+3.方法的参数个数<br />
+4.反调用类的方法<br />
+<div class="codetitle"><span><a style="CURSOR: pointer" data="93623" class="copybut" id="copybut93623" onclick="doCopy('code93623')"><U>复制代码</U></a></span> 代码如下:</div><div class="codebody" id="code93623"><br />
+// 执行detail方法<br />
+$method = new ReflectionMethod('Person', 'test');</p>
+<p>if ($method-&gt;isPublic() && !$method-&gt;isStatic()) {<br />
+&nbsp;echo 'Action is right';<br />
+}<br />
+echo $method-&gt;getNumberOfParameters(); // 参数个数<br />
+echo $method-&gt;getParameters(); // 参数对象数组<br />
+</div></p>
+
+</div><!--endmain-->
+<div class="art_xg">
+<h4>您可能感兴趣的文章:</h4><ul><li><a href="/article/43148.htm" title="PHP反射类ReflectionClass和ReflectionObject的使用方法" target="_blank">PHP反射类ReflectionClass和ReflectionObject的使用方法</a></li><li><a href="/article/80973.htm" title="详解php中反射的应用" target="_blank">详解php中反射的应用</a></li><li><a href="/article/76751.htm" title="反射调用private方法实践(php、java)" target="_blank">反射调用private方法实践(php、java)</a></li><li><a href="/article/57038.htm" title="PHP类的反射用法实例" target="_blank">PHP类的反射用法实例</a></li><li><a href="/article/54445.htm" title="PHP反射机制用法实例" target="_blank">PHP反射机制用法实例</a></li><li><a href="/article/53275.htm" title="PHP中的reflection反射机制测试例子" target="_blank">PHP中的reflection反射机制测试例子</a></li><li><a href="/article/51760.htm" title="PHP反射使用实例和PHP反射API的中文说明" target="_blank">PHP反射使用实例和PHP反射API的中文说明</a></li><li><a href="/article/38670.htm" title="解析php中反射的应用" target="_blank">解析php中反射的应用</a></li><li><a href="/article/16243.htm" title="PHP 反射机制实现动态代理的代码" target="_blank">PHP 反射机制实现动态代理的代码</a></li><li><a href="/article/84055.htm" title="php反射类ReflectionClass用法分析" target="_blank">php反射类ReflectionClass用法分析</a></li></ul>
+</div>
+<div class="lbd clearfix">
+<span id="art_down" class="jbTestPos"></span>
+</div>
+<div id="shoucang"></div>
+<div class="tags mt10">
+<strong>Tags：</strong><a href="http://img.jb51.net/tag/PHP/1.htm" target="_blank" title="搜索关于PHP的文章">PHP</a> <a href="http://img.jb51.net/tag/%B7%B4%C9%E4%C0%E0/1.htm" target="_blank" title="搜索关于反射类的文章">反射类</a> <a href="http://img.jb51.net/tag/ReflectionClass/1.htm" target="_blank" title="搜索关于ReflectionClass的文章">ReflectionClass</a> <a href="http://img.jb51.net/tag/ReflectionMethod/1.htm" target="_blank" title="搜索关于ReflectionMethod的文章">ReflectionMethod</a> 
+</div>
+<DIV class="relatedarticle clearfix mt5">
+<H2>相关文章</H2>
+<ul><li><span>2015-06-06</span><a href="/article/67296.htm" title="浅谈PHP接收POST数据方式" target="_blank">浅谈PHP接收POST数据方式</a></li><li><span>2016-03-03</span><a href="/article/80329.htm" title="深入浅析用PHP实现MVC" target="_blank">深入浅析用PHP实现MVC</a></li><li><span>2014-06-06</span><a href="/article/51001.htm" title="Codeigniter出现错误提示Error with CACHE directory的解决方案" target="_blank">Codeigniter出现错误提示Error with CACHE directory的解决方案</a></li><li><span>2013-03-03</span><a href="/article/34687.htm" title="用Php编写注册后Email激活验证的实例代码" target="_blank">用Php编写注册后Email激活验证的实例代码</a></li><li><span>2014-02-02</span><a href="/article/47192.htm" title="thinkphp路由规则使用示例详解和伪静态功能实现(apache重写)" target="_blank">thinkphp路由规则使用示例详解和伪静态功能实现(apache重写)</a></li><li><span>2014-11-11</span><a href="/article/57045.htm" title="ThinkPHP写数组插入与获取最新插入数据ID实例" target="_blank">ThinkPHP写数组插入与获取最新插入数据ID实例</a></li><li><span>2014-02-02</span><a href="/article/46742.htm" title="php实现cc攻击防御和防止快速刷新页面示例" target="_blank">php实现cc攻击防御和防止快速刷新页面示例</a></li><li><span>2014-04-04</span><a href="/article/49101.htm" title="codeigniter中测试通过的分页类示例" target="_blank">codeigniter中测试通过的分页类示例</a></li><li><span>2015-09-09</span><a href="/article/71854.htm" title="ThinkPHP中使用Ueditor富文本编辑器" target="_blank">ThinkPHP中使用Ueditor富文本编辑器</a></li><li><span>2014-08-08</span><a href="/article/53943.htm" title="php实现的太平洋时间和北京时间互转的自定义函数分享" target="_blank">php实现的太平洋时间和北京时间互转的自定义函数分享</a></li></ul>
+</DIV>
+<div class="lbd clearfix mt5">
+<span id="art_down2" class="jbTestPos"></span>
+</div>
+<a href="#comments"></a>
+<div id="comments">
+<H2>最新评论</H2>
+<div class="pd5"><div id="SOHUCS" sid="art_53274"></div></div>
+</div>
+      </div><!--endborder-->
+      </div><!--end fl-->
+      
+<div class="w300 fr">
+<div class="r300 clearfix"><span id="side_up" class="jbTestPos"></span></div>
+<DIV class="tabTitleBar mt10 bgf borderTblue">
+<DIV class="borderTnone pb10 YaHei">
+<H4 class="blue">大家感兴趣的内容</H4>
+<UL class="newsList newList-in">
+<li><EM class="no1">1</EM><a href="/article/42451.htm" title="php获取数组长度的方法（有实例）" target="_blank">php获取数组长度的方法（有实例）</a></li><li><EM class="no2">2</EM><a href="/article/42500.htm" title="教你如何使用php session" target="_blank">教你如何使用php session</a></li><li><EM class="no3">3</EM><a href="/article/23415.htm" title="简单PHP上传图片、删除图片实现代码" target="_blank">简单PHP上传图片、删除图片实现代</a></li><li><EM class="no4">4</EM><a href="/article/18549.htm" title="php 变量定义方法" target="_blank">php 变量定义方法</a></li><li><EM class="no5">5</EM><a href="/article/29071.htm" title="PHPExcel读取Excel文件的实现代码" target="_blank">PHPExcel读取Excel文件的实现代码</a></li><li><EM class="no6">6</EM><a href="/article/64174.htm" title="微信公众平台实现获取用户OpenID的方法" target="_blank">微信公众平台实现获取用户OpenID</a></li><li><EM class="no7">7</EM><a href="/article/36389.htm" title="PHP命名空间(Namespace)的使用详解" target="_blank">PHP命名空间(Namespace)的使用详</a></li><li><EM class="no8">8</EM><a href="/article/56479.htm" title="微信公众平台网页授权获取用户基本信息中授权回调域名设置的变动" target="_blank">微信公众平台网页授权获取用户基</a></li><li><EM class="no9">9</EM><a href="/article/48124.htm" title="使用PHP生成二维码的两种方法(带logo图像)" target="_blank">使用PHP生成二维码的两种方法(带</a></li><li><EM class="no10">10</EM><a href="/article/51538.htm" title="ThinkPHP多表联合查询的常用方法" target="_blank">ThinkPHP多表联合查询的常用方法</a></li>
+</UL>
+</DIV>
+</DIV>
+<div class="r300 clearfix mt10"><span id="idctu" class="jbTestPos"></span></div>
+<DIV class="tabTitleBar mt10 bgf borderTblue">
+<DIV class="borderTnone pb10 YaHei">
+<H4 class="blue">最近更新的内容</H4>
+<UL class="newsListA">
+<ul><li><a href="/article/60168.htm" title="PHP 生成N个不重复的随机数" target="_blank">PHP 生成N个不重复的随机数</a></li><li><a href="/article/37808.htm" title="解析CI即CodeIgniter框架在Nginx下的重写规则" target="_blank">解析CI即CodeIgniter框架在Nginx下的重写</a></li><li><a href="/article/81132.htm" title="Symfony2实现在controller中获取url的方法" target="_blank">Symfony2实现在controller中获取url的方法</a></li><li><a href="/article/84684.htm" title="smarty自定义函数用法示例" target="_blank">smarty自定义函数用法示例</a></li><li><a href="/article/44806.htm" title="php制作unicode解码工具(unicode编码转换器)代码分享" target="_blank">php制作unicode解码工具(unicode编码转换</a></li><li><a href="/article/60983.htm" title="PHP实现Javascript中的escape及unescape函数代码分享" target="_blank">PHP实现Javascript中的escape及unescape函</a></li><li><a href="/article/45533.htm" title="php防止sql注入示例分析和几种常见攻击正则表达式" target="_blank">php防止sql注入示例分析和几种常见攻击正</a></li><li><a href="/article/46038.htm" title="简单的php缓存类分享 	php缓存机制" target="_blank">简单的php缓存类分享 	php缓存机制</a></li><li><a href="/article/37908.htm" title="浅谈php serialize()与unserialize()的用法" target="_blank">浅谈php serialize()与unserialize()的用</a></li><li><a href="/article/68296.htm" title="PHP实现在线阅读PDF文件的方法" target="_blank">PHP实现在线阅读PDF文件的方法</a></li></ul>
+</UL>
+</DIV>
+</DIV>   
+<div class="r300 clearfix mt10"><span id="idctu1" class="jbTestPos"></span></div>
+<DIV class="tabTitleBar mt10 bgf borderTblue">
+<DIV class="borderTnone pb10 YaHei">
+<H4 class="blue">常用在线小工具</H4>
+<ul class="newsListA"><span id="bctools" class="jbTestPos"></span></ul>
+</DIV>
+</DIV>
+<div class="r300 clearfix mt10" id="idctu2"><span id="idctu2" class="jbTestPos"></span></div>
+<div class="mt10 rFixedBox">
+<span id="r_2" class="jbTestPos"></span>
+</div>
+      
+      
+      </div><!--end fr-->
+      </div>
+</div><!--end content-->
+<!--end footer-->
+<link type="text/css" rel="stylesheet" href="/jslib/syntaxhighlighter/styles/shCore.css" />
+<link type="text/css" rel="Stylesheet" href="/jslib/syntaxhighlighter/styles/shThemeDefault.css" />
+
+</body>
+</html>
+<!-- published at 2016-6-17 1:26:05By dxycms qq:461478385  -->
