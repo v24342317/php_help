@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html><head lang="cn">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>PHP5的composer学习从入门到精通 - OPEN 开发经验库</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="keywords" content="PHP5,PHP开发">
+	<meta name="description" content="因为两年前学习php都是学的php5.2,没有接触composer。现在好多项目都用上了composer，而且虽然之前之前有pecl，功能弱还不是原生支持的，用的不多，而且现在java的maven这么火，我大php的是不能落后的。
+">
+	<link rel="shortcut icon" href="http://www.open-open.com/lib/favicon.ico">
+	<link rel="copyright" href="http://www.open-open.com/">
+
+	<link href="composer_one/idea.css" rel="stylesheet">
+	<link href="composer_one/jquery-ui.css" rel="stylesheet">
+	
+	<link href="composer_one/bootstrap.css" rel="stylesheet">
+	<link href="composer_one/font-awesome.css" rel="stylesheet">
+	<link href="composer_one/jquery-confirm.css" rel="stylesheet">
+	<link href="composer_one/styles.css" rel="stylesheet">
+
+	<style type="text/css" media="screen, projection">
+		/*<![CDATA[*/
+		@import "/lib/css/common.css";
+		@import "/lib/css/main.css";
+		@import "/lib/css/jGrowl.css";
+		/*]]>*/
+		.articleIndex li.active a {
+			color: #0099ff;
+		}
+	</style>
+	<style type="text/css">
+		.topheader h1{font-size: 24px;margin: 0;}
+		.crumbs{padding-bottom: 5px;font-size: 11px;}.crumbs,.crumbs a,.meta{color: #bbb;}
+		#tag-list{margin-top: 10px;}
+		#tag-list a{background: #fff;padding: 2px 10px;text-decoration: none;}
+		#tag-list a:hover{background: #c5e2ff;color: #0099ff;}
+		.crumbs a:hover{color: #0099ff;}
+		#readercontainer{background: #fff;padding: 40px 89px;}
+
+		.post-nav ul{
+			margin: 0;
+		}
+		.post-nav>ul>li a{
+			padding-left: 10px;
+		}
+		.post-nav>ul>li>ul>li a{
+			padding-left: 30px;
+		}
+		.post-nav>ul>li>ul>li>ul>li a{
+			padding-left: 50px;
+		}
+		.post-nav ul li.active a{
+			border-left: 2px solid #0099ff;
+		}
+
+		.aside-fixed {
+			left: 50%;
+			margin-left: 310px;
+			position: fixed;
+			top: 65px;
+			width: 260px;
+		}
+		.bdsharebuttonbox {
+			background: #eee none repeat scroll 0 0;
+			margin-top: 10px;
+			padding: 10px;
+			width: 100%;
+		}
+
+	</style>
+
+
+
+
+
+
+
+
+<link href="composer_one/share_style0_16.css" rel="stylesheet"></head>
+<body id="view"><div style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;" id="BAIDU_DUP_fp_wrapper"><iframe style="width: 0px; height: 0px; visibility: hidden; display: none;" src="composer_one/o.htm" id="BAIDU_DUP_fp_iframe"></iframe></div>
+
+
+<style>
+	.global-tags{background: #333;color: #ababab;height: 30px;line-height: 30px;width: 100%;}
+	.global-tags .container{position: relative;}
+	.global-tags ul{ height: 30px; margin: 0; overflow: hidden;}
+	.global-tags a{color:#ababab;padding: 5px; }
+	.global-tags a:hover{color:#e0e0e0; }
+	.global-tags li { display: inline-block; padding: 0; }
+	.global-tags  .more { background-color: #333; height: 30px; position: absolute; right: 0; top: 0; width: 30px; }
+	.global-tags  .more:before { background-image: linear-gradient(90deg, rgba(0, 95, 60, 0), #333); background-size: 100% auto; content: ""; height: 100%; left: -20px; position: absolute; top: 0; width: 20px; }
+
+	/* menu */
+	.all-sort{z-index: 100;position: absolute;left: 15px;top: 30px;display: none;}
+	.all-sort-head{background: #ff3c00; color: #fff; margin-right: 20px; text-align: center; width: 160px;float: left;}
+	.all-sort-head a{color: #fff;}
+	.item-list .subitem{float:left;padding:20px;}
+	.all-sort-list{position:relative;width:160px;border:2px solid #393939;border-top:none;background:#393939;float: left;z-index: 100;}
+	.all-sort-list .item .parent{font-weight: 700;border: none;width: 120px;text-align: right;margin-right: 2px;}
+	.all-sort-list .item .parent i{font: 400 9px/14px consolas; height: 14px; margin-left: 10px; width: 4px;}
+	.all-sort-list .item.bo{border-top:none;}
+	.all-sort-list .item h3{height:40px;line-height:40px;font-size:14px;font-weight:normal;width:158px;overflow:hidden; color:#ffffff;margin: 0;}
+	.all-sort-list .item h3 a{color: #ffffff;}
+	.all-sort-list .item:hover h3,.all-sort-list .item:hover span,.all-sort-list .item:hover h3 a,.all-sort-list .item .active ,.all-sort-list .item .active a,.all-sort-list .item .active span{color:#E4393C;}
+	.all-sort-list .item span{padding:0px 5px;color:#ffffff;font-family:"\5B8B\4F53";}
+	.all-sort-list .item a{text-decoration:none;}
+	.all-sort-list .subitem a{ float: left;  margin:5px 20px 5px 0;border-left:1px solid #eee;line-height: 14px;height: 20px;}
+	.all-sort-list .item a:hover{color:#E4393C;}
+	.all-sort-list .item:hover h3,.all-sort-list .item .active{position:relative;z-index:13;background:#FFF;border-color:#DDD;border-width:1px 0px;border-style:solid;}
+	.all-sort-list .item-list{ display:none; position:absolute; width:705px; min-height:360px; _height:360px; background:#FFF; left:157px;  border:1px solid #DDD; top:0; z-index:10; }
+
+</style>
+
+
+<header class="site-header">
+	<div class="header-top ">
+		<div class="header-top-inner">
+			<div class="" style="margin: 0 30px;">
+				<div class="row">
+					<div class="header-top-left col-lg-6 col-md-6 col-sm-6 col-xs-12 v-grid">
+						<div class="header-talet">
+							<a href="http://www.open-open.com/">首页</a> &nbsp;
+							<a class="" href="http://www.open-open.com/code/">代码</a> &nbsp;
+							<a class="" href="http://www.open-open.com/doc/">文档</a> &nbsp;
+							<a title="OPEN论坛频道" href="http://www.open-open.com/solution/">问答</a> &nbsp;
+							<a title="OPEN资讯" class="" href="http://www.open-open.com/news/">资讯</a> &nbsp;
+							<a title="OPEN经验库" class="active" href="http://www.open-open.com/lib/">经验</a> &nbsp;
+							<a title="GitHub日报" class="" href="http://www.open-open.com/github/">GitHub日报</a>
+							&nbsp;|&nbsp;
+							<a class="active" title=" 安卓开发专栏" target="_blank" href="http://www.open-open.com/lib/list/177">安卓开发专栏</a>
+							&nbsp;|&nbsp;
+							<a class="active" href="http://www.open-open.com/lib/tag/%E5%BC%80%E5%8F%91%E8%80%85%E5%91%A8%E5%88%8A" target="_blank" rel="tag">开发者周刊</a>
+						</div>
+					</div>
+					<div class="header-top-right col-lg-6 col-md-6 col-sm-6 col-xs-12 v-grid">
+						<div class="user-info pull-right" id="Personal">
+							
+								<a href="#" title="登录OPEN经验库" class="login">登录</a>&nbsp;&nbsp;
+								<a href="#" title="注册新的账号" class="register">注册</a>
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar "></nav>
+	<div class="global-tags"></div>
+</header>
+
+
+
+<div class="topheader" style="background: #eee;padding: 10px 0 30px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<div class="crumbs">
+					<a href="http://www.open-open.com/lib/list/all">所有分类</a>
+					
+						&nbsp;&gt;&nbsp;
+						<a href="http://www.open-open.com/lib/list/36">开发语言与工具</a>
+					
+						&nbsp;&gt;&nbsp;
+						<a href="http://www.open-open.com/lib/list/39">PHP开发</a>
+					
+				</div>
+				<h1 id="articleTitle">PHP5的composer学习从入门到精通</h1>
+				<div class="meta" style="margin-top: 10px;">
+					<span id="tag-list">
+					
+						<a href="http://www.open-open.com/lib/tag/PHP5">PHP5</a>
+					
+					</span>&nbsp;
+
+					<span class="item">2014-10-10 08:49:58 发布</span>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+<div class="row">
+
+		<div id="readercontainer" class="col-md-9">
+				<article>
+					<span>因为两年前学习php都是学的php5.2,没有接触composer。现在好多项目都用上了composer，而且虽然之前之前有pecl，功能弱还不是原生支持的，用的不多，而且现在java的maven这么火，我大php的是不能落后的。</span>   <p> 从入门到精通，只需四个步骤，解决下面四个问题即可 </p>
+ 
+  <p> <strong><span style="font-size:18px;">1.什么是</span></strong><span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:18px;line-height:25px;background-color:#FFFFFF;"><strong>composer？（入门）</strong></span> </p>
+ 
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;Composer 是 PHP 
+的一个依赖管理工具。它允许你申明项目所依赖的代码库，它会在你的项目中为你安装他们。Composer 不是一个包管理器。是的，它涉及 
+"packages" 和 "libraries"，但它在每个项目的基础上进行管理，在你项目的某个目录中（例如 
+vendor）进行安装。默认情况下它不会在全局安装任何东西。因此，这仅仅是一个依赖管理。--from 百度百科 </p>
+ 
+  <p> &nbsp; &nbsp; 百度百科基本把官网的介绍翻译的很好，说的再明白一点，请看CSDN一篇博文的解释。 </p>
+ 
+  <p> <em><span style="color:#666666;">&nbsp; &nbsp;&nbsp;</span></em><em><span style="color:#666666;">在PHP包管理上面，PHP发展的很缓慢，导致的结果就是很少发现程序员会使用像PEAR这样的工具。相反，大多数开发人员会选择他们自己喜欢的框架来处理代码，比如DB交互、ORIM’S、Oauth、Amazon S3整合等。</span></em><em><span style="color:#666666;">缺点就是在转换框架的时候（或者根本不需要返回使用框架）就感觉像在做噩梦，因为涉及到使用新工具，你必须重新学习里面的一切东西，而这并不简单。OK，</span></em><a href="https://github.com/composer/composer" rel="nofollow"><em><span style="color:#666666;">Composer</span></em></a><em><span style="color:#666666;">来帮助你解决这些问题。--<a href="http://www.csdn.net/article/2012-07-05/2807142" target="_blank" rel="nofollow">http://www.csdn.net/article/2012-07-05/2807142</a></span></em> </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;"><strong><span style="font-size:18px;">2.</span></strong><span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:18px;line-height:25px;background-color:#FFFFFF;"><strong>composer的环境要求与安装？（进阶）</strong></span></span> </p>
+ 
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;Composer 需要PHP5.3.2+ 以上的环境来运行。 </p>
+ 
+  <p> &nbsp; &nbsp; windows下安装： </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;a.使用安装包，下载地址：<a href="https://getcomposer.org/Composer-Setup.exe" target="_blank" rel="nofollow">https://getcomposer.org/Composer-Setup.exe</a> </p>
+ 
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;b.正常安装 </p>
+ 
+  <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;I.DOS下转到你的PHP安装目录，然后运行代码下载composer.phar (如果下载失败，换成http再试试，螃蟹在win7测试木有问题) </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <pre class=" language-bash">C<span style="color:#999999;">:</span>\Users\username<span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">&gt;</span>cd C<span style="color:#999999;">:</span>\bin
+C<span style="color:#999999;">:</span>\bin<span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">&gt;</span>php <span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">-</span>r <span style="color:#669900;">"readfile('https://getcomposer.org/installer');"</span> <span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">|</span> php</pre> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; II.运行下面的代码创建批处理文件，并放到环境变量 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <pre class=" language-bash">C<span style="color:#999999;">:</span>\bin<span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">&gt;</span><span style="color:#0077AA;">echo</span> @php <span style="color:#669900;">"%~dp0composer.phar"</span> <span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">%</span><span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">*</span><span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">&gt;</span>composer<span style="color:#999999;">.</span>bat</pre> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; III.关闭DOS窗口，再重新打开，运行下面代码正常表示安装成功（螃蟹测试是木有问题的） 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <pre class=" language-bash">C<span style="color:#999999;">:</span>\Users\username<span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">&gt;</span>composer <span style="color:#A67F59;background-color:rgba(255, 255, 255, 0.496094);">-</span>V
+Composer version 27d8904</pre> 
+  <p> <br>
+ </p>
+ &nbsp; &nbsp; Linux下安装： 
+  <p> <br>
+ </p>
+ 
+  <p> &nbsp; &nbsp; 这里螃蟹直接使用阿里云的Centos服务器来做说明 </p>
+ 
+  <p> &nbsp; &nbsp; I.下载composer.phar </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <pre class="brush:shell; toolbar: true; auto-links: false;">curl -sS https://getcomposer.org/installer | php</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ &nbsp; &nbsp; II.把composer.phar移动到环境下让其变成可执行 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <pre class="brush:shell; toolbar: true; auto-links: false;">mv composer.phar /usr/local/bin/composer</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ &nbsp; &nbsp; III.测试（螃蟹安装过程是正常的） 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <pre class="brush:shell; toolbar: true; auto-links: false;">[root@************** ~]# composer -V
+Composer version 73e9db5d9952d52a46ecbc20a269a8c5f9c5b0*1 2014-10-07 15:03:19</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <p> <strong><span style="font-size:18px;"><br>
+ </span></strong> </p>
+ 
+  <p> <strong><span style="font-size:18px;">3.</span></strong><span style="background-color:#FFFFFF;color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;line-height:25px;font-size:18px;"><strong>composer的基本使用？（高级）</strong></span> </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;">&nbsp; &nbsp; a.编写composer.json文件，是</span><span style="background-color:#FFFFFF;color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;">基本的json格式，格式是“提供者/项目名”:"项目版本"，关于版本号有很多用法，<a href="https://getcomposer.org/doc/01-basic-usage.md" target="_blank" rel="nofollow">参考官网</a></span> </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;"> </span> </p>
+ 
+  <pre class="brush:js; toolbar: true; auto-links: false;">{
+    "require": {
+        "monolog/monolog": "1.0.*"
+    }
+}</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ &nbsp; &nbsp; b.运行命令获取依赖包，这里我试试"driehle/php-crypt-md5": "2.0.*@dev"这个包，另一个包是用来测试多个包，config里面用来配置包下载文件夹 
+  <p> <br>
+ </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;"> </span> </p>
+ 
+  <pre class="brush:js; toolbar: true; auto-links: false;">{  
+    "require": {  
+        "lorenzo/cakephp-email-queue": "dev-master",
+	"driehle/php-crypt-md5": "2.0.*@dev"
+    },  
+    "config" : {  
+        "vendor-dir" : "packages"  
+    }  
+}</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 
+  <pre class="brush:shell; toolbar: true; auto-links: false;">H:\xampp\htdocs\testcomposer&gt;php composer.phar install
+Loading composer repositories with package information
+Installing dependencies (including require-dev)
+  - Installing driehle/php-crypt-md5 (dev-master 2681d97)
+    Cloning 2681d970ada81d08d1772af2d04274588b5d6825
+
+Writing lock file
+Generating autoload files</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 下载后，发现文件夹下面出现几个文件夹 
+  <p> <br>
+ </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;"><img src="composer_one/20141010084947_397.png" alt="PHP5的composer学习从入门到精通" height="154" width="689"><br>
+ </span> </p>
+ 
+  <p> <span><span style="line-height:25px;">其中packages为我们需要的依赖库，出现composer.lock就表示composer锁定,再运行更新或下载就无效了，要重新更改composer.json下载需删除lock文件</span></span> </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;"><strong><span style="font-size:18px;">4.如何</span></strong><strong><span style="font-size:18px;">在项目中使用</span></strong><span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:18px;line-height:25px;background-color:#FFFFFF;"><strong>composer？（精通）</strong></span></span> </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;">&nbsp;&nbsp;&nbsp;&nbsp;这里螃蟹演示使用php-crypt-md5这个库，在composer里找的，用来加密的 </span> </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;">&nbsp; &nbsp; 编写index.php<br>
+ </span> </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;"> </span> </p>
+ 
+  <pre class="brush:php; toolbar: true; auto-links: false;">&lt;?php 
+include_once('./packages/autoload.php');
+use Md5Crypt\Md5Crypt;
+
+$cryptedpassword = Md5Crypt::unix   ("123456" ,"123");
+$apachepassword  = Md5Crypt::apache ("123456" , "123");
+
+echo $cryptedpassword;
+echo '&lt;br&gt;';
+echo $apachepassword;
+
+?&gt;</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 运行结果： 
+  <p> <br>
+ </p>
+ 
+  <p> <span style="color:#333333;font-family:'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;font-size:16px;line-height:25px;background-color:#FFFFFF;"> </span> </p>
+ 
+  <pre class="brush:php; toolbar: true; auto-links: false;">$1$123$7mft0jKnzzvAdU4t0unTG1
+$apr1$123$LrxDL9PTEgT.C.VIeb/vh1</pre> 
+  <p> <br>
+ </p>
+ 
+  <p> <br>
+ </p>
+ 基本没问题了，螃蟹是基本参照官网的教程来做的，希望本次学习能让大家都会使用composer来进行依赖管理。 
+  <p> <br>
+ </p>
+				</article>
+
+
+
+
+		
+
+
+
+		</div>
+
+
+
+	<div class="col-md-3">
+		<div data-bd-bind="1469073440602" class="bdsharebuttonbox bdshare-button-style0-16">
+			<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+			<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+			<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+			<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+			<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+
+		</div>
+
+		<div class=" side-box" style="margin-top: 20px;">
+				<div class="title"><h3>同类热门经验</h3></div>
+				<ol class="hot">
+					
+						<li>
+							<a title="PHP大型网站的架构实例分析" href="http://www.open-open.com/lib/view/open1324369778733.html"><span class="title">PHP大型网站的架构实例分析</span></a>
+						</li>
+					
+						<li>
+							<a title="PHP高效率写法（详解原因）" href="http://www.open-open.com/lib/view/open1332904714233.html"><span class="title">PHP高效率写法（详解原因） </span></a>
+						</li>
+					
+						<li>
+							<a title="PHP之道" href="http://www.open-open.com/lib/view/open1350874733117.html"><span class="title">PHP之道</span></a>
+						</li>
+					
+						<li>
+							<a title="23种PHP开发工具集合" href="http://www.open-open.com/lib/view/open1340107330596.html"><span class="title">23种PHP开发工具集合 </span></a>
+						</li>
+					
+						<li>
+							<a title="PHP导出MySQL数据到Excel文件" href="http://www.open-open.com/lib/view/open1324365098452.html"><span class="title">PHP导出MySQL数据到Excel文件</span></a>
+						</li>
+					
+						<li>
+							<a title="提高php代码质量" 36计="" href="http://www.open-open.com/lib/view/open1333943119139.html"><span class="title">提高php代码质量 36计</span></a>
+						</li>
+					
+
+				</ol>
+			</div>
+		<p class="aiBar"></p>
+		<div class="side-box post-nav" style="margin-top: 20px;">
+			<div class="title"><h3>阅读目录</h3></div>
+			<ul class="articleIndex"></ul>
+		</div>
+	</div>
+
+
+
+</div>
+	</div>
+
+<div class="container">
+
+
+	<div class="row">
+		<div class="col-md-9">
+			<table width="100%"><tbody><tr>
+				<td class="Relatedb" valign="top" width="33%">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关文档</strong> 　—　<a href="http://www.open-open.com/doc" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li><a href="http://www.open-open.com/doc/view/19628172aad845a0a1174ce15b5566fd" rel="nofollow" target="_blank" title="PHP5 类 学习教程.chm">PHP5 类 学习教程.chm</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/f41831835b954eb7b992736c3252e817" rel="nofollow" target="_blank" title="使用Laravel5构建Web应用.pdf">使用Laravel5构建Web应用.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/1d9ff55c7c264e94957f5a49ec3d0cfc" rel="nofollow" target="_blank" title="PHP5 类专题.chm">PHP5 类专题.chm</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/88c039d0b2614e63b8f601815b9d0150" rel="nofollow" target="_blank" title="php5面向对象编程.chm">php5面向对象编程.chm</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/162300d20737442bae685c5743335fb5" rel="nofollow" target="_blank" title="PHP5进阶.doc">PHP5进阶.doc</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/8d0409f0a60a4796919d71f420ab6a35" rel="nofollow" target="_blank" title="PHP5，Apache和MySQL入门Web开发.pdf">PHP5，Apache和MySQL入门Web开发.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/8a91345924e44a5e9eb94bbc69538850" rel="nofollow" target="_blank" title="PHP5面向对象初步(第一章).pdf">PHP5面向对象初步(第一章).pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/a81b6137ae944b7186306619c956312e" rel="nofollow" target="_blank" title="FleaPHP 框架学习教程.pdf">FleaPHP 框架学习教程.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/4165d7f42d28460691edcf4bb190d660" rel="nofollow" target="_blank" title="PHP 5  Advanced 用快速和高效的方式来提高你的PHP技巧.pdf">PHP 5  Advanced 用快速和高效的方式来提高你的PHP技巧.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/d1d4851b1d6144cea8e3483bfe420490" rel="nofollow" target="_blank" title="PHP面向对象.pdf">PHP面向对象.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/7a68f07bd5aa4d208ba81ac32320677a" rel="nofollow" target="_blank" title="PHP5 Recipes.pdf">PHP5 Recipes.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/c6d14a7326ab4881b0559a94cd284682" rel="nofollow" target="_blank" title="PHP5 面向对象编程.chm">PHP5 面向对象编程.chm</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/3171e50c276c499884aa614d9a4c4f9f" rel="nofollow" target="_blank" title="第7章php5文件与目录操作.ppt">第7章php5文件与目录操作.ppt</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/ce22ad015e73417daf2be56ec74630e9" rel="nofollow" target="_blank" title="Open-Source PHP5 MVC Framework Agile Development.pdf">Open-Source PHP5 MVC Framework Agile Development.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/25671b5f64a04fc2b3aff636ba38238a" rel="nofollow" target="_blank" title="CentOS 6.3安装配置LAMP服务器(Apache+PHP5+MySQL).pdf">CentOS 6.3安装配置LAMP服务器(Apache+PHP5+MySQL).pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/221a04fd8ecc4233aabd66e1458eab28" rel="nofollow" target="_blank" title="PHP5与MySQL5_Web开发技术详解.chm">PHP5与MySQL5_Web开发技术详解.chm</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/4592c9de8cec4bf7af0bff161e64ae98" rel="nofollow" target="_blank" title="应用Yii1.1和PHP5进行敏捷web开发.chm">应用Yii1.1和PHP5进行敏捷web开发.chm</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/63f4251d5f8742bbb34d8e8b9b07fa7d" rel="nofollow" target="_blank" title="Laravel5 框架分享.pptx">Laravel5 框架分享.pptx</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/e426fa13dff74a09a80ddd009a5be82f" rel="nofollow" target="_blank" title="Object-Oriented Programming with PHP5.pdf">Object-Oriented Programming with PHP5.pdf</a></li>
+						
+							<li><a href="http://www.open-open.com/doc/view/240f1b330c994fdbb83c6f7e4286e113" rel="nofollow" target="_blank" title="PHP5面向对象视频教程笔记(面向对象部分).doc">PHP5面向对象视频教程笔记(面向对象部分).doc</a></li>
+						
+					</ul>
+				</td>
+				<td class="Relatedb" valign="top" width="33%">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关经验</strong> 　—　<a href="http://www.open-open.com/lib" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li>
+								<a title="PHP资源汇总，内容包括：库、框架、模板等" href="http://www.open-open.com/lib/view/open1449151817702.html" target="_blank"><span class="title">PHP资源汇总，内容包括：库、框架、模板等</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Github发起维护的一个PHP资源列表" href="http://www.open-open.com/lib/view/open1421052192953.html" target="_blank"><span class="title">Github发起维护的一个PHP资源列表</span></a>
+
+							</li>
+						
+							<li>
+								<a title="PHP之道" href="http://www.open-open.com/lib/view/open1350874733117.html" target="_blank"><span class="title">PHP之道</span></a>
+
+							</li>
+						
+							<li>
+								<a title="基于Docker的PHP开发环境" href="http://www.open-open.com/lib/view/open1420373731203.html" target="_blank"><span class="title"> 基于Docker的PHP开发环境</span></a>
+
+							</li>
+						
+							<li>
+								<a title="基于Docker的PHP开发环境" href="http://www.open-open.com/lib/view/open1426670450976.html" target="_blank"><span class="title"> 基于Docker的PHP开发环境</span></a>
+
+							</li>
+						
+							<li>
+								<a title="PHP" vs="" node.js="" 深入讨论="" href="http://www.open-open.com/lib/view/open1437035423271.html" target="_blank"><span class="title">PHP vs Node.js 深入讨论</span></a>
+
+							</li>
+						
+							<li>
+								<a title="使用PHP+Swoole实现的网页即时聊天工具：PHPWebIM" href="http://www.open-open.com/lib/view/open1416465136852.html" target="_blank"><span class="title">使用PHP+Swoole实现的网页即时聊天工具：PHPWebIM</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Github上的PHP资源汇总大全" href="http://www.open-open.com/lib/view/open1420527040328.html" target="_blank"><span class="title">Github上的PHP资源汇总大全</span></a>
+
+							</li>
+						
+							<li>
+								<a title="Docker在PHP项目开发环境中的应用" href="http://www.open-open.com/lib/view/open1435671611966.html" target="_blank"><span class="title">Docker在PHP项目开发环境中的应用</span></a>
+
+							</li>
+						
+							<li>
+								<a title="使用xhprof进行线上PHP性能追踪及分析" href="http://www.open-open.com/lib/view/open1419827786281.html" target="_blank"><span class="title">使用xhprof进行线上PHP性能追踪及分析</span></a>
+
+							</li>
+						
+							<li>
+								<a title="收集整理一些常用的PHP类库" href="http://www.open-open.com/lib/view/open1444567458857.html" target="_blank"><span class="title">收集整理一些常用的PHP类库</span></a>
+
+							</li>
+						
+							<li>
+								<a title="PHP" 中文分词包：phpsplit="" href="http://www.open-open.com/lib/view/open1448200861473.html" target="_blank"><span class="title">PHP 中文分词包：phpSplit </span></a>
+
+							</li>
+						
+							<li>
+								<a title="phpSplit" -="" php="" 中文分词包="" href="http://www.open-open.com/lib/view/open1451808033417.html" target="_blank"><span class="title">phpSplit - PHP 中文分词包</span></a>
+
+							</li>
+						
+							<li>
+								<a title="免费的编程中文书籍索引" href="http://www.open-open.com/lib/view/open1386218157408.html" target="_blank"><span class="title"> 免费的编程中文书籍索引</span></a>
+
+							</li>
+						
+					</ul>
+				</td>
+				<td class="Relatedb" valign="top" width="33%">
+					<div style="border-bottom: 1px #ccc solid;margin-top: 5px"><strong>相关讨论</strong> 　—　<a href="http://www.open-open.com/solution" rel="nofollow" target="_blank">更多</a></div>
+					<ul>
+						
+							<li>
+								<a title="送给和我一样曾经浮躁过的PHP程序猿" href="http://www.open-open.com/solution/view/1346904930772" rel="nofollow" target="_blank"><span class="title">送给和我一样曾经浮躁过的PHP程序猿</span></a>
+							</li>
+						
+							<li>
+								<a title="PHP大师的10条开发建议" href="http://www.open-open.com/solution/view/1398389105437" rel="nofollow" target="_blank"><span class="title">PHP大师的10条开发建议 </span></a>
+							</li>
+						
+							<li>
+								<a title="初学开发的人应该知道的10件事情" href="http://www.open-open.com/solution/view/1325071928124" rel="nofollow" target="_blank"><span class="title">初学开发的人应该知道的10件事情</span></a>
+							</li>
+						
+							<li>
+								<a title="程序员技术练级攻略" href="http://www.open-open.com/solution/view/1319276210452" rel="nofollow" target="_blank"><span class="title">程序员技术练级攻略</span></a>
+							</li>
+						
+							<li>
+								<a title="PHP程序员的技术成长规划" href="http://www.open-open.com/solution/view/1414478644325" rel="nofollow" target="_blank"><span class="title">PHP程序员的技术成长规划</span></a>
+							</li>
+						
+							<li>
+								<a title="什么是Node.js？" href="http://www.open-open.com/solution/view/1318473088937" rel="nofollow" target="_blank"><span class="title">什么是Node.js？</span></a>
+							</li>
+						
+							<li>
+								<a title="如何在源码包编译安装的" lemp="" 环境下开启="" openssl="" 功能="" href="http://www.open-open.com/solution/view/1421051902546" rel="nofollow" target="_blank"><span class="title">如何在源码包编译安装的 LEMP 环境下开启 OpenSSL 功能 </span></a>
+							</li>
+						
+					</ul>
+				</td>
+			</tr></tbody></table>
+		</div>
+
+	</div>
+
+</div>
+
+
+
+
+
+<style>
+	footer{background-color: #fff;
+		border-top: 1px solid rgba(230, 230, 230, 0.75);
+		margin-top: 20px;
+		padding: 20px 0;}
+</style>
+<footer>
+	<div class="container">
+		<div class="row"></div>
+	</div>
+</footer>
+
+
+<div aria-labelledby="ui-id-1" aria-describedby="favorite-box" role="dialog" tabindex="-1" style="display: none;" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-dialog-buttons ui-draggable"><div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle"><span class="ui-dialog-title" id="ui-id-1">收藏提示</span><button title="Close" role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" type="button"><span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text">Close</span></button></div><div class="ui-dialog-content ui-widget-content" style="display: block;" id="favorite-box">
+						<table>
+							<tbody>
+							<tr>
+								<td align="right" width="70">文件夹</td>
+								<td><select id="fav_folderlist" name="folder">
+									<option selected="selected" value="0">请选择...</option>
+									<option id="newfolder-sp" disabled="disabled" value="">-------------</option>
+									<option value="-1">新增文件夹...</option>
+								</select></td>
+							</tr>
+							<tr style="display: none" id="newfolder-input">
+								<td align="right">新增文件夹</td>
+								<td><input id="fav_newfolder" maxlength="50" name="newfolder" type="text"></td>
+							</tr>
+							<tr>
+								<td align="right">标签</td>
+								<td><input id="fav_tags" maxlength="135" size="20" name="tags" type="text"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2">(多个标签用逗号分隔)</td>
+							</tr>
+							</tbody>
+						</table>
+					</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button"><span class="ui-button-text">取消</span></button><button role="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button"><span class="ui-button-text">确认</span></button></div></div></div><div title="回到顶部" style="position: fixed; bottom: 165px; right: 95px; cursor: pointer; display: none;" id="topcontrol"><img src="composer_one/gotop.gif" style="width:35px; height:35px;"></div></body></html>
