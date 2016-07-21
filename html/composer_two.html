@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://lvwenhan.com/php/405.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="吕文翰,岁寒,emlog,php,CodeIgniter,Laravel,TinyLara,Swift,iOS,Pitaya,JSONNeverDie,PHP,Laravel,框架,Composer">
+  <meta name="description" content="『Composer 一统天下的时代已经到来！』——白岩松	“一个时代结束了，另一个时代开始了。” 	Framework Interoperability...">
+  <title>利用 Composer 一步一步构建自己的 PHP 框架（一）——基础准备 - 岁寒</title>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https://lvwenhan.com/rss.php">
+
+  <link href="composer_two/bootstrap.min.css" rel="stylesheet">
+  <link href="composer_two/main.css" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="composer_two/markdown.css"></head>
+<body>
+  <div id="wrap"><!-- end of #header -->
+
+    <div id="nav" class="navbar-wrapper" style="">
+      <div class="container">
+
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="https://lvwenhan.com/">岁寒</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              	<ul class="bar nav navbar-nav">
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/life" class="dropdown-toggle" data-toggle="dropdown">生活 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/many">杂</a></li><li><a href="https://lvwenhan.com/sort/serialize">小说</a></li><li><a href="https://lvwenhan.com/sort/create">原创</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/web" class="dropdown-toggle" data-toggle="dropdown">WEB 技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/web-front">web前端</a></li><li><a href="https://lvwenhan.com/sort/web-back">web后端</a></li><li><a href="https://lvwenhan.com/sort/mobile">移动互联网</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/keep-learning" class="dropdown-toggle" data-toggle="dropdown">其他技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/C-language">C</a></li><li><a href="https://lvwenhan.com/sort/ruby">Ruby</a></li><li><a href="https://lvwenhan.com/sort/mac">MAC</a></li><li><a href="https://lvwenhan.com/sort/golang">Go语言</a></li><li><a href="https://lvwenhan.com/sort/vb6">Visual Basic 6.0</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/29" class="dropdown-toggle" data-toggle="dropdown">PHP <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/php">PHP</a></li><li><a href="https://lvwenhan.com/sort/laravel">Laravel</a></li><li><a href="https://lvwenhan.com/sort/31">TinyLara</a></li><li><a href="https://lvwenhan.com/sort/ci">CodeIgniter</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/sort/ios">iOS</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://github.com/johnlui" target="_blank">GitHub</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="http://weibo.com/balishengmuyuan" target="_blank">微博</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/works">作品</a>
+			
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="http:/#" class="dropdown-toggle" data-toggle="dropdown">更多 <b class="caret"></b></a><ul class="dropdown-menu"><li>
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li><li>
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li></ul>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li>
+		</ul>
+           	  <span class="icon-bar"></span>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div><div id="content" class="container">
+<div id="contentleft">
+  <div class="m-post">
+    <h2 class="title"><a href="https://lvwenhan.com/php/405.html">利用 Composer 一步一步构建自己的 PHP 框架（一）——基础准备</a></h2>
+
+    <blockquote><h2>『Composer 一统天下的时代已经到来！』——白岩松</h2></blockquote><p>	“一个时代结束了，另一个时代开始了。” </p><p>	Framework Interoperability Group（框架可互用性小组），简称 FIG，成立于 2009 年。FIG 最初由几位知名 PHP 框架开发者发起，在吸纳了许多优秀的大脑和强健的体魄后，提出了&nbsp;PSR-0 到 PSR-4 五套 PHP 非官方规范： </p><p>	<br> </p><p>	1. PSR-0 (Autoloading Standard) 自动加载标准 </p><p>	2. PSR-1 (Basic Coding Standard) 基础编码标准 </p><p>	3. PSR-2 (Coding Style Guide) 编码风格向导 </p><p>	4. PSR-3 (Logger Interface) 日志接口 </p><p>	5. PSR-4 (Improved Autoloading)&nbsp;自动加载优化标准 </p><p>	<br> </p><p>	之后，在此标准之上，<a href="https://getcomposer.org/" target="_blank">Composer</a>&nbsp;<a href="https://getcomposer.org/" target="_blank"></a>横空出世！Composer 利用 PSR-0 和 PSR-4 以及 PHP5.3 的命名空间构造了一个繁荣的 PHP 生态系统。Composer 类似著名的 npm 和 RubyGems，给海量 PHP 包提供了一个异常方便的协作通道，Composer Hub 地址：<a href="https://packagist.org/" target="_blank">https://packagist.org/</a>。Composer 中文网站：<a href="http://www.phpcomposer.com/" target="_blank">http://www.phpcomposer.com/</a>。 </p><p>	目前 PHP 界风头正劲的 Laravel 和 Symfony 均直接基于 Composer，大家耳熟能详著名框架 CI 和 Yii 的正开发版本&nbsp;CodeIgniter 3 和 Yii 2 也都基于 Composer（更新：北京时间2014年10月13日 Yii 2 已经发布）。Composer 就是 PHP 框架的未来，有了它，让 CI 的路由和 Laravel 的 Eloquent ORM 协作就会变的非常简单。 </p><p>	<br> </p><p>	PHP 语言本身就带有强大的网络功能、文件管理功能和丰富的系统 API，Composer 也只是一段 PHP 脚本而已。可以使用 </p><p>	  </p><pre class="lang-c++" data-lang="c++">php composer.phar update</pre><p>直接调用。 </p><p><br></p><p>	在合适的地方新建一个文件夹，命名为 MFFC（My First Framework based on Composer），在文件夹下新建文件 composer.json： </p><p>	  </p><pre class="lang-css" data-lang="css">{
+  "require": {
+  }
+}</pre><p><br></p><p>命令行切换到 MFFC 目录下，运行： </p><p>	  </p><pre class="lang-coffeeScript" data-lang="coffeeScript">composer update</pre><p><br></p><p>稍等片刻，会出现如下文件及文件夹：</p><p>	<img src="composer_two/daaa1413137657.jpg" alt="QQ20141013-1.jpg" width="259" height="210"><br> </p><p><br></p><p>	如果以上内容成功出现，恭喜你，Composer 初始化成功！ </p><p>	<br> </p><p>	下一步：<a href="https://lvwenhan.com/php/406.html">利用 Composer 一步一步构建自己的 PHP 框架（二）——构建路由</a> </p>
+    <style>
+#author{
+  width: 100%;
+  /*height: 270px;*/
+  margin-top: 50px;
+  box-shadow: 5px 5px 20px #cccccc;
+}
+#author h4{
+  padding-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+#avatar{
+  border-radius: 80px;
+  box-shadow: 5px 5px 20px #999999;
+  width: 160px;
+  margin-left: 80px;
+  margin-right: 50px;
+  float: left;
+}
+#right{
+  float: left;
+  padding-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 100px;
+  margin-right: 20px;
+}
+</style>
+    <div id="related_log"><p><b>相关日志：</b></p><p><a href="https://lvwenhan.com/php/425.html">JohnLui/AliyunOSS v1.0 发布，附 Laravel 框架详细使用教程及代码</a></p><p><a href="https://lvwenhan.com/php/412.html">利用 Composer 完善自己的 PHP 框架（二）——发送邮件</a></p><p><a href="https://lvwenhan.com/php/413.html">【完结】利用 Composer 完善自己的 PHP 框架（三）——Redis 缓存</a></p><p><a href="https://lvwenhan.com/php/408.html">利用 Composer 一步一步构建自己的 PHP 框架（三）——设计 MVC</a></p><p><a href="https://lvwenhan.com/php/410.html">利用 Composer 完善自己的 PHP 框架（一）——视图装载</a></p></div>
+    <div id="article-info">
+      <div class="tag little">标签:	<a href="https://lvwenhan.com/tag/PHP">PHP</a>	<a href="https://lvwenhan.com/tag/Laravel">Laravel</a>	<a href="https://lvwenhan.com/tag/%E6%A1%86%E6%9E%B6">框架</a>	<a href="https://lvwenhan.com/tag/Composer">Composer</a></div>
+      <div class="date little">2014.10.12      <span>&nbsp;&nbsp;/&nbsp;&nbsp;</span> 热度：23079 <span>&nbsp;&nbsp;/&nbsp;&nbsp;</span> 分类：	    <a href="https://lvwenhan.com/sort/php">PHP</a>
+	      </div>
+    </div>
+
+    <div class="nextlog">		<a class="left" href="https://lvwenhan.com/php/406.html">← 利用 Composer 一步一步构建自己的 PHP 框架（二）——构建路由</a>
+		
+			<a class="right" href="https://lvwenhan.com/laravel/403.html">用 Sublime 开发 Laravel —— Sublime Text 插件推荐 →</a>
+		<div style="clear:both;"></div>
+</div>
+
+    	<hr><a name="comments"></a>
+	<p class="comment-header"><b>评论：</b></p>
+	<div class="comment" id="comment-11173">
+	  <a name="11173"></a><div class="comment-info">
+			<b><a href="http://123.57.221.213/" target="_blank">error</a> </b><br><span class="comment-time">2015-12-02 14:11</span>
+			<div class="comment-content">我composer装了Macaw,但是一直报404，<br>
+<br>
+&lt;?php<br>
+<br>
+use NoahBuscher\Macaw\Macaw;<br>
+<br>
+Macaw::get('fuck', function() {&nbsp;&nbsp;&nbsp;&nbsp;//执行到这儿就错了，看您的文档是说伪静态的问题，我下载了你的教程和你开发的小框架也是不行的，不是404就是500，&nbsp;&nbsp;访问http://host-8/报500,访问http://host-8/index.php/fuck也报500,访问http://host-8/fuck报404，在入口文件phpinfo()也是ok的。我的环境mac下的mamp（apache+php5.6）,求传授大招，我看了大家说关于404的问题，我一一试了也不行。<br>
+&nbsp;&nbsp;echo "成功！";<br>
+});<br>
+<br>
+Macaw::get('(:all)', function($fu) {<br>
+&nbsp;&nbsp;echo '未匹配到路由&lt;br&gt;'.$fu;<br>
+});<br>
+<br>
+Macaw::dispatch();</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/405.html#comment-11173" onclick="commentReply(11173,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-11372">
+		<a name="11372"></a>
+		<div class="avatar"></div>		<div class="comment-info">
+			<b><a href="http://zzll.org/" target="_blank">rizi</a> </b><br><span class="comment-time">2016-02-02 20:22</span>
+			<div class="comment-content">@error：Fuck前面加个/试试</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/405.html#comment-11372" onclick="commentReply(11372,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-8809">
+		<a name="8809"></a>
+		<div class="avatar"></div>		<div class="comment-info">
+			<b>乒乓 </b><br><span class="comment-time">2014-12-18 15:43</span>
+			<div class="comment-content">成功不了，经常提示“连接方式没正确答复或主机没反应，”</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/405.html#comment-8809" onclick="commentReply(8809,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-8810">
+		<a name="8810"></a>
+		<div class="avatar"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2014-12-18 15:44</span>
+			<div class="comment-content">@乒乓：因为这两天 composer 被墙了<img src="composer_two/8.gif"><img src="composer_two/8.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/405.html#comment-8810" onclick="commentReply(8810,this)">回复</a></div>		</div>
+			</div>
+		</div>
+	    <div id="pagenavi">
+	        </div>
+	    <div style="clear:both;"></div>
+  </div>
+</div><!--end #contentleft-->
+</div><!--end #content-->
+<div style="clear:both;"></div><!--end #footerbar-->
+
+</div><!--end #wrap-->
+
+</body></html>

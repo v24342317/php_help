@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://lvwenhan.com/php/406.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="吕文翰,岁寒,emlog,php,CodeIgniter,Laravel,TinyLara,Swift,iOS,Pitaya,JSONNeverDie,PHP,框架,Composer">
+  <meta name="description" content="本教程示例代码见https://gith...">
+  <title>利用 Composer 一步一步构建自己的 PHP 框架（二）——构建路由 - 岁寒</title>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https://lvwenhan.com/rss.php">
+
+
+  <link href="composer_three/bootstrap.min.css" rel="stylesheet">
+  <link href="composer_three/main.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="composer_three/markdown.css"></head>
+<body>
+  <div id="wrap"><!-- end of #header -->
+
+    <div id="nav" class="navbar-wrapper" style="">
+      <div class="container">
+
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="https://lvwenhan.com/">岁寒</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              	<ul class="bar nav navbar-nav">
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/life" class="dropdown-toggle" data-toggle="dropdown">生活 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/many">杂</a></li><li><a href="https://lvwenhan.com/sort/serialize">小说</a></li><li><a href="https://lvwenhan.com/sort/create">原创</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/web" class="dropdown-toggle" data-toggle="dropdown">WEB 技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/web-front">web前端</a></li><li><a href="https://lvwenhan.com/sort/web-back">web后端</a></li><li><a href="https://lvwenhan.com/sort/mobile">移动互联网</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/keep-learning" class="dropdown-toggle" data-toggle="dropdown">其他技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/C-language">C</a></li><li><a href="https://lvwenhan.com/sort/ruby">Ruby</a></li><li><a href="https://lvwenhan.com/sort/mac">MAC</a></li><li><a href="https://lvwenhan.com/sort/golang">Go语言</a></li><li><a href="https://lvwenhan.com/sort/vb6">Visual Basic 6.0</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/29" class="dropdown-toggle" data-toggle="dropdown">PHP <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/php">PHP</a></li><li><a href="https://lvwenhan.com/sort/laravel">Laravel</a></li><li><a href="https://lvwenhan.com/sort/31">TinyLara</a></li><li><a href="https://lvwenhan.com/sort/ci">CodeIgniter</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/sort/ios">iOS</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://github.com/johnlui" target="_blank">GitHub</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="http://weibo.com/balishengmuyuan" target="_blank">微博</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/works">作品</a>
+			
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="http:/#" class="dropdown-toggle" data-toggle="dropdown">更多 <b class="caret"></b></a><ul class="dropdown-menu"><li>
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li><li>
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li></ul>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li>
+		</ul>
+           	  <span class="icon-bar"></span>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div><div id="content" class="container">
+<div id="contentleft">
+  <div class="m-post">
+    <h2 class="title"><a href="https://lvwenhan.com/php/406.html">利用 Composer 一步一步构建自己的 PHP 框架（二）——构建路由</a></h2>
+
+    <p>	本教程示例代码见&nbsp;<a href="https://github.com/johnlui/My-First-Framework-based-on-Composer" target="_blank">https://github.com/johnlui/My-First-Framework-based-on-Composer</a> </p><p>	<br> </p><p>	上一篇中我们已经建立了一个空的 Composer 项目，本篇将讲述如何构建路由。 </p><p>	<br> </p><p>	久负盛名的 CodeIgniter 框架是很多人的 PHP 开发入门框架，同样也是我开始学习如何从头构建一个网站的框架。在 CI 中我学到了很多，其中对 MVC 的深入理解和对框架本质的理解对我的影响最大。从使用框架是为了提高开发效率的角度来看，框架的本质就是路由。 </p><p>	<br> </p><p>	下面我们就开始自己来构建路由，先去 GitHub 搜一下：<a href="https://github.com/search?l=PHP&amp;o=desc&amp;q=router&amp;ref=searchresults&amp;s=stars&amp;type=Repositories&amp;utf8=%E2%9C%93" target="_blank">点此查看搜索结果</a></p><p>	<br> </p><p>	推荐&nbsp;<a href="https://github.com/NoahBuscher/Macaw" target="_blank">https://github.com/NoahBuscher/Macaw</a>，对应的 Composer 包为&nbsp;noahbuscher/macaw 。</p><p>下面开始安装它，更改 composer.json： </p><p>	  </p><pre class="lang-json" data-lang="json">{
+  "require": {
+    "noahbuscher/macaw": "dev-master"
+  }
+}</pre><p>运行 composer update，成功之后将得到以下目录： </p><p>	<br></p><p>	<img src="composer_three/c45d1413179831.jpg" alt="QQ20141013-2.jpg" width="259" height="223"><br> </p><p>	至此，Macaw 包安装成功！ </p><p>	<br> </p><p>	下面，就是见证奇迹的时刻！我们将赋予 MFFC 生命力，让它真正地跑起来！ </p><p>	<br> </p><p>	新建 MFFC/public 文件夹，这个文件夹将是用户唯一可见的部分。在文件夹下新建 index.php 文件： </p><p>	  </p><pre class="lang-php" data-lang="php">&lt;?php
+
+// Autoload 自动载入
+require '../vendor/autoload.php';
+
+// 路由配置
+require '../config/routes.php';</pre><p>	<br></p><p>	上面一行表示引入 Composer 的自动载入功能，下面一行表示载入路由配置文件。新建 MFFC/config 文件夹，在里面新建 routs.php 文件，内容如下： </p><p>	  </p><pre class="lang-php" data-lang="php">&lt;?php
+
+use NoahBuscher\Macaw\Macaw;
+
+Macaw::get('fuck', function() {
+  echo "成功！";
+});
+
+Macaw::get('(:all)', function($fu) {
+  echo '未匹配到路由&lt;br&gt;'.$fu;
+});
+
+Macaw::dispatch();</pre><p>	<br></p><p>	Macaw 的文档位于&nbsp;<a href="https://github.com/NoahBuscher/Macaw" target="_blank">https://github.com/NoahBuscher/Macaw</a>，请按照你的 HTTP 服务软件类型自行设置伪静态，其实跟绝大多数框架一样：“将所有非静态文件全部指向 index.php”。 </p><p>	<br> </p><p>	然后，将某一个端口用 Apache 或 Nginx 分配给 MFFC/public 目录，这一步十分建议用 Apache 或者 Nginx 做。 </p><p>	如果使用 PHP 内置 HTTP 服务器： </p><p>	  </p><pre class="lang-html" data-lang="html">cd public &amp;&amp; php -S 127.0.0.1:3000</pre><p>将导致路由的&nbsp;Macaw::get('fuck' 必须写成&nbsp;Macaw::get('/fuck' 才能响应。 </p><p>	<br></p><p>	目前的代码使用 Apache + mod_php 和 Nginx + php-fpm 方式均没有问题。 </p><p>	<br> </p><p>	我在本地绑定了 81 端口，访问&nbsp;<a href="http://127.0.0.1:81/fuck">http://127.0.0.1:81/fuck</a> 可以看到： </p><p><img alt="Image" src="composer_three/f8631413188185.jpg" data-image-size="993,545"><br></p><p>	如果页面乱码，请调整编码为 UTF-8。如果你成功看到以上页面，那么恭喜你，路由配置成功！ </p><p>	<br> </p><p>	Macaw 只有一个文件，去除空行总共也就一百行多一点，通过代码我们能直接看明白它是怎么工作的。下面我简略分析一下： </p><p>	1. Composer 的自动加载在每次 URL 驱动 MFFC/public/index.php 之后会在内存中维护一个全量命名空间类名到文件名的数组，这样当我们在代码中使用某个类的时候，将自动载入该类所在的文件。<br> </p><p>	2. 我们在路由文件中载入了 Macaw 类：“use NoahBuscher\Macaw\Macaw;”，接着调用了两次静态方法 ::get()，这个方法是不存在的，将由&nbsp;MFFC/vendor/codingbean/macaw/Macaw.php 中的&nbsp;__callstatic() 接管。 </p><p>	3. 这个函数接受两个参数，$method 和 $params，前者是具体的 function 名称，在这里就是 get，后者是这次调用传递的参数，即<font color="#e28b41"> Macaw::get('fuck',function(){...}) </font>中的两个参数。第一个参数是我们想要监听的 URL 值，第二个参数是一个 PHP 闭包，作为回调，代表 URL 匹配成功后我们想要做的事情。 </p><p>	4.&nbsp;__callstatic() 做的事情也很简单，分别将目标URL（即 /fuck）、HTTP方法（即 GET）和回调代码压入&nbsp;$routes、$methods 和&nbsp;$callbacks 三个 Macaw 类的静态成员变量（数组）中。 </p><p>	5. 路由文件最后一行的&nbsp;Macaw::dispatch(); 方法才是真正处理当前 URL 的地方。能直接匹配到的会直接调用回调，不能直接匹配到的将利用正则进行匹配。 </p><p>	<br> </p><h3>下一步：<a href="https://lvwenhan.com/php/408.html" target="_blank">利用 Composer 一步一步构建自己的 PHP 框架（三）——设计 MVC</a></h3>
+    <style>
+#author{
+  width: 100%;
+  /*height: 270px;*/
+  margin-top: 50px;
+  box-shadow: 5px 5px 20px #cccccc;
+}
+#author h4{
+  padding-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+#avatar{
+  border-radius: 80px;
+  box-shadow: 5px 5px 20px #999999;
+  width: 160px;
+  margin-left: 80px;
+  margin-right: 50px;
+  float: left;
+}
+#right{
+  float: left;
+  padding-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 100px;
+  margin-right: 20px;
+}
+</style>
+    <div id="related_log"><p><b>相关日志：</b></p><p><a href="https://lvwenhan.com/php/425.html">JohnLui/AliyunOSS v1.0 发布，附 Laravel 框架详细使用教程及代码</a></p><p><a href="https://lvwenhan.com/php/412.html">利用 Composer 完善自己的 PHP 框架（二）——发送邮件</a></p><p><a href="https://lvwenhan.com/php/413.html">【完结】利用 Composer 完善自己的 PHP 框架（三）——Redis 缓存</a></p><p><a href="https://lvwenhan.com/php/408.html">利用 Composer 一步一步构建自己的 PHP 框架（三）——设计 MVC</a></p><p><a href="https://lvwenhan.com/php/410.html">利用 Composer 完善自己的 PHP 框架（一）——视图装载</a></p></div>
+    <div class="nextlog">		<a class="left" href="https://lvwenhan.com/web-front/407.html">← MarkDown —— Emlog Markdown 编辑器插件发布</a>
+		
+			<a class="right" href="https://lvwenhan.com/php/405.html">利用 Composer 一步一步构建自己的 PHP 框架（一）——基础准备 →</a>
+		<div style="clear:both;"></div>
+</div>
+
+    	<hr><a name="comments"></a>
+	<p class="comment-header"><b>评论：</b></p>
+			<div class="comment" id="comment-11651">
+		<a name="11651"></a>
+		<div class="avatar"><img src="composer_three/20173c656077148ead23f78b70823541"></div>		<div class="comment-info">
+			<b><a href="https://geilcode.com/" target="_blank">raphaelsoul</a> </b><br><span class="comment-time">2016-07-06 11:20</span>
+			<div class="comment-content">这里有个坑，折腾了我一下，使用内置服务器(php -S 127.0.0.1:8888)的时候因为没有rewrite的关系，需要在URL里面加上index.php才行，比如localhost:8888/index.php/fuck才可以正常访问。当然如果是nginx或者Apache，配置好了就不需要了。看老师的这系列文章学到不少，感谢。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11651" onclick="commentReply(11651,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11568">
+		<a name="11568"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>鱼摆摆 </b><br><span class="comment-time">2016-05-21 15:11</span>
+			<div class="comment-content">NGINX下成功和未匹配到路由都出现了，请问是怎么回事呢<br>
+server {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;listen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8088;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;server_name&nbsp;&nbsp;localhost;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;&nbsp;&nbsp;&nbsp;D:/nginx/html/MFFC/public;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;autoindex off;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;location / {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try_files $uri $uri/ /index.php?/$uri;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;error_page&nbsp;&nbsp; 500 502 503 504&nbsp;&nbsp;/50x.html;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;location = /50x.html {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;&nbsp; html;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;location ~ \.php$ {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fastcgi_pass&nbsp;&nbsp; 127.0.0.1:9000;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fastcgi_index&nbsp;&nbsp;index.php;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fastcgi_param&nbsp;&nbsp;SCRIPT_FILENAME&nbsp;&nbsp;$document_root$fastcgi_script_name;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fastcgi_params;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11568" onclick="commentReply(11568,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11567">
+		<a name="11567"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>而我却 </b><br><span class="comment-time">2016-05-20 15:58</span>
+			<div class="comment-content">laravel&nbsp;&nbsp;composer安装缩略图<br>
+D:\phpStudy\WWW\laravel&gt;composer update<br>
+&gt; php artisan clear-compiled<br>
+Loading composer repositories with package information<br>
+Updating dependencies (including require-dev)<br>
+Your requirements could not be resolved to an installable set of packages.<br>
+<br>
+&nbsp;&nbsp;Problem 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- Installation request for intervention/image 2.0.15 -&gt; satisfiable by inter<br>
+vention/image[2.0.15].<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- intervention/image 2.0.15 requires ext-fileinfo * -&gt; the requested PHP ext<br>
+ension fileinfo is missing from your system.<br>
+<br>
+&nbsp;&nbsp;To enable extensions, verify that they are enabled in those .ini files:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- D:\phpStudy\php55\php.ini<br>
+&nbsp;&nbsp;You can also run `php --ini` inside terminal to see which files are used by PH<br>
+P in CLI mode.</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11567" onclick="commentReply(11567,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-11602">
+		<a name="11602"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>aa </b><br><span class="comment-time">2016-06-12 13:42</span>
+			<div class="comment-content">@而我却：你解决了吗，这个问题</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11602" onclick="commentReply(11602,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-11422">
+		<a name="11422"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>apsana </b><br><span class="comment-time">2016-03-08 22:30</span>
+			<div class="comment-content">按你说的做，composer&nbsp;&nbsp;连不上github 我手动下载包 解压到vendor目录但是 <br>
+引入autoload.php后 用&nbsp;&nbsp;use&nbsp;&nbsp;xxxx ;初始化类时说&nbsp;&nbsp;找不到类<br>
+为什么？<br>
+手动下载不行么，怎么能自动载入</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11422" onclick="commentReply(11422,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11220">
+		<a name="11220"></a>
+		<div class="avatar"><img src="composer_three/e454c4107d0dff6ec4ca2e5455dbfb7c"></div>		<div class="comment-info">
+			<b>鬼国二少 </b><br><span class="comment-time">2015-12-15 22:21</span>
+			<div class="comment-content">大侠，我按照你的配置做了，但是 http://mffc.mysoft.cn/index.php/fuck这样访问 500 错误。 我是指向了 public 目录的 并且 我单独在 index.php 打印东西时可以的，为什么我这儿就不行呢。初学composer，不懂具体怎么用！</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11220" onclick="commentReply(11220,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-11259">
+		<a name="11259"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>LAU </b><br><span class="comment-time">2015-12-28 17:25</span>
+			<div class="comment-content">@鬼国二少：macaw文件夹下有个.htaccess文件，将它拷贝到public文件夹内</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11259" onclick="commentReply(11259,this)">回复</a></div>		</div>
+			</div>
+		<div class="comment comment-children" id="comment-11625">
+		<a name="11625"></a>
+		<div class="avatar"><img src="composer_three/81ccf1e8c1f2b08072fe85e88e9fd315"></div>		<div class="comment-info">
+			<b>jenchih </b><br><span class="comment-time">2016-06-23 02:09</span>
+			<div class="comment-content">@鬼国二少：我也是，一直访问都是404 ，<br>
+Macaw::get('fuck', function() {<br>
+&nbsp;&nbsp;echo "成功！";<br>
+});<br>
+<br>
+Macaw::get('/', function() {&nbsp;&nbsp;<br>
+&nbsp;&nbsp;echo 'Hello world!';<br>
+});<br>
+Macaw::get('/aa', function() {&nbsp;&nbsp;<br>
+&nbsp;&nbsp;echo 'aa';<br>
+});<br>
+<br>
+Macaw::get('(:all)', function($fu) {<br>
+&nbsp;&nbsp;echo '未匹配到路由&lt;br&gt;'.$fu;<br>
+});<br>
+<br>
+打开&nbsp;&nbsp;我自己配置的域名 jenchih.com&nbsp;&nbsp; 显示为匹配到路由<br>
+如果打开 jenchih.com/index.php&nbsp;&nbsp;就显示 为匹配到路由 index.php <br>
+加上/fuck&nbsp;&nbsp; 什么的 都是404 - -？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11625" onclick="commentReply(11625,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-11128">
+		<a name="11128"></a>
+		<div class="avatar"><img src="composer_three/4d6d66d897d9d413ee17a87c75b4ec53"></div>		<div class="comment-info">
+			<b>mr.lan </b><br><span class="comment-time">2015-11-24 00:31</span>
+			<div class="comment-content">大神，我按照你提供的思路，到了composer路由的时候，没有composer你建议的组件，而是弄了个最火的chriso/klein.php。然后不知道怎么用这个去设置访问我写的控制器下的某个方法<img src="composer_three/15.gif"><img src="composer_three/15.gif">。求大神帮忙研究下</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11128" onclick="commentReply(11128,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-11129">
+		<a name="11129"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="https://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-11-24 00:38</span>
+			<div class="comment-content">@mr.lan：建议自己研究</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11129" onclick="commentReply(11129,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-11130">
+		<a name="11130"></a>
+		<div class="avatar"><img src="composer_three/4d6d66d897d9d413ee17a87c75b4ec53"></div>		<div class="comment-info">
+			<b>mr.lan </b><br><span class="comment-time">2015-11-24 00:39</span>
+			<div class="comment-content">@JohnLui：关键一点都看不懂，我有好好看的，研究了老半天了。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11130" onclick="commentReply(11130,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-11131">
+		<a name="11131"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="https://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-11-24 00:40</span>
+			<div class="comment-content">@mr.lan：一点看不懂就先别自己造框架了吧</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11131" onclick="commentReply(11131,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-11132">
+		<a name="11132"></a>
+		<div class="avatar"><img src="composer_three/4d6d66d897d9d413ee17a87c75b4ec53"></div>		<div class="comment-info">
+			<b>mr.lan </b><br><span class="comment-time">2015-11-24 00:41</span>
+			<div class="comment-content">@JohnLui：嗯，太激进了点。谢了大神。</div>
+					</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-10777">
+		<a name="10777"></a>
+		<div class="avatar"><img src="composer_three/348fa7525d5cb58db32ee64f4e7e028f"></div>		<div class="comment-info">
+			<b><a href="http://xpmozong.github.io/" target="_blank">寞踪</a> </b><br><span class="comment-time">2015-09-16 17:48</span>
+			<div class="comment-content">Macaw 路由得根据代理环境自己改改，不然没法用！</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10777" onclick="commentReply(10777,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-10630">
+		<a name="10630"></a>
+		<div class="avatar"><img src="composer_three/9be0014bd5808b9589bba8b723fe73cd"></div>		<div class="comment-info">
+			<b>tsh </b><br><span class="comment-time">2015-08-21 14:43</span>
+			<div class="comment-content">Warning: preg_match(): Compilation failed: unmatched parentheses at offset 5 in D:\MFFC\vendor\NoahBuscher\macaw\Macaw.php on line 117<br>
+404&nbsp;&nbsp;<br>
+大神出现了这个问题该怎样解决呢</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10630" onclick="commentReply(10630,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10636">
+		<a name="10636"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-08-22 13:58</span>
+			<div class="comment-content">@tsh：<img src="composer_three/15.gif"><img src="composer_three/15.gif"> 你改了这个文件？目测是语法错误。。。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10636" onclick="commentReply(10636,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-10654">
+		<a name="10654"></a>
+		<div class="avatar"><img src="composer_three/9be0014bd5808b9589bba8b723fe73cd"></div>		<div class="comment-info">
+			<b>tsh </b><br><span class="comment-time">2015-08-24 09:10</span>
+			<div class="comment-content">@JohnLui：没有改过文件<img src="composer_three/7.gif"><img src="composer_three/7.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10654" onclick="commentReply(10654,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment comment-children" id="comment-10772">
+		<a name="10772"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>darren </b><br><span class="comment-time">2015-09-16 13:51</span>
+			<div class="comment-content">@tsh：我在win7+phpstudy+php5.5的集成环境下也遇到了这个问题，我是这样逐步解决的：<br>
+1. 先把routes.php的<br>
+Macaw::get('fuck',function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'fuck';<br>
+});<br>
+<br>
+Macaw::get('(:all)', function($fu) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'not match route&lt;/br&gt;'.$fu;<br>
+});<br>
+<br>
+替换为：<br>
+Macaw::get('/fuck',function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'fuck';<br>
+});<br>
+<br>
+Macaw::get('/(:all)', function($fu) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'not match route&lt;/br&gt;'.$fu;<br>
+});<br>
+这时报错没有了，但是访问 /fuck路径时 ‘not match route’ 字符串也会输出；<br>
+<br>
+2. 根据站长发布的TinyLara框架的TinyRouter.php 文件，把 vendor/noahbuscher/macaw/Macaw.php 文件做了调整：<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__callstatic($method, $params) 方法中，&nbsp;&nbsp;$uri = $params[0];；<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dispatch() 方法中： $uri = self::detect_uri();<br>
+&nbsp;&nbsp; 添加了<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private static function detect_uri()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$uri = $_SERVER['REQUEST_URI'];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (strpos($uri, $_SERVER['SCRIPT_NAME']) === 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$uri = substr($uri, strlen($_SERVER['SCRIPT_NAME']));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} elseif (strpos($uri, dirname($_SERVER['SCRIPT_NAME'])) === 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$uri = substr($uri, strlen(dirname($_SERVER['SCRIPT_NAME'])));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($uri == '/' || empty($uri)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return '/';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$uri = parse_url($uri, PHP_URL_PATH);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return str_replace(array('//', '../'), '/', trim($uri, '/'));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+这时routes.php文件中的路由：<br>
+<br>
+Macaw::get('fuck',function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'success';<br>
+});<br>
+<br>
+Macaw::get('(:all)', function($fu) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'not match route&lt;/br&gt;'.$fu;<br>
+});<br>
+访问正常了，不用添加&nbsp;&nbsp;‘/ ’&nbsp;&nbsp;了</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10772" onclick="commentReply(10772,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-11133">
+		<a name="11133"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>Kenny </b><br><span class="comment-time">2015-11-24 12:54</span>
+			<div class="comment-content">@darren：Macaw处理URL的时候好像是有问题</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11133" onclick="commentReply(11133,this)">回复</a></div>		</div>
+			</div>
+		<div class="comment comment-children" id="comment-11221">
+		<a name="11221"></a>
+		<div class="avatar"><img src="composer_three/e454c4107d0dff6ec4ca2e5455dbfb7c"></div>		<div class="comment-info">
+			<b>鬼国二少 </b><br><span class="comment-time">2015-12-15 22:49</span>
+			<div class="comment-content">@darren：6666,根据这个指示成功了！</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11221" onclick="commentReply(11221,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-10629">
+		<a name="10629"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>peiwen </b><br><span class="comment-time">2015-08-20 18:06</span>
+			<div class="comment-content">大神，打印__callstatic 中的&nbsp;&nbsp;$uri = dirname($_SERVER['PHP_SELF']).$params[0];&nbsp;&nbsp; 是带 index.php的 类似这样：比如我配置路由是Macaw::get('/IMG',function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo 'Img server';<br>
+});<br>
+那 $uri =&nbsp;&nbsp; /index.php/foo<br>
+我是开启apache重写的， .htaccess文件内容如下<br>
+&lt;IfModule mod_rewrite.c&gt;<br>
+&nbsp;&nbsp;Options +FollowSymlinks<br>
+&nbsp;&nbsp;RewriteEngine On<br>
+<br>
+&nbsp;&nbsp;RewriteCond %{REQUEST_FILENAME} !-d<br>
+&nbsp;&nbsp;RewriteCond %{REQUEST_FILENAME} !-f<br>
+&nbsp;&nbsp;RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]<br>
+&lt;/IfModule&gt;<br>
+<br>
+如果我访问的路径是&nbsp;&nbsp;myhost.com/foo ,&nbsp;&nbsp; 那么Macaw 中dispatch&nbsp;&nbsp;里 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);&nbsp;&nbsp; 这里的$uri = /foo ， 这就导致 没法匹配到路由 （因为上面实际是 index.php/foo)<br>
+是因为我的重写有问题吗？&nbsp;&nbsp;（Apache/2.4.4 (Win32) PHP/5.4.16）</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10629" onclick="commentReply(10629,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10635">
+		<a name="10635"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-08-22 13:55</span>
+			<div class="comment-content">@peiwen：https://github.com/TinyLara/TinyRouter/blob/master/TinyRouter.php 参考这个文件，这里解决了子目录和第一个 / 的问题。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10635" onclick="commentReply(10635,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-10611">
+		<a name="10611"></a>
+		<div class="avatar"><img src="composer_three/8a19024387d18dac8025fffcec9bb07c"></div>		<div class="comment-info">
+			<b>myth0216 </b><br><span class="comment-time">2015-08-14 09:05</span>
+			<div class="comment-content">__callstatic函数里面，dirname($_SERVER['PHP_SELF']) 反馈的是\ ，会导致路由失败，加一句$uri = str_replace("\\","/",$uri) 解决</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10611" onclick="commentReply(10611,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10612">
+		<a name="10612"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-08-14 11:01</span>
+			<div class="comment-content">@myth0216：目测这是你的运行环境的特殊情况</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10612" onclick="commentReply(10612,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-10613">
+		<a name="10613"></a>
+		<div class="avatar"><img src="composer_three/8a19024387d18dac8025fffcec9bb07c"></div>		<div class="comment-info">
+			<b>myth0216 </b><br><span class="comment-time">2015-08-14 11:07</span>
+			<div class="comment-content">@JohnLui：我在Apache和Nginx上都试了，对dirname($_SERVER['PHP_SELF']) 也进行输出，结果是'\' ，不知道是不是PHP版本的问题，版本是 php5.6.12</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10613" onclick="commentReply(10613,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-10215">
+		<a name="10215"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>xfice </b><br><span class="comment-time">2015-06-19 16:04</span>
+			<div class="comment-content">@JohnLui您好，我使用composer安装intervention/image这个图像处理插件的时候出现下面的错误，请问怎么解决啊<br>
+Your requirements could not be resolved to an installable set of packages.<br>
+<br>
+&nbsp;&nbsp;Problem 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- intervention/image 2.2.2 requires ext-fileinfo * -&gt; the requested PHP exte<br>
+nsion fileinfo is missing from your system.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- intervention/image 2.2.1 requires ext-fileinfo * -&gt; the requested PHP exte<br>
+nsion fileinfo is missing from your system.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- intervention/image 2.2.0 requires ext-fileinfo * -&gt; the requested PHP exte<br>
+nsion fileinfo is missing from your system.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- Installation request for intervention/image ^2.2 -&gt; satisfiable by interve<br>
+ntion/image[2.2.0, 2.2.1, 2.2.2].</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10215" onclick="commentReply(10215,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10217">
+		<a name="10217"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-06-19 16:26</span>
+			<div class="comment-content">@xfice：缺少 PHP 插件 ext-fileinfo</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10217" onclick="commentReply(10217,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-10221">
+		<a name="10221"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>xfice </b><br><span class="comment-time">2015-06-19 17:17</span>
+			<div class="comment-content">@JohnLui：@JohnLui&nbsp;&nbsp;,您好，是php_fileinfo.dll这个吗。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10221" onclick="commentReply(10221,this)">回复</a></div>		</div>
+			</div>
+		<div class="comment comment-children" id="comment-10222">
+		<a name="10222"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>xfice </b><br><span class="comment-time">2015-06-19 17:30</span>
+			<div class="comment-content">@JohnLui：如果是php_fileinfo.dll的话我环境中是有的，对了。我是在windows+apache的开发环境</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10222" onclick="commentReply(10222,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-10193">
+		<a name="10193"></a>
+		<div class="avatar"><img src="composer_three/be5a541c6baa4665ca4381cc51ac66b8"></div>		<div class="comment-info">
+			<b>Jay_xy </b><br><span class="comment-time">2015-06-18 14:30</span>
+			<div class="comment-content">root:----&gt;/var/www/html/public&nbsp;&nbsp;<br>
+[root@localhost public]# pwd<br>
+/var/www/html/public<br>
+[root@localhost public]# ls -a<br>
+.&nbsp;&nbsp;..&nbsp;&nbsp;.htaccess&nbsp;&nbsp;index.php<br>
+[root@localhost public]# cat .htaccess<br>
+&lt;IfModule mod_rewrite.c&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Options +FollowSymlinks<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RewriteEngine On<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RewriteCond %{REQUEST_FILENAME} !-d<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RewriteCond %{REQUEST_FILENAME} !-f<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]<br>
+&lt;/IfModule&gt;<br>
+<br>
+[root@localhost public]# cd ../config/<br>
+[root@localhost config]# ls<br>
+routes.php<br>
+[root@localhost config]# cat routes.php<br>
+&lt;?php<br>
+<br>
+use NoahBuscher\Macaw\Macaw;<br>
+<br>
+Macaw::get('/fuck',function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "Hello world!";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+<br>
+Macaw::get('(:all)',function($fu){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "未匹配到路由&lt;br&gt;".$fu;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+<br>
+Macaw::dispatch();<br>
+<br>
+<br>
+按大神说的不管我加不加/在fuck前面访问都是404,不知道是那里写错了?</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10193" onclick="commentReply(10193,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10195">
+		<a name="10195"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-06-18 15:28</span>
+			<div class="comment-content">@Jay_xy：试一下 /index.php/fuck ？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10195" onclick="commentReply(10195,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-10197">
+		<a name="10197"></a>
+		<div class="avatar"><img src="composer_three/be5a541c6baa4665ca4381cc51ac66b8"></div>		<div class="comment-info">
+			<b>Jay_xy </b><br><span class="comment-time">2015-06-18 15:59</span>
+			<div class="comment-content">@JohnLui：找到原因了,是因为我没有开户apache里面的AllowOverride All导致没有读取到.htaccess文件,<br>
+<br>
+现在的情况是我访问<br>
+http://192.168.154.132/fuck或者http://192.168.154.132/index.php/fuck的时候都会走all那个路由<br>
+<br>
+<br>
+use NoahBuscher\Macaw\Macaw;<br>
+<br>
+Macaw::get('fuck',function($fu){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "Hello world!---".$fu;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+<br>
+Macaw::get('(:all)',function($fu){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo "未匹配到路由&lt;br&gt;".$fu;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+<br>
+Macaw::dispatch();<br>
+<br>
+<br>
+未匹配到路由<br>
+/index.php/fuck<br>
+<br>
+未匹配到路由<br>
+/fuck<br>
+<br>
+不知道哪里还要进行相关的配置那？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10197" onclick="commentReply(10197,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-10300">
+		<a name="10300"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wgfy </b><br><span class="comment-time">2015-07-03 13:02</span>
+			<div class="comment-content">@Jay_xy：我这也是有这个问题，求解</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10300" onclick="commentReply(10300,this)">回复</a></div>		</div>
+			</div>
+		<div class="comment comment-children" id="comment-10588">
+		<a name="10588"></a>
+		<div class="avatar"><img src="composer_three/8a19024387d18dac8025fffcec9bb07c"></div>		<div class="comment-info">
+			<b>myth0216 </b><br><span class="comment-time">2015-08-09 23:11</span>
+			<div class="comment-content">@Jay_xy：我开了AllowOverride All后，并且设置了.htaccess文件，伪静态还是失败！</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10588" onclick="commentReply(10588,this)">回复</a></div>		</div>
+			</div>
+		<div class="comment comment-children" id="comment-11278">
+		<a name="11278"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>Limighten </b><br><span class="comment-time">2016-01-03 13:18</span>
+			<div class="comment-content">@Jay_xy：感谢楼主分享！来这里的，都是有探索精神的人！<br>
+利用节日期间，调试了一下，发现Macaw处理URL的时候可以匹配到`/index.php/fuck'`却不能匹配到 `/fuck`，原因是`_SERVER['PHP_SELF']` 获取到的数据是 `/index.php/fuck` 所以才会这样，经查看_SERVER变量，发现其实是_SERVER['PHP_SELF']&nbsp;&nbsp;是 `_SERVER['SCRIPT_NAME']` 和 `_SERVER['REQUEST_URI']` 的拼装，所以应该是 _SERVER['REQUEST_URI'] 就ok了。现在动手改掉<br>
+&nbsp;&nbsp;&nbsp;&nbsp;$uri = dirname($_SERVER['PHP_SELF']).$params[0]; <br>
+为 <br>
+&nbsp;&nbsp; $uri = dirname($_SERVER['REQUEST_URI']).$params[0];<br>
+搞定！一切运行正常。另，怎样才不算垃圾评论？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-11278" onclick="commentReply(11278,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-10112">
+		<a name="10112"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>PeaBlog </b><br><span class="comment-time">2015-06-07 00:34</span>
+			<div class="comment-content">“新建 MFFC/config 文件夹，在里面新建 routs.php 文件” 文件名应该是routes.php</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10112" onclick="commentReply(10112,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10113">
+		<a name="10113"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-06-07 00:58</span>
+			<div class="comment-content">@PeaBlog：这么多年过去了才被发现的错误……</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10113" onclick="commentReply(10113,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-10094">
+		<a name="10094"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>lingxian </b><br><span class="comment-time">2015-06-05 16:40</span>
+			<div class="comment-content">http://127.0.0.1:81/fuck<br>
+Object not found!<br>
+<br>
+The requested URL was not found on this server. If you entered the URL manually please check your spelling and try again.<br>
+<br>
+If you think this is a server error, please contact the webmaster.<br>
+<br>
+Error 404<br>
+<br>
+127.0.0.1<br>
+Apache/2.4.12 (Win32) OpenSSL/1.0.1l PHP/5.6.8<br>
+<br>
+&lt;?php<br>
+<br>
+use NoahBuscher\Macaw\Macaw;<br>
+<br>
+Macaw::get('fuck', function() {<br>
+&nbsp;&nbsp;echo "成功！";<br>
+});<br>
+<br>
+<br>
+Macaw::get('/', function() {&nbsp;&nbsp;<br>
+&nbsp;&nbsp;echo 'Hello world!';<br>
+});<br>
+<br>
+Macaw::get('/test', function() {<br>
+&nbsp;&nbsp;echo "成功！";<br>
+});<br>
+<br>
+Macaw::dispatch();<br>
+但是http://127.0.0.1:81/&nbsp;&nbsp;&nbsp;&nbsp;这个路由可以显示Hello world!</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10094" onclick="commentReply(10094,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10096">
+		<a name="10096"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-06-05 18:37</span>
+			<div class="comment-content">@lingxian：没有做伪静态。使用 http://127.0.0.1:81/index.php/fuck 就可以了</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-10096" onclick="commentReply(10096,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-9787">
+		<a name="9787"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>trey </b><br><span class="comment-time">2015-05-04 17:08</span>
+			<div class="comment-content">Composer project detected, Do you want to create index? <br>
+每次用vim打开都会提示这个。。 这个是怎么回事?</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9787" onclick="commentReply(9787,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9789">
+		<a name="9789"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-05-04 17:40</span>
+			<div class="comment-content">@trey：关闭那个插件吧</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9789" onclick="commentReply(9789,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9906">
+		<a name="9906"></a>
+		<div class="avatar"><img src="composer_three/fcd7535503f89172e90ec489190a7aaa"></div>		<div class="comment-info">
+			<b>trey </b><br><span class="comment-time">2015-05-15 13:58</span>
+			<div class="comment-content">@JohnLui：ok了，补全插件没有配置好，谢谢</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9906" onclick="commentReply(9906,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-9629">
+		<a name="9629"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>xiaochuan </b><br><span class="comment-time">2015-04-16 16:50</span>
+			<div class="comment-content">现在Macaw包的名字不是codingbean/macaw了，这个已经deprecated了，已经改为noahbuscher/macaw了</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9629" onclick="commentReply(9629,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-9534">
+		<a name="9534"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wdpl </b><br><span class="comment-time">2015-04-09 17:57</span>
+			<div class="comment-content">你好&nbsp;&nbsp;使用 PHP 内置 HTTP 服务器，php -S 127.0.0.1:3000&nbsp;&nbsp;这种方法可以实现；但是怎么发布呢&nbsp;&nbsp;就是别人无法访问我的系统，怎么做才能让别的电脑可以访问我的系统</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9534" onclick="commentReply(9534,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9535">
+		<a name="9535"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-09 18:00</span>
+			<div class="comment-content">@wdpl：可以尝试使用 php -S 192.168.x.x:3000，监听局域网 ip。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9535" onclick="commentReply(9535,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9538">
+		<a name="9538"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wdpl </b><br><span class="comment-time">2015-04-09 19:47</span>
+			<div class="comment-content">@JohnLui：OK&nbsp;&nbsp;可以了，果然牛逼！！！又有新的疑问，官方文档上说，内置的Web服务器只是提供开发测试使用，不推荐在生产环境中使用；那在此路由的基础上，有什么其他方法访问系统呢</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9538" onclick="commentReply(9538,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9539">
+		<a name="9539"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-09 20:54</span>
+			<div class="comment-content">@wdpl：用 Apache Nginx 都可以呀<img src="composer_three/18.gif"><img src="composer_three/18.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9539" onclick="commentReply(9539,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9540">
+		<a name="9540"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wdpl </b><br><span class="comment-time">2015-04-09 21:26</span>
+			<div class="comment-content">@JohnLui：不懂<img src="composer_three/2.gif">&nbsp;&nbsp;用 Apache怎么做，能不能说一下具体步骤&nbsp;&nbsp;谢啦 大侠</div>
+					</div>
+			</div>
+		</div>
+		<div class="comment comment-children" id="comment-9541">
+		<a name="9541"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-09 21:30</span>
+			<div class="comment-content">@wdpl：<img src="composer_three/15.gif"><img src="composer_three/15.gif"><br>
+"然后，将某一个端口用 Apache 或 Nginx 分配给 MFFC/public 目录，这一步十分建议用 Apache 或者 Nginx 做。"</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9541" onclick="commentReply(9541,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9546">
+		<a name="9546"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wdpl </b><br><span class="comment-time">2015-04-10 15:12</span>
+			<div class="comment-content">@JohnLui：按照你的方法，我给MFFC/public目录分配了8080端口<br>
+Macaw::get('/', function() {<br>
+&nbsp;&nbsp;echo "fuck！";<br>
+});<br>
+Macaw::get('/fuck', function() {<br>
+&nbsp;&nbsp;echo "fuck！";<br>
+});<br>
+但是第一条路由成功，第二条路由失败&nbsp;&nbsp;提示“Internal Server Error The server encountered an internal error or misconfiguration and was unable to complete your request.”这样信息，然后我把'/'去掉，还是不行，望大侠指点</div>
+					</div>
+			</div>
+		</div>
+		<div class="comment comment-children" id="comment-9547">
+		<a name="9547"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-10 15:45</span>
+			<div class="comment-content">@wdpl：<img src="composer_three/19.gif"><img src="composer_three/19.gif"> 第二条要去掉第一个 / ，我在上面说过啦<img src="composer_three/13.gif"><img src="composer_three/13.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9547" onclick="commentReply(9547,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9548">
+		<a name="9548"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wdpl </b><br><span class="comment-time">2015-04-10 16:01</span>
+			<div class="comment-content">@JohnLui：改成这样吗？<br>
+Macaw::get('/', function() {<br>
+&nbsp;&nbsp;echo "fuck！";<br>
+});<br>
+Macaw::get('fuck', function() {<br>
+&nbsp;&nbsp;echo "fuck！";<br>
+});<br>
+测试了&nbsp;&nbsp;还是不行<img src="composer_three/2.gif"><img src="composer_three/2.gif"></div>
+					</div>
+			</div>
+		<div class="comment comment-children" id="comment-9549">
+		<a name="9549"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wdpl </b><br><span class="comment-time">2015-04-10 16:06</span>
+			<div class="comment-content">@JohnLui：大侠是不还得设置一下伪静态？如何设置呢？</div>
+					</div>
+			</div>
+		<div class="comment comment-children" id="comment-9551">
+		<a name="9551"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-10 17:44</span>
+			<div class="comment-content">@wdpl：跟 Laravel 一样就行。</div>
+					</div>
+			</div>
+		</div>
+		<div class="comment comment-children" id="comment-9550">
+		<a name="9550"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-10 17:44</span>
+			<div class="comment-content">@wdpl：那就是伪静态的问题了，设置一下 .htaccess 就行。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9550" onclick="commentReply(9550,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9554">
+		<a name="9554"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>wdpl </b><br><span class="comment-time">2015-04-10 20:46</span>
+			<div class="comment-content">@JohnLui：设置了.htaccess，终于实现啦<img src="composer_three/4.gif"><img src="composer_three/4.gif"> 非常感谢大侠！&nbsp;&nbsp;&nbsp;&nbsp;大侠啥时出视频教程&nbsp;&nbsp; 非常期待哦！</div>
+					</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-9395">
+		<a name="9395"></a>
+		<div class="avatar"><img src="composer_three/4f0d0411eb958a0544cd98c071851dbe"></div>		<div class="comment-info">
+			<b>蒲 蒲 </b><br><span class="comment-time">2015-03-27 11:27</span>
+			<div class="comment-content">你好，我在 routes.php 文件中配置&nbsp;&nbsp;了三个路由，第一个路由可以访问，但是test方法就报一下错误，伪静态我也配置了<br>
+Object not found!<br>
+The requested URL was not found on this server. If you entered the URL manually please check your spelling and try again.<br>
+<br>
+If you think this is a server error, please contact the webmaster.<br>
+<br>
+Error 404<br>
+<br>
+<br>
+&lt;?php<br>
+use NoahBuscher\Macaw\Macaw;<br>
+<br>
+Macaw::get('/', function() {&nbsp;&nbsp;<br>
+&nbsp;&nbsp;echo 'Hello world!';<br>
+});<br>
+<br>
+Macaw::get('/test', function() {<br>
+&nbsp;&nbsp;echo "成功！";<br>
+});<br>
+<br>
+Macaw::get('(:all)', function($fu) {<br>
+&nbsp;&nbsp;echo '未匹配到路由&lt;br&gt;'.$fu;<br>
+});<br>
+<br>
+Macaw::dispatch();</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9395" onclick="commentReply(9395,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9398">
+		<a name="9398"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-03-27 12:29</span>
+			<div class="comment-content">@蒲 蒲：去掉第一个 /</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9398" onclick="commentReply(9398,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-9066">
+		<a name="9066"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>LAU </b><br><span class="comment-time">2015-01-23 18:10</span>
+			<div class="comment-content">您好&nbsp;&nbsp; 通过你的php -S 127.0.0.1:81 这种方法构建路由是成功的。&nbsp;&nbsp; 但是我直接用localhost/mffc/public访问&nbsp;&nbsp;提示路由不成功。这是什么原因&nbsp;&nbsp;&nbsp;&nbsp; 我想用localhost/mffc/public访问&nbsp;&nbsp; 该如何做？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9066" onclick="commentReply(9066,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9067">
+		<a name="9067"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-23 18:17</span>
+			<div class="comment-content">@LAU：不能<img src="composer_three/15.gif"><img src="composer_three/15.gif"> 除非直接指向 public 文件夹</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9067" onclick="commentReply(9067,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9069">
+		<a name="9069"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>LAU </b><br><span class="comment-time">2015-01-23 21:13</span>
+			<div class="comment-content">@JohnLui：怎样直接指向public文件夹</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9069" onclick="commentReply(9069,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9072">
+		<a name="9072"></a>
+		<div class="avatar"><img src="composer_three/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-24 23:25</span>
+			<div class="comment-content">@LAU：具体的就是 Apache 和 nginx 的配置了，请自行搜索。。。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-9072" onclick="commentReply(9072,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-8985">
+		<a name="8985"></a>
+		<div class="avatar"><img src="composer_three/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>堕落到妖灬 </b><br><span class="comment-time">2015-01-14 10:11</span>
+			<div class="comment-content"><img src="composer_three/1.gif"><img src="composer_three/1.gif">可不可以出个视频教程》？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/406.html#comment-8985" onclick="commentReply(8985,this)">回复</a></div>
+		</div>
+			</div>
+		<div style="clear:both;"></div>
+  </div>
+</div><!--end #contentleft-->
+</div><!--end #content-->
+<div style="clear:both;"></div><!--end #footerbar-->
+
+</div><!--end #wrap-->
+
+</body></html>

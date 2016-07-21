@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://lvwenhan.com/php/410.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="吕文翰,岁寒,emlog,php,CodeIgniter,Laravel,TinyLara,Swift,iOS,Pitaya,JSONNeverDie,PHP,Laravel,CodeIgniter,框架,Composer">
+  <meta name="description" content="本教程示例代码见 https://github.com...">
+  <title>利用 Composer 完善自己的 PHP 框架（一）——视图装载 - 岁寒</title>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https://lvwenhan.com/rss.php">
+
+
+  <link href="composer_five/bootstrap.min.css" rel="stylesheet">
+  <link href="composer_five/main.css" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" href="composer_five/markdown.css"></head>
+<body>
+  <div id="wrap"><!-- end of #header -->
+
+    <div id="nav" class="navbar-wrapper" style="">
+      <div class="container">
+
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="https://lvwenhan.com/">岁寒</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              	<ul class="bar nav navbar-nav">
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/life" class="dropdown-toggle" data-toggle="dropdown">生活 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/many">杂</a></li><li><a href="https://lvwenhan.com/sort/serialize">小说</a></li><li><a href="https://lvwenhan.com/sort/create">原创</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/web" class="dropdown-toggle" data-toggle="dropdown">WEB 技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/web-front">web前端</a></li><li><a href="https://lvwenhan.com/sort/web-back">web后端</a></li><li><a href="https://lvwenhan.com/sort/mobile">移动互联网</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/keep-learning" class="dropdown-toggle" data-toggle="dropdown">其他技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/C-language">C</a></li><li><a href="https://lvwenhan.com/sort/ruby">Ruby</a></li><li><a href="https://lvwenhan.com/sort/mac">MAC</a></li><li><a href="https://lvwenhan.com/sort/golang">Go语言</a></li><li><a href="https://lvwenhan.com/sort/vb6">Visual Basic 6.0</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/29" class="dropdown-toggle" data-toggle="dropdown">PHP <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/php">PHP</a></li><li><a href="https://lvwenhan.com/sort/laravel">Laravel</a></li><li><a href="https://lvwenhan.com/sort/31">TinyLara</a></li><li><a href="https://lvwenhan.com/sort/ci">CodeIgniter</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/sort/ios">iOS</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://github.com/johnlui" target="_blank">GitHub</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="http://weibo.com/balishengmuyuan" target="_blank">微博</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/works">作品</a>
+			
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="http:/#" class="dropdown-toggle" data-toggle="dropdown">更多 <b class="caret"></b></a><ul class="dropdown-menu"><li>
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li><li>
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li></ul>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li>
+		</ul>
+           	  <span class="icon-bar"></span>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div><div id="content" class="container">
+<div id="contentleft">
+  <div class="m-post">
+    <h2 class="title"><a href="https://lvwenhan.com/php/410.html">利用 Composer 完善自己的 PHP 框架（一）——视图装载</a></h2>
+
+    <p>本教程示例代码见 <a href="https://github.com/johnlui/My-First-Framework-based-on-Composer" target="_blank">https://github.com/johnlui/My-First-Framework-based-on-Composer</a></p><hr><h2>回顾</h2><p>经过了上一个 系列教程 &nbsp;《利用 Composer 一步一步构建自己的 PHP 框架》 ，我们组建了一个具有 &nbsp;路由 、 MVC 架构 &nbsp;和 &nbsp;ORM &nbsp;功能的基础框架 &nbsp;MFFC 。接下来我们继续完善这个项目。</p><p>我们先从目前用着 &nbsp;最不爽 &nbsp;的地方——视图装载下手。我们将封装一个视图装载类，让它来帮我们装载视图，并把变量传递进视图。这个类将只暴露出来几个简单的接口，让我们在控制器里面用的爽，让我们一边写代码一边笑。真的笑，笑出声。:-D</p><hr><h2>正文</h2><h3>构思</h3><p>视图装载类要做的工作其实很简单：</p><p>1. 根据视图名称找到视图文件，支持文件夹</p><p>2. 更加方便，更加优雅地把变量的值传递进视图</p><p>本文中我们将不会不引入模板引擎，只做装载文件和传递变量的功能。</p><h3>基础准备</h3><p>我们要引入视图装载器，这就正式打开了组件化的大门，所以我们需要做一些准备工作。</p><h3>启动流程组件化</h3><p>将 &nbsp;public/index.php &nbsp;里面的代码分离一部分到启动器（bootstrap），新建 &nbsp;MFFC/bootstrap.php &nbsp;文件：</p><pre class="lang-php" data-lang="php">&lt;?php
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+// 定义 BASE_PATH
+
+define('BASE_PATH', __DIR__);
+
+// Autoload 自动载入
+
+require BASE_PATH.'/vendor/autoload.php';
+
+// Eloquent ORM
+
+$capsule = new Capsule;
+
+$capsule-&gt;addConnection(require BASE_PATH.'/config/database.php');
+
+$capsule-&gt;bootEloquent();
+</pre><p>&nbsp; &nbsp;</p><p>修改 &nbsp;public/index.php &nbsp;为：</p><pre class="lang-php" data-lang="php">&nbsp; &nbsp;&lt;?php
+
+// 定义 PUBLIC_PATH
+
+define('PUBLIC_PATH', __DIR__);
+
+// 启动器
+
+require PUBLIC_PATH.'/../bootstrap.php';
+
+// 路由配置、开始处理
+
+require BASE_PATH.'/config/routes.php';
+</pre><p>这时候我们就完成了 入口文件 和 启动器 的分离，并定义了两个全局常量 &nbsp;BASE_PATH &nbsp;和 &nbsp;PUBLIC_PATH 。</p><blockquote><p> 在这里我们需要特别注意一点：“引入路由配置文件” 这一步并不只是简单地引入了一个配置文件，路由文件的最后一行 &nbsp;Macaw::dispatch(); &nbsp;才是 &nbsp;真正执行某个控制器中某个 function &nbsp; 的地方，所有准备条件都应该在载入路由文件之前完成，例如 Eloquent 的初始化，还有以后我们要使用的 Composer 包的初始化等等。</p></blockquote><h3>引入错误页面提示组件</h3><p>我们选择 <a href="https://github.com/filp/whoops" target="_blank">filp/whoops</a> 作为我们错误提示组件包。</p><p>修改 &nbsp;composer.json ：</p><pre class="lang-json" data-lang="json">"require": {
+
+  "codingbean/macaw": "dev-master",
+
+  "illuminate/database": "*",
+
+  "filp/whoops": "*"
+
+},
+</pre><p>运行 &nbsp;composer update ，然后在 &nbsp;bootstrap.php &nbsp;的最后添加：</p><pre class="lang-php" data-lang="php">// whoops 错误提示
+
+$whoops = new \Whoops\Run;
+
+$whoops-&gt;pushHandler(new \Whoops\Handler\PrettyPageHandler);
+
+$whoops-&gt;register();
+</pre><p>刷新 <a href="http://127.0.0.1:81/">http://127.0.0.1:81</a> ，你得到的应该还是这个页面：</p><p><img alt="Image" src="composer_five/15811413308693.jpg" data-image-size="1015,578"><br></p><p>下面我们将增加路由配置中 &nbsp;无匹配项 &nbsp;的错误页面，修改 &nbsp;config/routes.php ：</p><pre class="lang-php" data-lang="php">&lt;?php
+
+use NoahBuscher\Macaw\Macaw;
+
+Macaw::get('', 'HomeController@home');
+
+Macaw::get('fuck', function() {
+
+  echo "成功！";
+
+});
+
+Macaw::$error_callback = function() {
+
+  throw new Exception("路由无匹配项 404 Not Found");
+
+};
+
+Macaw::dispatch();
+</pre><p>现在访问一个随意输入的 URL，例如 <a href="http://127.0.0.1:81/asd">http://127.0.0.1:81/asd</a> ，我们会看到以下画面：</p><p><img alt="Image" src="composer_five/217b1413477994.jpg" data-image-size="1023,561"><br></p><p>是不是有一种很熟悉的感觉！</p><p>很不幸，这个错误提示包正是 Laravel 采用的那个，所以，我们可爱的 &nbsp;MFFC &nbsp;框架在长大以后还是成了 &nbsp;Laravel &nbsp;的样子。%&gt;_&lt;%</p><h3>实现装载器</h3><p>完成基础准备以后我们正式开始制造视图装载器。</p><p>视图装载器是一个可插拔组件，我们应该把所有可插拔组件全部归到一处，在 MFFC 中建议放在 &nbsp;MFFC/services &nbsp;下。</p><p>CI 框架提供的基础组件库叫 &nbsp;helpers ，Laravel 使用 &nbsp;illuminate/support &nbsp;包提供一些可重用的系统函数。实际上 “illuminate/support” 这个包已经被我们的 ORM 包 “illuminate/database” 依赖了，现在 MFFC 框架里面已经可以直接使用。，这个包的中文文档见：<a href="http://laravel-china.org/docs/helpers">http://laravel-china.org/docs/helpers</a></p><p>我们并没有像 CI 框架那样把视图装载器放到系统核心，有以下两个原因：</p><ol><li>基于命名空间与自动加载的调用方式更加节省资源<br></li><li>在移动互联网和大前端愈演愈烈的时代，后端越来越 API 化、 json 化。很多时候都不到视图，没有必要再增加无畏的消耗。<br></li></ol><p><br></p><p>下面开始着手实现视图装载器。</p><p>新建 &nbsp;MFFC/services &nbsp;文件夹，并修改 &nbsp;composer.json &nbsp;把这个文件夹下的所有类自动归入根命名空间：</p><pre class="lang-json" data-lang="json">"autoload": {
+
+  "classmap": [
+
+    "app/controllers",
+
+    "app/models",
+
+    "services"
+
+  ]
+
+}
+</pre><p>新建 &nbsp;services/View.php &nbsp;文件，内容如下：</p><pre class="lang-php" data-lang="php">&lt;?php
+/**
+* \View
+*/
+class View
+{
+  const VIEW_BASE_PATH = '/app/views/';
+
+  public $view;
+  public $data;
+
+  public function __construct($view)
+  {
+    $this-&gt;view = $view;
+  }
+
+  public static function make($viewName = null)
+  {
+    if ( ! $viewName ) {
+      throw new InvalidArgumentException("视图名称不能为空！");
+    } else {
+      
+      $viewFilePath = self::getFilePath($viewName);
+      if ( is_file($viewFilePath) ) {
+        return new View($viewFilePath);
+      } else {
+        throw new UnexpectedValueException("视图文件不存在！");
+      }
+    }
+  }
+
+  public function with($key, $value = null)
+  {
+    $this-&gt;data[$key] = $value;
+    return $this;
+  }
+
+  private static function getFilePath($viewName)
+  {
+    $filePath = str_replace('.', '/', $viewName);
+    return BASE_PATH.self::VIEW_BASE_PATH.$filePath.'.php';
+  }
+
+  public function __call($method, $parameters)
+  {
+    if (starts_with($method, 'with'))
+    {
+      return $this-&gt;with(snake_case(substr($method, 4)), $parameters[0]);
+    }
+
+    throw new BadMethodCallException("方法 [$method] 不存在！.");
+  }
+}
+</pre><p>运行 &nbsp;composer dump-autoload ，完成以后，我们就可以在控制器中直接调用这个类了。</p><p>修改 &nbsp;controllers/HomeController.php ：</p><pre class="lang-php" data-lang="php">&lt;?php
+
+/**
+
+* \HomeController
+
+*/
+
+class HomeController extends BaseController
+
+{
+
+  
+
+  public function home()
+
+  {
+
+    $this-&gt;view = View::make('home')-&gt;with('article',Article::first())
+
+                                    -&gt;withTitle('MFFC :-D')
+
+                                    -&gt;withFuckMe('OK!');
+
+  }
+
+}
+</pre><p>修改 &nbsp;controllers/BaseController.php ：</p><pre class="lang-php" data-lang="php">&lt;?php
+
+/**
+
+* \BaseController
+
+*/
+
+class BaseController
+
+{
+
+  protected $view;
+
+  
+
+  public function __construct()
+
+  {
+
+  }
+
+  public function __destruct()
+
+  {
+
+    $view = $this-&gt;view;
+
+    if ( $view instanceof View ) {
+
+      extract($view-&gt;data);
+
+      require $view-&gt;view;
+
+    }
+
+  }
+
+}
+<br></pre><p>修改 &nbsp;app/views/home.php ：</p><pre class="lang-html" data-lang="html">&lt;!DOCTYPE html&gt;
+
+&lt;html lang="en"&gt;
+
+&lt;head&gt;
+
+  &lt;meta charset="UTF-8"&gt;
+
+  &lt;title&gt;&lt;?php echo $title ?&gt;&lt;/title&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;div class="article"&gt;
+
+    &lt;h1&gt;&lt;?php echo $article['title'] ?&gt;&lt;/h1&gt;
+
+    &lt;div class="content"&gt;
+
+      &lt;?php echo $article['content'] ?&gt;
+
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+  &lt;ul class="fuckme"&gt;
+
+    &lt;li&gt;Fuck Me !&lt;/li&gt;
+
+    &lt;li&gt;
+
+      &lt;?php echo $fuck_me ?&gt;
+
+    &lt;/li&gt;
+
+  &lt;/ul&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</pre><p>&nbsp; &nbsp;</p><p>刷新，你将看到以下页面：</p><p><img alt="Image" src="composer_five/74b21413478977.jpg" data-image-size="1021,557"><br></p><h3>至此，视图装载器实现完成。</h3><hr><h3><b>下面我大致说一下设计视图装载器的基本思路：</b></h3><ol><li>这个视图装载器类模仿了 Laravel 的 View 类，它实现了一个静态方法 &nbsp;make ，接受视图名称作为参数，以 &nbsp;. &nbsp;作为目录的间隔符。<br></li><li>make 静态方法会检查视图名称是否为空，检查视图文件是否存在，并给出相应的异常。这就是我们引入异常处理包的原因。<br></li><li>视图名称合法且文件存在时，实例化一个 View 类的对象，返回。<br></li><li>使用 &nbsp;with('key', $value) &nbsp;或者优雅的 &nbsp;withKey($value) &nbsp;来给这个 View 对象插入要在视图里调用的变量。 withFuckMe($value) &nbsp;将采用蛇形命名法被转化成 &nbsp;$fuck_me &nbsp;供视图使用。<br></li><li>最终组装好的 View 对象会被赋给 &nbsp;HomeController &nbsp;的成员变量 &nbsp;$view ，这个变量是从 &nbsp;BaseController &nbsp;中继承得来。<br></li><li>父类 &nbsp;BaseController &nbsp;中的析构函数 &nbsp;__destruct() &nbsp;将在 &nbsp;function home() &nbsp;执行完成后处理这个成员变量： extract &nbsp;出视图要用到的变量， require &nbsp;视图文件，将最终运算结果发送给浏览器，流程结束。<br></li></ol><p><br></p><hr><h2>下一步：<a href="https://lvwenhan.com/php/412.html" target="_blank">利用 Composer 完善自己的 PHP 框架（二）——发送邮件</a></h2>
+    <style>
+#author{
+  width: 100%;
+  /*height: 270px;*/
+  margin-top: 50px;
+  box-shadow: 5px 5px 20px #cccccc;
+}
+#author h4{
+  padding-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+#avatar{
+  border-radius: 80px;
+  box-shadow: 5px 5px 20px #999999;
+  width: 160px;
+  margin-left: 80px;
+  margin-right: 50px;
+  float: left;
+}
+#right{
+  float: left;
+  padding-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 100px;
+  margin-right: 20px;
+}
+</style>
+<div id="author">
+  <h4>WRITTEN BY</h4>
+   
+  <img src="composer_five/cdc61414392103.jpg" alt="avatar" id="avatar">
+  <!-- <img src="../content/uploadfile/201410/cdc61414392103.jpg" alt="avatar" id="avatar"> -->
+  <div id="right">
+    <h3><a href="https://github.com/johnlui">JohnLui</a></h3>
+    <div id="description">
+    程序员，Swift Contributor，上架小工具 <a href="https://itunes.apple.com/cn/app/yi-jian-vpn-zai-xia-la-tong/id1063286554?l=en&amp;mt=8">一键 VPN</a>，正在写<a href="https://autolayout.club/" target="_blank">《iOS 可视化编程与 Auto Layout》</a>。
+    </div>
+  </div>
+    <div style="clear:both;"></div>
+</div>
+<div id="related_log"><p><b>相关日志：</b></p><p><a href="https://lvwenhan.com/php/425.html">JohnLui/AliyunOSS v1.0 发布，附 Laravel 框架详细使用教程及代码</a></p><p><a href="https://lvwenhan.com/php/412.html">利用 Composer 完善自己的 PHP 框架（二）——发送邮件</a></p><p><a href="https://lvwenhan.com/php/413.html">【完结】利用 Composer 完善自己的 PHP 框架（三）——Redis 缓存</a></p><p><a href="https://lvwenhan.com/php/408.html">利用 Composer 一步一步构建自己的 PHP 框架（三）——设计 MVC</a></p><p><a href="https://lvwenhan.com/php/401.html">PHP 命名空间 解惑</a></p></div>
+    <div id="article-info">
+      <div class="tag little">标签:	<a href="https://lvwenhan.com/tag/PHP">PHP</a>	<a href="https://lvwenhan.com/tag/Laravel">Laravel</a>	<a href="https://lvwenhan.com/tag/CodeIgniter">CodeIgniter</a>	<a href="https://lvwenhan.com/tag/%E6%A1%86%E6%9E%B6">框架</a>	<a href="https://lvwenhan.com/tag/Composer">Composer</a></div>
+      <div class="date little">2014.10.17      <span>&nbsp;&nbsp;/&nbsp;&nbsp;</span> 热度：17743 <span>&nbsp;&nbsp;/&nbsp;&nbsp;</span> 分类：	    <a href="https://lvwenhan.com/sort/php">PHP</a>
+	      </div>
+    </div>
+
+    <div class="nextlog">		<a class="left" href="https://lvwenhan.com/mac/411.html">← 升级 OS X 10.10 Yosemite 遇到的问题及解决办法</a>
+		
+			<a class="right" href="https://lvwenhan.com/php/409.html">利用 Composer 一步一步构建自己的 PHP 框架（四）——使用 ORM →</a>
+		<div style="clear:both;"></div>
+</div>
+
+    	<hr><a name="comments"></a>
+	<p class="comment-header"><b>评论：</b></p>
+			<div class="comment" id="comment-11669">
+		<a name="11669"></a>
+		<div class="avatar"><img src="composer_five/20173c656077148ead23f78b70823541"></div>		<div class="comment-info">
+			<b><a href="https://geilcode.com/" target="_blank">raphaelsoul</a> </b><br><span class="comment-time">2016-07-13 10:19</span>
+			<div class="comment-content">有一个问题，throw New Exception返回的是500的http状态码，而无法区分404</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11669" onclick="commentReply(11669,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11603">
+		<a name="11603"></a>
+		<div class="avatar"><img src="composer_five/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>白联 </b><br><span class="comment-time">2016-06-13 12:45</span>
+			<div class="comment-content">可拔插的插件为什么要在主控制器里加析构函数？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11603" onclick="commentReply(11603,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11430">
+		<a name="11430"></a>
+		<div class="avatar"><img src="composer_five/cd57388e3059b90c72ca689979a55ade"></div>		<div class="comment-info">
+			<b>houyonglu </b><br><span class="comment-time">2016-03-15 00:01</span>
+			<div class="comment-content">博主你好，我刚开始学PHP不久。想请教一个问题，文章中提到:““illuminate/support” 这个包已经被我们的 ORM 包 “illuminate/database” 依赖了，现在 MFFC 框架里面已经可以直接使用。”文档中有view方法，为什么不直接使用而需要自己模拟一个？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11430" onclick="commentReply(11430,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11410">
+		<a name="11410"></a>
+		<div class="avatar"><img src="composer_five/5497156404a86bb5ff1221cd5155040b"></div>		<div class="comment-info">
+			<b>拉风的男人 </b><br><span class="comment-time">2016-03-02 13:11</span>
+			<div class="comment-content">const这个能否目录能否自动获取呢?<img src="composer_five/11.gif"><img src="composer_five/11.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11410" onclick="commentReply(11410,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11389">
+		<a name="11389"></a>
+		<div class="avatar"><img src="composer_five/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>hijames </b><br><span class="comment-time">2016-02-18 10:41</span>
+			<div class="comment-content">看了你一些东西，我没学到什么东西，其实你写的不少，也有用，我就是看不下去，你写的很矫niang情pao啊</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11389" onclick="commentReply(11389,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-11391">
+		<a name="11391"></a>
+		<div class="avatar"><img src="composer_five/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="https://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2016-02-19 00:11</span>
+			<div class="comment-content">@hijames：这种评论还是第一次看到<img src="composer_five/13.gif"><img src="composer_five/13.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11391" onclick="commentReply(11391,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-11141">
+		<a name="11141"></a>
+		<div class="avatar"><img src="composer_five/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>Jude </b><br><span class="comment-time">2015-11-26 10:05</span>
+			<div class="comment-content">、GET参数怎么传呢</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11141" onclick="commentReply(11141,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-11135">
+		<a name="11135"></a>
+		<div class="avatar"><img src="composer_five/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>Jude </b><br><span class="comment-time">2015-11-25 10:14</span>
+			<div class="comment-content">老大，请问如果试图需要很多静态资源文件，是不是必须要放在 public下面了？&nbsp;&nbsp;比如&nbsp;&nbsp;/public/static_resouces</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-11135" onclick="commentReply(11135,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-9014">
+		<a name="9014"></a>
+		<div class="avatar"><img src="composer_five/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>vilay </b><br><span class="comment-time">2015-01-17 15:14</span>
+			<div class="comment-content">starts_with 这个函数是个什么东西&nbsp;&nbsp;services view</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-9014" onclick="commentReply(9014,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9016">
+		<a name="9016"></a>
+		<div class="avatar"><img src="composer_five/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-17 21:08</span>
+			<div class="comment-content">@vilay：系统函数<img src="composer_five/4.gif"><img src="composer_five/4.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-9016" onclick="commentReply(9016,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-10657">
+		<a name="10657"></a>
+		<div class="avatar"><img src="composer_five/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>青猫 </b><br><span class="comment-time">2015-08-24 13:59</span>
+			<div class="comment-content">@JohnLui：illuminate/support中提供的，还有snake_case也是</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/410.html#comment-10657" onclick="commentReply(10657,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+	    <div id="pagenavi">
+	        </div>
+	    <div style="clear:both;"></div>
+  </div>
+</div><!--end #contentleft-->
+</div><!--end #content-->
+<div style="clear:both;"></div><!--end #footerbar-->
+
+</div><!--end #wrap-->
+
+</body></html>

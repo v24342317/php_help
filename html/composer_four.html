@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://lvwenhan.com/php/408.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="吕文翰,岁寒,emlog,php,CodeIgniter,Laravel,TinyLara,Swift,iOS,Pitaya,JSONNeverDie,Laravel,CodeIgniter,框架,Composer">
+  <meta name="description" content="终于可以 “一次编写，到处发布” 了，泪流满面！ 今天凌晨我从一点多开始搞了四个小时到 5:20，终于搞出了个 Emlog 的">
+  <title>利用 Composer 一步一步构建自己的 PHP 框架（三）——设计 MVC - 岁寒</title>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https://lvwenhan.com/rss.php">
+
+
+  <link href="composer_four/bootstrap.min.css" rel="stylesheet">
+  <link href="composer_four/main.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="composer_four/markdown.css"></head>
+<body>
+  <div id="wrap"><!-- end of #header -->
+
+    <div id="nav" class="navbar-wrapper" style="">
+      <div class="container">
+
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="https://lvwenhan.com/">岁寒</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              	<ul class="bar nav navbar-nav">
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/life" class="dropdown-toggle" data-toggle="dropdown">生活 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/many">杂</a></li><li><a href="https://lvwenhan.com/sort/serialize">小说</a></li><li><a href="https://lvwenhan.com/sort/create">原创</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/web" class="dropdown-toggle" data-toggle="dropdown">WEB 技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/web-front">web前端</a></li><li><a href="https://lvwenhan.com/sort/web-back">web后端</a></li><li><a href="https://lvwenhan.com/sort/mobile">移动互联网</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/keep-learning" class="dropdown-toggle" data-toggle="dropdown">其他技术 <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/C-language">C</a></li><li><a href="https://lvwenhan.com/sort/ruby">Ruby</a></li><li><a href="https://lvwenhan.com/sort/mac">MAC</a></li><li><a href="https://lvwenhan.com/sort/golang">Go语言</a></li><li><a href="https://lvwenhan.com/sort/vb6">Visual Basic 6.0</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="https://lvwenhan.com/sort/29" class="dropdown-toggle" data-toggle="dropdown">PHP <b class="caret"></b></a>
+			            <ul class="sub-nav dropdown-menu">
+                <li><a href="https://lvwenhan.com/sort/php">PHP</a></li><li><a href="https://lvwenhan.com/sort/laravel">Laravel</a></li><li><a href="https://lvwenhan.com/sort/31">TinyLara</a></li><li><a href="https://lvwenhan.com/sort/ci">CodeIgniter</a></li>			</ul>
+            
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/sort/ios">iOS</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://github.com/johnlui" target="_blank">GitHub</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="http://weibo.com/balishengmuyuan" target="_blank">微博</a>
+			
+            
+		</li>
+			<li class="item common">
+			<a href="https://lvwenhan.com/works">作品</a>
+			
+            
+		</li>
+			<li class="item common dropdown">
+			<a href="http:/#" class="dropdown-toggle" data-toggle="dropdown">更多 <b class="caret"></b></a><ul class="dropdown-menu"><li>
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li><li>
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li><li>
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li></ul>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://killtyz.com/" target="_blank">干掉拖延症</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/convertico" target="_blank">ICO 转换</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://weizhonghuazhijueqi.com/" target="_blank">为中华之崛起</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/Guestbook">留言</a>
+			
+            
+		</li>
+			<li class="item common" style="display: none;">
+			<a href="http://lvwenhan.com/about_me">关于</a>
+			
+            
+		</li>
+		</ul>
+           	  <span class="icon-bar"></span>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div><div id="content" class="container">
+<div id="contentleft">
+  <div class="m-post">
+    <h2 class="title"><a href="https://lvwenhan.com/php/408.html">利用 Composer 一步一步构建自己的 PHP 框架（三）——设计 MVC</a></h2>
+
+    <blockquote><h3>终于可以 “一次编写，到处发布” 了，泪流满面！</h3></blockquote><blockquote><p> 今天凌晨我从一点多开始搞了四个小时到 5:20，终于搞出了个 Emlog 的 <a href="https://lvwenhan.com/web-front/407.html" target="_blank">MarkDown 插件</a>！欢迎 Emloger 尝试！</p></blockquote><hr><p>本教程示例代码见&nbsp;<a href="https://github.com/johnlui/My-First-Framework-based-on-Composer" target="_blank">https://github.com/johnlui/My-First-Framework-based-on-Composer</a></p><hr><h2>回顾</h2><p>在上一篇教程中，我们使用 codingbean/macaw 这个 Composer 包构建了两条简单路由，第一条是响应 GET ‘/fuck’ 的，另一条会 hold 住所有请求。其实对 PHP 框架来说，有了路由就有了一切。所以接下来我们要做的事情就是让 MFFC 框架更加规范，更加丰满。</p><p>这就牵扯到了 PHP 框架另外的价值：确立开发规范以便于多人协作，使用 ORM、模板引擎 等工具以提高开发效率。</p><hr><h2>正式开始</h2><h3>规划文件夹</h3><p>新建 MFFC/app 文件夹，在 app 中创建 controllers、models、views 三个文件夹，开始正式开始踏上 MVC 的征程。</p><p>（谁说我抄 Laravel 了，我抄的明明是 Rails :-D）</p><h3>使用命名空间</h3><p>新建 controllers/BaseController.php 文件：</p><pre class="lang-php" data-lang="php">&lt;?php
+/**
+* BaseController
+*/
+class BaseController
+{
+  
+  public function __construct()
+  {
+  }
+}<br></pre><p>新建 controllers/HomeController.php 文件：</p><pre class="lang-php" data-lang="php">&lt;?php
+
+/**
+* \HomeController
+*/
+class HomeController extends BaseController
+{
+  
+  public function home()
+  {
+    echo "&lt;h1&gt;控制器成功！&lt;/h1&gt;";
+  }
+}</pre><p>增加一条路由： Macaw::get('', 'HomeController@home');，打开浏览器直接访问 <a href="http://127.0.0.1:81/">http://127.0.0.1:81/</a>，出现以下提示：</p><pre class="lang-html" data-lang="html">Fatal error: Class 'HomeController' not found in /Library/WebServer/Documents/wwwroot/MFFC/vendor/codingbean/macaw/Macaw.php on line 93</pre><p>为什么没找到 HomeController 类？因为我们没有让他自动加载，修改 composer.json 为：</p><pre class="lang-json" data-lang="json">{
+  "require": {
+    "codingbean/macaw": "dev-master"
+  },
+  "autoload": {
+    "classmap": [
+      "app/controllers",
+      "app/models"
+    ]
+  }
+}</pre><p>运行 composer dump-autoload，稍等片刻，刷新，你将看到以下内容（别忘了调节编码哦~）：</p><p><img alt="Image" src="composer_four/87b41413305086.jpg" data-image-size="1009,560"><br></p><p>恭喜你，命名空间使用成功！</p><h3>连接数据库</h3><p>新建 models/Article.php 文件，内容为（数据库密码请自行更改）：</p><pre class="lang-php" data-lang="php">&lt;?php
+/**
+* Article Model
+*/
+class Article
+{
+  public static function first()
+  {
+    $connection = mysql_connect("localhost","root","password");
+    if (!$connection) {
+      die('Could not connect: ' . mysql_error());
+    }
+
+    mysql_set_charset("UTF8", $connection);
+
+    mysql_select_db("mffc", $connection);
+
+    $result = mysql_query("SELECT * FROM articles limit 0,1");
+
+    if ($row = mysql_fetch_array($result)) {
+      echo '&lt;h1&gt;'.$row["title"].'&lt;/h1&gt;';
+      echo '&lt;p&gt;'.$row["content"].'&lt;/p&gt;';
+    }
+
+    mysql_close($connection);
+  }
+}</pre><p>修改 controllers/HomeController.php 文件：</p><pre class="lang-php" data-lang="php">&lt;?php
+
+/**
+* \HomeController
+*/
+class HomeController extends BaseController
+{
+  
+  public function home()
+  {
+    Article::first();
+  }
+}</pre><p>刷新，这时候会得到 Article 类未找到的信息，因为我们没有更新自动加载配置：</p><pre class="lang-html" data-lang="html">composer dump-autoload</pre><p>在等待的时间里，我们去建立数据库 mffc，在里面建立表 articles，设计两个字段 title、content 用于记录信息，并填充进至少一条数据。你也可以在建立完成 mffc 数据库以后运行以下 SQL 语句：</p><pre class="lang-sql" data-lang="sql">DROP TABLE IF EXISTS `articles`;
+
+CREATE TABLE `articles` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `content` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `articles` WRITE;
+/*!40000 ALTER TABLE `articles` DISABLE KEYS */;
+
+INSERT INTO `articles` (`id`, `title`, `content`)
+VALUES
+	(1,'我是标题','&lt;h3&gt;我是内容呀~~&lt;/h3&gt;&lt;p&gt;我真的是内容，不信算了，哼~ O(∩_∩)O&lt;/p&gt;'),
+	(2,'我是标题','&lt;h3&gt;我是内容呀~~&lt;/h3&gt;&lt;p&gt;我真的是内容，不信算了，哼~ O(∩_∩)O&lt;/p&gt;');
+
+/*!40000 ALTER TABLE `articles` ENABLE KEYS */;
+UNLOCK TABLES;</pre><p>然后，刷新！你将看到以下页面：</p><p><img alt="Image" src="composer_four/15811413308693.jpg" data-image-size="1015,578"><br></p><p>恭喜你！MVC 中的 M 和 C 都已经实现！接下来我们开始调用 V (视图)。</p><hr><h3>调用视图</h3><p>修改 models/Article.php 为：</p><pre class="lang-php" data-lang="php">&lt;?php
+/**
+* Article Model
+*/
+class Article
+{
+  public static function first()
+  {
+    $connection = mysql_connect("localhost","root","C4F075C4");
+    if (!$connection) {
+      die('Could not connect: ' . mysql_error());
+    }
+
+    mysql_set_charset("UTF8", $connection);
+
+    mysql_select_db("mffc", $connection);
+
+    $result = mysql_query("SELECT * FROM articles limit 0,1");
+
+    if ($row = mysql_fetch_array($result)) {
+      return $row;
+    }
+
+    mysql_close($connection);
+  }
+}</pre><p>将包含查询结果的数组返回。修改 HomeController：</p><pre class="lang-php" data-lang="php">&lt;?php
+/**
+* \HomeController
+*/
+class HomeController extends BaseController
+{
+  
+  public function home()
+  {
+    $article = Article::first();
+    require dirname(__FILE__).'/../views/home.php';
+  }
+}</pre><p>保存，刷新，你将得到跟上面一模一样的页面，视图调用成功！</p><hr><p>几乎所有人都是通过学习某个框架来了解 MVC 的，这样可能框架用的很熟，一旦离了框架一个简单的页面都写不了，更不要说自己设计 MVC 架构了，其实这里面也没有那么多门道，原理非常清晰，我说说我的感悟：</p><p>1. PHP 框架再牛逼，他也是 PHP，也要遵循 PHP 的运行原理和基本哲学。抓住这一点我们就能很容易地理解很多事情。</p><p>2. PHP 做的网站从逻辑上说，跟 php test.php 没有任何区别，都只是一段字符串作为参数传递给 PHP 解释器而已。无非就是复杂的网站会根据 URL 来调用需要运行的文件和代码，然后返回相应的结果。</p><p>3. 无论我们看到的是 CodeIgniter 这样 180 个文件组成的“小框架”，还是 Laravel 这样加上 vendor 一共 3700 多个文件的 “大框架”，他们都会在每一个 URL 的驱动下，组装一段可以运行的字符串，传给 PHP 解释器，再把从 PHP 解释器返回的字符串传给访客的浏览器。</p><p>4. MVC 是一种逻辑架构，本质上是为了让人脑这样的超低 RAM 的计算机能够制造出远超人脑 RAM 的大型软件，其实 MVC 架构在 GUI 软件出现以前就已经成形，命令行输出也是视图嘛。</p><p>5. 在 MFFC 里，一个 URL 驱动框架做的事情基本是这样的：入口文件 require 控制器，控制器 require 模型，模型和数据库交互得到数据返回给控制器，控制器再 require 视图，把数据填充进视图，返回给访客，流程结束。</p><h2>下一步：<a href="https://lvwenhan.com/php/409.html" target="_blank">利用 Composer 一步一步构建自己的 PHP 框架（四）——使用 ORM</a></h2>
+    <style>
+#author{
+  width: 100%;
+  /*height: 270px;*/
+  margin-top: 50px;
+  box-shadow: 5px 5px 20px #cccccc;
+}
+#author h4{
+  padding-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+#avatar{
+  border-radius: 80px;
+  box-shadow: 5px 5px 20px #999999;
+  width: 160px;
+  margin-left: 80px;
+  margin-right: 50px;
+  float: left;
+}
+#right{
+  float: left;
+  padding-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 100px;
+  margin-right: 20px;
+}
+</style>
+<div id="author">
+  <h4>WRITTEN BY</h4>
+   
+  <img src="composer_four/cdc61414392103.jpg" alt="avatar" id="avatar">
+  <!-- <img src="../content/uploadfile/201410/cdc61414392103.jpg" alt="avatar" id="avatar"> -->
+  <div id="right">
+    <h3><a href="https://github.com/johnlui">JohnLui</a></h3>
+    <div id="description">
+    程序员，Swift Contributor，上架小工具 <a href="https://itunes.apple.com/cn/app/yi-jian-vpn-zai-xia-la-tong/id1063286554?l=en&amp;mt=8">一键 VPN</a>，正在写<a href="https://autolayout.club/" target="_blank">《iOS 可视化编程与 Auto Layout》</a>。
+    </div>
+  </div>
+    <div style="clear:both;"></div>
+</div>
+<div id="related_log"><p><b>相关日志：</b></p><p><a href="https://lvwenhan.com/php/425.html">JohnLui/AliyunOSS v1.0 发布，附 Laravel 框架详细使用教程及代码</a></p><p><a href="https://lvwenhan.com/php/412.html">利用 Composer 完善自己的 PHP 框架（二）——发送邮件</a></p><p><a href="https://lvwenhan.com/php/413.html">【完结】利用 Composer 完善自己的 PHP 框架（三）——Redis 缓存</a></p><p><a href="https://lvwenhan.com/php/410.html">利用 Composer 完善自己的 PHP 框架（一）——视图装载</a></p><p><a href="https://lvwenhan.com/php/401.html">PHP 命名空间 解惑</a></p></div>
+    <div id="article-info">
+      <div class="tag little">标签:	<a href="https://lvwenhan.com/tag/Laravel">Laravel</a>	<a href="https://lvwenhan.com/tag/CodeIgniter">CodeIgniter</a>	<a href="https://lvwenhan.com/tag/%E6%A1%86%E6%9E%B6">框架</a>	<a href="https://lvwenhan.com/tag/Composer">Composer</a></div>
+      <div class="date little">2014.10.14      <span>&nbsp;&nbsp;/&nbsp;&nbsp;</span> 热度：15026 <span>&nbsp;&nbsp;/&nbsp;&nbsp;</span> 分类：	    <a href="https://lvwenhan.com/sort/php">PHP</a>
+	      </div>
+    </div>
+
+    <div class="nextlog">		<a class="left" href="https://lvwenhan.com/php/409.html">← 利用 Composer 一步一步构建自己的 PHP 框架（四）——使用 ORM</a>
+		
+			<a class="right" href="https://lvwenhan.com/web-front/407.html">MarkDown —— Emlog Markdown 编辑器插件发布 →</a>
+		<div style="clear:both;"></div>
+</div>
+
+    	<hr><a name="comments"></a>
+	<p class="comment-header"><b>评论：</b></p>
+			<div class="comment" id="comment-11136">
+		<a name="11136"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>小杨 </b><br><span class="comment-time">2015-11-25 11:13</span>
+			<div class="comment-content"><img src="composer_four/1.gif">，不过我试试了用 psr4 的方式自动加载 Controller，好像不支持啊？？还是我自已经没搞对呢，求大神赐教<img src="composer_four/13.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-11136" onclick="commentReply(11136,this)">回复</a></div>
+		</div>
+			</div>
+		<div class="comment" id="comment-10587">
+		<a name="10587"></a>
+		<div class="avatar"><img src="composer_four/88a80c9c4a7711986c20dbd59bf0f0bf"></div>		<div class="comment-info">
+			<b>Jceee </b><br><span class="comment-time">2015-08-09 21:50</span>
+			<div class="comment-content">博主你好，我在/MFFC/app/controller/下建了2个文件夹,一个Home和一个Test,<br>
+两个文件夹中都创建了一个IndexController.php控制器文件，类名一样都是IndexController<br>
+然后用composer.phar dump-autoload 重新生成autoload_classmap.php文件时，发现了：<br>
+return array(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'BaseController' =&gt; $baseDir . '/app/controller/BaseController.php',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'BaseModel' =&gt; $baseDir . '/app/models/BaseModel.php',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'HomeController' =&gt; $baseDir . '/app/controller/HomeController.php',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'IndexController' =&gt; $baseDir . '/app/controller/Home/IndexController.php',<br>
+);<br>
+<br>
+IndexController这个类名的自动加载路径是$baseDir . '/app/controller/Home/IndexController.php',&nbsp;&nbsp;Home文件夹下的。<br>
+这样的话，加载Test下的文件时会有问题，好吧....试了一下加上命名空间，重新composer.phar dump-autoload就可以了<br>
+'Controller\\Test\\IndexController' =&gt; $baseDir . '/app/controller/Test/IndexController.php',&nbsp;&nbsp; //命名空间的IndexController<br>
+'IndexController' =&gt; $baseDir . '/app/controller/Home/IndexController.php',<br>
+这种有命名空间的类在routes中需要怎么指向调用？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-10587" onclick="commentReply(10587,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-10589">
+		<a name="10589"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-08-09 23:32</span>
+			<div class="comment-content">@Jceee：像 Laravel 那样调用。<br>
+加上绝对命名空间的类名才是一个类真实、完整的类名。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-10589" onclick="commentReply(10589,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-9890">
+		<a name="9890"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>gflhx </b><br><span class="comment-time">2015-05-14 11:40</span>
+			<div class="comment-content">为什么我的总是出现Fatal error: Class 'HomeController' not found in /www/mffc/vendor/noahbuscher/macaw/Macaw.php on line 94，已经composer dump-autoload<br>
+Generating autoload files</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9890" onclick="commentReply(9890,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9893">
+		<a name="9893"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-05-14 11:56</span>
+			<div class="comment-content">@gflhx：composer.json 中的自动加载没有配置好</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9893" onclick="commentReply(9893,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-11521">
+		<a name="11521"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>winter </b><br><span class="comment-time">2016-04-30 21:07</span>
+			<div class="comment-content">@JohnLui：我的也是这样</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-11521" onclick="commentReply(11521,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-9630">
+		<a name="9630"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>xiaochuan </b><br><span class="comment-time">2015-04-16 18:48</span>
+			<div class="comment-content">为啥博主还是用的mysql_*，不都换成mysqli_*或者用PDO呢？ mysql的不是早就已经被deprecated了，不推荐使用了吗？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9630" onclick="commentReply(9630,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9632">
+		<a name="9632"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-16 19:49</span>
+			<div class="comment-content">@xiaochuan：暂时的~往下看嘛</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9632" onclick="commentReply(9632,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-9384">
+		<a name="9384"></a>
+		<div class="avatar"><img src="composer_four/1b7e9618d15cba4bfb744b4bff03125d"></div>		<div class="comment-info">
+			<b><a href="http://hiicup.com/" target="_blank">hiicup</a> </b><br><span class="comment-time">2015-03-26 17:04</span>
+			<div class="comment-content">报一个遇到的错误！<br>
+Macaw::get('', 'HomeController@home')<br>
+这样注册路由也会报文件不存在！<br>
+应该把命名空间也加上<br>
+Macaw::get('', 'controllers\HomeController@home')<br>
+这样就不会错！<br>
+<br>
+因为 autoload_classmap.php 里面只有 “controllers\HomeController” 键 的记录，没有 “HomeController” 键!<br>
+我反正是碰到这样的错误了... 谢谢博主的教程...爽歪歪!</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9384" onclick="commentReply(9384,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9388">
+		<a name="9388"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-03-26 17:46</span>
+			<div class="comment-content">@hiicup：MFFC 的控制器和 Model 的命名空间都是顶级命名空间，采用psr-0 自动加载，你应该是做了特殊的设置。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9388" onclick="commentReply(9388,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-9015">
+		<a name="9015"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>LAU </b><br><span class="comment-time">2015-01-17 15:25</span>
+			<div class="comment-content">如何跳转到另一个页面，例如我想要提交form表单，那如何form的action里填写链接？</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9015" onclick="commentReply(9015,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9017">
+		<a name="9017"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-17 21:08</span>
+			<div class="comment-content">@LAU：<img src="composer_four/13.gif"><img src="composer_four/13.gif">直接写哇~ 'article/1/update'。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9017" onclick="commentReply(9017,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9020">
+		<a name="9020"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>LAU </b><br><span class="comment-time">2015-01-18 17:54</span>
+			<div class="comment-content">@JohnLui：这代表什么意思</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9020" onclick="commentReply(9020,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-8995">
+		<a name="8995"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>vilay </b><br><span class="comment-time">2015-01-15 15:48</span>
+			<div class="comment-content">大神,Macaw::get('', 'HomeController@home');我增加这条路由一直找不出问题来,前面fuck那边是可以找到成功,但是这边不会找到home&nbsp;&nbsp;class,能不能指点下</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-8995" onclick="commentReply(8995,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-8996">
+		<a name="8996"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-15 16:39</span>
+			<div class="comment-content">@vilay：贴一下完整的 route 的代码瞧瞧~</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-8996" onclick="commentReply(8996,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9002">
+		<a name="9002"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>vilay </b><br><span class="comment-time">2015-01-16 08:53</span>
+			<div class="comment-content">@JohnLui：use NoahBuscher\Macaw\Macaw;<br>
+Macaw::get('/fuck',function(){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "Success!";<br>
+});<br>
+Macaw::get('(:all)',function($fu){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;echo "未匹配到路由".$fu;<br>
+});<br>
+Macaw::get('', 'HomeController@home');<br>
+<br>
+Macaw::dispatch();<br>
+按照教程配置,不懂为啥,我配的路由要加绝对路径,需要加绝对路径这边空的Macaw::get('', 'HomeController@home');要怎么写啊,大神指点下</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9002" onclick="commentReply(9002,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9003">
+		<a name="9003"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-16 10:37</span>
+			<div class="comment-content">@vilay：Macaw::get('/', 'HomeController@home'); 就行了。<br>
+另外路由是先匹配到的条目直接返回，所以这一行要放到最上面。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9003" onclick="commentReply(9003,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9005">
+		<a name="9005"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>vilay </b><br><span class="comment-time">2015-01-16 13:40</span>
+			<div class="comment-content">@JohnLui：Macaw::get('/aa', 'HomeController@home'); 还是加参数能访问到,但是Macaw::get('/', 'HomeController@home'); 访问不到,一直都是404</div>
+					</div>
+			</div>
+		<div class="comment comment-children" id="comment-9008">
+		<a name="9008"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-16 15:12</span>
+			<div class="comment-content">@JohnLui：<img src="composer_four/20.gif"><img src="composer_four/20.gif">你还是直接参考我的代码吧，他们在 Apache 和 nginx 下都没问题。</div>
+					</div>
+			</div>
+		</div>
+		<div class="comment comment-children" id="comment-9006">
+		<a name="9006"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-16 14:50</span>
+			<div class="comment-content">@vilay：<img src="composer_four/15.gif"><img src="composer_four/15.gif">放到第一行了吗，贴完整代码<img src="composer_four/9.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9006" onclick="commentReply(9006,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9007">
+		<a name="9007"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>vilay </b><br><span class="comment-time">2015-01-16 15:00</span>
+			<div class="comment-content">@JohnLui：use NoahBuscher\Macaw\Macaw;<br>
+Macaw::get('/', 'HomeController@home');<br>
+Macaw::dispatch();<br>
+<br>
+<br>
+是不是我人品不行啊,感觉过去没啥问题啊</div>
+					</div>
+			</div>
+		<div class="comment comment-children" id="comment-9012">
+		<a name="9012"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>vilay </b><br><span class="comment-time">2015-01-16 17:08</span>
+			<div class="comment-content">@JohnLui：嗯嗯 我在研究下,谢了哈</div>
+					</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<div class="comment comment-children" id="comment-9385">
+		<a name="9385"></a>
+		<div class="avatar"><img src="composer_four/1b7e9618d15cba4bfb744b4bff03125d"></div>		<div class="comment-info">
+			<b><a href="http://hiicup.com/" target="_blank">hiicup</a> </b><br><span class="comment-time">2015-03-26 17:06</span>
+			<div class="comment-content">@vilay：改成：<br>
+Macaw::get('', 'controllers\HomeController@home')<br>
+就对了！把命名空间带上！</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9385" onclick="commentReply(9385,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		<div class="comment" id="comment-8767">
+		<a name="8767"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>jason </b><br><span class="comment-time">2014-12-10 15:02</span>
+			<div class="comment-content">少了这个文件/views/home.php</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-8767" onclick="commentReply(8767,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-9009">
+		<a name="9009"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-01-16 15:13</span>
+			<div class="comment-content">@jason：<img src="composer_four/7.gif">教程一的时候建立过啦~</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9009" onclick="commentReply(9009,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9631">
+		<a name="9631"></a>
+		<div class="avatar"><img src="composer_four/d41d8cd98f00b204e9800998ecf8427e"></div>		<div class="comment-info">
+			<b>xiaochuan </b><br><span class="comment-time">2015-04-16 18:54</span>
+			<div class="comment-content">@JohnLui：教程一里只是说了创建composer.json，并没有view<img src="composer_four/5.gif"></div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9631" onclick="commentReply(9631,this)">回复</a></div>		</div>
+			<div class="comment comment-children" id="comment-9633">
+		<a name="9633"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">JohnLui</a> </b><br><span class="comment-time">2015-04-16 19:50</span>
+			<div class="comment-content">@xiaochuan：sorry 我以为是 Laravel 教程呢<img src="composer_four/15.gif"><img src="composer_four/15.gif"> 这里的视图确实是要自己建立的~</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-9633" onclick="commentReply(9633,this)">回复</a></div>		</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<div class="comment" id="comment-8398">
+		<a name="8398"></a>
+		<div class="avatar"><img src="composer_four/22f49b0d7c540df58f8ce5332ed86a0d"></div>		<div class="comment-info">
+			<b>vanilla </b><br><span class="comment-time">2014-10-23 10:13</span>
+			<div class="comment-content"><img src="composer_four/1.gif">赞，期待下文！</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-8398" onclick="commentReply(8398,this)">回复</a></div>
+		</div>
+			<div class="comment comment-children" id="comment-8401">
+		<a name="8401"></a>
+		<div class="avatar"><img src="composer_four/70663f932b69304ce2283057d4a25c25"></div>		<div class="comment-info">
+			<b><a href="http://lvwenhan.com/" target="_blank">John·Lui</a> </b><br><span class="comment-time">2014-10-23 16:10</span>
+			<div class="comment-content">@vanilla：其实下文早就出来了。。。我忘了链接上了。。。。</div>
+			<div class="comment-reply"><a href="https://lvwenhan.com/php/408.html#comment-8401" onclick="commentReply(8401,this)">回复</a></div>		</div>
+			</div>
+		</div>
+	    <div id="pagenavi">
+	        </div>
+	    <div style="clear:both;"></div>
+  </div>
+</div><!--end #contentleft-->
+</div><!--end #content-->
+<div style="clear:both;"></div><!--end #footerbar-->
+
+</div><!--end #wrap-->
+
+</body></html>
