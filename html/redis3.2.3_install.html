@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<title>烂泥：redis3.2.3安装与配置-烂泥行天下</title>
+<link rel="stylesheet" id="main-css" href="redis3.2.3_install/style_002.css" type="text/css" media="all">
+<link rel="https://api.w.org/" href="http://www.ilanni.com/?rest_route=/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.ilanni.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.ilanni.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="烂泥：nginx版本升级" href="http://www.ilanni.com/?p=11788">
+<link rel="next" title="烂泥：制作免安装jdk软件包" href="http://www.ilanni.com/?p=11882">
+<link rel="canonical" href="http://www.ilanni.com/?p=11838">
+<link rel="shortlink" href="http://www.ilanni.com/?p=11838">
+<link rel="alternate" type="application/json+oembed" href="http://www.ilanni.com/?rest_route=%2Foembed%2F1.0%2Fembed&amp;url=http%3A%2F%2Fwww.ilanni.com%2F%3Fp%3D11838">
+<link rel="alternate" type="text/xml+oembed" href="http://www.ilanni.com/?rest_route=%2Foembed%2F1.0%2Fembed&amp;url=http%3A%2F%2Fwww.ilanni.com%2F%3Fp%3D11838&amp;format=xml">
+<link rel="stylesheet" href="redis3.2.3_install/style.css" type="text/css" media="all">
+<style>a:hover, a:focus,.post-like.actived,.excerpt h2 a:hover,.user-welcome strong,.article-title a:hover,#comments b,.text-muted a:hover,.relates a:hover,.archives .item:hover h3,.linkcat h2,.sticky a:hover,.article-content a:hover,.nav li.current-menu-item > a, .nav li.current-menu-parent > a, .nav li.current_page_item > a, .nav li.current-posa,.article-meta a:hover{color:#dd3333;}.logo a,.article-tags a,.search-form .btn,#bdcs .bdcs-search-form-submit,.widget_tags_inner a:hover:hover,.focusmo a:hover h4,.tagslist .tagname:hover,.pagination ul > li.next-page > a{background-color:#dd3333;}.label-important,.badge-important{background-color:#dd3333;}.label-important .label-arrow,.badge-important .label-arrow{border-left-color:#dd3333;}.title strong{border-bottom-color:#dd3333;}#submit{background: #dd3333;border-right: 2px solid #dd3333;border-bottom: 2px solid #dd3333;}</style><meta name="keywords" content="apt-get, redis, yum, 安装, 烂泥, 版本, 配置, redis, ">
+<meta name="description" content="本文由ilanniweb提供友情赞助，首发于烂泥行天下  想要获得更多的文章，可以关注我的微信ilanniweb  前一段时间写过一篇codis集群的文章，写那">
+<link rel="shortcut icon" href="http://www.ilanni.com/favicon.ico">
+<!--[if lt IE 9]><script src="http://cdn.ilanni.com/wp-content/themes/xiu/js/html5.js"></script><![endif]-->
+</head>
+<body class="single single-post postid-11838 single-format-standard post_p_indent ui-c3">
+<section class="container">
+  <div class="content-wrap">
+	<div class="content">
+				<header class="article-header">
+			<h1 class="article-title"><a href="http://www.ilanni.com/?p=11838">烂泥：redis3.2.3安装与配置</a></h1>
+			<ul class="article-meta">
+								<li>lanni2460 发布于 2016-08-11</li>
+				<li>分类：<a href="http://www.ilanni.com/?cat=949" rel="category">redis</a></li>
+								<li><span class="post-views">阅读(1640)</span></li>
+				<li>评论(0)</li>
+				<li></li>
+			</ul>
+		</header>
+				<article class="article-content">
+			<div id="content-index" class="content-index" style="margin:0 10px 10px 0;float:left;"><ul id="content-index-contents"><li class="content-index-level-1"><a href="http://www.ilanni.com/?p=11838#%E4%B8%80%E3%80%81redis%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85" title="一、redis源码安装"><span>一、redis源码安装</span></a></li><li class="content-index-level-1"><a href="http://www.ilanni.com/?p=11838#%E4%BA%8C%E3%80%81yum%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85" title="二、yum方式安装"><span>二、yum方式安装</span></a></li><li class="content-index-level-1"><a href="http://www.ilanni.com/?p=11838#%E4%B8%89%E3%80%81apt-get%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85" title="三、apt-get方式安装"><span>三、apt-get方式安装</span></a><ul class="children"><li class="content-index-level-2"><a href="http://www.ilanni.com/?p=11838#3.1%20apt-get%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC" title="3.1 apt-get安装最新版本"><span>3.1 apt-get安装最新版本</span></a></li><li class="content-index-level-2"><a href="http://www.ilanni.com/?p=11838#3.2%20apt-get%E9%9D%9E%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC" title="3.2 apt-get非最新版本"><span>3.2 apt-get非最新版本</span></a></li></ul></li><li class="content-index-level-1"><a href="http://www.ilanni.com/?p=11838#%E5%9B%9B%E3%80%81%E9%85%8D%E7%BD%AEredis" title="四、配置redis"><span>四、配置redis</span></a></li><li class="content-index-level-1"><a href="http://www.ilanni.com/?p=11838#%E4%BA%94%E3%80%81%E5%90%AF%E5%8A%A8%E5%92%8C%E4%BD%BF%E7%94%A8redis" title="五、启动和使用redis"><span>五、启动和使用redis</span></a></li></ul></div>
+<p><span style="color: #ff0000;"><b>本文由</b><b>ilanniweb</b><b>提供友情赞助，首发于</b></span><a href="http://www.ilanni.com/"><b><span style="color: #ff0000;">烂泥行天下</span></b></a><b></b></p>
+<p><span style="color: #ff0000;">想要获得更多的文章，可以关注我的微信ilanniweb</span></p>
+<p>前一段时间写过一篇codis集群的文章，写那篇文章主要是因为当时的项目不支持redis自身集群的功能。</p>
+<p>而现在最新的项目是需要redis集群的，这篇文章我们就来介绍下有关redis的安装与配置。</p>
+<h1 id="一、redis源码安装"><span style="font-size: 14pt;"><b>一、redis源码安装</b></span></h1>
+<p>截至到2016.8.11，redis最新稳定版本为3.2.3.本篇文章我们就以此版本为基础，进行相关的讲解。</p>
+<p>下载redis源码，并进行相关操作，如下：</p>
+<p><span style="color: #ff0000;">wget </span><a href="http://download.redis.io/releases/redis-3.2.3.tar.gz"><span style="color: #ff0000;">http://download.redis.io/releases/redis-3.2.3.tar.gz</span></a></p>
+<p><span style="color: #ff0000;">tar -zxvf redis-3.2.3.tar.gz</span></p>
+<p><span style="color: #ff0000;">mv redis-3.2.3 redis</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image001-1.png"><img style="display: inline; background-image: none;" title="clip_image001" src="redis3.2.3_install/clip_image001_thumb-1.png" alt="clip_image001" width="563" border="0" height="251"></a></p>
+<p>解压完毕后，现在开始安装，如下：</p>
+<p><span style="color: #ff0000;">cd redis</span></p>
+<p><span style="color: #ff0000;">make &amp;&amp; make install 或者 make PREFIX=/usr/local/redis install #安装到指定目录中 </span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image002-1.png"><img style="display: inline; background-image: none;" title="clip_image002" src="redis3.2.3_install/clip_image002_thumb-1.png" alt="clip_image002" width="430" border="0" height="162"></a></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image003-1.png"><img style="display: inline; background-image: none;" title="clip_image003" src="redis3.2.3_install/clip_image003_thumb-1.png" alt="clip_image003" width="428" border="0" height="226"></a></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image004-1.png"><img style="display: inline; background-image: none;" title="clip_image004" src="redis3.2.3_install/clip_image004_thumb-1.png" alt="clip_image004" width="329" border="0" height="301"></a></p>
+<p>通过上图，我们可以很容易的看出，redis安装到/usr/local,/usr/local/bin,/usr/local/share,/usr/local/include,/usr/local/lib,/usr/local/share/man目录下。</p>
+<p>然后再切换到utils目录下，执行redis初始化脚本install_server.sh，如下：</p>
+<p><span style="color: #ff0000;">cd utils/</span></p>
+<p><span style="color: #ff0000;">./install_server.sh</span></p>
+<p>Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : 6379</p>
+<p>Config file&nbsp; : /etc/redis/6379.conf</p>
+<p>Log file&nbsp;&nbsp;&nbsp; : /var/log/redis_6379.log</p>
+<p>Data dir&nbsp;&nbsp;&nbsp; : /var/lib/redis/6379</p>
+<p>Executable&nbsp;&nbsp; : /usr/local/bin/redis-server</p>
+<p>Cli Executable : /usr/local/bin/redis-cli</p>
+<p>Copied /tmp/6379.conf =&gt; /etc/init.d/redis_6379</p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image005-1.png"><img style="display: inline; background-image: none;" title="clip_image005" src="redis3.2.3_install/clip_image005_thumb-1.png" alt="clip_image005" width="514" border="0" height="543"></a></p>
+<p>通过上图，我们可以看出redis初始化后redis配置文件为/etc/redis/6379.conf，日志文件为/var/log
+/redis_6379.log，数据文件dump.rdb存放到/var/lib/redis/6379目录下，启动脚本为/etc/init.d
+/redis_6379。</p>
+<p>现在来查看redis版本使用redis-cli –version命令，如下：</p>
+<p><span style="color: #ff0000;">redis-cli –version</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image006-1.png"><img style="display: inline; background-image: none;" title="clip_image006" src="redis3.2.3_install/clip_image006_thumb-1.png" alt="clip_image006" width="316" border="0" height="70"></a></p>
+<p>通过上图，我们可以看到redis版本是3.2.3。</p>
+<p>现在我们只要启动redis就可以使用redis了，到此源码方式安装redis就介绍完毕。</p>
+<h1 id="二、yum方式安装"><span style="font-size: 14pt;"><b>二、yum方式安装</b></span></h1>
+<p>源码安装redis介绍完毕后，我们再来通过yum方式安装redis，本文是以centos6.8为例。使用如下命令：</p>
+<p><span style="color: #ff0000;">rpm -Uvh </span><a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"><span style="color: #ff0000;">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span></a></p>
+<p><span style="color: #ff0000;">rpm -Uvh </span><a href="http://rpms.famillecollet.com/enterprise/remi-release-6.rpm"><span style="color: #ff0000;">http://rpms.famillecollet.com/enterprise/remi-release-6.rpm</span></a></p>
+<p><span style="color: #ff0000;">yum -y –enablerepo=remi,remi-test install redis</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image007-1.png"><img style="display: inline; background-image: none;" title="clip_image007" src="redis3.2.3_install/clip_image007_thumb-1.png" alt="clip_image007" width="774" border="0" height="180"></a></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image008-1.png"><img style="display: inline; background-image: none;" title="clip_image008" src="redis3.2.3_install/clip_image008_thumb-1.png" alt="clip_image008" width="410" border="0" height="195"></a></p>
+<p>redis安装完毕后，我们来查看下redis安装时创建的相关文件，如下：</p>
+<p><span style="color: #ff0000;">rpm -qa |grep redis</span></p>
+<p><span style="color: #ff0000;">rpm -ql redis</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image009-1.png"><img style="display: inline; background-image: none;" title="clip_image009" src="redis3.2.3_install/clip_image009_thumb-1.png" alt="clip_image009" width="304" border="0" height="412"></a></p>
+<p>通过上图，我们可以看出redis的配置文件是/etc/redis.conf，数据文件dump.rdb存放到/var/lib/redis/目录下，日志文件为 /var/log/redis/redis.log，其他的都是默认的。</p>
+<p>现在来查看redis版本使用redis-cli –version命令，如下：</p>
+<p><span style="color: #ff0000;">redis-cli –version</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image0061.png"><img style="display: inline; background-image: none;" title="clip_image006[1]" src="redis3.2.3_install/clip_image0061_thumb.png" alt="clip_image006[1]" width="316" border="0" height="70"></a></p>
+<p>通过上图，我们可以看到yum方式安装的确实是最新的redis版本。</p>
+<p>现在我们只要启动redis就可以使用redis了，到此yum方式安装redis就介绍完毕。</p>
+<h1 id="三、apt-get方式安装"><span style="font-size: 14pt;"><b>三、apt-get方式安装</b></span></h1>
+<p>yum方式安装redis介绍完毕后，我们现在来介绍下ubuntu14.04下通过apt-get方式安装redis。</p>
+<p>根据安装redis版本的新旧，我们又进行了区分。</p>
+<h2 id="3.1 apt-get安装最新版本"><span style="font-size: 12pt;"><b>3.1 apt-get</b><b>安装最新版本</b></span></h2>
+<p>先来介绍下安装最新版本的redis，首先要导入apt-get仓库验证密钥，如下：</p>
+<p><span style="color: #ff0000;">wget -q -O – http://www.dotdeb.org/dotdeb.gpg | sudo apt-key add –</span></p>
+<p>或者</p>
+<p><span style="color: #ff0000;">wget http://www.dotdeb.org/dotdeb.gpg</span></p>
+<p><span style="color: #ff0000;">sudo apt-key add dotdeb.gpg</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image010-1.png"><img style="display: inline; background-image: none;" title="clip_image010" src="redis3.2.3_install/clip_image010_thumb-1.png" alt="clip_image010" width="626" border="0" height="263"></a></p>
+<p>验证文件安装完毕后，我们再来配置apt-get仓库，如下：</p>
+<p><span style="color: #ff0000;">vim /etc/apt/sources.list.d/redis.list</span></p>
+<p><span style="color: #ff0000;">deb http://packages.dotdeb.org wheezy all</span></p>
+<p><span style="color: #ff0000;">deb-src http://packages.dotdeb.org wheezy all</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image011.png"><img style="display: inline; background-image: none;" title="clip_image011" src="redis3.2.3_install/clip_image011_thumb.png" alt="clip_image011" width="483" border="0" height="94"></a></p>
+<p><span style="color: #ff0000;">注意：这个apt-get仓库，我们使用的是debian的apt-get仓库，因为经过多次测试发现只有使用这个apt-get仓库才能安装到最新的redis版本。</span></p>
+<p>apt-get仓库配置完毕后，我们现在来开始执行如下命令进行安装：</p>
+<p><span style="color: #ff0000;">sudo apt-get clean all</span></p>
+<p><span style="color: #ff0000;">sudo apt-get update</span></p>
+<p><span style="color: #ff0000;">sudo apt-get -y install redis-server</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image012.png"><img style="display: inline; background-image: none;" title="clip_image012" src="redis3.2.3_install/clip_image012_thumb.png" alt="clip_image012" width="489" border="0" height="115"></a></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image013.png"><img style="display: inline; background-image: none;" title="clip_image013" src="redis3.2.3_install/clip_image013_thumb.png" alt="clip_image013" width="415" border="0" height="492"></a></p>
+<p>通过上图，我们可以很明显的看出redis的版本是3.2.3，最新版本。当然我们也可以通过redis-cli –version命令进行查看。如下：</p>
+<p><span style="color: #ff0000;">redis-cli –version</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image0062.png"><img style="display: inline; background-image: none;" title="clip_image006[2]" src="redis3.2.3_install/clip_image0062_thumb.png" alt="clip_image006[2]" width="316" border="0" height="70"></a></p>
+<p>通过上图，我们可以看到目前这种方式安装的redis是最新的版本。</p>
+<h2 id="3.2 apt-get非最新版本"><span style="font-size: 12pt;"><b>3.2 apt-get</b><b>非最新版本</b></span></h2>
+<p>上一章节我们使用的debian的apt-get仓库，安装的是redis最新版本，那么我们再来使用比较常见的PPA仓库安装redis看看。</p>
+<p>相关命令如下：</p>
+<p><span style="color: #ff0000;">sudo apt-get -y install python-software-properties software-properties-common</span></p>
+<p><span style="color: #ff0000;">sudo add-apt-repository -y ppa:chris-lea/redis-server</span></p>
+<p><span style="color: #ff0000;">sudo apt-get clean all</span></p>
+<p><span style="color: #ff0000;">sudo apt-get update</span></p>
+<p><span style="color: #ff0000;">sudo apt-get -y install redis-server</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image014.png"><img style="display: inline; background-image: none;" title="clip_image014" src="redis3.2.3_install/clip_image014_thumb.png" alt="clip_image014" width="703" border="0" height="120"></a></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image015.png"><img style="display: inline; background-image: none;" title="clip_image015" src="redis3.2.3_install/clip_image015_thumb.png" alt="clip_image015" width="532" border="0" height="162"></a></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image016.png"><img style="display: inline; background-image: none;" title="clip_image016" src="redis3.2.3_install/clip_image016_thumb.png" alt="clip_image016" width="454" border="0" height="150"></a></p>
+<p>通过上图，我们可以很明显的看出这样安装的redis是3.0.7版本，不是最新版本。</p>
+<p>以上方式，我们也可以通过直接添加apt-get仓库达到目的，因为sudo add-apt-repository -y ppa:chris-lea/redis-server这条命令其实就是在添加一个apt-get仓库。如下：</p>
+<p><span style="color: #ff0000;">cat /etc/apt/sources.list.d/chris-lea-redis-server-trusty.list</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image017.png"><img style="display: inline; background-image: none;" title="clip_image017" src="redis3.2.3_install/clip_image017_thumb.png" alt="clip_image017" width="582" border="0" height="106"></a></p>
+<p>添加apt-get仓库，使用如下命令：</p>
+<p><span style="color: #ff0000;">vim /etc/apt/sources.list.d/redis.list</span></p>
+<p><span style="color: #ff0000;">deb </span><a href="http://ppa.launchpad.net/chris-lea/redis-server/ubuntu"><span style="color: #ff0000;">http://ppa.launchpad.net/chris-lea/redis-server/ubuntu</span></a><span style="color: #ff0000;"> trusty main </span></p>
+<p><span style="color: #ff0000;">deb-src </span><a href="http://ppa.launchpad.net/chris-lea/redis-server/ubuntu"><span style="color: #ff0000;">http://ppa.launchpad.net/chris-lea/redis-server/ubuntu</span></a><span style="color: #ff0000;"> trusty main</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image018.png"><img style="display: inline; background-image: none;" title="clip_image018" src="redis3.2.3_install/clip_image018_thumb.png" alt="clip_image018" width="610" border="0" height="97"></a></p>
+<p>然后再执行如下命令进行安装就ok了：</p>
+<p><span style="color: #ff0000;">sudo apt-get clean all</span></p>
+<p><span style="color: #ff0000;">sudo apt-get update</span></p>
+<p><span style="color: #ff0000;">sudo apt-get -y install redis-server</span></p>
+<p>到此通过apt-get方式安装redis就已经全部结束。</p>
+<h1 id="四、配置redis"><span style="font-size: 14pt;"><b>四、配置redis</b></span></h1>
+<p>redis安装完毕之后，我们再来配置redis。其实有关redis的安装，我这边的建议是直接通过源码进行安装。因为安装完毕后，redis配置文件是非常完整的。</p>
+<p>考虑到安全性，我们只需要启用redis的密码验证功能requirepass参数即可。<b></b></p>
+<p>最终redis配置文件如下：</p>
+<p>grep -Ev ‘^#|^$’ /etc/redis/6379.conf</p>
+<p><b><span style="color: #ff0000;">bind 127.0.0.1</span></b></p>
+<p>protected-mode yes</p>
+<p><b><span style="color: #ff0000;">port 6379</span></b></p>
+<p>tcp-backlog 511</p>
+<p>timeout 0</p>
+<p>tcp-keepalive 300</p>
+<p>daemonize yes</p>
+<p>supervised no</p>
+<p><b><span style="color: #ff0000;">pidfile /var/run/redis_6379.pid</span></b></p>
+<p>loglevel notice</p>
+<p><b><span style="color: #ff0000;">logfile /var/log/redis_6379.log</span></b></p>
+<p>databases 16</p>
+<p>save 900 1</p>
+<p>save 300 10</p>
+<p>save 60 10000</p>
+<p>stop-writes-on-bgsave-error yes</p>
+<p>rdbcompression yes</p>
+<p>rdbchecksum yes</p>
+<p><b><span style="color: #ff0000;">dbfilename dump.rdb</span></b></p>
+<p><b><span style="color: #ff0000;">dir /var/lib/redis/6379</span></b></p>
+<p>slave-serve-stale-data yes</p>
+<p>slave-read-only yes</p>
+<p>repl-diskless-sync no</p>
+<p>repl-diskless-sync-delay 5</p>
+<p>repl-disable-tcp-nodelay no</p>
+<p>slave-priority 100</p>
+<p><b><span style="color: #ff0000;">requirepass ilanniredis</span></b></p>
+<p>appendonly no</p>
+<p>appendfilename “appendonly.aof”</p>
+<p>appendfsync everysec</p>
+<p>no-appendfsync-on-rewrite no</p>
+<p>auto-aof-rewrite-percentage 100</p>
+<p>auto-aof-rewrite-min-size 64mb</p>
+<p>aof-load-truncated yes</p>
+<p>lua-time-limit 5000</p>
+<p>slowlog-log-slower-than 10000</p>
+<p>slowlog-max-len 128</p>
+<p>latency-monitor-threshold 0</p>
+<p>notify-keyspace-events “”</p>
+<p>hash-max-ziplist-entries 512</p>
+<p>hash-max-ziplist-value 64</p>
+<p>list-max-ziplist-size -2</p>
+<p>list-compress-depth 0</p>
+<p>set-max-intset-entries 512</p>
+<p>zset-max-ziplist-entries 128</p>
+<p>zset-max-ziplist-value 64</p>
+<p>hll-sparse-max-bytes 3000</p>
+<p>activerehashing yes</p>
+<p>client-output-buffer-limit normal 0 0 0</p>
+<p>client-output-buffer-limit slave 256mb 64mb 60</p>
+<p>client-output-buffer-limit pubsub 32mb 8mb 60</p>
+<p>hz 10</p>
+<p>aof-rewrite-incremental-fsync yes</p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image019.png"><img style="display: inline; background-image: none;" title="clip_image019" src="redis3.2.3_install/clip_image019_thumb.png" alt="clip_image019" width="419" border="0" height="637"></a></p>
+<p>有关配置文件里面的这些参数我们会在以后的文章中进行介绍，到此有关redis配置简单介绍完毕。</p>
+<h1 id="五、启动和使用redis"><span style="font-size: 14pt;"><b>五、启动和使用redis</b></span></h1>
+<p>最后运行redis</p>
+<p><span style="color: #ff0000;">redis-server /etc/redis/6379.conf</span></p>
+<p>redis配置文件配置完毕后，我们来启动redis并进行简单的操作。如下：</p>
+<p><span style="color: #ff0000;">redis-cli -h 127.0.0.1 -p 6379 -a ilanniredis</span></p>
+<p><span style="color: #ff0000;">keys *</span></p>
+<p><span style="color: #ff0000;">set ilanni testredis</span></p>
+<p><span style="color: #ff0000;">get ilanni</span></p>
+<p><a href="http://cdn.ilanni.com/wp-content/uploads/2016/08/clip_image020.png"><img style="display: inline; background-image: none;" title="clip_image020" src="redis3.2.3_install/clip_image020_thumb.png" alt="clip_image020" width="496" border="0" height="140"></a></p>
+<p>我们来稍微讲解下以上命令的意思：</p>
+<p><span style="color: #ff0000;">redis-cli -h 127.0.0.1 -p 6379 -a ilanniredis</span></p>
+<p><span style="color: #ff0000;">这条命令是说要连接redis服务器，IP是127.0.0.1，端口是6379，密码是ilanniredis。</span></p>
+<p><span style="color: #ff0000;">keys *是查看redis所有的键值对。</span></p>
+<p><span style="color: #ff0000;">set ilanni testredis添加一个键值ilanni，内容为testredis。</span></p>
+<p><span style="color: #ff0000;">get ilanni查看ilanni这个键值的内容。</span></p>
+<p>redis的命令使用暂时我们就介绍这么多。</p>
+<p class="post-copyright">未经允许不得转载：<a href="http://www.ilanni.com/">烂泥行天下</a> » <a href="http://www.ilanni.com/?p=11838">烂泥：redis3.2.3安装与配置</a></p>		</article>
+						<div class="article-social">
+			<a href="javascript:;" class="action action-like" data-pid="11838" data-event="like"><i class="glyphicon glyphicon-thumbs-up"></i>赞 (<span>4</span>)</a>					</div>
+		<div class="article-tags">
+			标签：<a href="http://www.ilanni.com/?tag=apt-get" rel="tag">apt-get</a><a href="http://www.ilanni.com/?tag=redis" rel="tag">redis</a><a href="http://www.ilanni.com/?tag=yum" rel="tag">yum</a><a href="http://www.ilanni.com/?tag=%e5%ae%89%e8%a3%85" rel="tag">安装</a><a href="http://www.ilanni.com/?tag=%e7%83%82%e6%b3%a5" rel="tag">烂泥</a><a href="http://www.ilanni.com/?tag=%e7%89%88%e6%9c%ac" rel="tag">版本</a><a href="http://www.ilanni.com/?tag=%e9%85%8d%e7%bd%ae" rel="tag">配置</a>		</div>
+		<nav class="article-nav">
+			<span class="article-nav-prev">上一篇<br><a href="http://www.ilanni.com/?p=11788" rel="prev">烂泥：nginx版本升级</a></span>
+			<span class="article-nav-next">下一篇<br><a href="http://www.ilanni.com/?p=11882" rel="next">烂泥：制作免安装jdk软件包</a></span>
+		</nav></div>
+</div>
+<footer class="footer">
+    © 2016 <a href="http://www.ilanni.com/">烂泥行天下</a> <img src="redis3.2.3_install/icon.png">浙公网安备   33011802000586号 <a href="http://www.ilanni.com/sitemap.xml">网站地图</a>
+</footer>
+</section>
+<div class="action-share bdsharebuttonbox"> 分享到：<a class="bds_qzone" data-cmd="qzone"></a><a class="bds_tsina" data-cmd="tsina"></a><a class="bds_weixin" data-cmd="weixin"></a><a class="bds_tqq" data-cmd="tqq"></a><a class="bds_sqq" data-cmd="sqq"></a><a class="bds_bdhome" data-cmd="bdhome"></a><a class="bds_tqf" data-cmd="tqf"></a><a class="bds_renren" data-cmd="renren"></a><a class="bds_diandian" data-cmd="diandian"></a><a class="bds_youdao" data-cmd="youdao"></a><a class="bds_ty" data-cmd="ty"></a><a class="bds_kaixin001" data-cmd="kaixin001"></a><a class="bds_taobao" data-cmd="taobao"></a><a class="bds_douban" data-cmd="douban"></a><a class="bds_fbook" data-cmd="fbook"></a><a class="bds_twi" data-cmd="twi"></a><a class="bds_mail" data-cmd="mail"></a><a class="bds_copy" data-cmd="copy"></a><a class="bds_more" data-cmd="more">更多</a> (<a class="bds_count" data-cmd="count"></a>) </div>
+
+
+
+
+</body></html>
