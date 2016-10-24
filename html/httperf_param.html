@@ -1,0 +1,657 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <title>HTTPS的压力测试工具 -- httperf - yangruibao的专栏
+        - 博客频道 - CSDN.NET</title>
+    
+    <meta name="description" content="1.创建一个简单工具条效果图      Ext.onReady(function(){	    // 创建带三个按钮的工具条	    var tb = new Ext.Toolbar({	    	width : 300,	    	items : [{		        text: &#39;新建&#39;		    },{		        text: &#39;修改&#39;		    }">
+        <!--new top-->
+       
+        <link rel="stylesheet" href="httperf_param/index.css">
+        <!--new top-->
+    
+
+    <link rel="Stylesheet" type="text/css" href="httperf_param/style.css">
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="file:///C:/yangruibao/rss/list">
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="httperf_param/default.css">
+ 
+
+
+<link rel="stylesheet" type="text/css" href="file://csdnimg.cn/jobreco/job_reco.css"><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><link href="httperf_param/bdsstyle.css" rel="stylesheet" type="text/css"><link rel="stylesheet" type="text/css" href="file://csdnimg.cn/public/common/tag-suggest-pop/css/style.css?dd7cc7c"><link type="text/css" rel="stylesheet" href="file://passport.csdn.net/content/loginbox/style.css?r=1477277741143"><link rel="stylesheet" href="httperf_param/share_style0_16.css"></head>
+<body>
+    <!-- 广告位开始 --><!-- 广告位结束 -->
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod="popu_3"> 
+
+<a href="http://blog.csdn.net/1024.html">
+<font color="red">【1024程序员节】参加活动领暖心礼品
+</font></a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/PK.html">
+<font color="blue">【观点】有了深度学习，你还学传统机器学习算法么？
+</font></a>
+&nbsp;&nbsp;&nbsp;
+<a href="http://lib.csdn.net/base/deeplearning">
+<font color="red">【知识库】深度学习知识图谱上线啦
+</font></a>
+
+
+</div>                        </div>
+                        
+
+
+<!-- 广告位开始 -->
+<div class="J_adv" data-view="true" data-mod="ad_popu_72" data-mtp="40" data-order="40" data-con="ad_content_217" style="width: 1px; height: 1px; position: fixed; right: 10px; bottom: 10px; z-index: 999; background-color: transparent;"><div id="location_parent"></div></div>
+<!-- 广告位结束 -->
+
+  
+<link href="httperf_param/comment1.css" type="text/css" rel="stylesheet">
+<link href="httperf_param/style1.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="httperf_param/markdown_views.css">
+<link rel="stylesheet" href="httperf_param/category.css">
+
+
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Repost"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="file:///C:/yangruibao/article/details/28651551">
+        HTTPS的压力测试工具 -- httperf            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_r">
+            <span class="link_postdate">2014-06-05 17:46</span>
+            <span class="link_view" title="阅读次数">2723人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="file:///C:/Users/Administrator/Desktop/HTTPS%E7%9A%84%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%20--%20httperf%20-%20yangruibao%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET.htm#comments" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_pinglun&#39;])">评论</a>(0)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle(&#39;HTTPS的压力测试工具 -- httperf&#39;,&#39;28651551&#39;);return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="file:///C:/Users/Administrator/Desktop/HTTPS%E7%9A%84%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%20--%20httperf%20-%20yangruibao%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET.htm#report" onclick="javascript:report(28651551,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+    <div class="embody" style="display:none" id="embody">
+        <span class="embody_t">本文章已收录于：</span>
+        <div class="embody_c" id="lib" value="{&quot;err&quot;:0,&quot;msg&quot;:&quot;ok&quot;,&quot;data&quot;:[]}"></div>
+    </div>
+    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <div class="category clearfix">
+        <div class="category_l"><span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label onclick="GetCategoryArticles(&#39;1517607&#39;,&#39;yangruibao&#39;,&#39;top&#39;,&#39;28651551&#39;);">
+                        <span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_fenlei&#39;]);">TCP/IP<em>（7）</em></span><img class="arrow-up" src="httperf_param/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/yangruibao/article/category/1517607" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_1517607">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+
+
+  
+
+  
+  
+     
+
+<div id="article_content" class="article_content">
+
+<p><span style="font-family:SimSun; font-size:18px">httperf</span><span style="font-family:SimSun; font-size:18px"><br>
+</span><span style="font-family:SimSun; font-size:18px">1. 官方描述：<br>
+</span><span style="font-family:SimSun; font-size:18px">Httperf is a tool for measuring web server performance. It provides a flexible facility for generating various HTTP workloads and for measuring server performance. The focus of httperf is not on implementing
+ one particular benchmark but on providing a robust, high-performance tool that facilitates the construction of both micro- and macro-level benchmarks. The three distinguishing characteristics of httperf are its robustness, which includes the ability to generate
+ and sustain server overload, support for the HTTP/1.1 and SSL protocols, and its extensibility to new workload generators and performance measurements.<br>
+</span><span style="font-family:SimSun; font-size:18px">2. 使用方法：<br>
+</span><span style="font-family:SimSun; font-size:18px">httperf --client=0/1 --server=[YOUR_DOMAIN]&nbsp;--port=443 --uri=/a.<a href="http://lib.csdn.net/base/php" class="replace_word" title="PHP知识库" target="_blank" style="color:#df3434; font-weight:bold;">PHP</a> --rate=100 --send-buffer=4096 --recv-buffer=16384 --ssl --num-conns=50 --num-calls=1000<br>
+</span><span style="font-family:SimSun; font-size:18px">例样含义：</span></p>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--client=I/N 指定当前客户端I，是N个客户端中的第几个。用于多个客户端发请求，希望确保每个客户端发的请求不是完全一致。一般不用指定</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--server 请求的server名</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--port 请求的端口号，默认为80，如果指定了--ssl为443</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--uri 请求路径</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--rate 指定一个固定速率来创建连接和会话</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--num-conns 创建连接数</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--num-call 每个连接发送多少请求</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--send-buffer 指定发送http请求的最大buffer，默认为4K，一般不用指定</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">--recv-buffer 指定接受http请求的最大buffer，默认为16K，一般不用指定</span></li></ul>
+<span style="font-family:SimSun; font-size:18px">3. 结果分析：</span>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Maximum connect burst length: 6</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">最大并发连接数：6</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Total: connections 50 requests 5050 replies 5000 test-duration 9.193 s</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">一共50个连接，5050个请求，应答了5000个，测试耗时：9.193秒</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Connection rate: 5.4 conn/s (183.9 ms/conn, &lt;=50 concurrent connections)</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">连接速率：5.4个每秒（每个连接耗时183.9 ms, 小于指定的50个并发连接）</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Connection time [ms]: min 8364.0 avg 8757.5 max 9014.7 median 8899.5 stddev 231.9</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">连接时间（微秒）：最小8364.0，平均8757.5，最大9014.7，中位数 8899.5，&nbsp;标准偏差231.9</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Connection time [ms]: connect 89.9</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">连接时间（微秒）：连接 89.9</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Connection length [replies/conn]: 100.000</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">连接长度（应答/连接）：100.000</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Request rate: 549.3 req/s (1.8 ms/req)</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">请求速率：549.5 (pqs)，每个请求1.8 ms</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Request size [B]: 72.0</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">请求长度（字节）：72.0</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Reply rate [replies/s]: min 514.8 avg 514.8 max 514.8 stddev 0.0 (1 samples)</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">响应速率（响应个数/秒）：最小514.8， 平均514.8，最大514.8，标准偏差 0.0（一个例样）</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Reply time [ms]: response 25.5 transfer 61.0</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">响应时间（微妙）：响应25.5，传输61.0</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Reply size [B]: header 147.0 content 53263.0 footer 2.0 (total 53412.0)</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">响应包长度（字节）：响应头147.0 内容：53263.0 响应末端 2.0（总共53412.0）</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Reply status: 1xx=0 2xx=5000 3xx=0 4xx=0 5xx=0</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">响应包状态： 2xx 有5000个，其他没有</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">CPU time [s]: user 9.00 system 0.20 (user 97.9% system 2.1% total 100.0%)</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">CPU时间（秒）: 用户9.00 系统0.2（用户占了97.9% 系统占2.1% 总共100%）</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Net I/O: 28407.8 KB/s (232.7*10^6 bps)</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">网络I/O：28407.8 K每秒</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Errors: total 50 client-timo 0 socket-timo 0 connrefused 0 connreset 50</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">错误：总数50 客户端超时0 套接字超时0 连接拒绝0 连接重置50</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0</span></li></ul>
+<ul style="margin:5px 0px 5px 40px; padding:0px">
+<li><span style="font-family:SimSun; font-size:18px">错误：fd不正确0 地址不正确0 ftab占满0 其他0</span></li></ul>
+<span style="font-family:SimSun; font-size:18px">更轻量级的测试http的压力测试工具，http_load</span>
+<p></p>
+   
+</div>
+
+
+
+   <link rel="stylesheet" href="httperf_param/blog_detail.css">
+
+    
+<!--172.16.140.15-->
+<div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);">&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);">&nbsp;</a></div>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;]);location.href=&#39;/yangruibao/article/details/28253989&#39;;">上一篇</span><a href="file:///C:/yangruibao/article/details/28253989" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;])">很特别的一个动态规划入门教程</a></li>
+                <li class="next_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;]);location.href=&#39;/yangruibao/article/details/33818369&#39;;">下一篇</span><a href="file:///C:/yangruibao/article/details/33818369" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;])">C++ string 的写时复制</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+        <div class="similar_article" style="display:none">
+                <h4>我的同类文章</h4>
+                <div class="similar_c" style="margin:20px 0px 0px 0px">
+                    <div class="similar_c_t">
+                                <label class="similar_cur">
+                                    <span style="cursor:pointer" onclick="GetCategoryArticles(&#39;1517607&#39;,&#39;yangruibao&#39;,&#39;foot&#39;,&#39;28651551&#39;);">TCP/IP<em>（7）</em></span>
+                                </label>
+                    </div>
+                   
+                    <div class="similar_wrap tracking-ad" data-mod="popu_141" style="max-height:195px;">
+                        <a href="http://blog.csdn.net/" style="display:none">http://blog.csdn.net</a>
+                        <ul class="similar_list fl">                          
+                        </ul>
+
+                        <ul class="similar_list fr">                           
+                        </ul>
+                    </div>
+                </div>
+            </div>    
+
+      
+</div>
+<div id="suggest"></div>
+
+
+
+
+
+ <link rel="stylesheet" href="httperf_param/replace.css">
+
+<div id="relate" data-mod="popu_218" class="tracking-ad" style="display: block;">
+        <div class="relate_t">
+            <h3><span>参考知识库</span></h3>
+        </div>
+</div>
+ 
+
+<dl class="blog-ass-articl" id="res-relatived"> 
+    <div class="embody embody_b" id="libkeyparent" style="display:none">
+            <span class="embody_t">更多资料请参考：</span>
+            <div class="embody_c" id="libkey"></div>
+    </div>
+
+
+     <dt>&nbsp;</dt>
+     <div id="res" data-mod="popu_36" class="tracking-ad" style="width: 42%; float: left; margin-right: 30px; display: none;"></div>
+   
+</dl>
+<div id="ad_bot">
+</div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="httperf_param/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_huidaodingbu&#39;])">         
+         <img src="httperf_param/top.png" alt="TOP">
+    </a>
+</div>
+<div class="tag_list" style="display:none"></div>
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<div class="clear">
+</div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface"><br>
+    <span><a href="http://my.csdn.net/yangruibao" class="user_name" target="_blank">yangruibao</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open(&#39;http://msg.csdn.net/letters/model?receiver=yangruibao&#39;,&#39;_blank&#39;,&#39;height=350,width=700&#39;);_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_sixin&#39;])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>202274次</span></li>
+    <li>积分：<span>2103</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+      <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+        <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：2103 </div>
+        </span>  </li>
+    <li>排名：<span>第13737名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>7篇</span></li>
+    <li>转载：<span>117篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>13条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字"></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog">
+        <input type="hidden" name="q" id="inputQ">
+        <input type="hidden" name="t" value="blog">
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/877778" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">C/C++</a><span>(33)</span>
+                </li>
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/878941" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">嵌入式</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/881329" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Linux</a><span>(61)</span>
+                </li>
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/887234" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Android</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/1169947" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">nginx</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/1333172" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">人生</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/1517607" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">TCP/IP</a><span>(8)</span>
+                </li>
+                 <li>
+                    <a href="file:///C:/yangruibao/article/category/2355621" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">python</a><span>(1)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="file:///C:/yangruibao/article/month/2014/09">2014年09月</a><span>(2)</span></li><li><a href="file:///C:/yangruibao/article/month/2014/08">2014年08月</a><span>(2)</span></li><li><a href="file:///C:/yangruibao/article/month/2014/07">2014年07月</a><span>(1)</span></li><li><a href="file:///C:/yangruibao/article/month/2014/06">2014年06月</a><span>(4)</span></li><li><a href="file:///C:/yangruibao/article/month/2014/04">2014年04月</a><span>(2)</span></li><span class="hidelist" style="display:none;"><li><a href="file:///C:/yangruibao/article/month/2013/12">2013年12月</a><span>(1)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/10">2013年10月</a><span>(1)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/08">2013年08月</a><span>(1)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/07">2013年07月</a><span>(13)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/06">2013年06月</a><span>(4)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/05">2013年05月</a><span>(3)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/04">2013年04月</a><span>(7)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/03">2013年03月</a><span>(1)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/02">2013年02月</a><span>(1)</span></li><li><a href="file:///C:/yangruibao/article/month/2013/01">2013年01月</a><span>(4)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/11">2012年11月</a><span>(8)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/09">2012年09月</a><span>(4)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/08">2012年08月</a><span>(1)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/07">2012年07月</a><span>(5)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/06">2012年06月</a><span>(11)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/05">2012年05月</a><span>(3)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/04">2012年04月</a><span>(6)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/03">2012年03月</a><span>(2)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/02">2012年02月</a><span>(8)</span></li><li><a href="file:///C:/yangruibao/article/month/2012/01">2012年01月</a><span>(5)</span></li><li><a href="file:///C:/yangruibao/article/month/2011/10">2011年10月</a><span>(6)</span></li><li><a href="file:///C:/yangruibao/article/month/2011/09">2011年09月</a><span>(10)</span></li><li><a href="file:///C:/yangruibao/article/month/2011/08">2011年08月</a><span>(5)</span></li><li><a href="file:///C:/yangruibao/article/month/2009/11">2009年11月</a><span>(3)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="file:///C:/yangruibao/article/details/7898788" title="HTTP协议中PUT和POST使用上的区别">HTTP协议中PUT和POST使用上的区别</a><span>(41344)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7427503" title="SHELL test [ 命令用法">SHELL test [ 命令用法</a><span>(19459)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/9040045" title="STL中erase()小心使用">STL中erase()小心使用</a><span>(6022)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7674244" title="intptr_t 其实不是指针类型 .">intptr_t 其实不是指针类型 .</a><span>(5912)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/8776515" title="TCP连接 保持 保活">TCP连接 保持 保活</a><span>(4794)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7435182" title="/etc/inittab文件">/etc/inittab文件</a><span>(4280)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7255787" title="linux下system函数介绍">linux下system函数介绍</a><span>(4092)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7689434" title="人类无法抗拒的10种心理 .">人类无法抗拒的10种心理 .</a><span>(3884)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7298219" title="gdb调试Linux内核">gdb调试Linux内核</a><span>(3623)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/8778668" title="内存不足引起的SIGKILL：一个缓冲区不断增长问题的定位与解决">内存不足引起的SIGKILL：一个缓冲区不断增长问题的定位与解决</a><span>(3592)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="file:///C:/yangruibao/article/details/7755363" title="APUE 中文第二版中 10.13节程序10-11 中的分析">APUE 中文第二版中 10.13节程序10-11 中的分析</a><span>(3)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7255787" title="linux下system函数介绍">linux下system函数介绍</a><span>(2)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/8239773" title="Linux系统中“动态库”和“静态库”那点事儿 .">Linux系统中“动态库”和“静态库”那点事儿 .</a><span>(2)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7689434" title="人类无法抗拒的10种心理 .">人类无法抗拒的10种心理 .</a><span>(2)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/4813085" title="关于C/C++中指针做形参的一点小分析(转)">关于C/C++中指针做形参的一点小分析(转)</a><span>(1)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7898788" title="HTTP协议中PUT和POST使用上的区别">HTTP协议中PUT和POST使用上的区别</a><span>(1)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/9149841" title="关于在结构体末尾定义空数组的用法">关于在结构体末尾定义空数组的用法</a><span>(1)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/7940799" title="剖析 epoll ET/LT 触发方式的性能差异误解">剖析 epoll ET/LT 触发方式的性能差异误解</a><span>(1)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/6733488" title="文本与二进制方式打开文件的区别">文本与二进制方式打开文件的区别</a><span>(0)</span>
+</li>
+<li>
+<a href="file:///C:/yangruibao/article/details/39430275" title="http的chunked方式">http的chunked方式</a><span>(0)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/googdev/article/details/52575079" target="_blank">* 2016 年最受欢迎的编程语言是什么？</a></li>
+<li><a href="http://blog.csdn.net/luoshengyang/article/details/52420761" target="_blank">* Chromium扩展（Extension）的页面（Page）加载过程分析</a></li>
+<li><a href="http://blog.csdn.net/googdev/article/details/52598892" target="_blank">* Android Studio 2.2 来啦</a></li>
+<li><a href="http://blog.csdn.net/anddlecn/article/details/52608697" target="_blank">* 手把手教你做音乐播放器（二）技术原理与框架设计</a></li>
+<li><a href="http://blog.csdn.net/defonds/article/details/52605670" target="_blank">* JVM 性能调优实战之：使用阿里开源工具 TProfiler 在海量业务代码中精确定位性能代码</a></li>
+
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/7755363#comments">APUE 中文第二版中 10.13节程序10-11 中的分析</a>
+    <p style="margin:0px;"><a href="file:///C:/godfindajob" class="user_name">godfindajob</a>:
+感觉这些编书的完全是逗逼，各种歧义。我的理解，以10-11的例子来讲，既然你这个SIGQUIT被设置...
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/9149841#comments">关于在结构体末尾定义空数组的用法</a>
+    <p style="margin:0px;"><a href="file:///C:/yaodao2012" class="user_name">yaodao2012</a>:
+点赞
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/7689434#comments">人类无法抗拒的10种心理 .</a>
+    <p style="margin:0px;"><a href="file:///C:/woshiwangwanlu" class="user_name">woshiwangwanlu</a>:
+要用心做
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/7940799#comments">剖析 epoll ET/LT 触发方式的性能差异误解</a>
+    <p style="margin:0px;"><a href="file:///C:/KingmanNB" class="user_name">KingmanNB</a>:
+好文！
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/7940799#comments">APUE 中文第二版中 10.13节程序10-11 中的分析</a>
+    <p style="margin:0px;"><a href="file:///C:/astrotycoon" class="user_name">astrotycoon</a>:
+嗯，阅读APUE这里时跟你产生同样的疑惑，我看了下原英文，那里作者也没有很明确的指出“此时”指的是什...
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/7940799#comments">人类无法抗拒的10种心理 .</a>
+    <p style="margin:0px;"><a href="file:///C:/xwyang" class="user_name">AndyatWH</a>:
+太有趣了
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/7898788#comments">HTTP协议中PUT和POST使用上的区别</a>
+    <p style="margin:0px;"><a href="file:///C:/xwyang" class="user_name">AndyatWH</a>:
+学习了，谢谢~
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/7255787#comments">linux下system函数介绍</a>
+    <p style="margin:0px;"><a href="file:///C:/jd_hou" class="user_name">积跬步用心一</a>:
+好，不过下半部分代码有点乱，谢谢。
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/8239773#comments">Linux系统中“动态库”和“静态库”那点事儿 .</a>
+    <p style="margin:0px;"><a href="file:///C:/yangruibao" class="user_name">yangruibao</a>:
+@whb5025:转的额。。。。
+    </p>
+    </li>
+    <li>
+   
+         <a href="file:///C:/yangruibao/article/details/8239773#comments">Linux系统中“动态库”和“静态库”那点事儿 .</a>
+    <p style="margin:0px;"><a href="file:///C:/whb5025" class="user_name">whb5025</a>:
+看完了，写的很详细，而且很好。辛苦了。。。。。。。
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+
+                   <!-- 广告位开始 --><!-- 广告位结束 -->
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+<link rel="stylesheet" type="text/css" href="httperf_param/pub_footer_2014.css"><div id="note1" class="csdn_note" style="display:none; position:absolute; z-index:9999; width:440px">  <span class="notice_top_arrow"><span class="inner"></span></span>  <div class="box"></div></div><div class="csdn_notice_tip" style="display:none; position:absolute; z-index:9990; width:170px">  <div class="tip_text">您有<strong>0</strong>条新通知</div>  <a href="javascript:void 0" class="close2"></a></div>
+
+
+
+    </div>
+    <!--new top-->
+    
+
+     <!--new top-->
+   
+    <link href="httperf_param/ask_float_block.css" type="text/css" rel="stylesheet">
+
+   
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+   </div>
+
+    <link rel="stylesheet" href="httperf_param/blog_code.css">
+
+   
+ <div id="tag-suggest-pop">
+  <div class="relative">
+    <div class="close"></div>
+    <div class="content"></div>
+  </div>
+</div><link rel="stylesheet" type="text/css" media="screen" href="file://ask.csdn.net/assets/ask_float_fonts_css-6b30a53970eb5c3a2a045e3df585b475.css"><div id="mask_code"></div></body></html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>httperf学习笔记（CentOS-6.6环境下安装配置） - 堕落的伊丝莉 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="httperf/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="httperf/bundle-sea.css">
+<link id="mobile-style" media="only screen and (max-device-width: 980px)" type="text/css" rel="stylesheet" href="httperf/bundle-sea-mobile.css">
+
+</head>
+<body>
+<div id="centercontent">
+  
+  <div id="post_detail">
+<div class="post">
+	<h1 class="postTitle"><a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/cllovewxq/p/5533487.html">httperf学习笔记（CentOS-6.6环境下安装配置）</a></h1>
+	<div id="cnblogs_post_body"><p><span style="line-height: 1.5;">新工作已经找到了，最近在忙着熟悉环境，昨天领导让我接触下httperf压力测试工具</span></p>
+<p>百度了下，相关的文档，准备着手配置一个测试环境基于linux系统httperf+autobench+gnuplot，</p>
+<p>httperf可支持单独使用，autobench是基于httperf的Perl脚本，保存测试结果生成文件，gnuplot可以对生成的文件转化成易于观察的图形文件</p>
+<p>首先当然是新建一个linux的虚拟机</p>
+<p>博主这里使用的是CentOS-6.6-64位系统</p>
+<p>因为是安装配置都是源码编译，先行安装编译环境</p>
+<div class="cnblogs_code">
+<pre>yum -y install gcc</pre>
+</div>
+<p>由于后续编译中涉及到ncurse文件系统，所以先行安装</p>
+<div class="cnblogs_code">
+<pre>yum install ncurses-devel</pre>
+</div>
+<p>由于这里使用的CentOS版本可以使用 yum 命令来操作文件的安装</p>
+<p>下面依次安装流程：GD2, texinfo, gnuplot, httperf, autobench</p>
+<p>安装包的下载都放在 /usr/local/src 目录下</p>
+<p>进入linux系统终端或者命令行界面</p>
+<p>安装gd-2.0.33包：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div>
+<pre>cd /usr/local/<span style="color: #000000;">src
+wget http:</span>//www.boutell.com/gd/http/gd-2.0.33<span style="color: #000000;">.tar.gz
+tar xzvf gd</span>-2.0.33<span style="color: #000000;">.tar.gz
+cd gd</span>-2.0.33<span style="color: #000000;">
+.</span>/configure --prefix=/usr/local/<span style="color: #000000;">gd2
+make
+make install<br>echo "//usr/local/gd2/lib"&gt;&gt;/etc/ld.conf<br>ldconfig</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>安装texinfo-4.8包：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div>
+<pre>cd /usr/local/<span style="color: #000000;">src
+wget http:</span>//ftp.gnu.org/gnu/texinfo/texinfo-4.8<span style="color: #000000;">.tar.gz
+tar zxvf texinfo</span>-4.8<span style="color: #000000;">.tar.gz
+cd texinfo</span>-4.8<span style="color: #000000;">
+.</span>/<span style="color: #000000;">configure
+make<br></span>make install</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>安装gnuplot-4.2.0包：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div>
+<pre>cd /usr/local/<span style="color: #000000;">src
+wget http:</span>//nchc.dl.sourceforge.net/sourceforge/gnuplot/gnuplot-4.2<span style="color: #000000;">.0.tar.gz
+tar zxvf gnuplot</span>-4.2<span style="color: #000000;">.0.tar.gz
+cd gnupolt</span>-4.2<span style="color: #000000;">.0
+.</span>/<span style="color: #000000;">configure \
+</span>--prefix=/usr/local/<span style="color: #000000;">gnuplot \
+</span>--with-cwdrc --without-row-<span style="color: #000000;">help \
+</span>--with-<span style="color: #000000;">kpsexpand \
+</span>--with-gd=/usr/local/<span style="color: #000000;">gd2
+make
+make install</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>安装httperf-0.9.0包：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div>
+<pre>cd /usr/local/<span style="color: #000000;">src
+wget ftp:</span>//ftp.hpl.hp.com/pub/httperf/httperf-0.9.0<span style="color: #000000;">.tar.gz 
+tar zxvf httperf</span>-0.9<span style="color: #000000;">.0.tar.gz 
+cd httperf</span>-0.9.0<span style="color: #000000;">
+.</span>/configure --prefix=/usr/local/<span style="color: #000000;">httperf
+make
+make install</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>安装autobench-2.1.2包：</p>
+<div class="cnblogs_code">
+<pre>cd /usr/local/<span style="color: #000000;">src
+wget http:</span>//www.xenoclast.org/autobench/downloads/autobench-2.1.2<span style="color: #000000;">.tar.gz
+tar zxvf autobench</span>-2.1.2<span style="color: #000000;">.tar.gz 
+cd autobench</span>-2.1.2<span style="color: #000000;"> 
+make
+make install</span></pre>
+</div>
+<p>配置环境变量</p>
+<div class="cnblogs_code">
+<pre>vi /etc/profile</pre>
+</div>
+<p><img src="httperf/924044-20160526164443788-1286174439.png" alt=""></p>
+<p>在第48行 HISTSIZE=1000下方添加</p>
+<div class="cnblogs_code">
+<pre>export PATH=/usr/local/bin:/usr/local/gnuplot/bin:/usr/local/httperf/bin:$PATH</pre>
+</div>
+<p>保存退出后配置环境变量生效</p>
+<div class="cnblogs_code">
+<pre>source /etc/profile</pre>
+</div>
+<p>现在就已经可以通过 bench2graph 文件对httperf的测试结果文件生成图形文件</p>
+<p>但是这里涉及到生成图形颜色的问题，考虑到不更改源代码，先复制源文件</p>
+<div class="cnblogs_code">
+<pre>cp /usr/local/bin/bench2graph /usr/local/bin/bench2ps   </pre>
+</div>
+<p>注意：网上都说要通过sed -i修改文件内容（PS：博主这里加了这段命令后生成图片文件的时候反而报错，不知道原因，直接使用原文件是可以的）</p>
+<div class="cnblogs_code">
+<pre>sed -i <span style="color: #800000;">'</span><span style="color: #800000;">s/postscript color/png xffffff/g</span><span style="color: #800000;">'</span> /usr/local/bin/bench2ps</pre>
+</div>
+<p>接下来在使用过程中会遇到一个报错</p>
+<p>httperf: warning: open file limit &gt; FD_SETSIZE; limiting max. # of open files to FD_SETSIZE</p>
+<p>需要修改2个文件：</p>
+<div class="cnblogs_code">
+<pre>vi /etc/security/limits.conf </pre>
+</div>
+<p><img src="httperf/924044-20160526165633522-1169295940.png" alt=""></p>
+<p>在文件最后一行添加</p>
+<div class="cnblogs_code">
+<pre>*                hard    nofile          102400
+*                soft    nofile          102400</pre>
+</div>
+<p>再修改另一文件：</p>
+<div class="cnblogs_code">
+<pre>vi /usr/include/bits/typesizes.h</pre>
+</div>
+<p><img src="httperf/924044-20160526170027913-1543094174.png" alt=""></p>
+<p>在文件第63行的值修改成102400<br>以上2个文件修改之后，需要重新编译httperf</p>
+<div class="cnblogs_code">
+<pre>cd /usr/local/src/httperf-0.9.0<span style="color: #000000;">
+.</span>/configure --prefix=/usr/local/<span style="color: #000000;">httperf
+make
+make install</span></pre>
+</div>
+<p>配置过程全部结束，下来是介绍一下简单的使用</p>
+<p>博主这里对百度首页为例，百度对应的IP：202.108.22.5，端口：80</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div>
+<pre>/usr/local/bin/<span style="color: #000000;">autobench \
+</span>&gt; --<span style="color: #000000;">single_host \
+</span>&gt; --host1=202.108.22.5<span style="color: #000000;"> \
+</span>&gt; --port1=80<span style="color: #000000;"> \
+</span>&gt; --<span style="color: #000000;">quiet \
+</span>&gt; --low_rate=10<span style="color: #000000;"> \
+</span>&gt; --high_rate=1000<span style="color: #000000;"> \
+</span>&gt; --rate_step=10<span style="color: #000000;"> \
+</span>&gt; --num_call=1<span style="color: #000000;"> \
+</span>&gt; --num_conn=100<span style="color: #000000;"> \
+</span>&gt; --timeout=10<span style="color: #000000;"> \
+</span>&gt; --file /opt/result1.tsv</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="httperf/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>再通过修改后的文件bench2ps，命令格式：</p>
+<p>bench2ps&nbsp;测试结果文件 测试图形文件</p>
+<div class="cnblogs_code">
+<pre>/usr/local/bin/bench2ps /opt/result1.tsv /opt/result1.ps 1 2 3 4 5 6 7 8 9</pre>
+</div>
+<p>&nbsp;输入标题后，成功生成图片文件</p>
+<p><img src="httperf/924044-20160527093257225-231348455.png" alt=""></p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+</div>
+
+
+</div><div id="blog-comments-placeholder"></div></div>
+
+<!--done-->
+</body></html>
