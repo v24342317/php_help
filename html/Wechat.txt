@@ -1,0 +1,1 @@
+2017-01-01 16:49:12 Wechat.py[line:35] ERROR {u'errcode': 40013, u'errmsg': u'invalid appid hint: [9rrkHA0552e544]'}
