@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linux配置SSH公钥认证与Jenkins远程登录进行自动发布 - Jager - 博客园</title>
+<link type="text/css" rel="stylesheet" href="liunx_ssh_login_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="liunx_ssh_login_files/bundle-CodingLife.css">
+<link id="mobile-style" media="only screen and (max-width: 768px)" type="text/css" rel="stylesheet" href="liunx_ssh_login_files/bundle-CodingLife-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/jager/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/jager/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/jager/wlwmanifest.xml">
+<script async src="liunx_ssh_login_files/analytics.js"></script><script type="text/javascript" src="liunx_ssh_login_files/encoder.js"></script><script src="liunx_ssh_login_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'jager', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="liunx_ssh_login_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header"><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/jager/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Jager">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/jager/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/jager/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 155&nbsp; </span>
+<span id="stats_article_count">文章 - 3&nbsp; </span>
+<span id="stats-comment_count">评论 - 25</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/jager/p/5986563.html">Linux配置SSH公钥认证与Jenkins远程登录进行自动发布</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>　　公钥认证，是使用一对加密字符串，一个称为公钥(public key)， 任何人都可以看到其内容，用于加密；另一个称为密钥(private key)，只有拥有者才能看到，用于解密。</p>
+<p>在使用jenkins自动构建并远程登录服务器进行发布应用的时候，需要使用SSH公钥认证来解决登录服务器的问题。</p>
+<p>　　其实很简单，只需要两个指令即可。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #ff0000;">ssh-keygen -t rsa -P <span style="font-weight: bold;">''</span>
+ssh-copy-id -i ~/.ssh/id_rsa.pub &lt;IP&gt;</span></pre>
+</div>
+<p>　　假设有两台服务器，A是Jenkins构建服务器，B是应用服务器，A构建好应用之后，将包传到B进行发布。</p>
+<p>在A上面执行&nbsp;ssh-keygen -t rsa -P ''， -P后面两个单引号表示密码为空</p>
+<p><img src="liunx_ssh_login_files/337212-20161022004434982-858012672.png" alt=""></p>
+<p>之后会在~/.ssh目录下创建两个文件id_rsa(私钥),id_rsa.pub(公钥)</p>
+<p>接下来继续在A上执行&nbsp;ssh-copy-id -i ~/.ssh/id_rsa.pub &lt;IP&gt;，表示将公钥发给B，发到B服务器的~/.ssh目录下</p>
+<p><img src="liunx_ssh_login_files/337212-20161022004800263-1943928735.png" alt=""></p>
+<p><span style="color: #ff0000;">之后在用ssh B&lt;ip&gt;尝试能否免密登录B服务器，如果还是提示需要输入密码，则有以下原因</span></p>
+<p>a. 非root账户可能不支持ssh公钥认证（看服务器是否有限制）</p>
+<p>b. 传过来的公钥文件权限不够，可以给这个文件授权下 &nbsp;chmod 644 authorized_keys</p>
+<p>c. 使用root账户执行ssh-copy-id -i ~/.ssh/id_rsa.pub &lt;IP&gt; 这个指令的时候如果需要输入密码则要配置sshd_config&nbsp;</p>
+<div class="cnblogs_code">
+<pre>vi /etc/ssh/sshd_config</pre>
+</div>
+<p><img src="liunx_ssh_login_files/337212-20161022005724795-1371370728.png" alt=""></p>
+<p>修改完后要重启sshd服务</p>
+<div class="cnblogs_code">
+<pre>service sshd restart</pre>
+</div>
+<p>最后，如果可以SSH IP 免密登录成功说明SSH公钥认证成功。</p>
+<p>&nbsp;</p>
+<p><span style="color: #808080;">-------------------------------------------配置插曲 开始--------------------------------------------------</span></p>
+<p>简单步骤总结（用非root用户）：</p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; line-height: normal; widows: auto;"><span style="font-family: Calibri, sans-serif;" lang="EN-US">1.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: Calibri, sans-serif;" lang="EN-US">server1&nbsp;</span><span style="font-family: 宋体;">上使用</span><span style="font-family: Calibri, sans-serif;">xxx</span><span style="font-family: 宋体;">用户</span><span style="font-family: Calibri, sans-serif;">&nbsp;</span><span style="font-family: 宋体;">，先清理之前的</span><span style="font-family: Calibri, sans-serif;" lang="EN-US">ssh</span><span style="font-family: 宋体;">登录记录，</span><span style="font-family: Calibri, sans-serif;" lang="EN-US">rm –rf ~/.ssh&nbsp;</span><span style="font-family: 宋体;">，</span><span style="font-family: Calibri, sans-serif;">&nbsp;</span><span style="font-family: 宋体;">运行</span><span style="font-family: Calibri, sans-serif;" lang="EN-US">ssh-keygen –t rsa</span><span style="font-family: 宋体;">（只需回车下一步即可，无需输入任何密码）</span><span style="font-family: 宋体;">。生成认证密钥。</span></p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; font-family: Calibri, sans-serif; line-height: normal; widows: auto;"><span lang="EN-US">2.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span lang="EN-US">server1&nbsp;</span><span style="font-family: 宋体;">上使用</span><span lang="EN-US">&nbsp;ssh-copy-id xxx@server2_IP</span><span style="font-family: 宋体;">（需输入</span><span lang="EN-US">server2</span><span style="font-family: 宋体;">密码）</span><span lang="EN-US">&nbsp;,&nbsp;</span><span style="font-family: 宋体;">即会将验证密钥</span><span lang="EN-US">copy</span><span style="font-family: 宋体;">至</span><span lang="EN-US">server2</span><span style="font-family: 宋体;">（</span><span lang="EN-US">xxx/.ssh/authorized_keys</span><span style="font-family: 宋体;">）</span></p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; font-family: Calibri, sans-serif; line-height: normal; widows: auto;"><span lang="EN-US">3.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span lang="EN-US">server1&nbsp;</span><span style="font-family: 宋体;">上使用</span><span lang="EN-US">&nbsp;ssh xxx@server2_IP&nbsp;</span><span style="font-family: 宋体;">。即可</span>&nbsp;<span style="font-family: 宋体;">免密码登录。</span></p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; font-family: Calibri, sans-serif; line-height: normal; widows: auto;"><span lang="EN-US">4.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 宋体;">相反，即可实现相互免密码登录。</span></p>
+<p>如果最后还是不能实现免密登录，则可以看下 <span style="color: #ff0000;">cat /var/log/secure,比如你xxx用户的家目录权限太高：</span></p>
+<p><span style="color: #ff0000;"><img src="liunx_ssh_login_files/337212-20161026141240078-1580662307.png" alt=""></span></p>
+<p>&nbsp;</p>
+<p>最后把家目录设置成700即可，注：目录权限调整可能影响应用程序，请谨慎操作</p>
+<p><span style="color: #808080;">-------------------------------------------配置插曲 结束--------------------------------------------------</span></p>
+<p>接下来进行jenkins的SSH配置，如下</p>
+<p><img src="liunx_ssh_login_files/337212-20161022010125920-713791972.png" alt=""></p>
+<p>&nbsp;</p>
+<p><img src="liunx_ssh_login_files/337212-20161022010139404-202534360.png" alt=""></p>
+<p>&nbsp;</p>
+<p><img src="liunx_ssh_login_files/337212-20161022010148748-1160398919.png" alt=""></p>
+<p>&nbsp;</p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; font-family: Calibri, sans-serif; line-height: normal; widows: auto;"><span lang="EN-US">1.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span lang="EN-US">server1&nbsp;</span><span style="font-family: 宋体;">上使用</span><span lang="EN-US">haieradmin</span><span style="font-family: 宋体;">用户</span>&nbsp;<span style="font-family: 宋体;">，先清理之前的</span><span lang="EN-US">ssh</span><span style="font-family: 宋体;">登录记录，</span><span lang="EN-US">rm –rf ~/.ssh&nbsp;</span><span style="font-family: 宋体;">，</span>&nbsp;<span style="font-family: 宋体;">运行</span><span lang="EN-US">ssh-keygen –t rsa</span><span style="font-family: 宋体;">（只需回车下一步即可，无需输入任何密码）</span><span style="font-family: 宋体;">。生成认证密钥。</span></p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; font-family: Calibri, sans-serif; line-height: normal; widows: auto;"><span lang="EN-US">2.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span lang="EN-US">server1&nbsp;</span><span style="font-family: 宋体;">上使用</span><span lang="EN-US">&nbsp;ssh-copy-id haieradmin@server2_IP</span><span style="font-family: 宋体;">（需输入</span><span lang="EN-US">server2</span><span style="font-family: 宋体;">密码）</span><span lang="EN-US">&nbsp;,&nbsp;</span><span style="font-family: 宋体;">即会将验证密钥</span><span lang="EN-US">copy</span><span style="font-family: 宋体;">至</span><span lang="EN-US">server2</span><span style="font-family: 宋体;">（</span><span lang="EN-US">haieradmin/.ssh/authorized_keys</span><span style="font-family: 宋体;">）</span></p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; font-family: Calibri, sans-serif; line-height: normal; widows: auto;"><span lang="EN-US">3.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span lang="EN-US">server1&nbsp;</span><span style="font-family: 宋体;">上使用</span><span lang="EN-US">&nbsp;ssh haieradmin@server2_IP&nbsp;</span><span style="font-family: 宋体;">。即可</span>&nbsp;<span style="font-family: 宋体;">免密码登录。</span></p>
+<p class="MsoListParagraph" style="margin: 0cm 0cm 0.0001pt 39pt; text-align: justify; text-indent: -18pt; font-family: Calibri, sans-serif; line-height: normal; widows: auto;"><span lang="EN-US">4.<span style="font-size: 7pt; font-family: 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 宋体;">相反，即可实现相互免密码登录。</span></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+		</div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=98363,cb_entryId=5986563,cb_blogApp=currentBlogApp,cb_blogUserGuid='10195823-4aeb-e011-8ee0-842b2b196315',cb_entryCreatedDate='2016/10/22 1:02:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+<script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+  <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+  <div id="opt_under_post"></div>
+  <div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器--><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
