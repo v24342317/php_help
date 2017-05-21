@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="donhui,donhui">
+            <meta name="keywords" content="docker,jenkins">
+                <meta name="description" itemprop="description" content="使用docker构建jenkins镜像并运行容器">
+        <title>使用docker构建jenkins镜像并运行容器 - donhui</title>
+    <link rel="alternate" type="application/rss+xml" title="使用docker构建jenkins镜像并运行容器 - donhui - 开源中国社区" href="https://my.oschina.net/donhui/rss">
+    <link rel="shortcut icon" type="image/x-icon" href="https://my.oschina.net/img/favicon.ico?t=1451964198000">
+    <link rel="stylesheet" type="text/css" href="docker_pull_jenkins_files/leeui_layout.css">
+                        <meta itemprop="name" content="使用docker构建jenkins镜像并运行容器 - donhui - 开源中国社区">
+<meta itemprop="image" content="https://www.oschina.net/img/logo_s2.png">
+
+
+            <link type="text/css" href="docker_pull_jenkins_files/icon-svg.css" rel="stylesheet">
+                    <link type="text/css" href="docker_pull_jenkins_files/blog.css" rel="stylesheet">
+            
+         <link rel="stylesheet" href="docker_pull_jenkins_files/share_style0_16.css"><link rel="stylesheet" type="text/css" href="docker_pull_jenkins_files/zenburn.css"><link rel="stylesheet" type="text/css" href="docker_pull_jenkins_files/emoji.css"></head><body style="background:#f8f8f8"><val data-name="isMobileDevice" data-value="false"></val>
+    
+    <x-foo-define data-define="blog_detail"></x-foo-define>
+    <val data-name="owner_id" data-value="1588291"></val>
+    <val data-name="owner_home_url" data-value="https://my.oschina.net/donhui"></val>
+    <val data-name="this_page" data-value="https%3A%2F%2Fmy.oschina.net%2Fdonhui%2Fblog%2F470372"></val>
+
+            <val data-name="g_user_login" data-value="false"></val>
+        <val data-name="goto_this_page" data-value="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fdonhui%2Fblog%2F470372"></val>
+        <val data-name="is_owner" data-value="false"></val>
+            <val data-name="blog_id" data-value="470372"></val>
+                    
+
+            <header class="header-navbar"></header>    <div>
+                        
+
+<val data-name="is_login" data-value="false"></val>
+<val data-name="hljs_js_url" data-value="/dist/www/vendor/highlight/9.5.0/highlight.js?t=1491732257000"></val>
+<val data-name="hljs_css_url" data-value="/build/www/vendor/highlight/9.4.0/styles/zenburn.css?t=1474300001000"></val>
+
+<val data-name="atwho_js_url" data-value="/dist/www/vendor/jquery.atwho/jquery.atwho.js?t=1491732257000"></val>
+<val data-name="atwho_css_url" data-value="/dist/www/vendor/jquery.atwho/jquery.atwho.css?t=1491732257000"></val>
+<val data-name="user_follow_url" data-value="/action/user/follow"></val>
+<val data-name="user_unfollow_url" data-value="/action/user/unfollow"></val>
+
+
+<!-- content     -->
+<div class="blog blog-article">
+
+    <div class="">
+        <!-- 侧边栏-目录 --><!-- 广告 -->
+                <div class="blog-title-ad">
+            <div class="blog-wrapper">
+                
+<div id="blog-title-ad" data-traceid="blog_ali" data-tracepid="blogup" style=""><a href="http://click.aliyun.com/m/8845/" target="_blank" style="max-width:780px;"><!--<img src="https://static.oschina.net/uploads/space/2016/1208/124327_Ke03_2982602.jpg">--></a></div>
+          </div>
+        </div>
+                <!-- 广告2.0  -->
+        <div class="blog-wrapper">
+        <div class="blog-left-ad">
+                                 </div>
+        </div>
+        <!-- 文章内容 -->
+        <div class="blog-content">
+            <!-- 标题 -->
+            <div class="blog-heading">
+                <div class="title">                                                            使用docker构建jenkins镜像并运行容器
+                </div>
+                <div class="info-opr layout">
+                    <div class="layout-right">
+                                                    
+                                                                <!-- 收藏 -->
+                                <div class="opr-btn-blog btn-favor-blog favor hover">
+                                    <a href="javascript:void(0);" class="btn btn-black-blog " data-blogid="470372" data-blogtype="3" data-userid="" data-thispage="https://my.oschina.net/donhui/blog/470372">
+                                        <i class="icon-svg icon-star-blog"></i>
+                                     <span id="" class="operate_title">
+                                                                                    收藏
+                                                                             </span>
+                                    </a>
+                                                                    </div>
+                                                                        </div>
+                    <div class="layout-column">
+                      <div class="data-info text-gary">
+                          <ul>
+                                <li class="time">发表于 <span id="">2年前</span>阅读 <span id="read">17177</span></li>
+                                <li class="favor">收藏 <span id="">56</span></li>
+                                <li class="vote">点赞 <span id="">0</span></li>
+                                <li class="comment">
+                                    <a href="#comment-list" data-href="#comment-list" class="link-blue">
+                                        评论 <span id="comment">3</span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+            <!-- 文字链广告 --><!-- 摘要 -->
+                            <div class="blog-abstract">
+                    摘要: 使用docker构建jenkins镜像并运行容器
+                </div>
+                        <!-- 正文 -->
+            <div class="blog-body" id="blogBody">
+                                    <val data-name="blog_content_type" data-value="richtext"></val>
+                    <div class="BlogContent">
+                        <p> <span style="line-height:1.5;">目录：</span> </p> 
+<div> 
+ <div> 
+  <b>1、基于docker官方的jenkins镜像启动容器</b> 
+ </div> 
+ <div> 
+  <b>2、使用源码构建jenkins镜像并运行容器</b> 
+ </div> 
+ <div> 
+  <b>3、使用csphere产品对容器、镜像、主机进行管理</b> 
+  <span style="line-height:1.5;font-family:'Microsoft YaHei', Verdana, sans-serif, SimSun;font-size:12.5px;"></span> 
+ </div> 
+</div> 
+<div> 
+ <span></span> 
+ <span></span>docker近两年很火，最近在听cSphere希云主办的docker培训， 
+</div> 
+<div> 
+ <span></span>之前也参加过docker相关的技术沙龙（如docker meetup）。 
+</div> 
+<div> 
+ <br> 
+</div> 
+<div>
+  同时也使用Jenkins近两年，所以尝试使用docker构建jenkins镜像、运行基于镜像的容器。 
+</div> 
+<div> 
+ <br> 
+</div> 
+<div> 
+ <span style="font-size:12.5px;line-height:22.5px;">因为听希云的docker培训获得了一张200元的腾讯云代金券，</span> 
+</div> 
+<div> 
+ <span style="font-size:12.5px;line-height:22.5px;">所以用代金券在腾讯云上购买了个云服务器用来进行docker的练习，</span> 
+</div> 
+<div> 
+ <span style="font-size:12.5px;line-height:22.5px;">自然而然系统类型选择的是：</span> 
+ <a href="http://market.qcloud.com/detail.php?productId=113" target="_blank" rel="nofollow">cSphere免费版（Ubuntu）</a>，以便体验下cSphere的产品 
+ <span style="font-size:12.5px;line-height:22.5px;">。</span> 
+</div> 
+<div> 
+ <br> 
+</div> 
+<div>
+  DockerHub上有docker官方jenkins镜像： 
+ <a href="https://registry.hub.docker.com/_/jenkins/" rel="nofollow">https://registry.hub.docker.com/_/jenkins/</a> 
+</div> 
+<div> 
+ <span style="font-family:微软雅黑, Verdana, sans-serif, 宋体;font-size:12.5px;line-height:22.5px;">同时github上有其源码：</span> 
+ <a href="https://github.com/jenkinsci/docker" rel="nofollow">https://github.com/jenkinsci/docker</a> 
+</div> 
+<div>
+  官方jenkins镜像中所使用的jenkins是Jenkins的LTS（Long Term Support）发布版本。 
+</div> 
+<div> 
+ <br> 
+</div> 
+<div> 
+ <b>1、基于docker官方的jenkins镜像启动容器</b> 
+</div> 
+<div>
+  运行命令为：docker run --name myjenkins -p 8080:8080 -v /var/ 
+ <span></span>jenkins_home jenkins 
+ <pre class="brush:shell; toolbar: true; auto-links: false; hljs lua"><code class="hljs lua">docker run <span class="hljs-comment"><span class="hljs-comment">--name myjenkins -p 8080:8080 -v /var/jenkins_home jenkins</span></span></code></pre> 运行docker run命令时，如果本地没有镜像，则默认会从DockerHub pull镜像，将镜像缓存到本地，然后再启动基于镜像创建的容器。 
+ <br> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 使用docker images查看镜像信息： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175556_BxmF_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 使用docker ps查看运行的容器信息： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175616_v6mj_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 通过web界面访问jenkins： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175628_pI1U_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<div> 
+ <br> 
+</div> 
+<div> 
+ <b>2、使用源码构建jenkins镜像并运行容器</b> 
+</div> 
+<div>
+  使用git clone源码到本地： 
+</div> 
+<div> 
+ <pre class="brush:shell; toolbar: true; auto-links: false; hljs php"><code class="hljs php">git <span class="hljs-keyword"><span class="hljs-keyword">clone</span></span> https:<span class="hljs-comment"><span class="hljs-comment">//github.com/jenkinsci/docker.git</span></span></code></pre> 
+</div> 
+<div>
+  切换到docker目录下并使用docker build命令构建镜像： 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> cd docker </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175654_Bfwp_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<div>
+  使用docker build+Dockerfile构建jenkins镜像： 
+</div> 
+<pre class="brush:shell; toolbar: true; auto-links: false; hljs nginx"><code class="hljs nginx"><span class="hljs-attribute"><span class="hljs-attribute">docker</span></span> build -t donhui/jenkins .</code></pre> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175717_Fai4_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 镜像构建成功后（总共21个Step，Dockerfile共21条指令），使用docker images查看镜像， </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> donhui/jenkins和官方的jenkins镜像大小相同： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175741_2CZw_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 使用docker ps查看运行的容器信息： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175758_DS0m_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 使用docker stop&nbsp;71150c3aabc6停止之前基于官方jenkins镜像启动的容器： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175811_NGdW_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<div>
+  基于donhui/jenkins镜像启动容器， 
+</div> 
+<pre class="brush:shell; toolbar: true; auto-links: false; hljs lua"><code class="hljs lua">docker run <span class="hljs-comment"><span class="hljs-comment">--name donhui_jenkins -p 8080:8080 -v /var/jenkins_home donhui/jenkins</span></span></code></pre> 
+<p> <img src="docker_pull_jenkins_files/175855_qyk2_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 使用docker ps查看运行的容器信息： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175916_qhvf_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 通过web界面访问jenkins： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/175928_OXD9_1588291.png" alt=""> </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <b>3、使用csphere产品对容器、镜像、主机进行管理</b> </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <b><img src="docker_pull_jenkins_files/180102_ztbf_1588291.png" alt=""><br> </b> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 查看容器donhui_jenkins信息： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/180121_GWPk_1588291.png" alt=""> </p> 
+<div> 
+</div> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> 查看镜像donhui/jenkins:latest信息： </p> 
+<p style="font-family:微软雅黑;text-align:-webkit-auto;font-size:medium;"> <img src="docker_pull_jenkins_files/180133_5crc_1588291.png" alt=""><span></span> </p> 
+<div> 
+</div>
+<div> 
+  <a href="https://github.com/jenkinsci/docker" rel="nofollow">https://.com/jenkinsci/docker</a> 
+</div> 
+<p> <br> </p> 
+<span></span>
+                    </div>
+          </div>
+            <!-- 广告2.0  -->
+
+                        <!-- 赞、收藏、分享 -->
+</div>
+        <val data-name="emoji_js_url" data-value="/build/www/vendor/emoji/emoji_github.js?t=1471883054000"></val>
+<val data-name="emoji_css_url" data-value="/build/www/vendor/emoji/emoji.min.css?t=1471883054000"></val>
+<div id="inline_reply_editor" style="display:none;">
+    <div class="BlogCommentForm blog-comment-form">
+        <form id="form_inline_comment" action="/action/blog/add_comment?blog=470372" method="POST">
+        <ul data-emoji="nav">
+          <li data-emoji-nav="People" class="active">People</li>
+                                <li data-emoji-nav="Nature"></li>
+                            </ul>
+                            <div data-emoji="panel">
+                                <div data-emoji-item="People" class="active"><div data-group="People"><div data-group-title="emoji-group-title" style="display: none;">People</div><div class="emoji-row"><div class="emoji-block" title="bowtie" data-emoji="bowtie"></div><div class="emoji-block" title="smile" data-emoji="smile"></div><div class="emoji-block" title="laughing" data-emoji="laughing"></div><div class="emoji-block" title="blush" data-emoji="blush"></div><div class="emoji-block" title="smiley" data-emoji="smiley"></div><div class="emoji-block" title="relaxed" data-emoji="relaxed"></div><div class="emoji-block" title="smirk" data-emoji="smirk"></div><div class="emoji-block" title="heart_eyes" data-emoji="heart_eyes"></div><div class="emoji-block" title="kissing_heart" data-emoji="kissing_heart"></div><div class="emoji-block" title="kissing_closed_eyes" data-emoji="kissing_closed_eyes"></div><div class="emoji-block" title="flushed" data-emoji="flushed"></div><div class="emoji-block" title="relieved" data-emoji="relieved"></div><div class="emoji-block" title="satisfied" data-emoji="satisfied"></div><div class="emoji-block" title="grin" data-emoji="grin"></div><div class="emoji-block" title="wink" data-emoji="wink"></div><div class="emoji-block" title="stuck_out_tongue_winking_eye" data-emoji="stuck_out_tongue_winking_eye"></div><div class="emoji-block" title="stuck_out_tongue_closed_eyes" data-emoji="stuck_out_tongue_closed_eyes"></div><div class="emoji-block" title="grinning" data-emoji="grinning"></div><div class="emoji-block" title="kissing" data-emoji="kissing"></div><div class="emoji-block" title="kissing_smiling_eyes" data-emoji="kissing_smiling_eyes"></div></div><div class="emoji-row"><div class="emoji-block" title="stuck_out_tongue" data-emoji="stuck_out_tongue"></div><div class="emoji-block" title="sleeping" data-emoji="sleeping"></div><div class="emoji-block" title="worried" data-emoji="worried"></div><div class="emoji-block" title="frowning" data-emoji="frowning"></div><div class="emoji-block" title="anguished" data-emoji="anguished"></div><div class="emoji-block" title="open_mouth" data-emoji="open_mouth"></div><div class="emoji-block" title="grimacing" data-emoji="grimacing"></div><div class="emoji-block" title="confused" data-emoji="confused"></div><div class="emoji-block" title="hushed" data-emoji="hushed"></div><div class="emoji-block" title="expressionless" data-emoji="expressionless"></div><div class="emoji-block" title="unamused" data-emoji="unamused"></div><div class="emoji-block" title="sweat_smile" data-emoji="sweat_smile"></div><div class="emoji-block" title="sweat" data-emoji="sweat"></div><div class="emoji-block" title="disappointed_relieved" data-emoji="disappointed_relieved"></div><div class="emoji-block" title="weary" data-emoji="weary"></div><div class="emoji-block" title="pensive" data-emoji="pensive"></div><div class="emoji-block" title="disappointed" data-emoji="disappointed"></div><div class="emoji-block" title="confounded" data-emoji="confounded"></div><div class="emoji-block" title="fearful" data-emoji="fearful"></div><div class="emoji-block" title="cold_sweat" data-emoji="cold_sweat"></div></div><div class="emoji-row"><div class="emoji-block" title="persevere" data-emoji="persevere"></div><div class="emoji-block" title="cry" data-emoji="cry"></div><div class="emoji-block" title="sob" data-emoji="sob"></div><div class="emoji-block" title="joy" data-emoji="joy"></div><div class="emoji-block" title="astonished" data-emoji="astonished"></div><div class="emoji-block" title="scream" data-emoji="scream"></div><div class="emoji-block" title="neckbeard" data-emoji="neckbeard"></div><div class="emoji-block" title="tired_face" data-emoji="tired_face"></div><div class="emoji-block" title="angry" data-emoji="angry"></div><div class="emoji-block" title="rage" data-emoji="rage"></div><div class="emoji-block" title="triumph" data-emoji="triumph"></div><div class="emoji-block" title="sleepy" data-emoji="sleepy"></div><div class="emoji-block" title="yum" data-emoji="yum"></div><div class="emoji-block" title="mask" data-emoji="mask"></div><div class="emoji-block" title="sunglasses" data-emoji="sunglasses"></div><div class="emoji-block" title="dizzy_face" data-emoji="dizzy_face"></div><div class="emoji-block" title="imp" data-emoji="imp"></div><div class="emoji-block" title="smiling_imp" data-emoji="smiling_imp"></div><div class="emoji-block" title="neutral_face" data-emoji="neutral_face"></div><div class="emoji-block" title="no_mouth" data-emoji="no_mouth"></div></div><div class="emoji-row"><div class="emoji-block" title="innocent" data-emoji="innocent"></div><div class="emoji-block" title="alien" data-emoji="alien"></div><div class="emoji-block" title="yellow_heart" data-emoji="yellow_heart"></div><div class="emoji-block" title="blue_heart" data-emoji="blue_heart"></div><div class="emoji-block" title="purple_heart" data-emoji="purple_heart"></div><div class="emoji-block" title="heart" data-emoji="heart"></div><div class="emoji-block" title="green_heart" data-emoji="green_heart"></div><div class="emoji-block" title="broken_heart" data-emoji="broken_heart"></div><div class="emoji-block" title="heartbeat" data-emoji="heartbeat"></div><div class="emoji-block" title="heartpulse" data-emoji="heartpulse"></div><div class="emoji-block" title="two_hearts" data-emoji="two_hearts"></div><div class="emoji-block" title="revolving_hearts" data-emoji="revolving_hearts"></div><div class="emoji-block" title="cupid" data-emoji="cupid"></div><div class="emoji-block" title="sparkling_heart" data-emoji="sparkling_heart"></div><div class="emoji-block" title="sparkles" data-emoji="sparkles"></div><div class="emoji-block" title="star" data-emoji="star"></div><div class="emoji-block" title="star2" data-emoji="star2"></div><div class="emoji-block" title="dizzy" data-emoji="dizzy"></div><div class="emoji-block" title="boom" data-emoji="boom"></div><div class="emoji-block" title="collision" data-emoji="collision"></div></div><div class="emoji-row"><div class="emoji-block" title="anger" data-emoji="anger"></div><div class="emoji-block" title="exclamation" data-emoji="exclamation"></div><div class="emoji-block" title="question" data-emoji="question"></div><div class="emoji-block" title="grey_exclamation" data-emoji="grey_exclamation"></div><div class="emoji-block" title="grey_question" data-emoji="grey_question"></div><div class="emoji-block" title="zzz" data-emoji="zzz"></div><div class="emoji-block" title="dash" data-emoji="dash"></div><div class="emoji-block" title="sweat_drops" data-emoji="sweat_drops"></div><div class="emoji-block" title="notes" data-emoji="notes"></div><div class="emoji-block" title="musical_note" data-emoji="musical_note"></div><div class="emoji-block" title="fire" data-emoji="fire"></div><div class="emoji-block" title="hankey" data-emoji="hankey"></div>
